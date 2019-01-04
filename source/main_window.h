@@ -4,17 +4,20 @@
 #include <QtGui>
 #include <QtWidgets/QSystemTrayIcon>
 #include "ui_main_window.h"
+#include "data/Project.h"
+#include "appControl/GotimeControl.h"
 
-/**
- * Main window class for the application
- */
 class MainWindow : public QMainWindow {
 Q_OBJECT
 
 public:
     explicit MainWindow(QMainWindow *parent = nullptr);
+    ~MainWindow() override;
 
-    virtual ~MainWindow();
+public slots:
+    void startProject(Project *project);
+    void cancelProject();
+    void stopProject();
 
 private:
     Ui::MainWindow ui;
@@ -30,6 +33,7 @@ private:
     QMenu *trayIconMenu;
 
     QList<QAction*> *projectActions;
+    GotimeControl *gotimeControl;
 };
 
 #endif

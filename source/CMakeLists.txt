@@ -9,7 +9,7 @@ qt5_add_resources(RESOURCE_FILES ../resources/resources.qrc)
 
 # Windows application icon
 if (WIN32)
-  set(WINDOWS_RES_FILE ${CMAKE_CURRENT_BINARY_DIR}/resources.obj appControl/GotimeControl.cpp appControl/GotimeControl.h Project.cpp Project.h)
+  set(WINDOWS_RES_FILE ${CMAKE_CURRENT_BINARY_DIR}/resources.obj appControl/GotimeControl.cpp appControl/GotimeControl.h data/Project.cpp data/Project.h model/ProjectTreeModel.cpp model/ProjectTreeModel.h appControl/StartProjectAction.cpp appControl/StartProjectAction.h)
   if (MSVC)
     add_custom_command(OUTPUT ${WINDOWS_RES_FILE}
       COMMAND rc.exe /fo ${WINDOWS_RES_FILE} resources.rc

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
+ <author>Joachim Ansorg</author>
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>530</width>
-    <height>140</height>
+    <width>911</width>
+    <height>772</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,49 +17,18 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>16</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QLabel" name="label">
-      <property name="font">
-       <font>
-        <pointsize>20</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>This is an example application.</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <spacer name="verticalSpacer_2">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>17</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item>
-     <widget class="QPushButton" name="pushButton">
-      <property name="text">
-       <string>Exit</string>
-      </property>
-     </widget>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QTreeView" name="projectTree">
+        <attribute name="headerShowSortIndicator" stdset="0">
+         <bool>true</bool>
+        </attribute>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QTableView" name="frameView"/>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -67,14 +37,15 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>530</width>
-     <height>26</height>
+     <width>911</width>
+     <height>34</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="actionMinimize"/>
     <addaction name="actionE_xit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -88,25 +59,14 @@
     <string>Ctrl+Q</string>
    </property>
   </action>
+  <action name="actionMinimize">
+   <property name="text">
+    <string>&amp;Hide Window</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections>
-  <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>290</x>
-     <y>264</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>252</x>
-     <y>196</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>actionE_xit</sender>
    <signal>triggered()</signal>
@@ -120,6 +80,22 @@
     <hint type="destinationlabel">
      <x>394</x>
      <y>152</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionMinimize</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>385</y>
     </hint>
    </hints>
   </connection>

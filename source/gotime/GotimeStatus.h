@@ -10,15 +10,20 @@
 
 class GotimeStatus {
 public:
-    explicit GotimeStatus(Project *activeProject, QDateTime &startTime);
+    explicit GotimeStatus();
+    explicit GotimeStatus(bool valid, Project *activeProject, QDateTime &startTime);
 
-    const Project* currentProject();
-    const QDateTime& startTime();
+    ~GotimeStatus();
+
+    const Project &currentProject() const;
+
+    const QDateTime &startTime() const;
+
+    const bool isValid;
 
 private:
     const Project* _project;
     const QDateTime _startTime;
 };
-
 
 #endif //GOTIME_UI_GOTIMESTATUS_H

@@ -16,6 +16,13 @@ MainWindow::MainWindow(QMainWindow *parent) : QMainWindow(parent) {
     auto projects = gotimeControl->loadProjects();
     auto *model = new ProjectTreeModel(projects, this);
     ui.projectTree->setModel(model);
+
+    const GotimeStatus status = gotimeControl->status();
+    if (status.isValid) {
+        qDebug() << "Active project: " << status.currentProject().getName() << status.startTime().toString(Qt::SystemLocaleShortDate);
+    } else {
+        qDebug() << "No active project found";
+    }
 }
 
 MainWindow::~MainWindow() {

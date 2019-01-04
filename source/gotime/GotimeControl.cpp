@@ -52,6 +52,25 @@ CommandStatus GotimeControl::run(QStringList &args) {
     return CommandStatus(output, errOutput, process.exitCode());
 }
 
-GotimeStatus *GotimeControl::status() {
-    return nullptr;
+GotimeStatus GotimeControl::status() {
+    CommandStatus status = run(
+            QStringList() << "status" << "-f" << "id,projectName,projectID,projectParentID,startTime");
+    if (status.isFailed()) {
+        return GotimeStatus();
+    }
+
+    // fixme atm we omly support a single active project
+    QStringList lines = status.stdoutContent.split("\n");
+    if (lines.isEmpty()) {
+        return GotimeStatus();
+    }
+
+    QStringList parts = lines.first().split("\t");
+    if (parts.size() != 5) {
+        qDebug() << "unexpected status line" << lines.first();
+        return GotimeStatus();
+    }
+
+    QDateTime startTime = QDateTime::fromString(parts[4], Qt::ISODate);
+    return GotimeStatus(true, new Project(parts[1], parts[2], parts[3]), startTime);
 }

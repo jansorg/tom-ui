@@ -26,7 +26,7 @@ public:
     bool stop();
     bool cancel();
 
-    GotimeStatus *status();
+    GotimeStatus status();
 
 private:
     CommandStatus run(QStringList &args);

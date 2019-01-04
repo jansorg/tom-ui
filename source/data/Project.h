@@ -6,15 +6,18 @@
 
 class Project {
 public:
-    Project(QString name, QString id);
+    Project(QString &name, QString &id, QString &parentID);
 
-    QString &getName();
+    QString getID() const;
 
-    QString &getID();
+    QString getParentID() const;
+
+    QString getName() const;
 
 private:
-    QString name;
     QString id;
+    QString name;
+    QString parentID;
 };
 
 

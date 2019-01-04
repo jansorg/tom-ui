@@ -9,7 +9,7 @@ class ProjectTreeModel : public QAbstractItemModel {
 Q_OBJECT
 
 public:
-    ProjectTreeModel(QList<Project *> &projects, QObject *parent);
+    ProjectTreeModel(QList<Project> &projects, QObject *parent);
 
 private:
 //    QModelIndex index(int row, int column, const QModelIndex &parent) const override;
@@ -20,7 +20,7 @@ private:
     QModelIndex parent(const QModelIndex &child) const override;
 
 private:
-    QList<Project *> projects;
+    QList<Project> projects;
 
     int rowCount(const QModelIndex &parent) const override;
 

@@ -1,14 +1,16 @@
 #include "Project.h"
 
-Project::Project(QString name, QString id) {
-    this->name = name;
-    this->id = id;
+Project::Project(QString& name, QString &id, QString &parentID) : name(name), id(id), parentID(parentID){
 }
 
-QString& Project::getName() {
+QString Project::getName() const {
     return this->name;
 }
 
-QString& Project::getID() {
+QString Project::getID() const {
     return this->id;
+}
+
+QString Project::getParentID() const {
+    return this->parentID;
 }

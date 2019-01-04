@@ -1,25 +1,21 @@
-#include <model/ProjectTreeModel.h>
-#include <appControl/GotimeControl.h>
-#include <appControl/StartProjectAction.h>
+#include "model/ProjectTreeModel.h"
+#include "gotime/GotimeControl.h"
+#include "gotime/StartProjectAction.h"
 #include "main_window.h"
 
 MainWindow::MainWindow(QMainWindow *parent) : QMainWindow(parent) {
     ui.setupUi(this);
+
+    gotimeControl = new GotimeControl("/home/jansorg/bin/gotime", this);
 
     createActions();
     createTrayIcon();
 
     trayIcon->show();
 
-    QList<Project *> projects = QList<Project *>();
-    projects << new Project("Kite", "kite-id");
-    projects << new Project("Tezos", "tezos");
-    projects << new Project("Iviews", "iv");
-
+    auto projects = gotimeControl->loadProjects();
     auto *model = new ProjectTreeModel(projects, this);
     ui.projectTree->setModel(model);
-
-    gotimeControl = new GotimeControl("/home/jansorg/bin/gotime", this);
 }
 
 MainWindow::~MainWindow() {
@@ -42,11 +38,11 @@ void MainWindow::startProject(Project *project) {
 }
 
 void MainWindow::cancelProject() {
-    gotimeControl->cancelWork();
+    gotimeControl->cancel();
 }
 
 void MainWindow::stopProject() {
-    gotimeControl->stopWork();
+    gotimeControl->stop();
 }
 
 void MainWindow::createTrayIcon() {
@@ -55,11 +51,9 @@ void MainWindow::createTrayIcon() {
     trayIconMenu = new QMenu(this);
     trayIconMenu->addSection(tr("Projects"));
 
-    QList<StartProjectAction *> actions;
-    actions << new StartProjectAction(new Project("Kite", "Kite"), this);
-    actions << new StartProjectAction(new Project("Intern/gotime", "Intern/gotime"), this);
-
-    for (auto &action : actions) {
+    const QList<Project> projects = gotimeControl->loadProjects();
+    for (auto project : projects) {
+        auto action = new StartProjectAction(&project, this);
         trayIconMenu->addAction(action);
         connect(action, SIGNAL(projectTriggered(Project * )),
                 this, SLOT(startProject(Project * )));

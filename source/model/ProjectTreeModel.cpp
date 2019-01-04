@@ -4,7 +4,7 @@
 
 #include "ProjectTreeModel.h"
 
-ProjectTreeModel::ProjectTreeModel(QList<Project *> &projects, QObject *parent) : QAbstractItemModel(parent) {
+ProjectTreeModel::ProjectTreeModel(QList<Project> &projects, QObject *parent) : QAbstractItemModel(parent) {
     this->projects = projects;
 }
 
@@ -18,7 +18,8 @@ int ProjectTreeModel::columnCount(const QModelIndex &parent) const {
 
 QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::DisplayRole) {
-        return QVariant(projects[index.row()]->getName());
+        const QString &string = projects.at(index.row()).getName();
+        return QVariant(string);
     }
     return QVariant();
 }

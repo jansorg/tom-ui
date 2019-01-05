@@ -11,6 +11,11 @@ QString Project::getName() const {
     return this->name;
 }
 
+QString Project::getShortName() const {
+    QStringList parts = this->name.split("/");
+    return parts.last();
+}
+
 QString Project::getID() const {
     return this->id;
 }

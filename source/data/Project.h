@@ -14,6 +14,7 @@ public:
     QString getParentID() const;
 
     QString getName() const;
+    QString getShortName() const;
 
 private:
     QString id;

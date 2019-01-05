@@ -7,8 +7,7 @@ MainWindow::MainWindow(GotimeControl * control, QMainWindow *parent) : gotimeCon
     ui.setupUi(this);
     createActions();
 
-    auto projects = gotimeControl->loadProjects();
-    auto *model = new ProjectTreeModel(projects, this);
+    auto *model = new ProjectTreeModel(control, this);
     ui.projectTree->setModel(model);
 
 //    const GotimeStatus status = gotimeControl->status();

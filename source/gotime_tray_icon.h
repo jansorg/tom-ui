@@ -3,6 +3,7 @@
 
 
 #include <QtCore/QObject>
+#include <QtWidgets/QMainWindow>
 #include <QtWidgets/QSystemTrayIcon>
 
 #include "gotime/GotimeControl.h"
@@ -12,7 +13,7 @@ class GotimeTrayIcon : public QObject {
 Q_OBJECT
 
 public:
-    GotimeTrayIcon(GotimeControl *control, QObject *parent);
+    GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow);
 
 private slots:
     void updateStatus();

@@ -4,11 +4,12 @@
 #include <gotime/GotimeControl.h>
 #include <gotime/StartStopProjectAction.h>
 #include <timespan/timespan.h>
+#include <QtWidgets/QMainWindow>
 #include "gotime_tray_icon.h"
 
-GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QObject *parent) : _control(control),
-                                                                          _trayIcon(new QSystemTrayIcon(this)),
-                                                                          QObject(parent) {
+GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) : _control(control),
+                                                                                  _trayIcon(new QSystemTrayIcon(this)),
+                                                                                  QObject() {
 
     _menu = new QMenu();
     _menu->addSection(tr("Projects"));
@@ -25,6 +26,10 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QObject *parent) : _contr
     _menu->addAction(cancelAction);
 
     _menu->addSeparator();
+    QAction *showWindowAction = new QAction("&Show window", this);
+    connect(showWindowAction, &QAction::triggered, mainWindow, &QMainWindow::show);
+    _menu->addAction(showWindowAction);
+
     QAction *quitAction = new QAction("&Quit", this);
     connect(quitAction, &QAction::triggered, this, &QCoreApplication::quit);
     _menu->addAction(quitAction);

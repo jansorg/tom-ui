@@ -13,9 +13,8 @@ int main(int argc, char *argv[]) {
 
     // we're hiding the main window by default, we only display the trayicon
     MainWindow mainWindow(control);
-    mainWindow.hide();
+    mainWindow.show();
 
-    GotimeTrayIcon *tray = new GotimeTrayIcon(control, nullptr);
-
+    auto *tray = new GotimeTrayIcon(control, &mainWindow);
     return QApplication::exec();
 }

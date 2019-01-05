@@ -9,7 +9,7 @@ qt5_add_resources(RESOURCE_FILES ../resources/resources.qrc)
 
 # Windows application icon
 if (WIN32)
-    set(WINDOWS_RES_FILE ${CMAKE_CURRENT_BINARY_DIR}/resources.obj gotime/GotimeControl.cpp gotime/GotimeControl.h data/Project.cpp data/Project.h model/ProjectTreeModel.cpp model/ProjectTreeModel.h gotime/StartProjectAction.cpp gotime/StartProjectAction.h gotime/GotimeStatus.cpp gotime/GotimeStatus.h gotime/CommandStatus.cpp gotime/CommandStatus.h)
+    set(WINDOWS_RES_FILE ${CMAKE_CURRENT_BINARY_DIR}/resources.obj gotime/GotimeControl.cpp gotime/GotimeControl.h data/Project.cpp data/Project.h model/ProjectTreeModel.cpp model/ProjectTreeModel.h gotime/StartStopProjectAction.cpp gotime/StartStopProjectAction.h gotime/GotimeStatus.cpp gotime/GotimeStatus.h gotime/CommandStatus.cpp gotime/CommandStatus.h gotime_tray_icon.cpp gotime_tray_icon.h)
     if (MSVC)
         add_custom_command(OUTPUT ${WINDOWS_RES_FILE}
                 COMMAND rc.exe /fo ${WINDOWS_RES_FILE} resources.rc

@@ -1,6 +1,10 @@
 #include "Project.h"
 
-Project::Project(QString& name, QString &id, QString &parentID) : name(name), id(id), parentID(parentID){
+Project::Project() : name(""), id(""), parentID("") {
+
+}
+
+Project::Project(QString &name, QString &id, QString &parentID) : name(name), id(id), parentID(parentID) {
 }
 
 QString Project::getName() const {

@@ -1,7 +1,10 @@
+#include <utility>
+
 #include <QtCore/QProcess>
 #include "GotimeControl.h"
 
-GotimeControl::GotimeControl(QString gotimePath, QObject *parent) : _gotimePath(gotimePath), QObject(parent) {
+GotimeControl::GotimeControl(QString gotimePath, QObject *parent) : _gotimePath(std::move(gotimePath)),
+                                                                    QObject(parent) {
 }
 
 QList<Project> GotimeControl::loadProjects() {
@@ -12,7 +15,7 @@ QList<Project> GotimeControl::loadProjects() {
 
     QStringList lines = status.stdoutContent.split("\n", QString::SkipEmptyParts);
     QList<Project> result;
-    for (auto line : lines) {
+    for (const auto &line : lines) {
         QStringList nameIdParent = line.split("\t");
         if (nameIdParent.size() == 3) {
             result.append(Project(nameIdParent[0], nameIdParent[1], nameIdParent[2]));
@@ -21,16 +24,51 @@ QList<Project> GotimeControl::loadProjects() {
     return result;
 }
 
-bool GotimeControl::start(Project *project) {
-    return run(QStringList() << "start" << project->getName()).isSuccessful();
+bool GotimeControl::isStarted(Project &project) {
+    const GotimeStatus &currentStatus = this->status();
+    if (!currentStatus.isValid) {
+        return false;
+    }
+
+    const Project &active = currentStatus.currentProject();
+    qDebug() << "isStarted. active: " << active.getID();
+
+    bool isActive = active.getID() == project.getID();
+    if (isActive) {
+        qDebug() << "found active project";
+    } else {
+        qDebug() << "not active" << project.getID();
+    }
+    return isActive;
 }
 
-bool GotimeControl::cancel() {
-    return run(QStringList() << "cancel").isSuccessful();
+bool GotimeControl::startProject(Project &project) {
+    auto success = run(QStringList() << "start" << project.getName()).isSuccessful();
+    if (success) {
+        emit projectStarted(project);
+    }
+    return success;
 }
 
-bool GotimeControl::stop() {
-    return run(QStringList() << "stop").isSuccessful();
+bool GotimeControl::cancelActivity() {
+    const GotimeStatus &active = status();
+
+    bool success = run(QStringList() << "cancel").isSuccessful();
+    if (success && active.isValid) {
+        emit projectCancelled(active.currentProject());
+        emit projectStopped(active.currentProject());
+    }
+    return success;
+}
+
+bool GotimeControl::stopActivity() {
+    const GotimeStatus &current = status();
+
+    bool success = run(QStringList() << "stop").isSuccessful();
+    if (success && current.isValid) {
+        emit projectStopped(current.currentProject());
+    }
+    return success;
 }
 
 CommandStatus GotimeControl::run(QStringList &args) {
@@ -43,18 +81,19 @@ CommandStatus GotimeControl::run(QStringList &args) {
     QString output(process.readAllStandardOutput());
     QString errOutput(process.readAllStandardError());
 
-    qDebug() << "exit code:" << process.exitCode();
-    qDebug() << "exit status:" << process.exitStatus();
-    qDebug() << "exit error:" << process.errorString();
-    qDebug() << "stdout:" << output;
-    qDebug() << "err stdout:" << errOutput;
+//    qDebug() << "exit code:" << process.exitCode();
+//    qDebug() << "exit status:" << process.exitStatus();
+//    qDebug() << "exit error:" << process.errorString();
+//    qDebug() << "stdout:" << output;
+//    qDebug() << "err stdout:" << errOutput;
 
     return CommandStatus(output, errOutput, process.exitCode());
 }
 
 GotimeStatus GotimeControl::status() {
+    // frameID, projectName, projectID, ...
     CommandStatus status = run(
-            QStringList() << "status" << "-f" << "id,projectName,projectID,projectParentID,startTime");
+            QStringList() << "status" << "-f" << "id,projectFullName,projectID,projectParentID,startTime");
     if (status.isFailed()) {
         return GotimeStatus();
     }
@@ -72,5 +111,6 @@ GotimeStatus GotimeControl::status() {
     }
 
     QDateTime startTime = QDateTime::fromString(parts[4], Qt::ISODate);
-    return GotimeStatus(true, new Project(parts[1], parts[2], parts[3]), startTime);
+    Project project = Project(parts[1], parts[2], parts[3]);
+    return GotimeStatus(true, project, startTime);
 }

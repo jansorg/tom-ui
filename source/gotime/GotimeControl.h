@@ -1,11 +1,12 @@
 #ifndef GOTIME_UI_GOTIMECONTROL_H
 #define GOTIME_UI_GOTIMECONTROL_H
 
+#include <QtCore>
 #include <QtCore/QString>
+
 #include "data/Project.h"
 #include "CommandStatus.h"
 #include "GotimeStatus.h"
-
 
 class GotimeControl : public QObject {
 Q_OBJECT
@@ -22,11 +23,25 @@ public:
     QList<Project> loadProjects();
 //    QList<Tag> loadTags();
 
-    bool start(Project *project);
-    bool stop();
-    bool cancel();
-
     GotimeStatus status();
+
+    bool isStarted(Project &project);
+
+signals:
+
+    void projectStarted(const Project &);
+
+    void projectStopped(const Project &);
+
+    void projectCancelled(const Project &);
+
+
+public slots:
+    bool startProject(Project &project);
+
+    bool stopActivity();
+
+    bool cancelActivity();
 
 private:
     CommandStatus run(QStringList &args);

@@ -1,17 +1,21 @@
 #include <QApplication>
 #include <QtWidgets/QMessageBox>
 #include "main_window.h"
+#include "gotime_tray_icon.h"
 
-int main(int argc, char* argv[])
-{
-//  QApplication::setStyle("Fusion");
-  QApplication::setQuitOnLastWindowClosed(false);
+int main(int argc, char *argv[]) {
+    GotimeControl *control = new GotimeControl(QString("/home/jansorg/bin/gotime"), nullptr);
 
-  QApplication app(argc, argv);
+    //  QApplication::setStyle("Fusion");
+    QApplication::setQuitOnLastWindowClosed(false);
 
-  // we're hiding the main window by default, we only display the trayicon
-  MainWindow mainWindow;
-  mainWindow.hide();
+    QApplication app(argc, argv);
 
-  return QApplication::exec();
+    // we're hiding the main window by default, we only display the trayicon
+    MainWindow mainWindow(control);
+    mainWindow.hide();
+
+    GotimeTrayIcon *tray = new GotimeTrayIcon(control, nullptr);
+
+    return QApplication::exec();
 }

@@ -6,9 +6,8 @@
 class GotimeStatus {
 public:
     explicit GotimeStatus();
-    explicit GotimeStatus(bool valid, Project *activeProject, QDateTime &startTime);
 
-    ~GotimeStatus();
+    explicit GotimeStatus(bool valid, Project &activeProject, QDateTime &startTime);
 
     const Project &currentProject() const;
 
@@ -17,7 +16,7 @@ public:
     const bool isValid;
 
 private:
-    const Project* _project;
+    const Project _project;
     const QDateTime _startTime;
 };
 

@@ -1,7 +1,3 @@
-//
-// Created by jansorg on 04.01.19.
-//
-
 #include "CommandStatus.h"
 
 CommandStatus::CommandStatus(QString &stdout, QString &stderr, int exitCode) : stdoutContent(stdout),

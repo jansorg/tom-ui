@@ -6,6 +6,7 @@
 
 class Project {
 public:
+    Project();
     Project(QString &name, QString &id, QString &parentID);
 
     QString getID() const;

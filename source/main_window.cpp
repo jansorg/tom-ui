@@ -53,8 +53,6 @@ void MainWindow::stopProject() {
 }
 
 void MainWindow::createTrayIcon() {
-    const QIcon &icon = QIcon(":/images/trayicon.png");
-
     trayIconMenu = new QMenu(this);
     trayIconMenu->addSection(tr("Projects"));
 
@@ -77,11 +75,13 @@ void MainWindow::createTrayIcon() {
     trayIconMenu->addAction(cancelAction);
     trayIconMenu->addAction(minimizeAction);
     trayIconMenu->addAction(minimizeAction);
+
+    quitAction->setIcon(QIcon(":/images/trayicon.svg"));
     trayIconMenu->addAction(quitAction);
 
     trayIcon = new QSystemTrayIcon(this);
     trayIcon->setContextMenu(trayIconMenu);
-    trayIcon->setIcon(icon);
+    trayIcon->setIcon(QPixmap(":/images/trayicon.svg"));
     trayIcon->setToolTip("Today: <b>8:00 hours</b><br>This week: <b>32:00 hours</b>");
 }
 

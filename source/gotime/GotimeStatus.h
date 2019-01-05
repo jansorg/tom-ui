@@ -1,10 +1,5 @@
-//
-// Created by jansorg on 04.01.19.
-//
-
 #ifndef GOTIME_UI_GOTIMESTATUS_H
 #define GOTIME_UI_GOTIMESTATUS_H
-
 
 #include <data/Project.h>
 
@@ -26,4 +21,4 @@ private:
     const QDateTime _startTime;
 };
 
-#endif //GOTIME_UI_GOTIMESTATUS_H
+#endif 

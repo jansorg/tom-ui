@@ -1,6 +1,8 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
   <qresource>
-    <file>images/trayicon.png</file>
+    <file>images/trayicon.svg</file>
+    <file>images/start.svg</file>
+    <file>images/stop.svg</file>
   </qresource>
 </RCC>

@@ -40,6 +40,7 @@ set(CMAKE_AUTOMOC ON)
 
 # Configure Qt
 find_package(Qt5Widgets REQUIRED)
+find_package(Qt5Svg REQUIRED)
 find_package(Qt5Test REQUIRED)
 
 if (NOT MSVC)

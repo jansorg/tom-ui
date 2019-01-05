@@ -18,7 +18,7 @@
    inkscape:export-xdpi="27.940001"
    inkscape:export-ydpi="27.940001"
    inkscape:version="0.92.2 2405546, 2018-03-11"
-   sodipodi:docname="trayicon.svg">
+   sodipodi:docname="stop.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -28,11 +28,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="15.663333"
-     inkscape:cx="37.795276"
+     inkscape:zoom="11.075102"
+     inkscape:cx="21.164078"
      inkscape:cy="37.795276"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g820"
      showgrid="false"
      units="mm"
      width="20mm"
@@ -58,22 +58,26 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(0,-277)">
-    <path
-       style="fill:#999999;fill-opacity:0.69541776;stroke:#000000;stroke-width:0.465;paint-order:normal;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
-       id="path4518"
-       r="9.4319057"
-       cy="287.20062"
-       cx="10.16686" />
-    <path
-       style="fill:#999999;fill-opacity:0.69541776;stroke:#000000;stroke-width:0.46499997;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-       id="path818"
-       sodipodi:type="arc"
-       sodipodi:cx="10.016891"
-       sodipodi:cy="287.2027"
-       sodipodi:rx="7.9729729"
-       sodipodi:ry="7.9729729"
-       sodipodi:start="0"
-       sodipodi:end="5.7776766"
-       d="m 17.989863,287.2027 a 7.9729729,7.9729729 0 0 1 -6.968051,7.90939 7.9729729,7.9729729 0 0 1 -8.7245715,-5.91558 7.9729729,7.9729729 0 0 1 4.7687426,-9.4006 7.9729729,7.9729729 0 0 1 9.9266869,3.54586 l -6.975779,3.86093 z" />
+    <g
+       id="g820">
+      <g
+         id="g824"
+         transform="matrix(1.7211498,0,0,1,-0.88809895,-0.39624977)">
+        <rect
+           style="fill:#800000;fill-opacity:0.86666667;stroke:none;stroke-width:0.46499997;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+           id="rect814"
+           width="1.3617257"
+           height="13.569477"
+           x="4.5868649"
+           y="280.61151" />
+        <rect
+           y="280.61151"
+           x="6.7035317"
+           height="13.569477"
+           width="1.3617257"
+           id="rect816"
+           style="fill:#800000;fill-opacity:0.86666667;stroke:none;stroke-width:0.46499997;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" />
+      </g>
+    </g>
   </g>
 </svg>

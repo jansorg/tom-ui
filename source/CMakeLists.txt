@@ -1,5 +1,5 @@
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/defines.h.cmake
-               ${CMAKE_CURRENT_BINARY_DIR}/defines.h)
+        ${CMAKE_CURRENT_BINARY_DIR}/defines.h)
 
 file(GLOB_RECURSE UI_FILES *.ui)
 file(GLOB_RECURSE CODE_FILES *.cpp)
@@ -9,34 +9,35 @@ qt5_add_resources(RESOURCE_FILES ../resources/resources.qrc)
 
 # Windows application icon
 if (WIN32)
-  set(WINDOWS_RES_FILE ${CMAKE_CURRENT_BINARY_DIR}/resources.obj gotime/GotimeControl.cpp gotime/GotimeControl.h data/Project.cpp data/Project.h model/ProjectTreeModel.cpp model/ProjectTreeModel.h gotime/StartProjectAction.cpp gotime/StartProjectAction.h gotime/GotimeStatus.cpp gotime/GotimeStatus.h gotime/CommandStatus.cpp gotime/CommandStatus.h)
-  if (MSVC)
-    add_custom_command(OUTPUT ${WINDOWS_RES_FILE}
-      COMMAND rc.exe /fo ${WINDOWS_RES_FILE} resources.rc
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/win
-    )
-  else()
-    add_custom_command(OUTPUT ${WINDOWS_RES_FILE}
-      COMMAND windres.exe resources.rc ${WINDOWS_RES_FILE}
-      WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/win
-    )
-  endif()
-endif()
+    set(WINDOWS_RES_FILE ${CMAKE_CURRENT_BINARY_DIR}/resources.obj gotime/GotimeControl.cpp gotime/GotimeControl.h data/Project.cpp data/Project.h model/ProjectTreeModel.cpp model/ProjectTreeModel.h gotime/StartProjectAction.cpp gotime/StartProjectAction.h gotime/GotimeStatus.cpp gotime/GotimeStatus.h gotime/CommandStatus.cpp gotime/CommandStatus.h)
+    if (MSVC)
+        add_custom_command(OUTPUT ${WINDOWS_RES_FILE}
+                COMMAND rc.exe /fo ${WINDOWS_RES_FILE} resources.rc
+                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/win
+                )
+    else ()
+        add_custom_command(OUTPUT ${WINDOWS_RES_FILE}
+                COMMAND windres.exe resources.rc ${WINDOWS_RES_FILE}
+                WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/win
+                )
+    endif ()
+endif ()
 
 add_executable(${CMAKE_PROJECT_NAME} WIN32
-  ${UI_HEADERS}
-  ${CODE_FILES}
-  ${RESOURCE_FILES}
-  ${WINDOWS_RES_FILE}
-)
+        ${UI_HEADERS}
+        ${CODE_FILES}
+        ${RESOURCE_FILES}
+        ${WINDOWS_RES_FILE}
+        )
 target_link_libraries(${CMAKE_PROJECT_NAME}
-  Qt5::Widgets
-)
+        Qt5::Widgets
+        Qt5::Svg
+        )
 
 if (UNIX)
-  install(TARGETS ${CMAKE_PROJECT_NAME}
-          RUNTIME DESTINATION bin)
+    install(TARGETS ${CMAKE_PROJECT_NAME}
+            RUNTIME DESTINATION bin)
 elseif (WIN32)
-  install(TARGETS ${CMAKE_PROJECT_NAME}
-          DESTINATION .)
-endif()
+    install(TARGETS ${CMAKE_PROJECT_NAME}
+            DESTINATION .)
+endif ()

@@ -18,7 +18,7 @@
    inkscape:export-xdpi="27.940001"
    inkscape:export-ydpi="27.940001"
    inkscape:version="0.92.2 2405546, 2018-03-11"
-   sodipodi:docname="trayicon.svg">
+   sodipodi:docname="start.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="15.663333"
-     inkscape:cx="37.795276"
-     inkscape:cy="37.795276"
+     inkscape:zoom="11.075102"
+     inkscape:cx="21.164078"
+     inkscape:cy="37.89422"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -65,15 +65,21 @@
        cy="287.20062"
        cx="10.16686" />
     <path
-       style="fill:#999999;fill-opacity:0.69541776;stroke:#000000;stroke-width:0.46499997;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-       id="path818"
-       sodipodi:type="arc"
-       sodipodi:cx="10.016891"
-       sodipodi:cy="287.2027"
-       sodipodi:rx="7.9729729"
-       sodipodi:ry="7.9729729"
-       sodipodi:start="0"
-       sodipodi:end="5.7776766"
-       d="m 17.989863,287.2027 a 7.9729729,7.9729729 0 0 1 -6.968051,7.90939 7.9729729,7.9729729 0 0 1 -8.7245715,-5.91558 7.9729729,7.9729729 0 0 1 4.7687426,-9.4006 7.9729729,7.9729729 0 0 1 9.9266869,3.54586 l -6.975779,3.86093 z" />
+       sodipodi:type="star"
+       style="fill:#005200;fill-opacity:1;stroke:none;stroke-width:0.46499997;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+       id="path819"
+       sodipodi:sides="3"
+       sodipodi:cx="8.0270138"
+       sodipodi:cy="286.70346"
+       sodipodi:r1="6.9526243"
+       sodipodi:r2="3.4763122"
+       sodipodi:arg1="0"
+       sodipodi:arg2="1.0471976"
+       inkscape:flatsided="true"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 14.979638,286.70346 -10.4289364,6.02115 0,-12.0423 z"
+       inkscape:transform-center-x="-2.2478077"
+       transform="matrix(1.293214,0,0,1,-2.6284544,0.29653931)" />
   </g>
 </svg>

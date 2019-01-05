@@ -14,11 +14,15 @@ Q_OBJECT
 public:
     GotimeTrayIcon(GotimeControl *control, QObject *parent);
 
+private slots:
+    void updateStatus();
+
 private:
     void updateProjects();
 
+    QTimer *_timer;
     QMenu *_menu;
-    GotimeControl *control;
+    GotimeControl *_control;
     QSystemTrayIcon *_trayIcon;
     QList<QAction *> _projectActions;
     QAction *_separatorAction;

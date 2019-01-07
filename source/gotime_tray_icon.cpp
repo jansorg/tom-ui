@@ -10,6 +10,8 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
                                                                                   _trayIcon(new QSystemTrayIcon(this)),
                                                                                   QObject() {
 
+    loadIcons();
+
     _menu = new QMenu();
     _menu->addSection(tr("Projects"));
 
@@ -34,14 +36,31 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
     _menu->addAction(quitAction);
 
     _trayIcon->setContextMenu(_menu);
-    _trayIcon->setIcon(QPixmap(":/images/trayicon.svg"));
+    _trayIcon->setIcon(_stoppedIcon);
     _trayIcon->show();
 
     updateProjects();
 
-    _timer = new QTimer(this);
-    connect(_timer, SIGNAL(timeout()), this, SLOT(updateStatus()));
-    _timer->start(60 * 1000);
+    _statusUpdateTimer = new QTimer(this);
+    connect(_statusUpdateTimer, &QTimer::timeout, this, &GotimeTrayIcon::updateStatus);
+
+    _iconTimer = new QTimer(this);
+    connect(_iconTimer, &QTimer::timeout, this, &GotimeTrayIcon::updateIcon);
+    connect(control, &GotimeControl::projectStarted, this, &GotimeTrayIcon::projectStarted);
+    connect(control, &GotimeControl::projectStopped, this, &GotimeTrayIcon::projectStopped);
+
+    const GotimeStatus &status = control->status();
+    if (status.isValid) {
+        const Project &project = status.currentProject();
+        if (project.isValid()) {
+            _trayIcon->setIcon(_activeIcons.at(0));
+
+            projectStarted(project);
+        } else {
+
+            projectStopped(project);
+        }
+    }
 }
 
 void GotimeTrayIcon::updateProjects() {
@@ -59,8 +78,6 @@ void GotimeTrayIcon::updateProjects() {
 }
 
 void GotimeTrayIcon::updateStatus() {
-//    qDebug() << "updating tray icon status";
-
     const GotimeStatus &status = _control->status();
     if (status.isValid) {
         const Timespan span = Timespan::of(status.startTime(), QDateTime::currentDateTime());
@@ -69,4 +86,41 @@ void GotimeTrayIcon::updateStatus() {
     } else {
         _trayIcon->setToolTip("No active project");
     }
+}
+
+void GotimeTrayIcon::loadIcons() {
+    _stoppedIcon = QPixmap(":/images/trayicon-stopped.svg");
+
+    _activeIcons << QPixmap(":/images/trayicon-1.svg");
+    _activeIcons << QPixmap(":/images/trayicon-2.svg");
+    _activeIcons << QPixmap(":/images/trayicon-3.svg");
+    _activeIcons << QPixmap(":/images/trayicon-4.svg");
+    _activeIcons << QPixmap(":/images/trayicon-5.svg");
+    _activeIcons << QPixmap(":/images/trayicon-6.svg");
+    _activeIcons << QPixmap(":/images/trayicon-7.svg");
+}
+
+void GotimeTrayIcon::projectStarted(const Project &) {
+    if (!_iconTimer->isActive()) {
+        _trayIcon->setIcon(_activeIcons.at(0));
+
+        _activeIconIndex = 0;
+        _iconTimer->start(750);
+    }
+
+    if (_statusUpdateTimer->isActive()) {
+        _statusUpdateTimer->start(2500);
+    }
+}
+
+void GotimeTrayIcon::projectStopped(const Project &) {
+    _trayIcon->setIcon(_stoppedIcon);
+
+    _iconTimer->stop();
+    _statusUpdateTimer->stop();
+}
+
+void GotimeTrayIcon::updateIcon() {
+    _activeIconIndex = (_activeIconIndex + 1) % (_activeIcons.size() - 1);
+    _trayIcon->setIcon(_activeIcons.at(_activeIconIndex));
 }

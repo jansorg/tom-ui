@@ -16,17 +16,31 @@ public:
     GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow);
 
 private slots:
+
     void updateStatus();
+
+private slots:
+    void projectStarted(const Project &);
+    void projectStopped(const Project &);
+    void updateIcon();
 
 private:
     void updateProjects();
 
-    QTimer *_timer;
+    QTimer *_iconTimer;
+    QTimer *_statusUpdateTimer;
+
     QMenu *_menu;
     GotimeControl *_control;
     QSystemTrayIcon *_trayIcon;
     QList<QAction *> _projectActions;
     QAction *_separatorAction;
+
+    int _activeIconIndex;
+    QVector<QPixmap> _activeIcons;
+    QPixmap _stoppedIcon;
+
+    void loadIcons();
 };
 
 #endif

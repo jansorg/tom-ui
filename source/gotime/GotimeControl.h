@@ -28,7 +28,7 @@ public:
 
     bool isStarted(Project &project);
 
-    QList<Frame*> loadFrames(QString projectID);
+    QList<Frame*> loadFrames(QString projectID, bool includeSubprojects);
 
 signals:
 

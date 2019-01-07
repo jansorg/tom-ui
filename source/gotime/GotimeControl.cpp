@@ -106,9 +106,13 @@ GotimeStatus GotimeControl::status() {
     return GotimeStatus(true, project, startTime);
 }
 
-QList<Frame *> GotimeControl::loadFrames(QString projectID) {
-    const CommandStatus &resp = run(
-            QStringList() << "frames" << "-p" << projectID << "-f" << "id,startTime,stopTime,lastUpdated,notes");
+QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubprojects) {
+    QStringList args = QStringList() << "frames" << "-p" << projectID << "-f" << "id,startTime,stopTime,lastUpdated,notes";
+    if (includeSubprojects) {
+        args.append("--subprojects");
+    }
+
+    const CommandStatus &resp = run(args);
     if (resp.isFailed()) {
         qDebug() << "frame command failed";
         return QList<Frame *>();

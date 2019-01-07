@@ -4,7 +4,17 @@
 #include "gotime_tray_icon.h"
 
 int main(int argc, char *argv[]) {
-    GotimeControl *control = new GotimeControl(QString("/home/jansorg/bin/gotime.build"), false, nullptr);
+    QString command = "gotime";
+    bool bash = false;
+
+    if (argc >= 2) {
+        command = QString(argv[1]);
+    }
+    if (argc == 3) {
+        bash = QString(argv[2]) == "true";
+    }
+
+    GotimeControl *control = new GotimeControl(command, bash, nullptr);
 
     //  QApplication::setStyle("Fusion");
     QApplication::setQuitOnLastWindowClosed(false);

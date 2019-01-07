@@ -3,7 +3,6 @@
 
 #include <gotime/GotimeControl.h>
 #include <gotime/StartStopProjectAction.h>
-#include <timespan/timespan.h>
 #include <QtWidgets/QMainWindow>
 #include "gotime_tray_icon.h"
 
@@ -42,7 +41,7 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
 
     _timer = new QTimer(this);
     connect(_timer, SIGNAL(timeout()), this, SLOT(updateStatus()));
-    _timer->start(1000);
+    _timer->start(60 * 1000);
 }
 
 void GotimeTrayIcon::updateProjects() {
@@ -61,13 +60,13 @@ void GotimeTrayIcon::updateProjects() {
 
 void GotimeTrayIcon::updateStatus() {
 //    qDebug() << "updating tray icon status";
-//
-//    const GotimeStatus &status = _control->status();
-//    if (status.isValid) {
-//        const Timespan span = Timespan::of(status.startTime(), QDateTime::currentDateTime());
-//
-//        _trayIcon->setToolTip(QString("%1: <b>%2</b>").arg(status.currentProject().getName()).arg(span.format()));
-//    } else {
-//        _trayIcon->setToolTip("No active project");
-//    }
+
+    const GotimeStatus &status = _control->status();
+    if (status.isValid) {
+        const Timespan span = Timespan::of(status.startTime(), QDateTime::currentDateTime());
+
+        _trayIcon->setToolTip(QString("%1: <b>%2</b>").arg(status.currentProject().getName()).arg(span.format()));
+    } else {
+        _trayIcon->setToolTip("No active project");
+    }
 }

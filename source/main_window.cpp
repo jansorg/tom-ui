@@ -20,7 +20,7 @@ MainWindow::~MainWindow() {
 void MainWindow::projectChanged(const QModelIndex &index) {
     auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
     if (item && item->getProject().isValid()) {
-        auto frames = gotimeControl->loadFrames(item->getProject().getID());
+        auto frames = gotimeControl->loadFrames(item->getProject().getID(), true);
 
         auto *sortedModel = new QSortFilterProxyModel(this);
         auto *frameModel = new FrameTableViewModel(frames, this);

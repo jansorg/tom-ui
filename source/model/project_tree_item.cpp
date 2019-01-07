@@ -30,7 +30,7 @@ int ProjectTreeItem::columnCount() const {
 
 QVariant ProjectTreeItem::data(int column) const {
     const QVariant &value = m_itemData.value(column);
-    qDebug() << "data" << value;
+//    qDebug() << "data" << value;
     return value;
 }
 

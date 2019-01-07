@@ -22,7 +22,24 @@ int FrameTableViewModel::columnCount(const QModelIndex &parent) const {
 }
 
 QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientation, int role) const {
-    return QAbstractItemModel::headerData(section, orientation, role);
+    if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
+        switch (section) {
+            case 0:
+                return "Start";
+            case 1:
+                return "End";
+            case 2:
+                return "Duration";
+            case 3:
+                return "Tags";
+            case 4:
+                return "Notes";
+            default:
+                break;
+        }
+    }
+
+    return QVariant();
 }
 
 QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
@@ -36,12 +53,20 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
             case 2:
                 return _frames.at(row)->getDuration().format();
             case 3:
-                return _frames.at(row)->notes;
-            case 4:
                 return _frames.at(row)->tags;
+            case 4:
+                return _frames.at(row)->notes;
             default:
                 break;
         }
     }
+
+    if (role == Qt::TextAlignmentRole) {
+        // right align the duration
+        if (index.column() == 2) {
+            return Qt::AlignRight + Qt::AlignVCenter;
+        }
+    }
+
     return QVariant();
 }

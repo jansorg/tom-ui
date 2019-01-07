@@ -19,7 +19,7 @@ const QString Timespan::format() const {
     auto minutes = spanSecs % 3600 / 60;
     auto seconds = spanSecs % 60;
     return QString("%1:%2:%3h")
-            .arg(hours, 2, 10, QChar('0'))
+            .arg(hours, 1, 10, QChar('0'))
             .arg(minutes, 2, 10, QChar('0'))
             .arg(seconds, 2, 10, QChar('0'));
 }

@@ -21,8 +21,14 @@ void MainWindow::projectChanged(const QModelIndex &index) {
     auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
     if (item && item->getProject().isValid()) {
         auto frames = gotimeControl->loadFrames(item->getProject().getID());
+
+        auto *sortedModel = new QSortFilterProxyModel(this);
         auto *frameModel = new FrameTableViewModel(frames, this);
-        ui.frameView->setModel(frameModel);
+        sortedModel->setSourceModel(frameModel);
+        ui.frameView->setModel(sortedModel);
+        //start time
+        ui.frameView->sortByColumn(0, Qt::DescendingOrder);
+//        ui.frameView->resizeColumnToContents(3);//notes
     }
 }
 

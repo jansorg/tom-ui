@@ -12,9 +12,13 @@ class MainWindow : public QMainWindow {
 Q_OBJECT
 
 public:
-    explicit MainWindow(GotimeControl* control, QMainWindow *parent = nullptr);
+    explicit MainWindow(GotimeControl *control, QMainWindow *parent = nullptr);
 
     ~MainWindow() override;
+
+private slots:
+
+    void projectChanged(const QModelIndex &index);
 
 private:
     Ui::MainWindow ui;

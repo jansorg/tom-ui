@@ -10,6 +10,6 @@ const bool CommandStatus::isSuccessful() {
     return exitCode == 0;
 }
 
-const bool CommandStatus::isFailed() {
+const bool CommandStatus::isFailed() const {
     return exitCode != 0;
 }

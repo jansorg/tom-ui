@@ -3,8 +3,9 @@
 
 #include "project_tree_item.h"
 
-ProjectTreeItem::ProjectTreeItem(const QList<QVariant> &data, ProjectTreeItem *parent) : m_itemData(data),
-                                                                                               m_parentItem(parent) {
+ProjectTreeItem::ProjectTreeItem(const QList<QVariant> &data, const Project &project, ProjectTreeItem *parent)
+        : m_itemData(data), m_parentItem(parent), _project(project) {
+
 }
 
 ProjectTreeItem::~ProjectTreeItem() {
@@ -33,14 +34,18 @@ QVariant ProjectTreeItem::data(int column) const {
     return value;
 }
 
-ProjectTreeItem * ProjectTreeItem::parentItem() {
+ProjectTreeItem *ProjectTreeItem::parentItem() {
     return m_parentItem;
 }
 
 int ProjectTreeItem::row() const {
-    if (m_parentItem){
+    if (m_parentItem) {
         return m_parentItem->m_childItems.indexOf(const_cast<ProjectTreeItem *>(this));
     }
 
     return 0;
+}
+
+const Project &ProjectTreeItem::getProject() const {
+    return _project;
 }

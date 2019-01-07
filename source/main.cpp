@@ -4,7 +4,7 @@
 #include "gotime_tray_icon.h"
 
 int main(int argc, char *argv[]) {
-    GotimeControl *control = new GotimeControl(QString("/home/jansorg/bin/gotime"), nullptr);
+    GotimeControl *control = new GotimeControl(QString("/home/jansorg/bin/gotime.build"), false, nullptr);
 
     //  QApplication::setStyle("Fusion");
     QApplication::setQuitOnLastWindowClosed(false);

@@ -16,6 +16,8 @@ public:
     QString getName() const;
     QString getShortName() const;
 
+    bool isValid() const;
+
 private:
     QString id;
     QString name;

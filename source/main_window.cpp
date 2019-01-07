@@ -1,25 +1,29 @@
+#include <model/frametableviewmodel.h>
 #include "model/ProjectTreeModel.h"
-#include "gotime/GotimeControl.h"
 #include "gotime/StartStopProjectAction.h"
 #include "main_window.h"
 
-MainWindow::MainWindow(GotimeControl * control, QMainWindow *parent) : gotimeControl(control), QMainWindow(parent) {
+MainWindow::MainWindow(GotimeControl *control, QMainWindow *parent) : gotimeControl(control), QMainWindow(parent) {
     ui.setupUi(this);
     createActions();
 
     auto *model = new ProjectTreeModel(control, this);
     ui.projectTree->setModel(model);
 
-//    const GotimeStatus status = gotimeControl->status();
-//    if (status.isValid) {
-//        qDebug() << "Active project: " << status.currentProject()->getName() << status.startTime().toString(Qt::SystemLocaleShortDate);
-//    } else {
-//        qDebug() << "No active project found";
-//    }
+    connect(ui.projectTree, &QTreeView::activated, this, &MainWindow::projectChanged);
 }
 
 MainWindow::~MainWindow() {
     delete this->projectActions;
+}
+
+void MainWindow::projectChanged(const QModelIndex &index) {
+    auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
+    if (item && item->getProject().isValid()) {
+        auto frames = gotimeControl->loadFrames(item->getProject().getID());
+        auto *frameModel = new FrameTableViewModel(frames, this);
+        ui.frameView->setModel(frameModel);
+    }
 }
 
 void MainWindow::createActions() {

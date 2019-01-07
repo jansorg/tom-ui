@@ -3,6 +3,7 @@
 
 #include <QtCore>
 #include <QtCore/QString>
+#include <data/frame.h>
 
 #include "data/Project.h"
 #include "CommandStatus.h"
@@ -12,7 +13,7 @@ class GotimeControl : public QObject {
 Q_OBJECT
 
 public:
-    explicit GotimeControl(QString gotimePath, QObject *parent);
+    explicit GotimeControl(QString gotimePath, bool bashScript, QObject *parent);
 
 //    void createProject(String name);
 //    void createTag(String name);
@@ -26,6 +27,8 @@ public:
     GotimeStatus status();
 
     bool isStarted(Project &project);
+
+    QList<Frame*> loadFrames(QString projectID);
 
 signals:
 
@@ -46,6 +49,9 @@ public slots:
 private:
     CommandStatus run(QStringList &args);
 
+    QString _activeProjectID;
+
+    bool _bashScript;
     QString _gotimePath;
 };
 

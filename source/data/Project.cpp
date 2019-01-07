@@ -23,3 +23,7 @@ QString Project::getID() const {
 QString Project::getParentID() const {
     return this->parentID;
 }
+
+bool Project::isValid() const {
+    return !this->id.isEmpty();
+}

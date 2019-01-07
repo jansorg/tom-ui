@@ -17,7 +17,7 @@ public:
 
     const bool isSuccessful();
 
-    const bool isFailed();
+    const bool isFailed() const;
 };
 
 

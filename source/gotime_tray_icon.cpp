@@ -60,14 +60,14 @@ void GotimeTrayIcon::updateProjects() {
 }
 
 void GotimeTrayIcon::updateStatus() {
-    qDebug() << "updating tray icon status";
-
-    const GotimeStatus &status = _control->status();
-    if (status.isValid) {
-        const Timespan span = Timespan::of(status.startTime(), QDateTime::currentDateTime());
-
-        _trayIcon->setToolTip(QString("%1: <b>%2</b>").arg(status.currentProject().getName()).arg(span.format()));
-    } else {
-        _trayIcon->setToolTip("No active project");
-    }
+//    qDebug() << "updating tray icon status";
+//
+//    const GotimeStatus &status = _control->status();
+//    if (status.isValid) {
+//        const Timespan span = Timespan::of(status.startTime(), QDateTime::currentDateTime());
+//
+//        _trayIcon->setToolTip(QString("%1: <b>%2</b>").arg(status.currentProject().getName()).arg(span.format()));
+//    } else {
+//        _trayIcon->setToolTip("No active project");
+//    }
 }

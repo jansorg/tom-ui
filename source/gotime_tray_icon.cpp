@@ -95,9 +95,6 @@ void GotimeTrayIcon::loadIcons() {
     _activeIcons << QPixmap(":/images/trayicon-2.svg");
     _activeIcons << QPixmap(":/images/trayicon-3.svg");
     _activeIcons << QPixmap(":/images/trayicon-4.svg");
-    _activeIcons << QPixmap(":/images/trayicon-5.svg");
-    _activeIcons << QPixmap(":/images/trayicon-6.svg");
-    _activeIcons << QPixmap(":/images/trayicon-7.svg");
 }
 
 void GotimeTrayIcon::projectStarted(const Project &) {
@@ -105,7 +102,7 @@ void GotimeTrayIcon::projectStarted(const Project &) {
         _trayIcon->setIcon(_activeIcons.at(0));
 
         _activeIconIndex = 0;
-        _iconTimer->start(750);
+        _iconTimer->start(1000);
     }
 
     if (_statusUpdateTimer->isActive()) {
@@ -121,6 +118,7 @@ void GotimeTrayIcon::projectStopped(const Project &) {
 }
 
 void GotimeTrayIcon::updateIcon() {
-    _activeIconIndex = (_activeIconIndex + 1) % (_activeIcons.size() - 1);
+    _activeIconIndex = _activeIconIndex % _activeIcons.size();
     _trayIcon->setIcon(_activeIcons.at(_activeIconIndex));
+    _activeIconIndex++;
 }

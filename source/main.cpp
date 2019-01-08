@@ -4,7 +4,7 @@
 #include "gotime_tray_icon.h"
 
 int main(int argc, char *argv[]) {
-    QString command = "gotime";
+    QString command = "tom";
     bool bash = false;
 
     if (argc >= 2) {

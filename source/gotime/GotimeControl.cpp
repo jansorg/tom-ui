@@ -169,7 +169,7 @@ CommandStatus GotimeControl::run(QStringList &args) {
 const ProjectsStatus GotimeControl::projectsStatus() {
     QStringList args;
     args << "status" << "projects" << "-f"
-         << "id,trackedDay,trackedWeek,trackedMonth,trackedYear,totalTrackedDay,totalTrackedWeek,totalTrackedMonth,totalTrackedYear";
+         << "id,trackedDay,totalTrackedDay,trackedWeek,totalTrackedWeek,trackedMonth,totalTrackedMonth,trackedYear,totalTrackedYear";
 
     CommandStatus cmdStatus = run(args);
     if (cmdStatus.isFailed()) {
@@ -189,17 +189,18 @@ const ProjectsStatus GotimeControl::projectsStatus() {
         }
 
         QString id = parts[0];
-        Timespan year = Timespan(parts[1].toLongLong());
-        Timespan yearTotal = Timespan(parts[2].toLongLong());
 
-        Timespan month = Timespan(parts[3].toLongLong());
-        Timespan monthTotal = Timespan(parts[4].toLongLong());
+        Timespan day = Timespan(parts[0].toLongLong());
+        Timespan dayTotal = Timespan(parts[1].toLongLong());
 
-        Timespan week = Timespan(parts[5].toLongLong());
-        Timespan weekTotal = Timespan(parts[6].toLongLong());
+        Timespan week = Timespan(parts[2].toLongLong());
+        Timespan weekTotal = Timespan(parts[3].toLongLong());
 
-        Timespan day = Timespan(parts[7].toLongLong());
-        Timespan dayTotal = Timespan(parts[8].toLongLong());
+        Timespan month = Timespan(parts[4].toLongLong());
+        Timespan monthTotal = Timespan(parts[5].toLongLong());
+
+        Timespan year = Timespan(parts[6].toLongLong());
+        Timespan yearTotal = Timespan(parts[7].toLongLong());
 
         mapping.insert(id, ProjectStatus(id, year, yearTotal, month, monthTotal, week, weekTotal, day, dayTotal));
     }

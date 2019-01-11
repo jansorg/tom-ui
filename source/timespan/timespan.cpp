@@ -26,6 +26,15 @@ const QString Timespan::format() const {
             .arg(seconds, 2, 10, QChar('0'));
 }
 
+const QString Timespan::formatShort() const {
+    auto spanSecs = static_cast<qlonglong >(asSeconds());
+
+    //3661 = 1h 1m 1s
+    auto hours = spanSecs / 3600;
+    auto minutes = spanSecs % 3600 / 60;
+    return QString("%1:%2h").arg(hours, 1, 10, QChar('0')).arg(minutes, 2, 10, QChar('0'));
+}
+
 const QString Timespan::formatOptional() const {
     if (_msecs == 0) {
         return "";

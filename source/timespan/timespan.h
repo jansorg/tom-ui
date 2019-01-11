@@ -13,9 +13,10 @@ public:
     static Timespan of(const QDateTime &start, const QDateTime &end);
 
     Timespan();
+
     explicit Timespan(qint64 millis);
 
-    Timespan& operator=(const Timespan&) = default;
+    Timespan &operator=(const Timespan &) = default;
 
     const double asHours() const;
 
@@ -24,6 +25,9 @@ public:
     const double asSeconds() const;
 
     const QString format() const;
+
+    const QString formatShort() const;
+
     const QString formatOptional() const;
 
     const QString formatDecimal() const;

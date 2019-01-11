@@ -10,9 +10,7 @@ class Project {
 public:
     Project();
 
-    Project(const QString &name, const QString &id, const QString &parentID,
-            const Timespan &trackedYear, const Timespan &trackedMonth, const Timespan &trackedWeek,
-            const Timespan &trackedDay);
+    Project(const QString &name, const QString &id, const QString &parentID);
 
     QString getID() const;
 
@@ -24,22 +22,10 @@ public:
 
     bool isValid() const;
 
-    Timespan trackedYear() const;
-
-    Timespan trackedMonth() const;
-
-    Timespan trackedWeek() const;
-
-    Timespan trackedDay() const;
-
 private:
     QString _id;
     QString _name;
     QString _parentID;
-    Timespan _year;
-    Timespan _month;
-    Timespan _week;
-    Timespan _day;
 };
 
 

@@ -34,6 +34,7 @@ private:
     ProjectTreeItem *_rootItem;
     GotimeControl *_control;
     QList<Project> _projects;
+    ProjectsStatus _status;
 
     ProjectTreeItem *createModelItem(const QList<Project> &allProjects, const Project &project, ProjectTreeItem* parent);
 

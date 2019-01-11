@@ -1,4 +1,6 @@
-#include <gotime/GotimeControl.h>
+#include <QtGui/QColor>
+
+#include "gotime/GotimeControl.h"
 #include "ProjectTreeModel.h"
 
 ProjectTreeModel::ProjectTreeModel(GotimeControl *control, QObject *parent) : _control(control),
@@ -8,6 +10,10 @@ ProjectTreeModel::ProjectTreeModel(GotimeControl *control, QObject *parent) : _c
 
     _rootItem = new ProjectTreeItem(headers, Project());
     _projects << _control->loadProjects();
+
+    // fixme update status regularly?
+    _status = control->projectsStatus();
+    qDebug() << "Found status:" << _status.size();
 
     refreshProjects(_rootItem);
     printProjects(0, _rootItem);
@@ -27,11 +33,14 @@ void ProjectTreeModel::refreshProjects(ProjectTreeItem *root) {
 
 ProjectTreeItem *
 ProjectTreeModel::createModelItem(const QList<Project> &allProjects, const Project &project, ProjectTreeItem *parent) {
+    QString projectID = project.getID();
+    ProjectStatus state = _status.get(projectID);
+
     QList<QVariant> items;
     items << project.getShortName()
-          << project.trackedDay().formatOptional()
-          << project.trackedWeek().formatOptional()
-          << project.trackedMonth().formatOptional();
+          << state.dayTotal.formatShort()
+          << state.weekTotal.formatShort()
+          << state.monthTotal.formatShort();
 
     auto *item = new ProjectTreeItem(items, project, parent);
     for (const auto &p: allProjects) {
@@ -39,7 +48,6 @@ ProjectTreeModel::createModelItem(const QList<Project> &allProjects, const Proje
             item->appendChild(createModelItem(allProjects, p, item));
         }
     }
-
     return item;
 }
 
@@ -60,12 +68,19 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         return Qt::AlignRight + Qt::AlignVCenter;
     }
 
-    if (role != Qt::DisplayRole) {
-        return QVariant();
+    if (role == Qt::ForegroundRole) {
+        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
+        if (index.column() >= 1 && item->data(index.column()).toString() == QString("0:00h")) {
+            return QVariant(QColor(Qt::lightGray));
+        };
     }
 
-    auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
-    return item->data(index.column());
+    if (role == Qt::DisplayRole) {
+        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
+        return item->data(index.column());
+    }
+
+    return QVariant();
 }
 
 Qt::ItemFlags ProjectTreeModel::flags(const QModelIndex &index) const {

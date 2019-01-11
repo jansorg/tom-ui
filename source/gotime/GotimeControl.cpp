@@ -14,8 +14,9 @@ GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject 
 }
 
 QList<Project> GotimeControl::loadProjects() {
-    CommandStatus status = run(QStringList() << "projects" << "-f"
-                                             << "fullName,id,parentID,totalTrackedYear,totalTrackedMonth,totalTrackedWeek,totalTrackedDay");
+    CommandStatus status = run(QStringList() << "projects"
+                                             << "-f"
+                                             << "fullName,id,parentID");
     if (status.isFailed()) {
         return QList<Project>();
     }
@@ -24,18 +25,12 @@ QList<Project> GotimeControl::loadProjects() {
     QList<Project> result;
     for (const auto &line : lines) {
         QStringList lineItems = line.split("\t");
-        if (lineItems.size() == 7) {
+        if (lineItems.size() == 3) {
             const auto &name = lineItems.at(0);
             const auto &id = lineItems.at(1);
             const auto &parent = lineItems.at(2);
 
-            auto year = lineItems.at(3).toLongLong();
-            auto month = lineItems.at(4).toLongLong();
-            auto week = lineItems.at(5).toLongLong();
-            auto day = lineItems.at(6).toLongLong();
-
-            result.append(Project(name, id, parent,
-                                  Timespan(year), Timespan(month), Timespan(week), Timespan(day)));
+            result.append(Project(name, id, parent));
         }
     }
     return result;
@@ -43,21 +38,6 @@ QList<Project> GotimeControl::loadProjects() {
 
 bool GotimeControl::isStarted(Project &project) {
     return _activeProjectID == project.getID();
-//    const GotimeStatus &currentStatus = this->status();
-//    if (!currentStatus.isValid) {
-//        return false;
-//    }
-//
-//    const Project &active = currentStatus.currentProject();
-//    qDebug() << "isStarted. active: " << active.getID();
-//
-//    bool isActive = active.getID() == project.getID();
-//    if (isActive) {
-//        qDebug() << "found active project";
-//    } else {
-//        qDebug() << "not active" << project.getID();
-//    }
-//    return isActive;
 }
 
 bool GotimeControl::startProject(Project &project) {
@@ -113,7 +93,7 @@ GotimeStatus GotimeControl::status() {
     }
 
     QDateTime startTime = QDateTime::fromString(parts[4], Qt::ISODate);
-    Project project = Project(parts[1], parts[2], parts[3], Timespan(), Timespan(), Timespan(), Timespan());
+    Project project = Project(parts[1], parts[2], parts[3]);
     return GotimeStatus(true, project, startTime);
 }
 
@@ -184,4 +164,46 @@ CommandStatus GotimeControl::run(QStringList &args) {
 //    qDebug() << "err stdout:" << errOutput;
 
     return CommandStatus(output, errOutput, process.exitCode());
+}
+
+const ProjectsStatus GotimeControl::projectsStatus() {
+    QStringList args;
+    args << "status" << "projects" << "-f"
+         << "id,trackedDay,trackedWeek,trackedMonth,trackedYear,totalTrackedDay,totalTrackedWeek,totalTrackedMonth,totalTrackedYear";
+
+    CommandStatus cmdStatus = run(args);
+    if (cmdStatus.isFailed()) {
+        return ProjectsStatus();
+    }
+
+    auto mapping = QHash<QString, ProjectStatus>();
+
+    QStringList lines = cmdStatus.stdoutContent.split("\n", QString::SkipEmptyParts);
+    for (const auto &line : lines) {
+        QStringList parts = line.split("\t");
+
+        qDebug() << parts;
+        if (parts.size() != 9) {
+            qDebug() << "unexpected number of columns in" << line;
+            continue;
+        }
+
+        QString id = parts[0];
+        Timespan year = Timespan(parts[1].toLongLong());
+        Timespan yearTotal = Timespan(parts[2].toLongLong());
+
+        Timespan month = Timespan(parts[3].toLongLong());
+        Timespan monthTotal = Timespan(parts[4].toLongLong());
+
+        Timespan week = Timespan(parts[5].toLongLong());
+        Timespan weekTotal = Timespan(parts[6].toLongLong());
+
+        Timespan day = Timespan(parts[7].toLongLong());
+        Timespan dayTotal = Timespan(parts[8].toLongLong());
+
+        mapping.insert(id, ProjectStatus(id, year, yearTotal, month, monthTotal, week, weekTotal, day, dayTotal));
+    }
+
+    qDebug() << mapping.size();
+    return ProjectsStatus(mapping);
 }

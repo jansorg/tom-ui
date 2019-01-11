@@ -8,6 +8,7 @@
 #include "data/Project.h"
 #include "CommandStatus.h"
 #include "GotimeStatus.h"
+#include "projectstatus.h"
 
 class GotimeControl : public QObject {
 Q_OBJECT
@@ -15,16 +16,10 @@ Q_OBJECT
 public:
     explicit GotimeControl(QString gotimePath, bool bashScript, QObject *parent);
 
-//    void createProject(String name);
-//    void createTag(String name);
-
-//    void removeProject(Project project);
-
-//    QList<Frame> loadFrames();
     QList<Project> loadProjects();
-//    QList<Tag> loadTags();
 
     GotimeStatus status();
+    const ProjectsStatus projectsStatus();
 
     bool isStarted(Project &project);
 

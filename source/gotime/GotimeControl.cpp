@@ -15,7 +15,7 @@ GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject 
 
 QList<Project> GotimeControl::loadProjects() {
     CommandStatus status = run(QStringList() << "projects" << "-f"
-                                             << "fullName,id,parentID,trackedYear,trackedMonth,trackedWeek,trackedDay");
+                                             << "fullName,id,parentID,totalTrackedYear,totalTrackedMonth,totalTrackedWeek,totalTrackedDay");
     if (status.isFailed()) {
         return QList<Project>();
     }

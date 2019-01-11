@@ -3,7 +3,10 @@
 
 ProjectTreeModel::ProjectTreeModel(GotimeControl *control, QObject *parent) : _control(control),
                                                                               QAbstractItemModel(parent) {
-    _rootItem = new ProjectTreeItem(QList<QVariant>() << "Name", Project(), nullptr);
+    QList<QVariant> headers;
+    headers << "Name" << "Year" << "Month" << "Week" << "Day";
+
+    _rootItem = new ProjectTreeItem(headers, Project());
 
     _projects.clear();
     _projects << _control->loadProjects();
@@ -24,9 +27,16 @@ void ProjectTreeModel::refreshProjects(ProjectTreeItem *root) {
     }
 }
 
-ProjectTreeItem *ProjectTreeModel::createModelItem(const QList<Project> &allProjects, const Project &project, ProjectTreeItem *parent) {
-    auto *item = new ProjectTreeItem(QList<QVariant>() << project.getShortName(), project, parent);
+ProjectTreeItem *
+ProjectTreeModel::createModelItem(const QList<Project> &allProjects, const Project &project, ProjectTreeItem *parent) {
+    QList<QVariant> items;
+    items << project.getShortName()
+          << project.trackedYear().format()
+          << project.trackedMonth().format()
+          << project.trackedWeek().format()
+          << project.trackedDay().format();
 
+    auto *item = new ProjectTreeItem(items, project, parent);
     for (const auto &p: allProjects) {
         if (p.getParentID() == project.getID()) {
             item->appendChild(createModelItem(allProjects, p, item));
@@ -37,35 +47,38 @@ ProjectTreeItem *ProjectTreeModel::createModelItem(const QList<Project> &allProj
 }
 
 int ProjectTreeModel::columnCount(const QModelIndex &parent) const {
-    if (parent.isValid())
+    if (parent.isValid()) {
         return static_cast<ProjectTreeItem *>(parent.internalPointer())->columnCount();
-    else
+    } else {
         return _rootItem->columnCount();
+    }
 }
 
 QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
-    if (!index.isValid())
+    if (!index.isValid()) {
         return QVariant();
+    }
 
-    if (role != Qt::DisplayRole)
+    if (role != Qt::DisplayRole) {
         return QVariant();
+    }
 
     auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
-
     return item->data(index.column());
 }
 
 Qt::ItemFlags ProjectTreeModel::flags(const QModelIndex &index) const {
-    if (!index.isValid())
+    if (!index.isValid()) {
         return 0;
+    }
 
     return QAbstractItemModel::flags(index);
 }
 
-QVariant ProjectTreeModel::headerData(int section, Qt::Orientation orientation,
-                                      int role) const {
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole)
+QVariant ProjectTreeModel::headerData(int section, Qt::Orientation orientation, int role) const {
+    if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         return _rootItem->data(section);
+    }
 
     return QVariant();
 }

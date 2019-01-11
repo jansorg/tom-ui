@@ -12,7 +12,10 @@ class Timespan {
 public:
     static Timespan of(const QDateTime &start, const QDateTime &end);
 
+    Timespan();
     explicit Timespan(qint64 millis);
+
+    Timespan& operator=(const Timespan&) = default;
 
     const double asHours() const;
 

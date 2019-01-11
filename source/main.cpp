@@ -25,6 +25,6 @@ int main(int argc, char *argv[]) {
     MainWindow mainWindow(control);
     mainWindow.show();
 
-    auto *tray = new GotimeTrayIcon(control, &mainWindow);
+    new GotimeTrayIcon(control, &mainWindow);
     return QApplication::exec();
 }

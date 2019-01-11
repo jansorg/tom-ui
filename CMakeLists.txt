@@ -30,8 +30,8 @@ if (WIN32 AND NOT CMAKE_INSTALL_PREFIX)
   set(CMAKE_INSTALL_PREFIX dist CACHE STRING "Install path prefix.")
 endif()
 
-project(gotime-ui)
-set(PROJECT_LONGNAME "gotime-ui")
+project(tom-ui)
+set(PROJECT_LONGNAME "tom-ui")
 set(PROJECT_VERSION "1.0.0")
 
 # Global CMake options

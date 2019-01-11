@@ -4,11 +4,13 @@
 
 #include "timespan.h"
 
+Timespan::Timespan() : _msecs(0) {}
+
 Timespan Timespan::of(const QDateTime &start, const QDateTime &end) {
     return Timespan(start.msecsTo(end));
 }
 
-Timespan::Timespan(qint64 millis) : _msecs(millis) {
+Timespan::Timespan(const qint64 millis) : _msecs(millis) {
 }
 
 const QString Timespan::format() const {
@@ -37,6 +39,6 @@ const double Timespan::asMinutes() const {
 }
 
 const double Timespan::asSeconds() const {
-    const auto &v = static_cast<double >(_msecs);
-    return v / static_cast<double >(_msecsPerSecond);
+    const auto &v = static_cast<double>(_msecs);
+    return v / static_cast<double>(_msecsPerSecond);
 }

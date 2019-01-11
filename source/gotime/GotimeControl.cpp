@@ -4,8 +4,8 @@
 
 #include "GotimeControl.h"
 
-GotimeControl::GotimeControl(QString gotimePath, bool bashScript, QObject *parent) :
-        _gotimePath(std::move(gotimePath)), _bashScript(bashScript), QObject(parent) {
+GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject *parent) :
+        _gotimePath(gotimePath), _bashScript(bashScript), QObject(parent) {
 
     const GotimeStatus &status = this->status();
     if (status.isValid) {
@@ -14,7 +14,8 @@ GotimeControl::GotimeControl(QString gotimePath, bool bashScript, QObject *paren
 }
 
 QList<Project> GotimeControl::loadProjects() {
-    CommandStatus status = run(QStringList() << "projects" << "-f" << "fullName,id,parentID");
+    CommandStatus status = run(QStringList() << "projects" << "-f"
+                                             << "fullName,id,parentID,trackedYear,trackedMonth,trackedWeek,trackedDay");
     if (status.isFailed()) {
         return QList<Project>();
     }
@@ -22,9 +23,19 @@ QList<Project> GotimeControl::loadProjects() {
     QStringList lines = status.stdoutContent.split("\n", QString::SkipEmptyParts);
     QList<Project> result;
     for (const auto &line : lines) {
-        QStringList nameIdParent = line.split("\t");
-        if (nameIdParent.size() == 3) {
-            result.append(Project(nameIdParent[0], nameIdParent[1], nameIdParent[2]));
+        QStringList lineItems = line.split("\t");
+        if (lineItems.size() == 7) {
+            const auto &name = lineItems.at(0);
+            const auto &id = lineItems.at(1);
+            const auto &parent = lineItems.at(2);
+
+            auto year = lineItems.at(3).toLongLong();
+            auto month = lineItems.at(4).toLongLong();
+            auto week = lineItems.at(5).toLongLong();
+            auto day = lineItems.at(6).toLongLong();
+
+            result.append(Project(name, id, parent, Timespan(year), Timespan(month), Timespan(week),
+                                  Timespan(day)));
         }
     }
     return result;
@@ -102,12 +113,13 @@ GotimeStatus GotimeControl::status() {
     }
 
     QDateTime startTime = QDateTime::fromString(parts[4], Qt::ISODate);
-    Project project = Project(parts[1], parts[2], parts[3]);
+    Project project = Project(parts[1], parts[2], parts[3], Timespan(), Timespan(), Timespan(), Timespan());
     return GotimeStatus(true, project, startTime);
 }
 
 QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubprojects) {
-    QStringList args = QStringList() << "frames" << "-p" << projectID << "-f" << "id,startTime,stopTime,lastUpdated,notes";
+    QStringList args =
+            QStringList() << "frames" << "-p" << projectID << "-f" << "id,startTime,stopTime,lastUpdated,notes";
     if (includeSubprojects) {
         args.append("--subprojects");
     }
@@ -147,7 +159,7 @@ QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubproje
         // fixme who's deleting the allocated data?
         result.append(new Frame(id, projectID, start, end, lastUpdated, notes, tags));
     }
-    qDebug() << "loadFrames() returned "<< result.size() << "frames";
+    qDebug() << "loadFrames() returned " << result.size() << "frames";
     return result;
 }
 
@@ -160,12 +172,12 @@ CommandStatus GotimeControl::run(QStringList &args) {
     } else {
         process.start(_gotimePath, args);
     }
-    process.waitForFinished(500);
+    process.waitForFinished(600);
 
     QString output(process.readAllStandardOutput());
     QString errOutput(process.readAllStandardError());
 
-//    qDebug() << "exit code:" << process.exitCode();
+    qDebug() << "exit code:" << process.exitCode();
 //    qDebug() << "exit status:" << process.exitStatus();
 //    qDebug() << "exit error:" << process.errorString();
 //    qDebug() << "stdout:" << output;

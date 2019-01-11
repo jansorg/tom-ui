@@ -105,7 +105,7 @@ void GotimeTrayIcon::projectStarted(const Project &) {
         _iconTimer->start(1000);
     }
 
-    if (_statusUpdateTimer->isActive()) {
+    if (!_statusUpdateTimer->isActive()) {
         _statusUpdateTimer->start(2500);
     }
 }

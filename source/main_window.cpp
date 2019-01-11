@@ -1,4 +1,6 @@
 #include <model/frametableviewmodel.h>
+#include <QtWidgets/QTreeView>
+#include <QtWidgets/QHeaderView>
 #include "model/ProjectTreeModel.h"
 #include "gotime/StartStopProjectAction.h"
 #include "main_window.h"
@@ -8,9 +10,13 @@ MainWindow::MainWindow(GotimeControl *control, QMainWindow *parent) : gotimeCont
     createActions();
 
     auto *model = new ProjectTreeModel(control, this);
-    ui.projectTree->setModel(model);
+    QTreeView *tree = ui.projectTree;
+    tree->setModel(model);
+    tree->sortByColumn(0, Qt::AscendingOrder);
+    tree->header()->setStretchLastSection(false);
+    tree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
 
-    connect(ui.projectTree, &QTreeView::activated, this, &MainWindow::projectChanged);
+    connect(tree, &QTreeView::activated, this, &MainWindow::projectChanged);
 }
 
 MainWindow::~MainWindow() {

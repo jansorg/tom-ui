@@ -24,6 +24,7 @@ public:
     const double asSeconds() const;
 
     const QString format() const;
+    const QString formatOptional() const;
 
     const QString formatDecimal() const;
 

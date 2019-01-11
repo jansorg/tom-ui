@@ -26,6 +26,13 @@ const QString Timespan::format() const {
             .arg(seconds, 2, 10, QChar('0'));
 }
 
+const QString Timespan::formatOptional() const {
+    if (_msecs == 0) {
+        return "";
+    }
+    return this->format();
+}
+
 const QString Timespan::formatDecimal() const {
     return QString("%L1h").arg(asHours(), 0, 'g', 2);
 }

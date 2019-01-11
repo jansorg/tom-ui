@@ -4,11 +4,9 @@
 ProjectTreeModel::ProjectTreeModel(GotimeControl *control, QObject *parent) : _control(control),
                                                                               QAbstractItemModel(parent) {
     QList<QVariant> headers;
-    headers << "Name" << "Year" << "Month" << "Week" << "Day";
+    headers << "Name" << "Today" << "This week" << "This month" << "This year";
 
     _rootItem = new ProjectTreeItem(headers, Project());
-
-    _projects.clear();
     _projects << _control->loadProjects();
 
     refreshProjects(_rootItem);
@@ -31,10 +29,10 @@ ProjectTreeItem *
 ProjectTreeModel::createModelItem(const QList<Project> &allProjects, const Project &project, ProjectTreeItem *parent) {
     QList<QVariant> items;
     items << project.getShortName()
-          << project.trackedYear().format()
-          << project.trackedMonth().format()
-          << project.trackedWeek().format()
-          << project.trackedDay().format();
+          << project.trackedDay().formatOptional()
+          << project.trackedWeek().formatOptional()
+          << project.trackedMonth().formatOptional()
+          << project.trackedYear().formatOptional();
 
     auto *item = new ProjectTreeItem(items, project, parent);
     for (const auto &p: allProjects) {
@@ -58,6 +56,19 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid()) {
         return QVariant();
     }
+
+    if (role == Qt::TextAlignmentRole && index.column() >= 1) {
+        return Qt::AlignRight + Qt::AlignVCenter;
+    }
+
+/*
+    if (role == Qt::SizeHintRole) {
+        if (index.column() == 0) {
+            return Qt::MaximumSize;
+        }
+        return Qt::PreferredSize;
+    }
+*/
 
     if (role != Qt::DisplayRole) {
         return QVariant();
@@ -131,7 +142,7 @@ int ProjectTreeModel::rowCount(const QModelIndex &parent) const {
 }
 
 void ProjectTreeModel::printProjects(int level, ProjectTreeItem *root) {
-    qDebug() << QString(" ").repeated(level) << root->data(0);
+    qDebug() << QString(" ").repeated(level) << root->data(0).toString();
     for (int i = 0; i < root->childCount(); ++i) {
         printProjects(level + 1, root->child(i));
     }

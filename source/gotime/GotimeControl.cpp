@@ -34,8 +34,8 @@ QList<Project> GotimeControl::loadProjects() {
             auto week = lineItems.at(5).toLongLong();
             auto day = lineItems.at(6).toLongLong();
 
-            result.append(Project(name, id, parent, Timespan(year), Timespan(month), Timespan(week),
-                                  Timespan(day)));
+            result.append(Project(name, id, parent,
+                                  Timespan(year), Timespan(month), Timespan(week), Timespan(day)));
         }
     }
     return result;

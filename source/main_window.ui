@@ -84,6 +84,7 @@
     <property name="title">
      <string>&amp;File</string>
     </property>
+    <addaction name="actionRefresh"/>
     <addaction name="actionMinimize"/>
     <addaction name="actionE_xit"/>
    </widget>
@@ -113,6 +114,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="actionRefresh">
+   <property name="text">
+    <string>Refresh</string>
    </property>
   </action>
  </widget>
@@ -150,5 +156,24 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionRefresh</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>refreshData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>385</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>refreshData()</slot>
+ </slots>
 </ui>

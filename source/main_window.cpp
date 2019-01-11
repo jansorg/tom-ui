@@ -9,19 +9,22 @@ MainWindow::MainWindow(GotimeControl *control, QMainWindow *parent) : gotimeCont
     ui.setupUi(this);
     createActions();
 
-    auto *model = new ProjectTreeModel(control, this);
+    refreshData();
+    connect(ui.projectTree, &QTreeView::activated, this, &MainWindow::projectChanged);
+}
+
+void MainWindow::refreshData() {
+    //fixme delete old model?
+    auto *model = new ProjectTreeModel(gotimeControl, this);
+
     QTreeView *tree = ui.projectTree;
     tree->setModel(model);
     tree->sortByColumn(0, Qt::AscendingOrder);
     tree->header()->setStretchLastSection(false);
     tree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
-
-    connect(tree, &QTreeView::activated, this, &MainWindow::projectChanged);
 }
 
-MainWindow::~MainWindow() {
-    delete this->projectActions;
-}
+MainWindow::~MainWindow() = default;
 
 void MainWindow::projectChanged(const QModelIndex &index) {
     auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
@@ -32,19 +35,9 @@ void MainWindow::projectChanged(const QModelIndex &index) {
         auto *frameModel = new FrameTableViewModel(frames, this);
         sortedModel->setSourceModel(frameModel);
         ui.frameView->setModel(sortedModel);
-        //start time
         ui.frameView->sortByColumn(0, Qt::DescendingOrder);
-//        ui.frameView->resizeColumnToContents(3);//notes
     }
 }
 
 void MainWindow::createActions() {
-    minimizeAction = new QAction(tr("Mi&nimize"), this);
-    connect(minimizeAction, &QAction::triggered, this, &QWidget::hide);
-
-    quitAction = new QAction(tr("&Quit"), this);
-    connect(quitAction, &QAction::triggered, this, &QCoreApplication::quit);
-
-
-    this->projectActions = new QList<QAction *>();
 }

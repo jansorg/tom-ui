@@ -20,17 +20,12 @@ private slots:
 
     void projectChanged(const QModelIndex &index);
 
+    void refreshData();
+
 private:
     Ui::MainWindow ui;
-
     void createActions();
 
-//    void updatePopupActions();
-
-    QAction *minimizeAction;
-    QAction *quitAction;
-
-    QList<QAction *> *projectActions;
     GotimeControl *gotimeControl;
 };
 

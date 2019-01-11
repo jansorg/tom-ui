@@ -4,7 +4,7 @@
 ProjectTreeModel::ProjectTreeModel(GotimeControl *control, QObject *parent) : _control(control),
                                                                               QAbstractItemModel(parent) {
     QList<QVariant> headers;
-    headers << "Name" << "Today" << "This week" << "This month" << "This year";
+    headers << "Name" << "Today" << "This week" << "This month";
 
     _rootItem = new ProjectTreeItem(headers, Project());
     _projects << _control->loadProjects();
@@ -31,8 +31,7 @@ ProjectTreeModel::createModelItem(const QList<Project> &allProjects, const Proje
     items << project.getShortName()
           << project.trackedDay().formatOptional()
           << project.trackedWeek().formatOptional()
-          << project.trackedMonth().formatOptional()
-          << project.trackedYear().formatOptional();
+          << project.trackedMonth().formatOptional();
 
     auto *item = new ProjectTreeItem(items, project, parent);
     for (const auto &p: allProjects) {
@@ -60,15 +59,6 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::TextAlignmentRole && index.column() >= 1) {
         return Qt::AlignRight + Qt::AlignVCenter;
     }
-
-/*
-    if (role == Qt::SizeHintRole) {
-        if (index.column() == 0) {
-            return Qt::MaximumSize;
-        }
-        return Qt::PreferredSize;
-    }
-*/
 
     if (role != Qt::DisplayRole) {
         return QVariant();

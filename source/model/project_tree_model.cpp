@@ -92,8 +92,19 @@ Qt::ItemFlags project_tree_model::flags(const QModelIndex &index) const {
 }
 
 QVariant project_tree_model::headerData(int section, Qt::Orientation orientation, int role) const {
-    if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
+    if (orientation != Qt::Horizontal) {
+        return QVariant();
+    }
+
+    if (role == Qt::DisplayRole) {
         return _rootItem->data(section);
+    }
+
+    if (role == Qt::TextAlignmentRole) {
+        if (section >= 1) {
+            return Qt::AlignRight;
+        }
+        return Qt::AlignLeft;
     }
 
     return QVariant();

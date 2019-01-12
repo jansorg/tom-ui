@@ -22,6 +22,7 @@ void MainWindow::refreshData() {
     tree->sortByColumn(0, Qt::AscendingOrder);
     tree->header()->setStretchLastSection(false);
     tree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
+    tree->header()->setCascadingSectionResizes(true);
 }
 
 MainWindow::~MainWindow() = default;

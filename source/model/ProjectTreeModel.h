@@ -5,16 +5,16 @@
 #include <QtCore/QAbstractItemModel>
 
 #include "data/Project.h"
-#include "gotime/gotime_control.h"
+#include "gotime/GotimeControl.h"
 #include "project_tree_item.h"
 
-class project_tree_model : public QAbstractItemModel {
+class ProjectTreeModel : public QAbstractItemModel {
 Q_OBJECT
 
 public:
-    project_tree_model(gotime_control *control, QObject *parent);
+    ProjectTreeModel(GotimeControl *control, QObject *parent);
 
-    ~project_tree_model() override;
+    ~ProjectTreeModel() override;
 
     QVariant data(const QModelIndex &index, int role) const override;
 
@@ -32,7 +32,7 @@ public:
 
 private:
     ProjectTreeItem *_rootItem;
-    gotime_control *_control;
+    GotimeControl *_control;
     QList<Project> _projects;
     ProjectsStatus _status;
 

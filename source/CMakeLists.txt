@@ -9,7 +9,7 @@ qt5_add_resources(RESOURCE_FILES ../resources/resources.qrc)
 
 # Windows application icon
 if (WIN32)
-    set(WINDOWS_RES_FILE ${CMAKE_CURRENT_BINARY_DIR}/resources.obj gotime/gotime_control.cpp gotime/gotime_control.h data/Project.cpp data/Project.h model/project_tree_model.cpp model/project_tree_model.h gotime/startStop_project_action.cpp gotime/startStop_project_action.h gotime/gotime_status.cpp gotime/gotime_status.h gotime/command_status.cpp gotime/command_status.h gotime_tray_icon.cpp gotime_tray_icon.h timespan/timespan.cpp timespan/timespan.h model/project_tree_item.cpp model/project_tree_item.h model/frametableviewmodel.cpp model/frametableviewmodel.h data/frame.cpp data/frame.h gotime/projectstatus.cpp gotime/projectstatus.h)
+    set(WINDOWS_RES_FILE ${CMAKE_CURRENT_BINARY_DIR}/resources.obj gotime/GotimeControl.cpp gotime/GotimeControl.h data/Project.cpp data/Project.h model/ProjectTreeModel.cpp model/ProjectTreeModel.h gotime/startStop_project_action.cpp gotime/startStop_project_action.h gotime/GotimeStatus.cpp gotime/GotimeStatus.h gotime/CommandStatus.cpp gotime/CommandStatus.h gotime_tray_icon.cpp gotime_tray_icon.h timespan/timespan.cpp timespan/timespan.h model/project_tree_item.cpp model/project_tree_item.h model/frametableviewmodel.cpp model/frametableviewmodel.h data/frame.cpp data/frame.h gotime/projectstatus.cpp gotime/projectstatus.h)
     if (MSVC)
         add_custom_command(OUTPUT ${WINDOWS_RES_FILE}
                 COMMAND rc.exe /fo ${WINDOWS_RES_FILE} resources.rc

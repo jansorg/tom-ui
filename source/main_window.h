@@ -6,13 +6,13 @@
 
 #include "ui_main_window.h"
 #include "data/Project.h"
-#include "gotime/gotime_control.h"
+#include "gotime/GotimeControl.h"
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
 
 public:
-    explicit MainWindow(gotime_control *control, QMainWindow *parent = nullptr);
+    explicit MainWindow(GotimeControl *control, QMainWindow *parent = nullptr);
 
     ~MainWindow() override;
 
@@ -26,7 +26,7 @@ private:
     Ui::MainWindow ui;
     void createActions();
 
-    gotime_control *gotimeControl;
+    GotimeControl *gotimeControl;
 };
 
 #endif

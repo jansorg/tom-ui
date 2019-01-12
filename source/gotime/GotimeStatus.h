@@ -3,11 +3,11 @@
 
 #include "data/Project.h"
 
-class gotime_status {
+class GotimeStatus {
 public:
-    explicit gotime_status();
+    explicit GotimeStatus();
 
-    explicit gotime_status(bool valid, Project &activeProject, QDateTime &startTime);
+    explicit GotimeStatus(bool valid, Project &activeProject, QDateTime &startTime);
 
     const Project &currentProject() const;
 

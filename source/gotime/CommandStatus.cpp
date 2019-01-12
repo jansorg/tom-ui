@@ -1,15 +1,15 @@
-#include "command_status.h"
+#include "CommandStatus.h"
 
-command_status::command_status(QString &stdout, QString &stderr, int exitCode) : stdoutContent(stdout),
+CommandStatus::CommandStatus(QString &stdout, QString &stderr, int exitCode) : stdoutContent(stdout),
                                                                                stderrContent(stderr),
                                                                                exitCode(exitCode) {
 
 }
 
-const bool command_status::isSuccessful() {
+const bool CommandStatus::isSuccessful() {
     return exitCode == 0;
 }
 
-const bool command_status::isFailed() const {
+const bool CommandStatus::isFailed() const {
     return exitCode != 0;
 }

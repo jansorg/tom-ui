@@ -39,6 +39,12 @@ QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientatio
         }
     }
 
+    if (role == Qt::TextAlignmentRole && orientation == Qt::Horizontal) {
+        if (section == 2) {
+            return Qt::AlignRight;
+        }
+    }
+
     return QVariant();
 }
 

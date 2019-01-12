@@ -2,17 +2,16 @@
 
 Project::Project() = default;
 
-Project::Project(const QString &name, const QString &id, const QString &parentID) : _name(name),
+Project::Project(const QStringList &names, const QString &id, const QString &parentID) : _names(names),
                                                                                     _id(id),
                                                                                     _parentID(parentID) {}
 
 QString Project::getName() const {
-    return this->_name;
+    return this->_names.join("/");
 }
 
 QString Project::getShortName() const {
-    QStringList parts = this->_name.split("/");
-    return parts.last();
+    return this->_names.last();
 }
 
 QString Project::getID() const {

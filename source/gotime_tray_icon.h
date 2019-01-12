@@ -6,14 +6,14 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QSystemTrayIcon>
 
-#include "gotime/gotime_control.h"
+#include "gotime/GotimeControl.h"
 #include "gotime/startStop_project_action.h"
 
 class GotimeTrayIcon : public QObject {
 Q_OBJECT
 
 public:
-    GotimeTrayIcon(gotime_control *control, QMainWindow *mainWindow);
+    GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow);
 
 private slots:
 
@@ -31,7 +31,7 @@ private:
     QTimer *_statusUpdateTimer;
 
     QMenu *_menu;
-    gotime_control *_control;
+    GotimeControl *_control;
     QSystemTrayIcon *_trayIcon;
     QList<QAction *> _projectActions;
     QAction *_separatorAction;

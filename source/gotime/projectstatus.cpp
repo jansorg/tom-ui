@@ -2,14 +2,16 @@
 
 #include "projectstatus.h"
 
-ProjectStatus::ProjectStatus(QString &id, Timespan year, Timespan yearTotal, Timespan month, Timespan monthTotal,
-                             Timespan week,
-                             Timespan weekTotal, Timespan day, Timespan dayTotal) : id(id),
-                                                                                    year(year), yearTotal(yearTotal),
-                                                                                    month(month),
-                                                                                    monthTotal(monthTotal),
-                                                                                    week(week), weekTotal(weekTotal),
-                                                                                    day(day), dayTotal(dayTotal) {
+ProjectStatus::ProjectStatus(QString &id,
+                             Timespan year, Timespan yearTotal,
+                             Timespan month, Timespan monthTotal,
+                             Timespan week, Timespan weekTotal,
+                             Timespan day, Timespan dayTotal) : id(id),
+                                                                year(year), yearTotal(yearTotal),
+                                                                month(month),
+                                                                monthTotal(monthTotal),
+                                                                week(week), weekTotal(weekTotal),
+                                                                day(day), dayTotal(dayTotal) {
 }
 
 ProjectStatus::ProjectStatus() = default;

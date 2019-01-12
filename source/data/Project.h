@@ -10,7 +10,7 @@ class Project {
 public:
     Project();
 
-    Project(const QString &name, const QString &id, const QString &parentID);
+    Project(const QStringList &names, const QString &id, const QString &parentID);
 
     QString getID() const;
 
@@ -24,7 +24,7 @@ public:
 
 private:
     QString _id;
-    QString _name;
+    QStringList _names;
     QString _parentID;
 };
 

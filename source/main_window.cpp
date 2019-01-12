@@ -1,11 +1,11 @@
 #include <model/frametableviewmodel.h>
 #include <QtWidgets/QTreeView>
 #include <QtWidgets/QHeaderView>
-#include "model/project_tree_model.h"
+#include "model/ProjectTreeModel.h"
 #include "gotime/startStop_project_action.h"
 #include "main_window.h"
 
-MainWindow::MainWindow(gotime_control *control, QMainWindow *parent) : gotimeControl(control), QMainWindow(parent) {
+MainWindow::MainWindow(GotimeControl *control, QMainWindow *parent) : gotimeControl(control), QMainWindow(parent) {
     ui.setupUi(this);
     createActions();
 
@@ -15,7 +15,7 @@ MainWindow::MainWindow(gotime_control *control, QMainWindow *parent) : gotimeCon
 
 void MainWindow::refreshData() {
     //fixme delete old model?
-    auto *model = new project_tree_model(gotimeControl, this);
+    auto *model = new ProjectTreeModel(gotimeControl, this);
 
     QTreeView *tree = ui.projectTree;
     tree->setModel(model);

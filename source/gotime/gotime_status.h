@@ -1,13 +1,13 @@
 #ifndef GOTIME_UI_GOTIMESTATUS_H
 #define GOTIME_UI_GOTIMESTATUS_H
 
-#include <data/Project.h>
+#include "data/Project.h"
 
-class GotimeStatus {
+class gotime_status {
 public:
-    explicit GotimeStatus();
+    explicit gotime_status();
 
-    explicit GotimeStatus(bool valid, Project &activeProject, QDateTime &startTime);
+    explicit gotime_status(bool valid, Project &activeProject, QDateTime &startTime);
 
     const Project &currentProject() const;
 

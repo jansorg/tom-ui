@@ -6,19 +6,19 @@
 #include <data/frame.h>
 
 #include "data/Project.h"
-#include "CommandStatus.h"
-#include "GotimeStatus.h"
+#include "command_status.h"
+#include "gotime_status.h"
 #include "projectstatus.h"
 
-class GotimeControl : public QObject {
+class gotime_control : public QObject {
 Q_OBJECT
 
 public:
-    explicit GotimeControl(QString gotimePath, bool bashScript, QObject *parent);
+    explicit gotime_control(QString gotimePath, bool bashScript, QObject *parent);
 
     QList<Project> loadProjects();
 
-    GotimeStatus status();
+    gotime_status status();
     const ProjectsStatus projectsStatus();
 
     bool isStarted(Project &project);
@@ -42,7 +42,7 @@ public slots:
     bool cancelActivity();
 
 private:
-    CommandStatus run(QStringList &args);
+    command_status run(QStringList &args);
 
     QString _activeProjectID;
 

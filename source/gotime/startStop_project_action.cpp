@@ -1,10 +1,10 @@
-#include "StartStopProjectAction.h"
+#include "startStop_project_action.h"
 
 const Project &StartProjectAction::getProject() {
     return _project;
 }
 
-StartProjectAction::StartProjectAction(Project &project, GotimeControl *control, QObject *parent) : _control(control),
+StartProjectAction::StartProjectAction(Project &project, gotime_control *control, QObject *parent) : _control(control),
                                                                                                     _project(project),
                                                                                                     QAction(parent) {
     if (control->isStarted(project)) {

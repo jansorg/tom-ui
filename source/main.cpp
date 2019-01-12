@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
         bash = QString(argv[2]) == "true";
     }
 
-    GotimeControl *control = new GotimeControl(command, bash, nullptr);
+    gotime_control *control = new gotime_control(command, bash, nullptr);
 
     //  QApplication::setStyle("Fusion");
     QApplication::setQuitOnLastWindowClosed(false);

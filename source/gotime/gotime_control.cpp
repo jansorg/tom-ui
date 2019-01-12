@@ -2,19 +2,19 @@
 
 #include <QtCore/QProcess>
 
-#include "GotimeControl.h"
+#include "gotime_control.h"
 
-GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject *parent) :
+gotime_control::gotime_control(const QString gotimePath, bool bashScript, QObject *parent) :
         _gotimePath(gotimePath), _bashScript(bashScript), QObject(parent) {
 
-    const GotimeStatus &status = this->status();
+    const gotime_status &status = this->status();
     if (status.isValid) {
         _activeProjectID = status.currentProject().getID();
     }
 }
 
-QList<Project> GotimeControl::loadProjects() {
-    CommandStatus status = run(QStringList() << "projects"
+QList<Project> gotime_control::loadProjects() {
+    command_status status = run(QStringList() << "projects"
                                              << "-f"
                                              << "fullName,id,parentID");
     if (status.isFailed()) {
@@ -36,11 +36,11 @@ QList<Project> GotimeControl::loadProjects() {
     return result;
 }
 
-bool GotimeControl::isStarted(Project &project) {
+bool gotime_control::isStarted(Project &project) {
     return _activeProjectID == project.getID();
 }
 
-bool GotimeControl::startProject(Project &project) {
+bool gotime_control::startProject(Project &project) {
     auto success = run(QStringList() << "start" << project.getName()).isSuccessful();
     if (success) {
         _activeProjectID = project.getID();
@@ -49,8 +49,8 @@ bool GotimeControl::startProject(Project &project) {
     return success;
 }
 
-bool GotimeControl::cancelActivity() {
-    const GotimeStatus &active = status();
+bool gotime_control::cancelActivity() {
+    const gotime_status &active = status();
 
     _activeProjectID = "";
     bool success = run(QStringList() << "cancel").isSuccessful();
@@ -61,8 +61,8 @@ bool GotimeControl::cancelActivity() {
     return success;
 }
 
-bool GotimeControl::stopActivity() {
-    const GotimeStatus &current = status();
+bool gotime_control::stopActivity() {
+    const gotime_status &current = status();
 
     _activeProjectID = "";
     bool success = run(QStringList() << "stop").isSuccessful();
@@ -72,39 +72,39 @@ bool GotimeControl::stopActivity() {
     return success;
 }
 
-GotimeStatus GotimeControl::status() {
+gotime_status gotime_control::status() {
     // frameID, projectName, projectID, ...
-    CommandStatus status = run(
+    command_status status = run(
             QStringList() << "status" << "-f" << "id,projectFullName,projectID,projectParentID,startTime");
     if (status.isFailed()) {
-        return GotimeStatus();
+        return gotime_status();
     }
 
     // fixme atm we omly support a single active project
     QStringList lines = status.stdoutContent.split("\n");
     if (lines.isEmpty()) {
-        return GotimeStatus();
+        return gotime_status();
     }
 
     QStringList parts = lines.first().split("\t");
     if (parts.size() != 5) {
         qDebug() << "unexpected status line" << lines.first();
-        return GotimeStatus();
+        return gotime_status();
     }
 
     QDateTime startTime = QDateTime::fromString(parts[4], Qt::ISODate);
     Project project = Project(parts[1], parts[2], parts[3]);
-    return GotimeStatus(true, project, startTime);
+    return gotime_status(true, project, startTime);
 }
 
-QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubprojects) {
+QList<Frame *> gotime_control::loadFrames(QString projectID, bool includeSubprojects) {
     QStringList args =
             QStringList() << "frames" << "-p" << projectID << "-f" << "id,startTime,stopTime,lastUpdated,notes";
     if (includeSubprojects) {
         args.append("--subprojects");
     }
 
-    const CommandStatus &resp = run(args);
+    const command_status &resp = run(args);
     if (resp.isFailed()) {
         qDebug() << "frame command failed";
         return QList<Frame *>();
@@ -143,7 +143,7 @@ QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubproje
     return result;
 }
 
-CommandStatus GotimeControl::run(QStringList &args) {
+command_status gotime_control::run(QStringList &args) {
     qDebug() << "running" << _gotimePath << args;
 
     QProcess process(this);
@@ -163,15 +163,15 @@ CommandStatus GotimeControl::run(QStringList &args) {
 //    qDebug() << "stdout:" << output;
 //    qDebug() << "err stdout:" << errOutput;
 
-    return CommandStatus(output, errOutput, process.exitCode());
+    return command_status(output, errOutput, process.exitCode());
 }
 
-const ProjectsStatus GotimeControl::projectsStatus() {
+const ProjectsStatus gotime_control::projectsStatus() {
     QStringList args;
     args << "status" << "projects" << "-f"
          << "id,trackedDay,totalTrackedDay,trackedWeek,totalTrackedWeek,trackedMonth,totalTrackedMonth,trackedYear,totalTrackedYear";
 
-    CommandStatus cmdStatus = run(args);
+    command_status cmdStatus = run(args);
     if (cmdStatus.isFailed()) {
         return ProjectsStatus();
     }

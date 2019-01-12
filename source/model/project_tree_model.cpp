@@ -1,9 +1,9 @@
 #include <QtGui/QColor>
 
-#include "gotime/GotimeControl.h"
-#include "ProjectTreeModel.h"
+#include "gotime/gotime_control.h"
+#include "project_tree_model.h"
 
-ProjectTreeModel::ProjectTreeModel(GotimeControl *control, QObject *parent) : _control(control),
+project_tree_model::project_tree_model(gotime_control *control, QObject *parent) : _control(control),
                                                                               QAbstractItemModel(parent) {
     QList<QVariant> headers;
     headers << "Name" << "Today" << "This week" << "This month";
@@ -19,11 +19,11 @@ ProjectTreeModel::ProjectTreeModel(GotimeControl *control, QObject *parent) : _c
     printProjects(0, _rootItem);
 }
 
-ProjectTreeModel::~ProjectTreeModel() {
+project_tree_model::~project_tree_model() {
     delete _rootItem;
 }
 
-void ProjectTreeModel::refreshProjects(ProjectTreeItem *root) {
+void project_tree_model::refreshProjects(ProjectTreeItem *root) {
     for (const auto &project : _projects) {
         if (project.getParentID().isEmpty()) {
             root->appendChild(createModelItem(_projects, project, root));
@@ -32,7 +32,7 @@ void ProjectTreeModel::refreshProjects(ProjectTreeItem *root) {
 }
 
 ProjectTreeItem *
-ProjectTreeModel::createModelItem(const QList<Project> &allProjects, const Project &project, ProjectTreeItem *parent) {
+project_tree_model::createModelItem(const QList<Project> &allProjects, const Project &project, ProjectTreeItem *parent) {
     QString projectID = project.getID();
     ProjectStatus state = _status.get(projectID);
 
@@ -51,7 +51,7 @@ ProjectTreeModel::createModelItem(const QList<Project> &allProjects, const Proje
     return item;
 }
 
-int ProjectTreeModel::columnCount(const QModelIndex &parent) const {
+int project_tree_model::columnCount(const QModelIndex &parent) const {
     if (parent.isValid()) {
         return static_cast<ProjectTreeItem *>(parent.internalPointer())->columnCount();
     } else {
@@ -59,7 +59,7 @@ int ProjectTreeModel::columnCount(const QModelIndex &parent) const {
     }
 }
 
-QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
+QVariant project_tree_model::data(const QModelIndex &index, int role) const {
     if (!index.isValid()) {
         return QVariant();
     }
@@ -83,7 +83,7 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     return QVariant();
 }
 
-Qt::ItemFlags ProjectTreeModel::flags(const QModelIndex &index) const {
+Qt::ItemFlags project_tree_model::flags(const QModelIndex &index) const {
     if (!index.isValid()) {
         return 0;
     }
@@ -91,7 +91,7 @@ Qt::ItemFlags ProjectTreeModel::flags(const QModelIndex &index) const {
     return QAbstractItemModel::flags(index);
 }
 
-QVariant ProjectTreeModel::headerData(int section, Qt::Orientation orientation, int role) const {
+QVariant project_tree_model::headerData(int section, Qt::Orientation orientation, int role) const {
     if (orientation == Qt::Horizontal && role == Qt::DisplayRole) {
         return _rootItem->data(section);
     }
@@ -99,7 +99,7 @@ QVariant ProjectTreeModel::headerData(int section, Qt::Orientation orientation, 
     return QVariant();
 }
 
-QModelIndex ProjectTreeModel::index(int row, int column, const QModelIndex &parent) const {
+QModelIndex project_tree_model::index(int row, int column, const QModelIndex &parent) const {
     if (!hasIndex(row, column, parent)) {
         return {};
     }
@@ -118,7 +118,7 @@ QModelIndex ProjectTreeModel::index(int row, int column, const QModelIndex &pare
     return {};
 }
 
-QModelIndex ProjectTreeModel::parent(const QModelIndex &index) const {
+QModelIndex project_tree_model::parent(const QModelIndex &index) const {
     if (!index.isValid()) {
         return {};
     }
@@ -132,7 +132,7 @@ QModelIndex ProjectTreeModel::parent(const QModelIndex &index) const {
     return createIndex(parentItem->row(), 0, parentItem);
 }
 
-int ProjectTreeModel::rowCount(const QModelIndex &parent) const {
+int project_tree_model::rowCount(const QModelIndex &parent) const {
     if (parent.column() > 0) {
         return 0;
     }
@@ -146,7 +146,7 @@ int ProjectTreeModel::rowCount(const QModelIndex &parent) const {
     return parentItem->childCount();
 }
 
-void ProjectTreeModel::printProjects(int level, ProjectTreeItem *root) {
+void project_tree_model::printProjects(int level, ProjectTreeItem *root) {
     qDebug() << QString(" ").repeated(level) << root->data(0).toString();
     for (int i = 0; i < root->childCount(); ++i) {
         printProjects(level + 1, root->child(i));

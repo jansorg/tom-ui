@@ -7,9 +7,9 @@
 #ifndef GOTIME_UI_COMMANDSTATUS_H
 #define GOTIME_UI_COMMANDSTATUS_H
 
-class CommandStatus {
+class command_status {
 public:
-    explicit CommandStatus(QString &stdout, QString &stderr, int exitCode);
+    explicit command_status(QString &stdout, QString &stderr, int exitCode);
 
     const QString stdoutContent;
     const QString stderrContent;

@@ -1,12 +1,12 @@
 #include <QtGui>
 #include <QtWidgets/QMenu>
 
-#include <gotime/GotimeControl.h>
-#include <gotime/StartStopProjectAction.h>
+#include <gotime/gotime_control.h>
+#include <gotime/startStop_project_action.h>
 #include <QtWidgets/QMainWindow>
 #include "gotime_tray_icon.h"
 
-GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) : _control(control),
+GotimeTrayIcon::GotimeTrayIcon(gotime_control *control, QMainWindow *mainWindow) : _control(control),
                                                                                   _trayIcon(new QSystemTrayIcon(this)),
                                                                                   QObject() {
 
@@ -46,10 +46,10 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
 
     _iconTimer = new QTimer(this);
     connect(_iconTimer, &QTimer::timeout, this, &GotimeTrayIcon::updateIcon);
-    connect(control, &GotimeControl::projectStarted, this, &GotimeTrayIcon::projectStarted);
-    connect(control, &GotimeControl::projectStopped, this, &GotimeTrayIcon::projectStopped);
+    connect(control, &gotime_control::projectStarted, this, &GotimeTrayIcon::projectStarted);
+    connect(control, &gotime_control::projectStopped, this, &GotimeTrayIcon::projectStopped);
 
-    const GotimeStatus &status = control->status();
+    const gotime_status &status = control->status();
     if (status.isValid) {
         const Project &project = status.currentProject();
         if (project.isValid()) {
@@ -78,7 +78,7 @@ void GotimeTrayIcon::updateProjects() {
 }
 
 void GotimeTrayIcon::updateStatus() {
-    const GotimeStatus &status = _control->status();
+    const gotime_status &status = _control->status();
     if (status.isValid) {
         const Timespan span = Timespan::of(status.startTime(), QDateTime::currentDateTime());
 

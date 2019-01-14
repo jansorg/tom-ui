@@ -30,6 +30,8 @@ public:
 
     bool renameTag(QString id, QString newName);
 
+    bool updateFrame(QString id, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, QString notes);
+
 signals:
 
     void projectStarted(const Project &);

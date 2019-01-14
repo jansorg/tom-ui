@@ -74,7 +74,7 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         };
     }
 
-    if (role == Qt::DisplayRole) {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
         auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
         return item->data(index.column());
     }

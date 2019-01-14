@@ -4,10 +4,10 @@
 
 #include "frametableviewmodel.h"
 
-FrameTableViewModel::FrameTableViewModel(QList<Frame *> &frames, QObject *parent) : _frames(frames),
-                                                                                    QAbstractTableModel(parent) {
-
-}
+FrameTableViewModel::FrameTableViewModel(QList<Frame *> &frames, GotimeControl *control, QObject *parent) :
+        _frames(frames),
+        _control(control),
+        QAbstractTableModel(parent) {}
 
 FrameTableViewModel::~FrameTableViewModel() {
     qDeleteAll(_frames);
@@ -18,21 +18,21 @@ int FrameTableViewModel::rowCount(const QModelIndex &parent) const {
 }
 
 int FrameTableViewModel::columnCount(const QModelIndex &parent) const {
-    return 5;
+    return COL_NOTES + 1;
 }
 
 QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientation, int role) const {
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
-            case 0:
+            case COL_START:
                 return "Start";
-            case 1:
+            case COL_END:
                 return "End";
-            case 2:
+            case COL_DURATION:
                 return "Duration";
-            case 3:
+            case COL_TAGS:
                 return "Tags";
-            case 4:
+            case COL_NOTES:
                 return "Notes";
             default:
                 break;
@@ -40,7 +40,7 @@ QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientatio
     }
 
     if (role == Qt::TextAlignmentRole && orientation == Qt::Horizontal) {
-        if (section == 2) {
+        if (section == COL_DURATION) {
             return Qt::AlignRight;
         }
     }
@@ -49,18 +49,18 @@ QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientatio
 }
 
 QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
-    if (role == Qt::DisplayRole) {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
         int row = index.row();
         switch (index.column()) {
-            case 0:
+            case COL_START:
                 return _frames.at(row)->startTime;
-            case 1:
+            case COL_END:
                 return _frames.at(row)->stopTime;
-            case 2:
+            case COL_DURATION:
                 return _frames.at(row)->getDuration().format();
-            case 3:
+            case COL_TAGS:
                 return _frames.at(row)->tags;
-            case 4:
+            case COL_NOTES:
                 return _frames.at(row)->notes;
             default:
                 break;
@@ -69,10 +69,64 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
 
     if (role == Qt::TextAlignmentRole) {
         // right align the duration
-        if (index.column() == 2) {
+        if (index.column() == COL_DURATION) {
             return Qt::AlignRight + Qt::AlignVCenter;
         }
     }
 
     return QVariant();
+}
+
+Qt::ItemFlags FrameTableViewModel::flags(const QModelIndex &index) const {
+    if (!index.isValid()) {
+        return Qt::ItemIsEnabled;
+    }
+
+    if (index.column() == COL_DURATION || index.column() == COL_TAGS) {
+        return QAbstractTableModel::flags(index);
+    }
+    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+}
+
+bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+    if (role != Qt::EditRole || !index.isValid()) {
+        return false;
+    }
+
+    int col = index.column();
+    if (col == COL_TAGS || col == COL_DURATION) {
+        return false;
+    }
+
+    Frame *frame = _frames.at(index.row());
+    QDateTime startTime = frame->startTime;
+    QDateTime endTime = frame->stopTime;
+    QString notes = frame->notes;
+
+    bool ok;
+    switch (col) {
+        case COL_START: {
+            startTime = value.toDateTime();
+            ok = _control->updateFrame(frame->id, true, startTime, false, QDateTime(), false, "");
+            break;
+        }
+        case COL_END:
+            endTime = value.toDateTime();
+            ok = _control->updateFrame(frame->id, false, QDateTime(), true, endTime, false, "");
+            break;
+        case COL_NOTES:
+            notes = value.toString();
+            ok = _control->updateFrame(frame->id, false, QDateTime(), false, QDateTime(), true, notes);
+            break;
+        default:
+            ok = false;
+    }
+
+    if (ok) {
+        frame->startTime = startTime;
+        frame->stopTime = endTime;
+        frame->notes = notes;
+        emit dataChanged(index, index);
+    }
+    return ok;
 }

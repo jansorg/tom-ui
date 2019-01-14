@@ -34,7 +34,7 @@
         </size>
        </property>
        <property name="editTriggers">
-        <set>QAbstractItemView::NoEditTriggers</set>
+        <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>
        </property>
        <property name="alternatingRowColors">
         <bool>true</bool>
@@ -43,7 +43,7 @@
         <enum>QAbstractItemView::SingleSelection</enum>
        </property>
        <property name="selectionBehavior">
-        <enum>QAbstractItemView::SelectRows</enum>
+        <enum>QAbstractItemView::SelectItems</enum>
        </property>
        <property name="sortingEnabled">
         <bool>true</bool>
@@ -118,7 +118,7 @@
   </action>
   <action name="actionRefresh">
    <property name="text">
-    <string>Refresh</string>
+    <string>&amp;Refresh</string>
    </property>
   </action>
  </widget>

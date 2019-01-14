@@ -5,16 +5,22 @@
 #ifndef GOTIME_UI_FRAMETABLEVIEWMODEL_H
 #define GOTIME_UI_FRAMETABLEVIEWMODEL_H
 
-
 #include <QtCore/QAbstractTableModel>
-#include <data/frame.h>
+#include <gotime/GotimeControl.h>
+
+#include "data/frame.h"
 
 class FrameTableViewModel : public QAbstractTableModel {
 public:
-    explicit FrameTableViewModel(QList<Frame*>& frames, QObject* parent);
+    explicit FrameTableViewModel(QList<Frame*>& frames, GotimeControl* control, QObject* parent);
     ~FrameTableViewModel() override;
 
+    bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+
 private:
+    GotimeControl* _control;
     QList<Frame*> _frames;
 
     int rowCount(const QModelIndex &parent) const override;
@@ -24,6 +30,13 @@ private:
     QVariant data(const QModelIndex &index, int role) const override;
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+
+
+    static const int COL_START = 0;
+    static const int COL_END = 1;
+    static const int COL_DURATION = 2;
+    static const int COL_TAGS = 3;
+    static const int COL_NOTES = 4;
 };
 
 

@@ -129,7 +129,7 @@ QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubproje
     QList<Frame *> result;
     for (const auto &line: lines) {
         if (line.isEmpty()) {
-            qDebug() << "frame command output contains empty line";
+//            qDebug() << "frame command output contains empty line";
             continue;
         }
 
@@ -149,7 +149,6 @@ QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubproje
         // fixme who's deleting the allocated data?
         result.append(new Frame(id, projectID, start, end, lastUpdated, notes, tags));
     }
-    qDebug() << "loadFrames() returned " << result.size() << "frames";
     return result;
 }
 
@@ -233,4 +232,22 @@ CommandStatus GotimeControl::run(QStringList &args) {
 //    qDebug() << "err stdout:" << errOutput;
 
     return CommandStatus(output, errOutput, process.exitCode());
+}
+
+bool GotimeControl::updateFrame(QString id, bool updateStart, QDateTime start, bool updateEnd, QDateTime end,
+                                bool updateNotes, QString notes) {
+    QStringList args;
+    args << "edit" << id;
+    if (updateStart) {
+        args << "--start" << start.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+    }
+    if (updateEnd) {
+        args << "--end" << end.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+    }
+    if (updateNotes) {
+        args << "--notes" << notes;
+    }
+
+    CommandStatus status = run(args);
+    return status.isSuccessful();
 }

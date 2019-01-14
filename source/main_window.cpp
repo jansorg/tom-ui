@@ -33,7 +33,7 @@ void MainWindow::projectChanged(const QModelIndex &index) {
         auto frames = gotimeControl->loadFrames(item->getProject().getID(), true);
 
         auto *sortedModel = new QSortFilterProxyModel(this);
-        auto *frameModel = new FrameTableViewModel(frames, this);
+        auto *frameModel = new FrameTableViewModel(frames, gotimeControl, this);
         sortedModel->setSourceModel(frameModel);
         ui.frameView->setModel(sortedModel);
         ui.frameView->sortByColumn(0, Qt::DescendingOrder);

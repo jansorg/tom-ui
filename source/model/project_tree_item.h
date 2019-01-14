@@ -7,7 +7,7 @@
 
 class ProjectTreeItem {
 public:
-    explicit ProjectTreeItem(const QList<QVariant> &data, const Project& project, ProjectTreeItem *parentItem = 0);
+    explicit ProjectTreeItem(const QList<QVariant> &data, const Project &project, ProjectTreeItem *parentItem = 0);
 
     ~ProjectTreeItem();
 
@@ -21,17 +21,25 @@ public:
 
     QVariant data(int column) const;
 
+    bool setData(int column, const QVariant &value);
+
     int row() const;
 
     ProjectTreeItem *parentItem();
 
-    const Project& getProject() const;
+    const Project &getProject() const;
+
+public:
+    static const int COL_NAME = 0;
+    static const int COL_DAY = 1;
+    static const int COL_WEEK = 2;
+    static const int COL_MONTH = 3;
 
 private:
     QList<ProjectTreeItem *> m_childItems;
-    QList<QVariant> m_itemData;
+    QList<QVariant> _itemData;
     ProjectTreeItem *m_parentItem;
-    const Project& _project;
+    const Project &_project;
 };
 
 #endif // TREEITEM_H

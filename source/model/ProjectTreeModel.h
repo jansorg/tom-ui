@@ -30,6 +30,8 @@ public:
 
     int columnCount(const QModelIndex &parent) const override;
 
+    bool setData(const QModelIndex &index, const QVariant &value, int role) override;
+
 private:
     ProjectTreeItem *_rootItem;
     GotimeControl *_control;
@@ -38,6 +40,7 @@ private:
 
     ProjectTreeItem *createModelItem(const QList<Project> &allProjects, const Project &project, ProjectTreeItem* parent);
 
+    ProjectTreeItem *getItem(const QModelIndex &index) const;
     void refreshProjects(ProjectTreeItem* root);
     void printProjects(int level, ProjectTreeItem* root);
 };

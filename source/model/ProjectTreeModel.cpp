@@ -63,13 +63,13 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         return QVariant();
     }
 
-    if (role == Qt::TextAlignmentRole && index.column() >= 1) {
+    if (role == Qt::TextAlignmentRole && index.column() >= ProjectTreeItem::COL_DAY) {
         return Qt::AlignRight + Qt::AlignVCenter;
     }
 
     if (role == Qt::ForegroundRole) {
         auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
-        if (index.column() >= 1 && item->data(index.column()).toString() == QString("0:00h")) {
+        if (index.column() >= ProjectTreeItem::COL_DAY && item->data(index.column()).toString() == QString("0:00h")) {
             return QVariant(QColor(Qt::lightGray));
         };
     }
@@ -82,9 +82,31 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     return QVariant();
 }
 
+bool ProjectTreeModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+    if (!index.isValid() || role != Qt::EditRole) {
+        return false;
+    }
+
+    ProjectTreeItem *item = getItem(index);
+    if (item == _rootItem) {
+        return false;
+    }
+
+    QString newName = value.toString();
+    bool ok = _control->renameProject(item->getProject().getID(), newName);
+    if (ok && item->setData(index.column(), newName)) {
+        emit dataChanged(index, index);
+    }
+    return ok;
+}
+
 Qt::ItemFlags ProjectTreeModel::flags(const QModelIndex &index) const {
     if (!index.isValid()) {
-        return 0;
+        return Qt::NoItemFlags;
+    }
+
+    if (index.column() == ProjectTreeItem::COL_NAME) {
+        return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
     }
 
     return QAbstractItemModel::flags(index);
@@ -114,12 +136,7 @@ QModelIndex ProjectTreeModel::index(int row, int column, const QModelIndex &pare
         return {};
     }
 
-    ProjectTreeItem *parentItem;
-    if (!parent.isValid()) {
-        parentItem = _rootItem;
-    } else {
-        parentItem = static_cast<ProjectTreeItem *>(parent.internalPointer());
-    }
+    ProjectTreeItem *parentItem = getItem(parent);
 
     ProjectTreeItem *childItem = parentItem->child(row);
     if (childItem) {
@@ -133,27 +150,31 @@ QModelIndex ProjectTreeModel::parent(const QModelIndex &index) const {
         return {};
     }
 
-    auto *childItem = static_cast<ProjectTreeItem *>(index.internalPointer());
+    auto *childItem = getItem(index);
     auto *parentItem = childItem->parentItem();
-
-    if (parentItem == _rootItem) {
+    if (!parentItem || parentItem == _rootItem) {
         return {};
     }
     return createIndex(parentItem->row(), 0, parentItem);
 }
 
 int ProjectTreeModel::rowCount(const QModelIndex &parent) const {
-    if (parent.column() > 0) {
+    if (parent.column() > ProjectTreeItem::COL_NAME) {
         return 0;
     }
 
-    ProjectTreeItem *parentItem;
-    if (!parent.isValid()) {
-        parentItem = _rootItem;
-    } else {
-        parentItem = static_cast<ProjectTreeItem *>(parent.internalPointer());
-    }
+    ProjectTreeItem *parentItem = getItem(parent);
     return parentItem->childCount();
+}
+
+ProjectTreeItem *ProjectTreeModel::getItem(const QModelIndex &index) const {
+    if (index.isValid()) {
+        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
+        if (item) {
+            return item;
+        }
+    }
+    return _rootItem;
 }
 
 void ProjectTreeModel::printProjects(int level, ProjectTreeItem *root) {

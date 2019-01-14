@@ -4,7 +4,7 @@
 #include "project_tree_item.h"
 
 ProjectTreeItem::ProjectTreeItem(const QList<QVariant> &data, const Project &project, ProjectTreeItem *parent)
-        : m_itemData(data), m_parentItem(parent), _project(project) {
+        : _itemData(data), m_parentItem(parent), _project(project) {
 
 }
 
@@ -25,11 +25,19 @@ int ProjectTreeItem::childCount() const {
 }
 
 int ProjectTreeItem::columnCount() const {
-    return m_itemData.count();
+    return _itemData.count();
 }
 
 QVariant ProjectTreeItem::data(int column) const {
-    return m_itemData.value(column);
+    return _itemData.value(column);
+}
+
+bool ProjectTreeItem::setData(int column, const QVariant &value) {
+    if (column == COL_NAME) {
+        _itemData[column] = value;
+        return true;
+    }
+    return false;
 }
 
 ProjectTreeItem *ProjectTreeItem::parentItem() {

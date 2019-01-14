@@ -153,27 +153,20 @@ QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubproje
     return result;
 }
 
-CommandStatus GotimeControl::run(QStringList &args) {
-    qDebug() << "running" << _gotimePath << args;
+bool GotimeControl::renameProject(QString id, QString newName) {
+    QStringList args;
+    args << "rename" << "project" << id << newName;
 
-    QProcess process(this);
-    if (_bashScript) {
-        process.start("/usr/bin/bash", QStringList() << _gotimePath << args);
-    } else {
-        process.start(_gotimePath, args);
-    }
-    process.waitForFinished(600);
+    CommandStatus status = run(args);
+    return status.isSuccessful();
+}
 
-    QString output(process.readAllStandardOutput());
-    QString errOutput(process.readAllStandardError());
+bool GotimeControl::renameTag(QString id, QString newName) {
+    QStringList args;
+    args << "rename" << "tag" << id << newName;
 
-    qDebug() << "exit code:" << process.exitCode();
-//    qDebug() << "exit status:" << process.exitStatus();
-//    qDebug() << "exit error:" << process.errorString();
-//    qDebug() << "stdout:" << output;
-//    qDebug() << "err stdout:" << errOutput;
-
-    return CommandStatus(output, errOutput, process.exitCode());
+    CommandStatus status = run(args);
+    return status.isSuccessful();
 }
 
 const ProjectsStatus GotimeControl::projectsStatus() {
@@ -217,4 +210,27 @@ const ProjectsStatus GotimeControl::projectsStatus() {
 
     qDebug() << mapping.size();
     return ProjectsStatus(mapping);
+}
+
+CommandStatus GotimeControl::run(QStringList &args) {
+    qDebug() << "running" << _gotimePath << args;
+
+    QProcess process(this);
+    if (_bashScript) {
+        process.start("/usr/bin/bash", QStringList() << _gotimePath << args);
+    } else {
+        process.start(_gotimePath, args);
+    }
+    process.waitForFinished(600);
+
+    QString output(process.readAllStandardOutput());
+    QString errOutput(process.readAllStandardError());
+
+    qDebug() << "exit code:" << process.exitCode();
+//    qDebug() << "exit status:" << process.exitStatus();
+//    qDebug() << "exit error:" << process.errorString();
+//    qDebug() << "stdout:" << output;
+//    qDebug() << "err stdout:" << errOutput;
+
+    return CommandStatus(output, errOutput, process.exitCode());
 }

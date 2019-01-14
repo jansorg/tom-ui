@@ -19,11 +19,16 @@ public:
     QList<Project> loadProjects();
 
     GotimeStatus status();
+
     const ProjectsStatus projectsStatus();
 
     bool isStarted(Project &project);
 
-    QList<Frame*> loadFrames(QString projectID, bool includeSubprojects);
+    QList<Frame *> loadFrames(QString projectID, bool includeSubprojects);
+
+    bool renameProject(QString id, QString newName);
+
+    bool renameTag(QString id, QString newName);
 
 signals:
 
@@ -35,6 +40,7 @@ signals:
 
 
 public slots:
+
     bool startProject(Project &project);
 
     bool stopActivity();

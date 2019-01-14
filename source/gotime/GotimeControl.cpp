@@ -120,7 +120,7 @@ QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubproje
         return QList<Frame *>();
     }
 
-    const QStringList &lines = resp.stdoutContent.split("\n");
+    const QStringList &lines = resp.stdoutContent.split("\n", QString::SkipEmptyParts);
     if (lines.isEmpty()) {
         qDebug() << "frame command returned empty list";
         return QList<Frame *>();
@@ -128,11 +128,6 @@ QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubproje
 
     QList<Frame *> result;
     for (const auto &line: lines) {
-        if (line.isEmpty()) {
-//            qDebug() << "frame command output contains empty line";
-            continue;
-        }
-
         QStringList cols = line.split("\t");
         if (cols.size() != 5) {
             qDebug() << "invalid number of columns" << line;

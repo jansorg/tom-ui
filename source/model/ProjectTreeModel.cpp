@@ -70,7 +70,7 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::ForegroundRole) {
         auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
         if (index.column() >= ProjectTreeItem::COL_DAY && item->data(index.column()).toString() == QString("0:00h")) {
-            return QVariant(QColor(Qt::lightGray));
+            return QVariant(QColor(Qt::gray));
         };
     }
 

@@ -1,6 +1,4 @@
-//
-// Created by jansorg on 07.01.19.
-//
+#include <QColor>
 
 #include "frametableviewmodel.h"
 
@@ -50,20 +48,33 @@ QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientatio
 
 QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        int row = index.row();
+        Frame *frame = _frames.at(index.row());
+
         switch (index.column()) {
             case COL_START:
-                return _frames.at(row)->startTime;
+                return frame->startTime;
             case COL_END:
-                return _frames.at(row)->stopTime;
+                return frame->stopTime;
             case COL_DURATION:
-                return _frames.at(row)->getDuration().format();
+                if (!frame->stopTime.isValid()) {
+                    return Timespan::of(frame->startTime, QDateTime::currentDateTime()).format();
+                }
+                return frame->getDuration().format();
             case COL_TAGS:
-                return _frames.at(row)->tags;
+                return frame->tags;
             case COL_NOTES:
-                return _frames.at(row)->notes;
+                return frame->notes;
             default:
                 break;
+        }
+    }
+
+    if (role == Qt::TextColorRole) {
+        if (index.column() == COL_DURATION) {
+            Frame *frame = _frames.at(index.row());
+            if (!frame->stopTime.isValid()) {
+                return QVariant(QColor(Qt::gray));
+            }
         }
     }
 

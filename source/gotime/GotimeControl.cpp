@@ -85,7 +85,7 @@ GotimeStatus GotimeControl::status() {
     }
 
     // fixme atm we omly support a single active project
-    QStringList lines = status.stdoutContent.split("\n");
+    QStringList lines = status.stdoutContent.split("\n", QString::SkipEmptyParts);
     if (lines.isEmpty()) {
         return GotimeStatus();
     }

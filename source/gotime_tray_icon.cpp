@@ -70,7 +70,7 @@ void GotimeTrayIcon::updateProjects() {
     }
     _projectActions.clear();
 
-    for (auto project : _control->loadProjects()) {
+    for (auto project : _control->loadRecentProjects(6)) {
         auto action = new StartProjectAction(project, _control, this);
         _projectActions << action;
     }

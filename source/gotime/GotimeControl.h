@@ -16,7 +16,8 @@ Q_OBJECT
 public:
     explicit GotimeControl(QString gotimePath, bool bashScript, QObject *parent);
 
-    QList<Project> loadProjects();
+    QList<Project> loadProjects(int max = -1);
+    QList<Project> loadRecentProjects(int max);
 
     GotimeStatus status();
 

@@ -13,11 +13,20 @@ GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject 
     }
 }
 
-QList<Project> GotimeControl::loadProjects() {
-    CommandStatus status = run(QStringList() << "projects"
-                                             << "--name-delimiter=||"
-                                             << "-f"
-                                             << "fullName,id,parentID");
+QList<Project> GotimeControl::loadRecentProjects(int max) {
+    return this->loadProjects(max);
+}
+
+QList<Project> GotimeControl::loadProjects(int max) {
+    QStringList args = QStringList() << "projects"
+                                     << "--name-delimiter=||"
+                                     << "-f"
+                                     << "fullName,id,parentID";
+    if (max > 0) {
+        args << "--recent" << QString::number(max);
+    }
+
+    CommandStatus status = run(args);
     if (status.isFailed()) {
         return QList<Project>();
     }

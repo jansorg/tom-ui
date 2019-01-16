@@ -23,7 +23,7 @@ public:
 
     const ProjectsStatus projectsStatus();
 
-    bool isStarted(Project &project);
+    bool isStarted(const Project &project);
 
     QList<Frame *> loadFrames(QString projectID, bool includeSubprojects);
 
@@ -44,7 +44,7 @@ signals:
 
 public slots:
 
-    bool startProject(Project &project);
+    bool startProject(const Project &project);
 
     bool stopActivity();
 

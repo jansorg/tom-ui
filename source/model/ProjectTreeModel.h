@@ -32,6 +32,8 @@ public:
 
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 
+    ProjectTreeItem *getItem(const QModelIndex &index) const;
+
 private:
     ProjectTreeItem *_rootItem;
     GotimeControl *_control;
@@ -40,7 +42,6 @@ private:
 
     ProjectTreeItem *createModelItem(const QList<Project> &allProjects, const Project &project, ProjectTreeItem* parent);
 
-    ProjectTreeItem *getItem(const QModelIndex &index) const;
     void refreshProjects(ProjectTreeItem* root);
     void printProjects(int level, ProjectTreeItem* root);
 };

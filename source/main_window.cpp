@@ -7,6 +7,8 @@
 
 MainWindow::MainWindow(GotimeControl *control, QMainWindow *parent) : gotimeControl(control), QMainWindow(parent) {
     ui.setupUi(this);
+    ui.projectTree->setControl(control);
+
     createActions();
 
     refreshData();
@@ -30,7 +32,8 @@ MainWindow::~MainWindow() = default;
 void MainWindow::projectChanged(const QModelIndex &index) {
     auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
     if (item && item->getProject().isValid()) {
-        auto frames = gotimeControl->loadFrames(item->getProject().getID(), true);
+        const Project &project = item->getProject();
+        auto frames = gotimeControl->loadFrames(project.getID(), true);
 
         auto *sortedModel = new QSortFilterProxyModel(this);
         auto *frameModel = new FrameTableViewModel(frames, gotimeControl, this);

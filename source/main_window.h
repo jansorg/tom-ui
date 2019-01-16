@@ -27,6 +27,9 @@ private:
     void createActions();
 
     GotimeControl *gotimeControl;
+
+    QAction *_startProjectTreeAction;
+    QAction *_stopProjectTreeAction;
 };
 
 #endif

@@ -21,7 +21,7 @@
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="QTreeView" name="projectTree">
+      <widget class="ProjectTreeView" name="projectTree">
        <attribute name="headerShowSortIndicator" stdset="0">
         <bool>true</bool>
        </attribute>
@@ -122,6 +122,13 @@
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ProjectTreeView</class>
+   <extends>QTreeView</extends>
+   <header>view/projecttreeview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

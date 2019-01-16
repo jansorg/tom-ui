@@ -46,11 +46,11 @@ QList<Project> GotimeControl::loadProjects(int max) {
     return result;
 }
 
-bool GotimeControl::isStarted(Project &project) {
+bool GotimeControl::isStarted(const Project &project) {
     return _activeProjectID == project.getID();
 }
 
-bool GotimeControl::startProject(Project &project) {
+bool GotimeControl::startProject(const Project &project) {
     auto success = run(QStringList() << "start" << project.getName()).isSuccessful();
     if (success) {
         _activeProjectID = project.getID();

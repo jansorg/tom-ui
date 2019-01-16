@@ -10,7 +10,7 @@ class StartProjectAction : public QAction {
 Q_OBJECT
 
 public:
-    explicit StartProjectAction(Project &project, GotimeControl *control, QObject *parent);
+    explicit StartProjectAction(const Project &project, GotimeControl *control, QObject *parent);
 
     const Project &getProject();
 

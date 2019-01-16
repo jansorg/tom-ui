@@ -18,22 +18,21 @@ StartProjectAction::StartProjectAction(Project &project, GotimeControl *control,
 
     connect(control, SIGNAL(projectStarted(const Project &)),
             this, SLOT(projectStarted(const Project &)));
+
     connect(control, SIGNAL(projectStopped(const Project &)),
             this, SLOT(projectStopped(const Project &)));
-//    connect(control, SIGNAL(projectCancelled(const Project &)),
-//            this, SLOT(projectStopped(const Project &)));
 }
 
 void StartProjectAction::projectStarted(const Project &project) {
     if (project.getID() == _project.getID()) {
-        this->setText("Stop: " + project.getName());
+        this->setText(project.getName());
         this->setIcon(QIcon(":/images/stop.svg"));
     }
 }
 
 void StartProjectAction::projectStopped(const Project &project) {
     if (project.getID() == _project.getID()) {
-        this->setText("Start: " + project.getName());
+        this->setText(project.getName());
         this->setIcon(QIcon(":/images/start.svg"));
     }
 }

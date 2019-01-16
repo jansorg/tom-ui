@@ -29,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.075102"
-     inkscape:cx="21.164078"
+     inkscape:cx="3.8278945"
      inkscape:cy="37.795276"
      inkscape:document-units="mm"
      inkscape:current-layer="g820"
@@ -61,22 +61,22 @@
     <g
        id="g820">
       <g
-         id="g824"
-         transform="matrix(1.7211498,0,0,1,-0.88809895,-0.39624977)">
+         id="g829"
+         transform="translate(-0.52916598)">
         <rect
-           style="fill:#800000;fill-opacity:0.86666667;stroke:none;stroke-width:0.46499997;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+           style="fill:#800000;fill-opacity:0.86666667;stroke:none;stroke-width:0.80171472;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
            id="rect814"
-           width="1.3617257"
-           height="13.569477"
-           x="4.5868649"
-           y="280.61151" />
+           width="3.6904879"
+           height="14.883423"
+           x="5.2865081"
+           y="279.55829" />
         <rect
-           y="280.61151"
-           x="6.7035317"
-           height="13.569477"
-           width="1.3617257"
+           y="279.55829"
+           x="12.081336"
+           height="14.883423"
+           width="3.6904879"
            id="rect816"
-           style="fill:#800000;fill-opacity:0.86666667;stroke:none;stroke-width:0.46499997;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" />
+           style="fill:#800000;fill-opacity:0.86666667;stroke:none;stroke-width:0.80171472;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" />
       </g>
     </g>
   </g>

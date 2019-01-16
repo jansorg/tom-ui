@@ -13,20 +13,21 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
     loadIcons();
 
     _menu = new QMenu();
+
+    _stopTaskAction = new QAction("Stop active project...");
+    _stopTaskAction->setToolTip("Stop the current project and record data.");
+    connect(_stopTaskAction, SIGNAL(triggered()), control, SLOT(stopActivity()));
+    _menu->addAction(_stopTaskAction);
+
+    _cancelTaskAction = new QAction("Cancel active project...");
+    _cancelTaskAction->setToolTip("Stop the active project without recording new data.");
+    connect(_cancelTaskAction, SIGNAL(triggered()), control, SLOT(cancelActivity()));
+    _menu->addAction(_cancelTaskAction);
+
     _menu->addSection(tr("Projects"));
 
     _separatorAction = _menu->addSeparator();
     _separatorAction->setText("Actions");
-
-    QAction *stopAction = new QAction("Stop timer...");
-    connect(stopAction, SIGNAL(triggered()), control, SLOT(stopActivity()));
-    _menu->addAction(stopAction);
-
-    QAction *cancelAction = new QAction("Cancel timer...");
-    connect(cancelAction, SIGNAL(triggered()), control, SLOT(cancelActivity()));
-    _menu->addAction(cancelAction);
-
-    _menu->addSeparator();
     QAction *showWindowAction = new QAction("&Show window", this);
     connect(showWindowAction, &QAction::triggered, mainWindow, &QMainWindow::show);
     _menu->addAction(showWindowAction);
@@ -57,7 +58,6 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
 
             projectStarted(project);
         } else {
-
             projectStopped(project);
         }
     }
@@ -90,7 +90,6 @@ void GotimeTrayIcon::updateStatus() {
 
 void GotimeTrayIcon::loadIcons() {
     _stoppedIcon = QPixmap(":/images/trayicon-stopped.svg");
-
     _activeIcons << QPixmap(":/images/trayicon-1.svg");
     _activeIcons << QPixmap(":/images/trayicon-2.svg");
     _activeIcons << QPixmap(":/images/trayicon-3.svg");
@@ -108,6 +107,12 @@ void GotimeTrayIcon::projectStarted(const Project &) {
     if (!_statusUpdateTimer->isActive()) {
         _statusUpdateTimer->start(2500);
     }
+
+    _stopTaskAction->setEnabled(true);
+    _cancelTaskAction->setEnabled(true);
+
+    updateStatus();
+    updateProjects();
 }
 
 void GotimeTrayIcon::projectStopped(const Project &) {
@@ -115,6 +120,12 @@ void GotimeTrayIcon::projectStopped(const Project &) {
 
     _iconTimer->stop();
     _statusUpdateTimer->stop();
+
+    _stopTaskAction->setEnabled(false);
+    _cancelTaskAction->setEnabled(false);
+
+    updateStatus();
+    updateProjects();
 }
 
 void GotimeTrayIcon::updateIcon() {

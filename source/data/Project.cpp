@@ -2,9 +2,9 @@
 
 Project::Project() = default;
 
-Project::Project(const QStringList &names, const QString &id, const QString &parentID) : _names(names),
-                                                                                    _id(id),
-                                                                                    _parentID(parentID) {}
+Project::Project(const QStringList &names, const QString &id, const QString &parentID) : _id(id),
+                                                                                         _parentID(parentID),
+                                                                                         _names(names) {}
 
 QString Project::getName() const {
     return this->_names.join("/");

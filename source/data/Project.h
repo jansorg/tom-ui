@@ -24,8 +24,8 @@ public:
 
 private:
     QString _id;
-    QStringList _names;
     QString _parentID;
+    QStringList _names;
 };
 
 

@@ -43,9 +43,9 @@ public:
 
 private:
     QList<ProjectTreeItem *> _childItems;
-    QList<QVariant> _itemData;
     ProjectTreeItem *_parentItem;
     const Project _project;
+    QList<QVariant> _itemData;
 };
 
 #endif // TREEITEM_H

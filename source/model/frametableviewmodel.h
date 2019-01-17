@@ -20,8 +20,8 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
 private:
-    GotimeControl* _control;
     QList<Frame*> _frames;
+    GotimeControl* _control;
 
     int rowCount(const QModelIndex &parent) const override;
 

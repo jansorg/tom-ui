@@ -59,8 +59,8 @@ private:
     Project _activeProject;
     QHash<QString, Project> _cachedProjects;
 
-    bool _bashScript;
     QString _gotimePath;
+    bool _bashScript;
 
     void cacheProjects(const QList<Project> &projects);
 };

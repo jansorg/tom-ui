@@ -4,9 +4,9 @@
 
 #include "GotimeControl.h"
 
-GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject *parent) : _gotimePath(gotimePath),
-                                                                                           _bashScript(bashScript),
-                                                                                           QObject(parent) {
+GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject *parent) : QObject(parent),
+                                                                                           _gotimePath(gotimePath),
+                                                                                           _bashScript(bashScript) {
 
     // updates our project cache
     loadProjects();

@@ -6,9 +6,9 @@
 #include <QtWidgets/QMainWindow>
 #include "gotime_tray_icon.h"
 
-GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) : _control(control),
-                                                                                  _trayIcon(new QSystemTrayIcon(this)),
-                                                                                  QObject() {
+GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) : QObject(),
+                                                                                  _control(control),
+                                                                                  _trayIcon(new QSystemTrayIcon(this)) {
 
     loadIcons();
 
@@ -98,7 +98,7 @@ void GotimeTrayIcon::loadIcons() {
     _activeIcons << QPixmap(":/images/trayicon-4.svg");
 }
 
-void GotimeTrayIcon::projectStarted(const Project & project) {
+void GotimeTrayIcon::projectStarted(const Project &project) {
     if (!_iconTimer->isActive()) {
         _trayIcon->setIcon(_activeIcons.at(0));
 
@@ -116,7 +116,7 @@ void GotimeTrayIcon::projectStarted(const Project & project) {
     projectUpdated(project);
 }
 
-void GotimeTrayIcon::projectStopped(const Project & project ) {
+void GotimeTrayIcon::projectStopped(const Project &project) {
     _trayIcon->setIcon(_stoppedIcon);
 
     _iconTimer->stop();

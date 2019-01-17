@@ -2,10 +2,9 @@
 
 #include "frametableviewmodel.h"
 
-FrameTableViewModel::FrameTableViewModel(QList<Frame *> &frames, GotimeControl *control, QObject *parent) :
-        _frames(frames),
-        _control(control),
-        QAbstractTableModel(parent) {}
+FrameTableViewModel::FrameTableViewModel(QList<Frame *> &frames, GotimeControl *control, QObject *parent) : QAbstractTableModel(parent),
+                                                                                                            _frames(frames),
+                                                                                                            _control(control) {}
 
 FrameTableViewModel::~FrameTableViewModel() {
     qDeleteAll(_frames);

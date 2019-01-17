@@ -9,8 +9,7 @@ enum ProjectRoles {
     idRole = Qt::UserRole
 };
 
-ProjectTreeModel::ProjectTreeModel(GotimeControl *control, QObject *parent) : _control(control),
-                                                                              QAbstractItemModel(parent) {
+ProjectTreeModel::ProjectTreeModel(GotimeControl *control, QObject *parent) : QAbstractItemModel(parent), _control(control) {
     QList<QVariant> headers;
     headers << "Name" << "Today" << "This week" << "This month";
 

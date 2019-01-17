@@ -23,6 +23,8 @@ set(RESOURCE_FILES resources/resources.qrc)
 file(GLOB_RECURSE UI_FILES source/*.ui)
 file(GLOB_RECURSE CODE_FILES source/*.cpp)
 
+add_compile_options(-std=c++11 -Wall)
+
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
     ${CODE_FILES} ${META_FILES_TO_INCLUDE} ${RESOURCE_FILES}
 )
@@ -34,6 +36,19 @@ find_package(Qt5 COMPONENTS Core Widgets Svg REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg)
 
-install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+if (UNIX)
+    install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+elseif(APPLE)
+    install(TARGETS ${PROJECT_NAME} DESTINATION .)
+    set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
+    install(CODE "
+        include(BundleUtilities)
+        fixup_bundle(${CMAKE_INSTALL_PREFIX}/tom-ui.app \"\" \"\")
+    " COMPONENT Runtime)
+
+elseif(WIN32)
+    install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+endif()
+
 
 INCLUDE(CPack)

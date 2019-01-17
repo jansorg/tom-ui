@@ -1,10 +1,9 @@
 #include <model/frametableviewmodel.h>
 #include <QtWidgets/QTreeView>
 #include "model/ProjectTreeModel.h"
-#include "gotime/startStop_project_action.h"
 #include "main_window.h"
 
-MainWindow::MainWindow(GotimeControl *control, QMainWindow *parent) : gotimeControl(control), QMainWindow(parent) {
+MainWindow::MainWindow(GotimeControl *control, QMainWindow *parent) : QMainWindow(parent), gotimeControl(control) {
     ui.setupUi(this);
     ui.projectTree->setControl(control);
 

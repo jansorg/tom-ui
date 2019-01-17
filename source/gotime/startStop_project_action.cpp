@@ -4,9 +4,9 @@ const Project &StartProjectAction::getProject() {
     return _project;
 }
 
-StartProjectAction::StartProjectAction(const Project &project, GotimeControl *control, QObject *parent) : _control(control),
-                                                                                                    _project(project),
-                                                                                                    QAction(parent) {
+StartProjectAction::StartProjectAction(const Project &project, GotimeControl *control, QObject *parent) : QAction(parent),
+                                                                                                          _control(control),
+                                                                                                          _project(project) {
     if (control->isStarted(project)) {
         projectStarted(project);
     } else {
@@ -16,11 +16,15 @@ StartProjectAction::StartProjectAction(const Project &project, GotimeControl *co
     connect(this, SIGNAL(triggered()),
             this, SLOT(toggleProjectStatus()));
 
-    connect(control, SIGNAL(projectStarted(const Project &)),
-            this, SLOT(projectStarted(const Project &)));
+    connect(control, SIGNAL(projectStarted(
+                                    const Project &)),
+            this, SLOT(projectStarted(
+                               const Project &)));
 
-    connect(control, SIGNAL(projectStopped(const Project &)),
-            this, SLOT(projectStopped(const Project &)));
+    connect(control, SIGNAL(projectStopped(
+                                    const Project &)),
+            this, SLOT(projectStopped(
+                               const Project &)));
 }
 
 void StartProjectAction::projectStarted(const Project &project) {

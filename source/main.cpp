@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
     bool bash = false;
 
     #ifdef Q_OS_MAC
-    command = "./tom";
+    command = QFileInfo(QCoreApplication::applicationFilePath()).dir().filePath("tom");
     #endif
 
     if (argc >= 2) {

@@ -1,6 +1,7 @@
 #ifndef GOTIME_UI_GOTIMESTATUS_H
 #define GOTIME_UI_GOTIMESTATUS_H
 
+#include <QtCore/QDateTime>
 #include "data/Project.h"
 
 class GotimeStatus {

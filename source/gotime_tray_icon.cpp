@@ -49,6 +49,8 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
     connect(_iconTimer, &QTimer::timeout, this, &GotimeTrayIcon::updateIcon);
     connect(control, &GotimeControl::projectStarted, this, &GotimeTrayIcon::projectStarted);
     connect(control, &GotimeControl::projectStopped, this, &GotimeTrayIcon::projectStopped);
+    connect(control, &GotimeControl::projectCancelled, this, &GotimeTrayIcon::projectStopped);
+    connect(control, &GotimeControl::projectUpdated, this, &GotimeTrayIcon::projectUpdated);
 
     const GotimeStatus &status = control->status();
     if (status.isValid) {
@@ -96,7 +98,7 @@ void GotimeTrayIcon::loadIcons() {
     _activeIcons << QPixmap(":/images/trayicon-4.svg");
 }
 
-void GotimeTrayIcon::projectStarted(const Project &) {
+void GotimeTrayIcon::projectStarted(const Project & project) {
     if (!_iconTimer->isActive()) {
         _trayIcon->setIcon(_activeIcons.at(0));
 
@@ -111,11 +113,10 @@ void GotimeTrayIcon::projectStarted(const Project &) {
     _stopTaskAction->setEnabled(true);
     _cancelTaskAction->setEnabled(true);
 
-    updateStatus();
-    updateProjects();
+    projectUpdated(project);
 }
 
-void GotimeTrayIcon::projectStopped(const Project &) {
+void GotimeTrayIcon::projectStopped(const Project & project ) {
     _trayIcon->setIcon(_stoppedIcon);
 
     _iconTimer->stop();
@@ -124,6 +125,10 @@ void GotimeTrayIcon::projectStopped(const Project &) {
     _stopTaskAction->setEnabled(false);
     _cancelTaskAction->setEnabled(false);
 
+    projectUpdated(project);
+}
+
+void GotimeTrayIcon::projectUpdated(const Project &) {
     updateStatus();
     updateProjects();
 }

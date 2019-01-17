@@ -22,6 +22,7 @@ private slots:
 private slots:
     void projectStarted(const Project &);
     void projectStopped(const Project &);
+    void projectUpdated(const Project &);
     void updateIcon();
 
 private:

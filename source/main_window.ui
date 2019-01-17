@@ -12,7 +12,10 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>gotime</string>
+   <string>Tom - Time tracker</string>
+  </property>
+  <property name="unifiedTitleAndToolBarOnMac">
+   <bool>true</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">

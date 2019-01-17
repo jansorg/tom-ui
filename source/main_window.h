@@ -18,18 +18,25 @@ public:
 
 private slots:
 
+    void projectStatusChanged(const Project &project);
+
     void projectChanged(const QModelIndex &index);
 
     void refreshData();
 
 private:
     Ui::MainWindow ui;
+
     void createActions();
 
     GotimeControl *gotimeControl;
 
+    Project selectedProject;
+
     QAction *_startProjectTreeAction;
     QAction *_stopProjectTreeAction;
+
+    void loadFrames(const Project &project);
 };
 
 #endif

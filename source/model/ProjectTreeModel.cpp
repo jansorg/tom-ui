@@ -3,26 +3,29 @@
 #include "gotime/GotimeControl.h"
 #include "ProjectTreeModel.h"
 
+enum ProjectRoles {
+    idRole = Qt::UserRole
+};
+
 ProjectTreeModel::ProjectTreeModel(GotimeControl *control, QObject *parent) : _control(control),
                                                                               QAbstractItemModel(parent) {
     QList<QVariant> headers;
     headers << "Name" << "Today" << "This week" << "This month";
 
-    _rootItem = new ProjectTreeItem(headers, Project());
+    _rootItem = new ProjectTreeItem(headers);
     _projects << _control->loadProjects();
 
     // fixme update status regularly?
     _status = control->projectsStatus();
 
-    refreshProjects(_rootItem);
-//    printProjects(0, _rootItem);
+    createProjectItems(_rootItem);
 }
 
 ProjectTreeModel::~ProjectTreeModel() {
     delete _rootItem;
 }
 
-void ProjectTreeModel::refreshProjects(ProjectTreeItem *root) {
+void ProjectTreeModel::createProjectItems(ProjectTreeItem *root) {
     for (const auto &project : _projects) {
         if (project.getParentID().isEmpty()) {
             root->appendChild(createModelItem(_projects, project, root));
@@ -35,13 +38,7 @@ ProjectTreeModel::createModelItem(const QList<Project> &allProjects, const Proje
     QString projectID = project.getID();
     ProjectStatus state = _status.get(projectID);
 
-    QList<QVariant> items;
-    items << project.getShortName()
-          << state.dayTotal.formatShort()
-          << state.weekTotal.formatShort()
-          << state.monthTotal.formatShort();
-
-    auto *item = new ProjectTreeItem(items, project, parent);
+    auto *item = new ProjectTreeItem(project, state, parent);
     for (const auto &p: allProjects) {
         if (p.getParentID() == project.getID()) {
             item->appendChild(createModelItem(allProjects, p, item));
@@ -79,6 +76,12 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         return item->data(index.column());
     }
 
+    if (role == idRole) {
+        qDebug() << "user Role idRole";
+        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
+        return item->getProject().getID();
+    }
+
     return QVariant();
 }
 
@@ -92,12 +95,16 @@ bool ProjectTreeModel::setData(const QModelIndex &index, const QVariant &value, 
         return false;
     }
 
-    QString newName = value.toString();
-    bool ok = _control->renameProject(item->getProject().getID(), newName);
-    if (ok && item->setData(index.column(), newName)) {
-        emit dataChanged(index, index);
+    if (index.column() == 0) {
+        QString newName = value.toString();
+        bool ok = _control->renameProject(item->getProject().getID(), newName);
+        if (ok && item->setData(index.column(), newName)) {
+            emit dataChanged(index, index);
+        }
+        return ok;
     }
-    return ok;
+
+    return false;
 }
 
 Qt::ItemFlags ProjectTreeModel::flags(const QModelIndex &index) const {
@@ -181,6 +188,34 @@ void ProjectTreeModel::printProjects(int level, ProjectTreeItem *root) {
     qDebug() << QString(" ").repeated(level) << root->data(0).toString();
     for (int i = 0; i < root->childCount(); ++i) {
         printProjects(level + 1, root->child(i));
+    }
+}
+
+QModelIndex ProjectTreeModel::getProjectRow(const Project &project) const {
+    qDebug() << "getProjectsRow";
+
+    const QModelIndexList &list = match(index(0, 0, QModelIndex()), idRole, project.getID(), 1,
+                                        Qt::MatchExactly | Qt::MatchRecursive);
+    if (list.size() == 1) {
+        return list.first();
+    }
+
+    qDebug() << "getProjectsRow failed to find the row" << list;
+    return {};
+}
+
+void ProjectTreeModel::updateProject(const Project &project) {
+    qDebug() << "updating project item" << project.getID();
+
+    const QModelIndex &row = getProjectRow(project);
+    if (row.isValid()) {
+        _status = _control->projectsStatus();
+
+        ProjectTreeItem *item = getItem(row);
+        if (item) {
+            item->refreshWith(project, _status.get(project.getID()));
+            emit dataChanged(row, row.siblingAtColumn(ProjectTreeItem::LAST_COL_INDEX));
+        }
     }
 }
 

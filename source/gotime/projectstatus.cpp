@@ -24,7 +24,7 @@ ProjectsStatus::ProjectsStatus() = default;
 
 ProjectStatus ProjectsStatus::get(const QString &projectID) const {
     if (!_map.contains(projectID)) {
-        qDebug() << "project not found" << projectID << "available" << _map.keys();
+//        qDebug() << "project not found" << projectID << "available" << _map.keys();
         return ProjectStatus();
     }
 

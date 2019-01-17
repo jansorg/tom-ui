@@ -3,25 +3,30 @@
 
 #include "project_tree_item.h"
 
-ProjectTreeItem::ProjectTreeItem(const QList<QVariant> &data, const Project &project, ProjectTreeItem *parent)
-        : _itemData(data), m_parentItem(parent), _project(project) {
+ProjectTreeItem::ProjectTreeItem(const QList<QVariant> &data) : _parentItem(nullptr),
+                                                                _project(Project()),
+                                                                _itemData(data) {}
 
+ProjectTreeItem::ProjectTreeItem(const Project &project, const ProjectStatus &status, ProjectTreeItem *parent)
+        : _parentItem(parent), _project(project) {
+
+    refreshWith(project, status);
 }
 
 ProjectTreeItem::~ProjectTreeItem() {
-    qDeleteAll(m_childItems);
+    qDeleteAll(_childItems);
 }
 
 void ProjectTreeItem::appendChild(ProjectTreeItem *item) {
-    m_childItems.append(item);
+    _childItems.append(item);
 }
 
 ProjectTreeItem *ProjectTreeItem::child(int row) {
-    return m_childItems.value(row);
+    return _childItems.value(row);
 }
 
 int ProjectTreeItem::childCount() const {
-    return m_childItems.count();
+    return _childItems.count();
 }
 
 int ProjectTreeItem::columnCount() const {
@@ -41,12 +46,12 @@ bool ProjectTreeItem::setData(int column, const QVariant &value) {
 }
 
 ProjectTreeItem *ProjectTreeItem::parentItem() {
-    return m_parentItem;
+    return _parentItem;
 }
 
 int ProjectTreeItem::row() const {
-    if (m_parentItem) {
-        return m_parentItem->m_childItems.indexOf(const_cast<ProjectTreeItem *>(this));
+    if (_parentItem) {
+        return _parentItem->_childItems.indexOf(const_cast<ProjectTreeItem *>(this));
     }
 
     return 0;
@@ -54,4 +59,11 @@ int ProjectTreeItem::row() const {
 
 const Project &ProjectTreeItem::getProject() const {
     return _project;
+}
+
+void ProjectTreeItem::refreshWith(const Project &project, const ProjectStatus &status) {
+    _itemData = QList<QVariant>() << project.getShortName()
+                                  << status.dayTotal.formatShort()
+                                  << status.weekTotal.formatShort()
+                                  << status.monthTotal.formatShort();
 }

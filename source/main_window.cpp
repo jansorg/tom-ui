@@ -1,6 +1,5 @@
 #include <model/frametableviewmodel.h>
 #include <QtWidgets/QTreeView>
-#include <QtWidgets/QHeaderView>
 #include "model/ProjectTreeModel.h"
 #include "gotime/startStop_project_action.h"
 #include "main_window.h"
@@ -13,18 +12,12 @@ MainWindow::MainWindow(GotimeControl *control, QMainWindow *parent) : gotimeCont
 
     refreshData();
     connect(ui.projectTree, &QTreeView::activated, this, &MainWindow::projectChanged);
+    connect(control, &GotimeControl::projectStarted, this, &MainWindow::projectStatusChanged);
+    connect(control, &GotimeControl::projectStopped, this, &MainWindow::projectStatusChanged);
 }
 
 void MainWindow::refreshData() {
-    //fixme delete old model?
-    auto *model = new ProjectTreeModel(gotimeControl, this);
-
-    QTreeView *tree = ui.projectTree;
-    tree->setModel(model);
-    tree->sortByColumn(0, Qt::AscendingOrder);
-    tree->header()->setStretchLastSection(false);
-    tree->header()->setSectionResizeMode(0, QHeaderView::Stretch);
-    tree->header()->setCascadingSectionResizes(true);
+    ui.projectTree->refresh();
 }
 
 MainWindow::~MainWindow() = default;
@@ -32,16 +25,26 @@ MainWindow::~MainWindow() = default;
 void MainWindow::projectChanged(const QModelIndex &index) {
     auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
     if (item && item->getProject().isValid()) {
-        const Project &project = item->getProject();
-        auto frames = gotimeControl->loadFrames(project.getID(), true);
-
-        auto *sortedModel = new QSortFilterProxyModel(this);
-        auto *frameModel = new FrameTableViewModel(frames, gotimeControl, this);
-        sortedModel->setSourceModel(frameModel);
-        ui.frameView->setModel(sortedModel);
-        ui.frameView->sortByColumn(0, Qt::DescendingOrder);
+        selectedProject = item->getProject();
+        loadFrames(item->getProject());
     }
 }
 
 void MainWindow::createActions() {
+}
+
+void MainWindow::projectStatusChanged(const Project &project) {
+    if (selectedProject.getID() == project.getID()) {
+        loadFrames(project);
+    }
+}
+
+void MainWindow::loadFrames(const Project &project) {
+    auto frames = gotimeControl->loadFrames(project.getID(), true);
+
+    auto *sortedModel = new QSortFilterProxyModel(this);
+    auto *frameModel = new FrameTableViewModel(frames, gotimeControl, this);
+    sortedModel->setSourceModel(frameModel);
+    ui.frameView->setModel(sortedModel);
+    ui.frameView->sortByColumn(0, Qt::DescendingOrder);
 }

@@ -34,15 +34,18 @@ public:
 
     ProjectTreeItem *getItem(const QModelIndex &index) const;
 
+    void updateProject(const Project &project);
+    QModelIndex getProjectRow(const Project &project) const;
+
 private:
     ProjectTreeItem *_rootItem;
     GotimeControl *_control;
     QList<Project> _projects;
     ProjectsStatus _status;
 
+    void createProjectItems(ProjectTreeItem *root);
     ProjectTreeItem *createModelItem(const QList<Project> &allProjects, const Project &project, ProjectTreeItem* parent);
 
-    void refreshProjects(ProjectTreeItem* root);
     void printProjects(int level, ProjectTreeItem* root);
 };
 

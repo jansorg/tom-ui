@@ -34,3 +34,5 @@ find_package(Qt5Widgets CONFIG REQUIRED)
 find_package(Qt5Svg CONFIG REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg)
+
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)

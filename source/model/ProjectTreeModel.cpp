@@ -190,23 +190,16 @@ void ProjectTreeModel::printProjects(int level, ProjectTreeItem *root) {
     }
 }
 
-QModelIndex ProjectTreeModel::getProjectRow(const Project &project) const {
-    qDebug() << "getProjectsRow";
-
-    const QModelIndexList &list = match(index(0, 0, QModelIndex()), idRole, project.getID(), 1,
-                                        Qt::MatchExactly | Qt::MatchRecursive);
+QModelIndex ProjectTreeModel::getProjectRow(const QString &projectID) const {
+    const QModelIndexList &list = match(index(0, 0, QModelIndex()), idRole, projectID, 1, Qt::MatchExactly | Qt::MatchRecursive);
     if (list.size() == 1) {
         return list.first();
     }
-
-    qDebug() << "getProjectsRow failed to find the row" << list;
     return {};
 }
 
 void ProjectTreeModel::updateProject(const Project &project) {
-    qDebug() << "updating project item" << project.getID();
-
-    const QModelIndex &row = getProjectRow(project);
+    const QModelIndex &row = getProjectRow(project.getID());
     if (row.isValid()) {
         _status = _control->projectsStatus();
 

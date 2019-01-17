@@ -13,6 +13,8 @@
 #include "gotime/GotimeControl.h"
 
 class ProjectTreeView : public QTreeView {
+    Q_OBJECT
+
 public:
     explicit ProjectTreeView(QWidget *parent);
 
@@ -20,14 +22,20 @@ public:
 
     void refresh();
 
+signals:
+
+    void projectSelected(const Project &project);
+
 protected:
     ProjectTreeModel *getProjectModel();
 
 private slots:
+
     void onCustomContextMenuRequested(const QPoint &pos);
 
-    void projectStarted(const Project & project);
-    void projectStopped(const Project & project);
+    void onProjectSelected(const QModelIndex &index);
+
+    void projectUpdated(const Project &project);
 
 private:
     void showContextMenu(ProjectTreeItem *item, const QPoint &globalPos);

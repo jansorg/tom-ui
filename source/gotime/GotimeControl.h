@@ -31,7 +31,8 @@ public:
 
     bool renameTag(QString id, QString newName);
 
-    bool updateFrame(QString id, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, QString notes);
+    bool updateFrame(Frame* frame, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, QString notes);
+    bool updateFrame(QString id, QString projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, QString notes);
 
 signals:
 
@@ -40,6 +41,8 @@ signals:
     void projectStopped(const Project &);
 
     void projectCancelled(const Project &);
+
+    void projectUpdated(const Project& project);
 
 
 public slots:
@@ -54,9 +57,12 @@ private:
     CommandStatus run(QStringList &args);
 
     Project _activeProject;
+    QHash<QString, Project> _cachedProjects;
 
     bool _bashScript;
     QString _gotimePath;
+
+    void cacheProjects(const QList<Project> &projects);
 };
 
 #endif //GOTIME_UI_GOTIMECONTROL_H

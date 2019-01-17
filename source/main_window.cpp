@@ -8,12 +8,12 @@ MainWindow::MainWindow(GotimeControl *control, QMainWindow *parent) : gotimeCont
     ui.setupUi(this);
     ui.projectTree->setControl(control);
 
-    createActions();
-
-    refreshData();
-    connect(ui.projectTree, &QTreeView::activated, this, &MainWindow::projectChanged);
+    connect(ui.projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::loadFrames);
     connect(control, &GotimeControl::projectStarted, this, &MainWindow::projectStatusChanged);
     connect(control, &GotimeControl::projectStopped, this, &MainWindow::projectStatusChanged);
+
+    createActions();
+    refreshData();
 }
 
 void MainWindow::refreshData() {
@@ -22,24 +22,19 @@ void MainWindow::refreshData() {
 
 MainWindow::~MainWindow() = default;
 
-void MainWindow::projectChanged(const QModelIndex &index) {
-    auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
-    if (item && item->getProject().isValid()) {
-        selectedProject = item->getProject();
-        loadFrames(item->getProject());
-    }
-}
 
 void MainWindow::createActions() {
 }
 
 void MainWindow::projectStatusChanged(const Project &project) {
-    if (selectedProject.getID() == project.getID()) {
+    if (_selectedProject.getID() == project.getID()) {
         loadFrames(project);
     }
 }
 
 void MainWindow::loadFrames(const Project &project) {
+    _selectedProject = project;
+
     auto frames = gotimeControl->loadFrames(project.getID(), true);
 
     auto *sortedModel = new QSortFilterProxyModel(this);

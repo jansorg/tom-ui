@@ -35,7 +35,8 @@ public:
     ProjectTreeItem *getItem(const QModelIndex &index) const;
 
     void updateProject(const Project &project);
-    QModelIndex getProjectRow(const Project &project) const;
+
+    QModelIndex getProjectRow(const QString &projectID) const;
 
 private:
     ProjectTreeItem *_rootItem;

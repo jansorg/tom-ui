@@ -118,16 +118,16 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
     switch (col) {
         case COL_START: {
             startTime = value.toDateTime();
-            ok = _control->updateFrame(frame->id, true, startTime, false, QDateTime(), false, "");
+            ok = _control->updateFrame(frame, true, startTime, false, QDateTime(), false, "");
             break;
         }
         case COL_END:
             endTime = value.toDateTime();
-            ok = _control->updateFrame(frame->id, false, QDateTime(), true, endTime, false, "");
+            ok = _control->updateFrame(frame, false, QDateTime(), true, endTime, false, "");
             break;
         case COL_NOTES:
             notes = value.toString();
-            ok = _control->updateFrame(frame->id, false, QDateTime(), false, QDateTime(), true, notes);
+            ok = _control->updateFrame(frame, false, QDateTime(), false, QDateTime(), true, notes);
             break;
         default:
             ok = false;

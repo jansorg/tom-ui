@@ -4,12 +4,22 @@
 
 #include "GotimeControl.h"
 
-GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject *parent) :
-        _gotimePath(gotimePath), _bashScript(bashScript), QObject(parent) {
+GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject *parent) : _gotimePath(gotimePath),
+                                                                                           _bashScript(bashScript),
+                                                                                           QObject(parent) {
+
+    cacheProjects(loadProjects());
 
     const GotimeStatus &status = this->status();
     if (status.isValid) {
         _activeProject = status.currentProject();
+    }
+}
+
+void GotimeControl::cacheProjects(const QList<Project> &projects) {
+    _cachedProjects.clear();
+    for (const auto &project : projects) {
+        _cachedProjects[project.getID()] = project;
     }
 }
 
@@ -57,21 +67,25 @@ bool GotimeControl::startProject(const Project &project) {
         _activeProject = project;
 
         emit projectStarted(project);
+        emit projectUpdated(project);
+
         if (stopped.isValid()) {
             emit projectStopped(stopped);
+            emit projectUpdated(stopped);
         }
     }
     return success;
 }
 
 bool GotimeControl::cancelActivity() {
+    _activeProject = Project();;
+
     const GotimeStatus &active = status();
 
-    _activeProject = Project();
     bool success = run(QStringList() << "cancel").isSuccessful();
     if (success && active.isValid) {
         emit projectCancelled(active.currentProject());
-        emit projectStopped(active.currentProject());
+        emit projectUpdated(active.currentProject());
     }
     return success;
 }
@@ -83,6 +97,7 @@ bool GotimeControl::stopActivity() {
     bool success = run(QStringList() << "stop").isSuccessful();
     if (success && current.isValid) {
         emit projectStopped(current.currentProject());
+        emit projectUpdated(current.currentProject());
     }
     return success;
 }
@@ -170,7 +185,15 @@ bool GotimeControl::renameProject(QString id, QString newName) {
     args << "rename" << "project" << id << newName;
 
     CommandStatus status = run(args);
-    return status.isSuccessful();
+    bool success = status.isSuccessful();
+    if (success) {
+        const Project &project = _cachedProjects.value(id);
+        if (project.isValid()) {
+            emit projectUpdated(project);
+        }
+    }
+
+    return success;
 }
 
 bool GotimeControl::renameTag(QString id, QString newName) {
@@ -179,6 +202,42 @@ bool GotimeControl::renameTag(QString id, QString newName) {
 
     CommandStatus status = run(args);
     return status.isSuccessful();
+}
+
+bool GotimeControl::updateFrame(Frame *frame,
+                                bool updateStart, QDateTime start,
+                                bool updateEnd, QDateTime end,
+                                bool updateNotes,
+                                QString notes) {
+    return updateFrame(frame->id, frame->projectID, updateStart, start, updateEnd, end, updateNotes, notes);
+}
+
+bool GotimeControl::updateFrame(QString id, QString projectID,
+                                bool updateStart, QDateTime start,
+                                bool updateEnd, QDateTime end,
+                                bool updateNotes,
+                                QString notes) {
+    QStringList args;
+    args << "edit" << id;
+    if (updateStart) {
+        args << "--start" << start.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+    }
+    if (updateEnd) {
+        args << "--end" << end.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+    }
+    if (updateNotes) {
+        args << "--notes" << notes;
+    }
+
+    CommandStatus status = run(args);
+    bool success = status.isSuccessful();
+    if (success && !projectID.isEmpty()) {
+        const Project &project = _cachedProjects.value(projectID);
+        if (project.isValid()) {
+            emit projectUpdated(project);
+        }
+    }
+    return success;
 }
 
 const ProjectsStatus GotimeControl::projectsStatus() {
@@ -245,22 +304,4 @@ CommandStatus GotimeControl::run(QStringList &args) {
 //    qDebug() << "err stdout:" << errOutput;
 
     return CommandStatus(output, errOutput, process.exitCode());
-}
-
-bool GotimeControl::updateFrame(QString id, bool updateStart, QDateTime start, bool updateEnd, QDateTime end,
-                                bool updateNotes, QString notes) {
-    QStringList args;
-    args << "edit" << id;
-    if (updateStart) {
-        args << "--start" << start.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
-    }
-    if (updateEnd) {
-        args << "--end" << end.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
-    }
-    if (updateNotes) {
-        args << "--notes" << notes;
-    }
-
-    CommandStatus status = run(args);
-    return status.isSuccessful();
 }

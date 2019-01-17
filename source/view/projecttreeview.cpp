@@ -7,18 +7,21 @@
 
 ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {
     setContextMenuPolicy(Qt::CustomContextMenu);
+
+    connect(this, &ProjectTreeView::activated, this, &ProjectTreeView::onProjectSelected);
+    connect(this, &ProjectTreeView::customContextMenuRequested, this, &ProjectTreeView::onCustomContextMenuRequested);
 }
 
 void ProjectTreeView::setControl(GotimeControl *control) {
     _control = control;
+    connect(_control, &GotimeControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
+}
 
-    connect(this,
-            &QTreeView::customContextMenuRequested,
-            this,
-            &ProjectTreeView::onCustomContextMenuRequested);
-
-    connect(_control, &GotimeControl::projectStarted, this, &ProjectTreeView::projectStarted);
-    connect(_control, &GotimeControl::projectStopped, this, &ProjectTreeView::projectStopped);
+void ProjectTreeView::onProjectSelected(const QModelIndex &index) {
+    auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
+    if (item && item->getProject().isValid()) {
+        emit projectSelected(item->getProject());
+    }
 }
 
 void ProjectTreeView::onCustomContextMenuRequested(const QPoint &pos) {
@@ -60,12 +63,7 @@ void ProjectTreeView::refresh() {
     this->header()->setCascadingSectionResizes(true);
 }
 
-void ProjectTreeView::projectStarted(const Project &project) {
-    auto *model = getProjectModel();
-    model->updateProject(project);
-}
-
-void ProjectTreeView::projectStopped(const Project &project) {
+void ProjectTreeView::projectUpdated(const Project &project) {
     auto *model = getProjectModel();
     model->updateProject(project);
 }

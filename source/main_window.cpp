@@ -34,6 +34,11 @@ void MainWindow::projectStatusChanged(const Project &project) {
 void MainWindow::loadFrames(const Project &project) {
     _selectedProject = project;
 
+    if (!project.isValid()) {
+        ui.frameView->setModel(nullptr);
+        return;
+    }
+
     auto frames = gotimeControl->loadFrames(project.getID(), true);
 
     auto *sortedModel = new QSortFilterProxyModel(this);

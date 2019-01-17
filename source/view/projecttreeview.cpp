@@ -8,7 +8,6 @@
 ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {
     setContextMenuPolicy(Qt::CustomContextMenu);
 
-    connect(this, &ProjectTreeView::activated, this, &ProjectTreeView::onProjectSelected);
     connect(this, &ProjectTreeView::customContextMenuRequested, this, &ProjectTreeView::onCustomContextMenuRequested);
 }
 
@@ -17,10 +16,12 @@ void ProjectTreeView::setControl(GotimeControl *control) {
     connect(_control, &GotimeControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
 }
 
-void ProjectTreeView::onProjectSelected(const QModelIndex &index) {
+void ProjectTreeView::onCurrentChanged(const QModelIndex &index, const QModelIndex &) {
     auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
     if (item && item->getProject().isValid()) {
         emit projectSelected(item->getProject());
+    } else {
+        emit projectSelected(Project());
     }
 }
 
@@ -61,6 +62,8 @@ void ProjectTreeView::refresh() {
     this->header()->setStretchLastSection(false);
     this->header()->setSectionResizeMode(0, QHeaderView::Stretch);
     this->header()->setCascadingSectionResizes(true);
+
+    connect(this->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &ProjectTreeView::onCurrentChanged);
 }
 
 void ProjectTreeView::projectUpdated(const Project &project) {

@@ -10,11 +10,11 @@ FrameTableViewModel::~FrameTableViewModel() {
     qDeleteAll(_frames);
 }
 
-int FrameTableViewModel::rowCount(const QModelIndex &parent) const {
+int FrameTableViewModel::rowCount(const QModelIndex &) const {
     return _frames.size();
 }
 
-int FrameTableViewModel::columnCount(const QModelIndex &parent) const {
+int FrameTableViewModel::columnCount(const QModelIndex &) const {
     return COL_NOTES + 1;
 }
 

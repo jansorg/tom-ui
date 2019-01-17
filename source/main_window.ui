@@ -15,7 +15,7 @@
    <string>Tom - Time tracker</string>
   </property>
   <property name="unifiedTitleAndToolBarOnMac">
-   <bool>true</bool>
+   <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -91,14 +91,7 @@
     <addaction name="actionMinimize"/>
     <addaction name="actionE_xit"/>
    </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>&amp;Help</string>
-    </property>
-    <addaction name="actionAbout"/>
-   </widget>
    <addaction name="menuFile"/>
-   <addaction name="menuHelp"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionE_xit">

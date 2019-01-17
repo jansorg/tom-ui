@@ -1,4 +1,6 @@
 #include <QtGui/QColor>
+#include <QtGui/QFont>
+#include <QtGui/QBrush>
 
 #include "gotime/GotimeControl.h"
 #include "ProjectTreeModel.h"
@@ -74,6 +76,20 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
         return item->data(index.column());
+    }
+
+//    if (role == Qt::DecorationRole && index.column() == ProjectTreeItem::COL_NAME) {
+//        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
+//        if (_control->isStarted(item->getProject())) {
+//            return QVariant(QColor(Qt::green));
+//        }
+//    }
+
+    if (role == Qt::BackgroundColorRole) {
+        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
+        if (_control->isStarted(item->getProject())) {
+            return QBrush(QColor(255, 255, 210));
+        }
     }
 
     if (role == idRole) {

@@ -8,7 +8,8 @@ GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject 
                                                                                            _bashScript(bashScript),
                                                                                            QObject(parent) {
 
-    cacheProjects(loadProjects());
+    // updates our project cache
+    loadProjects();
 
     const GotimeStatus &status = this->status();
     if (status.isValid) {
@@ -52,6 +53,10 @@ QList<Project> GotimeControl::loadProjects(int max) {
 
             result.append(Project(names, id, parent));
         }
+    }
+
+    if (max == 0) {
+        cacheProjects(result);
     }
     return result;
 }
@@ -255,8 +260,6 @@ const ProjectsStatus GotimeControl::projectsStatus() {
     QStringList lines = cmdStatus.stdoutContent.split("\n", QString::SkipEmptyParts);
     for (const auto &line : lines) {
         QStringList parts = line.split("\t");
-
-        qDebug() << parts;
         if (parts.size() != 9) {
             qDebug() << "unexpected number of columns in" << line;
             continue;
@@ -298,10 +301,5 @@ CommandStatus GotimeControl::run(QStringList &args) {
     QString errOutput(process.readAllStandardError());
 
     qDebug() << "exit code:" << process.exitCode();
-//    qDebug() << "exit status:" << process.exitStatus();
-//    qDebug() << "exit error:" << process.errorString();
-//    qDebug() << "stdout:" << output;
-//    qDebug() << "err stdout:" << errOutput;
-
     return CommandStatus(output, errOutput, process.exitCode());
 }

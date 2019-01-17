@@ -35,3 +35,5 @@ find_package(Qt5 COMPONENTS Core Widgets Svg REQUIRED)
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+
+INCLUDE(CPack)

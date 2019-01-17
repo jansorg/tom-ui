@@ -61,7 +61,6 @@ void ProjectTreeView::refresh() {
 }
 
 void ProjectTreeView::projectStarted(const Project &project) {
-    // update the row of the project
     auto *model = getProjectModel();
     model->updateProject(project);
 }

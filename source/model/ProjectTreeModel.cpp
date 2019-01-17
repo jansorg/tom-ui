@@ -77,7 +77,6 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     }
 
     if (role == idRole) {
-        qDebug() << "user Role idRole";
         auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
         return item->getProject().getID();
     }

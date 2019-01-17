@@ -9,7 +9,7 @@ GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject 
 
     const GotimeStatus &status = this->status();
     if (status.isValid) {
-        _activeProjectID = status.currentProject().getID();
+        _activeProject = status.currentProject();
     }
 }
 
@@ -47,14 +47,19 @@ QList<Project> GotimeControl::loadProjects(int max) {
 }
 
 bool GotimeControl::isStarted(const Project &project) {
-    return _activeProjectID == project.getID();
+    return _activeProject.getID() == project.getID();
 }
 
 bool GotimeControl::startProject(const Project &project) {
     auto success = run(QStringList() << "start" << project.getName()).isSuccessful();
     if (success) {
-        _activeProjectID = project.getID();
+        auto stopped = _activeProject;
+        _activeProject = project;
+
         emit projectStarted(project);
+        if (stopped.isValid()) {
+            emit projectStopped(stopped);
+        }
     }
     return success;
 }
@@ -62,7 +67,7 @@ bool GotimeControl::startProject(const Project &project) {
 bool GotimeControl::cancelActivity() {
     const GotimeStatus &active = status();
 
-    _activeProjectID = "";
+    _activeProject = Project();
     bool success = run(QStringList() << "cancel").isSuccessful();
     if (success && active.isValid) {
         emit projectCancelled(active.currentProject());
@@ -74,7 +79,7 @@ bool GotimeControl::cancelActivity() {
 bool GotimeControl::stopActivity() {
     const GotimeStatus &current = status();
 
-    _activeProjectID = "";
+    _activeProject = Project();
     bool success = run(QStringList() << "stop").isSuccessful();
     if (success && current.isValid) {
         emit projectStopped(current.currentProject());

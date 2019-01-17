@@ -53,7 +53,7 @@ public slots:
 private:
     CommandStatus run(QStringList &args);
 
-    QString _activeProjectID;
+    Project _activeProject;
 
     bool _bashScript;
     QString _gotimePath;

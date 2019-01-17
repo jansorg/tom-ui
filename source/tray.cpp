@@ -4,7 +4,7 @@
 #include <gotime/GotimeControl.h>
 #include <gotime/startStop_project_action.h>
 #include <QtWidgets/QMainWindow>
-#include "gotime_tray_icon.h"
+#include "tray.h"
 
 GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) : QObject(),
                                                                                   _control(control),
@@ -33,7 +33,7 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
     _menu->addAction(showWindowAction);
 
     QAction *quitAction = new QAction("&Quit", this);
-    connect(quitAction, &QAction::triggered, this, &QCoreApplication::quit);
+    connect(quitAction, &QAction::triggered, &QCoreApplication::quit);
     _menu->addAction(quitAction);
 
     _trayIcon->setContextMenu(_menu);

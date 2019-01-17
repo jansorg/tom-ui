@@ -2,7 +2,7 @@
 #include <QtWidgets/QMessageBox>
 
 #include "main_window.h"
-#include "gotime_tray_icon.h"
+#include "tray.h"
 
 int main(int argc, char *argv[]) {
     QString command = "tom";

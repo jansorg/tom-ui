@@ -1,5 +1,6 @@
 #include <model/frametableviewmodel.h>
 #include <QtWidgets/QTreeView>
+#include <QtWidgets/QAction>
 #include "model/ProjectTreeModel.h"
 #include "main_window.h"
 
@@ -10,6 +11,8 @@ MainWindow::MainWindow(GotimeControl *control, QMainWindow *parent) : QMainWindo
     connect(ui.projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::loadFrames);
     connect(control, &GotimeControl::projectStarted, this, &MainWindow::projectStatusChanged);
     connect(control, &GotimeControl::projectStopped, this, &MainWindow::projectStatusChanged);
+
+    connect(ui.actionQuit, &QAction::triggered, &QCoreApplication::quit);
 
     createActions();
     refreshData();

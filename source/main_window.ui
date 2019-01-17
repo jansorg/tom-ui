@@ -89,17 +89,20 @@
     </property>
     <addaction name="actionRefresh"/>
     <addaction name="actionMinimize"/>
-    <addaction name="actionE_xit"/>
+    <addaction name="actionQuit"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
-  <action name="actionE_xit">
+  <action name="actionQuit">
    <property name="text">
     <string>E&amp;xit</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::ApplicationShortcut</enum>
    </property>
   </action>
   <action name="actionMinimize">
@@ -127,22 +130,6 @@
  </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>actionE_xit</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>394</x>
-     <y>152</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>actionMinimize</sender>
    <signal>triggered()</signal>

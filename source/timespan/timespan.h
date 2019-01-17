@@ -18,11 +18,11 @@ public:
 
     Timespan &operator=(const Timespan &) = default;
 
-    const double asHours() const;
+    double asHours() const;
 
-    const double asMinutes() const;
+    double asMinutes() const;
 
-    const double asSeconds() const;
+    double asSeconds() const;
 
     const QString format() const;
 

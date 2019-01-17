@@ -23,7 +23,7 @@ set(RESOURCE_FILES resources/resources.qrc)
 file(GLOB_RECURSE UI_FILES source/*.ui)
 file(GLOB_RECURSE CODE_FILES source/*.cpp)
 
-add_compile_options(-std=c++11 -Wall)
+add_compile_options(-std=c++11 -Wall -Wextra)
 
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
     ${CODE_FILES} ${META_FILES_TO_INCLUDE} ${RESOURCE_FILES}

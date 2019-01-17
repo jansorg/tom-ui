@@ -46,15 +46,15 @@ const QString Timespan::formatDecimal() const {
     return QString("%L1h").arg(asHours(), 0, 'g', 2);
 }
 
-const double Timespan::asHours() const {
+double Timespan::asHours() const {
     return asMinutes() / 60.0;
 }
 
-const double Timespan::asMinutes() const {
+double Timespan::asMinutes() const {
     return asSeconds() / 60.0;
 }
 
-const double Timespan::asSeconds() const {
+double Timespan::asSeconds() const {
     const auto &v = static_cast<double>(_msecs);
     return v / static_cast<double>(_msecsPerSecond);
 }

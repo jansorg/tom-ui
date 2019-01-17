@@ -8,10 +8,6 @@ int main(int argc, char *argv[]) {
     QString command = "tom";
     bool bash = false;
 
-    #ifdef Q_OS_MAC
-    command = QFileInfo(QCoreApplication::applicationFilePath()).dir().filePath("tom");
-    #endif
-
     if (argc >= 2) {
         command = QString(argv[1]);
     }
@@ -22,6 +18,10 @@ int main(int argc, char *argv[]) {
 
     QApplication::setQuitOnLastWindowClosed(false);
     QApplication app(argc, argv);
+
+    #ifdef Q_OS_MAC
+        command = QFileInfo(QCoreApplication::applicationFilePath()).dir().filePath("tom");
+    #endif
 
     GotimeControl *control = new GotimeControl(command, bash, nullptr);
     MainWindow mainWindow(control);

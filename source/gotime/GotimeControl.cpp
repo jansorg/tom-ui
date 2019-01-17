@@ -116,6 +116,7 @@ GotimeStatus GotimeControl::status() {
 
 QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubprojects) {
     QStringList args = QStringList() << "frames"
+                                     << "-o" << "json"
                                      << "-p" << projectID
                                      << "-f" << "id,startTime,stopTime,lastUpdated,notes";
 
@@ -129,25 +130,28 @@ QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubproje
         return QList<Frame *>();
     }
 
-    const QStringList &lines = resp.stdoutContent.split("\n", QString::SkipEmptyParts);
-    if (lines.isEmpty()) {
-        qDebug() << "frame command returned empty list";
-        return QList<Frame *>();
-    }
+    QJsonDocument json(QJsonDocument::fromJson(resp.stdoutContent.toUtf8()));
 
     QList<Frame *> result;
-    for (const auto &line: lines) {
-        QStringList cols = line.split("\t");
-        if (cols.size() != 5) {
-            qDebug() << "invalid number of columns" << line;
+    if (!json.isArray()) {
+        qDebug() << "output not a JSON array" << json;
+        return result;
+    }
+
+    const QJsonArray &items = json.array();
+
+    for (const auto &arrayItem: items) {
+        if (!arrayItem.isObject()) {
+            qDebug() << "item not an object" << arrayItem;
             break;
         }
 
-        const QString id = cols[0];
-        const QDateTime start = QDateTime::fromString(cols[1], Qt::ISODate);
-        const QDateTime end = QDateTime::fromString(cols[2], Qt::ISODate);
-        const QDateTime lastUpdated = QDateTime::fromString(cols[3], Qt::ISODate);
-        const QString notes = cols[4];
+        const QJsonObject &item = arrayItem.toObject();
+        const QString id = item["id"].toString();
+        const QDateTime start = QDateTime::fromString(item["startTime"].toString(), Qt::ISODate);
+        const QDateTime end = QDateTime::fromString(item["stopTime"].toString(), Qt::ISODate);
+        const QDateTime lastUpdated = QDateTime::fromString(item["lastUpdated"].toString(), Qt::ISODate);
+        const QString notes = item["notes"].toString();
         const QStringList tags = QStringList();
 
         // fixme who's deleting the allocated data?

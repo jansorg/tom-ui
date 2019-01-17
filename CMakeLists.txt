@@ -30,8 +30,7 @@ add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE d
 target_include_directories(${PROJECT_NAME} PRIVATE source)
 
 # setup libraries
-find_package(Qt5Widgets CONFIG REQUIRED)
-find_package(Qt5Svg CONFIG REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets Svg REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg)
 

@@ -9,7 +9,8 @@ mkdir build
 cd build
 cmake .. -DCMAKE_PREFIX_PATH="$QTDIR"
 make
+
 mv tom-ui.app Tom.app
-cp $(which tom) Tom.app/Contents/MacOS
-$QTDIR/bin/macdeployqt Tom.app -dmg
+go build -o Tom.app/Contents/MacOS/tom -ldflags "-s -w" github.com/jansorg/tom
+"$QTDIR/bin/macdeployqt" Tom.app -dmg
 

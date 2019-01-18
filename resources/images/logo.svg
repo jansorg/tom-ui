@@ -1,70 +1,67 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="20mm"
-   height="20mm"
-   viewBox="0 0 20 20"
-   version="1.1"
    id="svg8"
-   inkscape:export-filename="/home/jansorg/Projects/Go/gotime-ui/gotime-qt5/resources/images/trayicon.png"
-   inkscape:export-xdpi="27.940001"
-   inkscape:export-ydpi="27.940001"
-   inkscape:version="0.92.4 5da689c313, 2019-01-14"
-   sodipodi:docname="logo.svg">
+   version="1.1"
+   viewBox="0 0 20 20"
+   height="20mm"
+   width="20mm">
   <defs
      id="defs2">
     <linearGradient
-       inkscape:collect="always"
-       id="linearGradient831">
+       id="linearGradient4565">
       <stop
-         style="stop-color:#000000;stop-opacity:1;"
+         id="stop4561"
          offset="0"
-         id="stop827" />
+         style="stop-color:#ffe680;stop-opacity:1" />
       <stop
-         style="stop-color:#000000;stop-opacity:0;"
+         id="stop4563"
          offset="1"
-         id="stop829" />
+         style="stop-color:#ffeeaa;stop-opacity:0;" />
     </linearGradient>
     <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient831"
-       id="linearGradient833"
-       x1="18.81606"
-       y1="19.965429"
-       x2="27.536805"
+       osb:paint="solid"
+       id="linearGradient2298">
+      <stop
+         id="stop2296"
+         offset="0"
+         style="stop-color:#dfdfdf;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient831">
+      <stop
+         id="stop827"
+         offset="0"
+         style="stop-color:#000000;stop-opacity:1;" />
+      <stop
+         id="stop829"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:0;" />
+    </linearGradient>
+    <linearGradient
+       gradientUnits="userSpaceOnUse"
        y2="19.965429"
-       gradientUnits="userSpaceOnUse" />
+       x2="27.536805"
+       y1="19.965429"
+       x1="18.81606"
+       id="linearGradient833"
+       xlink:href="#linearGradient831" />
+    <linearGradient
+       gradientTransform="matrix(1.116802,0,0,1.0491722,-1.1680203,-14.112418)"
+       gradientUnits="userSpaceOnUse"
+       y2="277.08154"
+       x2="9.9254999"
+       y1="296.22186"
+       x1="9.9254999"
+       id="linearGradient4567"
+       xlink:href="#linearGradient4565" />
   </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="11.075102"
-     inkscape:cx="8.6042548"
-     inkscape:cy="34.945"
-     inkscape:document-units="mm"
-     inkscape:current-layer="g820"
-     showgrid="false"
-     units="mm"
-     width="20mm"
-     inkscape:window-width="2560"
-     inkscape:window-height="1369"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:snap-text-baseline="false" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -78,26 +75,27 @@
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Ebene 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(0,-277)">
+     transform="translate(0,-277)"
+     id="layer1">
     <g
        id="g820">
-      <flowRoot
-         xml:space="preserve"
+      <ellipse
+         ry="9.4253654"
+         rx="9.4253664"
+         cy="287"
+         cx="10"
+         id="path821"
+         style="opacity:1;fill:url(#linearGradient4567);fill-opacity:1;fill-rule:nonzero;stroke:#898989;stroke-width:0.86596733;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal" />
+      <g
          id="flowRoot819"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333302px;line-height:1.25;font-family:'Frutiger LT Pro';-inkscape-font-specification:'Frutiger LT Pro';letter-spacing:0px;word-spacing:0px;fill:#d7eef4;fill-opacity:1;stroke:#ff2a2a;stroke-width:0.18741184;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal;"
-         transform="matrix(1.9215064,0,0,1.7738474,-34.533663,251.58437)"><flowRegion
-           id="flowRegion821"
-           style="fill:#d7eef4;fill-opacity:1;stroke:#ff2a2a;stroke-width:0.18741184;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal;"><rect
-             id="rect823"
-             width="39.99963"
-             height="50.834747"
-             x="18.509987"
-             y="12.927471"
-             style="fill:#d7eef4;fill-opacity:1;stroke:#ff2a2a;stroke-width:0.18741184;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal;" /></flowRegion><flowPara
-           id="flowPara825"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Rubik One';-inkscape-font-specification:'Rubik One';fill:#d7eef4;fill-opacity:1;stroke:#ff2a2a;stroke-width:0.18741184;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal;">T</flowPara></flowRoot>    </g>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333302px;line-height:1.25;font-family:'Frutiger LT Pro';-inkscape-font-specification:'Frutiger LT Pro';letter-spacing:0px;word-spacing:0px;fill:#0044aa;fill-opacity:1;stroke:#424242;stroke-width:0.18746728;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+         transform="matrix(1.5600684,0,0,1.4401843,-25.549088,258.02754)"
+         aria-label="T">
+        <path
+           id="path831"
+           style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:12.50617599px;font-family:'Montserrat Alternates';-inkscape-font-specification:'Montserrat Alternates, Heavy';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#0044aa;fill-opacity:1;stroke:#424242;stroke-width:0.18746728;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+           d="m 26.313619,18.904091 q -1.013,-0.562778 -2.051012,-0.775383 v 6.465693 h -2.951458 v -6.465693 q -1.038013,0.212605 -2.051013,0.775383 l -0.975482,-2.101038 q 0.937964,-0.562778 2.101038,-0.862926 1.163074,-0.300148 2.401186,-0.300148 1.238111,0 2.401186,0.300148 1.163074,0.300148 2.101037,0.862926 z" />
+      </g>
+    </g>
   </g>
 </svg>

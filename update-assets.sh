@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# export plain svgs for Qt
+inkscape -l resources/images/logo.svg images/Logo.svg
+inkscape -l res/AppIcon.svg images/Logo.svg
+
 inkscape -e resources/images/logo32.png -w 32 -h 32 resources/images/logo.svg
 
 inkscape -e res/AppIcon32.png -w 32 -h 32 res/AppIcon.svg

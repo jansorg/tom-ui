@@ -1,10 +1,12 @@
 #include <QtGui>
 #include <QtWidgets/QMenu>
-
-#include <gotime/GotimeControl.h>
-#include <gotime/startStop_project_action.h>
 #include <QtWidgets/QMainWindow>
+
+#include "gotime/GotimeControl.h"
+#include "gotime/startStop_project_action.h"
+
 #include "tray.h"
+#include "icons.h"
 
 GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) : QObject(),
                                                                                   _control(control),
@@ -32,7 +34,7 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
     connect(showWindowAction, &QAction::triggered, mainWindow, &QMainWindow::show);
     _menu->addAction(showWindowAction);
 
-    QAction *quitAction = new QAction("&Quit", this);
+    QAction *quitAction = new QAction(Icons::exit(), "&Quit", this);
     connect(quitAction, &QAction::triggered, &QCoreApplication::quit);
     _menu->addAction(quitAction);
 

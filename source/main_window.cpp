@@ -4,6 +4,7 @@
 #include <QtWidgets/QMainWindow>
 
 #include "version.h"
+#include "icons.h"
 #include "main_window.h"
 #include "model/frametableviewmodel.h"
 #include "model/ProjectTreeModel.h"
@@ -17,8 +18,8 @@ MainWindow::MainWindow(GotimeControl *control, QMainWindow *parent) : QMainWindo
     ui.setupUi(this);
     ui.projectTree->setControl(control);
 
-    ui.actionQuit->setIcon(QIcon::fromTheme("application-exit", QIcon(":/images/start.svg")));
-    ui.actionHelpAbout->setIcon(QIcon::fromTheme("help-about"));
+    ui.actionQuit->setIcon(Icons::exit());
+    ui.actionHelpAbout->setIcon(Icons::about());
 
     connect(ui.projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::loadFrames);
     connect(control, &GotimeControl::projectStarted, this, &MainWindow::projectStatusChanged);

@@ -14,23 +14,31 @@ fix_project_version()
 # Set additional project information
 set(COMPANY "Joachim Ansorg")
 set(COPYRIGHT "Copyright (c) 2019 Joachim Ansorg. All rights reserved.")
-set(IDENTIFIER "eu.ja-dev.tom-ui")
+set(IDENTIFIER "eu.ja-dev.tomui")
 
 add_project_meta(META_FILES_TO_INCLUDE)
 
 set(RESOURCE_FILES resources/resources.qrc)
 
+configure_file (
+        "source/version.h.in"
+        "${PROJECT_BINARY_DIR}/version.h"
+)
+
 file(GLOB_RECURSE UI_FILES source/*.ui)
 file(GLOB_RECURSE CODE_FILES source/*.cpp)
 
 add_compile_options(-std=c++11 -Wall -Wextra)
-add_compile_options(-O2)
+if(CMAKE_BUILD_TYPE EQUAL "release")
+    add_compile_options(-O2)
+endif()
 
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
     ${CODE_FILES} ${META_FILES_TO_INCLUDE} ${RESOURCE_FILES}
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE source)
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})
 
 # setup libraries
 find_package(Qt5 COMPONENTS Core Widgets Svg REQUIRED)
@@ -46,7 +54,6 @@ elseif(APPLE)
         include(BundleUtilities)
         fixup_bundle(${CMAKE_INSTALL_PREFIX}/tom-ui.app \"\" \"\")
     " COMPONENT Runtime)
-
 elseif(WIN32)
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 endif()

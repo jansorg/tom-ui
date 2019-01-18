@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+inkscape -e resources/images/logo32.png -w 32 -h 32 resources/images/logo.svg
+
 inkscape -e res/AppIcon32.png -w 32 -h 32 res/AppIcon.svg
 inkscape -e res/AppIcon128.png -w 128 -h 128 res/AppIcon.svg
 

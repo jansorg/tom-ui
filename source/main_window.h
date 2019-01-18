@@ -16,6 +16,9 @@ public:
 
     ~MainWindow() override;
 
+public slots:
+    void helpAbout();
+
 private slots:
 
     void projectStatusChanged(const Project &project);

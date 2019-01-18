@@ -94,7 +94,14 @@
     <addaction name="actionMinimize"/>
     <addaction name="actionQuit"/>
    </widget>
+   <widget class="QMenu" name="menu_Help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionHelpAbout"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menu_Help"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionQuit">
@@ -113,14 +120,17 @@
     <string>&amp;Hide Window</string>
    </property>
   </action>
-  <action name="actionAbout">
-   <property name="text">
-    <string>&amp;About</string>
-   </property>
-  </action>
   <action name="actionRefresh">
    <property name="text">
     <string>&amp;Refresh</string>
+   </property>
+  </action>
+  <action name="actionHelpAbout">
+   <property name="text">
+    <string>&amp;About Tom</string>
+   </property>
+   <property name="toolTip">
+    <string>&amp;About Tom</string>
    </property>
   </action>
  </widget>
@@ -165,8 +175,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionHelpAbout</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>helpAbout()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>385</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshData()</slot>
+  <slot>helpAbout()</slot>
  </slots>
 </ui>

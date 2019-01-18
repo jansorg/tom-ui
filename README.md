@@ -20,3 +20,6 @@ The tray icon displays the recently used projects for a quick start of a new act
 
 ## License
 To be decided, probably GPL.
+
+# Useful resources
+- List of theme icons: https://specifications.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html

@@ -1,12 +1,24 @@
-#include <model/frametableviewmodel.h>
 #include <QtWidgets/QTreeView>
 #include <QtWidgets/QAction>
-#include "model/ProjectTreeModel.h"
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QMainWindow>
+
+#include "version.h"
 #include "main_window.h"
+#include "model/frametableviewmodel.h"
+#include "model/ProjectTreeModel.h"
+#include "view/projecttreeview.h"
 
 MainWindow::MainWindow(GotimeControl *control, QMainWindow *parent) : QMainWindow(parent), gotimeControl(control) {
+//#ifdef Q_OS_LINUX
+    setWindowIcon(QIcon(":/images/logo32.png"));
+//#endif
+
     ui.setupUi(this);
     ui.projectTree->setControl(control);
+
+    ui.actionQuit->setIcon(QIcon::fromTheme("application-exit", QIcon(":/images/start.svg")));
+    ui.actionHelpAbout->setIcon(QIcon::fromTheme("help-about"));
 
     connect(ui.projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::loadFrames);
     connect(control, &GotimeControl::projectStarted, this, &MainWindow::projectStatusChanged);
@@ -49,4 +61,9 @@ void MainWindow::loadFrames(const Project &project) {
     sortedModel->setSourceModel(frameModel);
     ui.frameView->setModel(sortedModel);
     ui.frameView->sortByColumn(0, Qt::DescendingOrder);
+}
+
+void MainWindow::helpAbout() {
+    QString about = QString("Tom is a simple UI for the <a href=\"https://github.com/jansorg/tom-ui\">tom time tracker</a> command line application.<br><br>Version: %1").arg(PROJECT_VERSION);
+    QMessageBox::about(this, "About Tom", about);
 }

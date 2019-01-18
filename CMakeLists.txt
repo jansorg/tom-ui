@@ -12,6 +12,7 @@ project(tom-ui VERSION 1.0.0)
 fix_project_version()
 
 # Set additional project information
+set(DESCRIPTION "Tom Time Tracker")
 set(COMPANY "Joachim Ansorg")
 set(COPYRIGHT "Copyright (c) 2019 Joachim Ansorg. All rights reserved.")
 set(IDENTIFIER "eu.ja-dev.tomui")

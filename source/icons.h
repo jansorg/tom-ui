@@ -9,6 +9,10 @@ namespace Icons {
     inline QIcon about() {
         return QIcon::fromTheme("help-about", QIcon(":/images/start.svg"));
     }
+
+    inline QIcon newProject() {
+        return QIcon(":/oxygen/tab-new-background.svg");
+    }
 }
 
 #endif //TOM_UI_ICONS_H

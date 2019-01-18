@@ -17,5 +17,7 @@
     <file>images/osx/trayicon-3.svg</file>
     <file>images/osx/trayicon-4.svg</file>
     <file>images/osx/trayicon-stopped.svg</file>
+
+    <file>oxygen/tab-new-background.svg</file>
   </qresource>
 </RCC>

@@ -303,3 +303,9 @@ CommandStatus GotimeControl::run(QStringList &args) {
     qDebug() << "exit code:" << process.exitCode();
     return CommandStatus(output, errOutput, process.exitCode());
 }
+
+Project GotimeControl::createProject(Project project) {
+    QStringList args;
+    args << "create" << "project";
+    return Project();
+}

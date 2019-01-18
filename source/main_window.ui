@@ -103,7 +103,21 @@
    <addaction name="menuFile"/>
    <addaction name="menu_Help"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="floatable">
+    <bool>true</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionCreateProject"/>
+  </widget>
   <action name="actionQuit">
    <property name="text">
     <string>E&amp;xit</string>
@@ -133,6 +147,21 @@
     <string>&amp;About Tom</string>
    </property>
   </action>
+  <action name="actionCreateProject">
+   <property name="icon">
+    <iconset resource="../resources/resources.qrc">
+     <normaloff>:/oxygen/tab-new-background.svg</normaloff>:/oxygen/tab-new-background.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Create New Project</string>
+   </property>
+   <property name="toolTip">
+    <string>Create a new project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+P</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -141,7 +170,9 @@
    <header>view/projecttreeview.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../resources/resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionMinimize</sender>
@@ -191,9 +222,26 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionCreateProject</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>createProject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>385</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshData()</slot>
   <slot>helpAbout()</slot>
+  <slot>createProject()</slot>
  </slots>
 </ui>

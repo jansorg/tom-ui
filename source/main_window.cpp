@@ -68,3 +68,7 @@ void MainWindow::helpAbout() {
     QString about = QString("Tom is a simple UI for the <a href=\"https://github.com/jansorg/tom-ui\">tom time tracker</a> command line application.<br><br>Version: %1").arg(PROJECT_VERSION);
     QMessageBox::about(this, "About Tom", about);
 }
+
+void MainWindow::createProject() {
+
+}

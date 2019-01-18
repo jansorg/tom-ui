@@ -16,7 +16,15 @@ Q_OBJECT
 public:
     explicit GotimeControl(QString gotimePath, bool bashScript, QObject *parent);
 
+    /**
+     * Create a new project.
+     * @param project
+     * @return  The new project. If the create call failed, then the returned project will return false for Project::isValid()
+     */
+    Project createProject(Project project);
+
     QList<Project> loadProjects(int max = -1);
+
     QList<Project> loadRecentProjects(int max);
 
     GotimeStatus status();
@@ -31,7 +39,8 @@ public:
 
     bool renameTag(QString id, QString newName);
 
-    bool updateFrame(Frame* frame, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, QString notes);
+    bool updateFrame(Frame *frame, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, QString notes);
+
     bool updateFrame(QString id, QString projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, QString notes);
 
 signals:
@@ -42,7 +51,7 @@ signals:
 
     void projectCancelled(const Project &);
 
-    void projectUpdated(const Project& project);
+    void projectUpdated(const Project &project);
 
 
 public slots:

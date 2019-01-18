@@ -27,6 +27,8 @@ private slots:
 
     void loadFrames(const Project &project);
 
+    void createProject();
+
 private:
     void createActions();
 

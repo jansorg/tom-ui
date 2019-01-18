@@ -9,8 +9,7 @@ include(cmake/QtCommon.cmake)
 project(tom-ui
         VERSION 1.0.0
         DESCRIPTION "Tom Time Tracker"
-        HOMEPAGE_URL "https://github.com/jansorg/tom-ui"
-        )
+        HOMEPAGE_URL "https://github.com/jansorg/tom-ui")
 
 # Set PROJECT_VERSION_PATCH and PROJECT_VERSION_TWEAK to 0 if not present, needed by add_project_meta
 fix_project_version()

@@ -91,11 +91,17 @@ void GotimeTrayIcon::updateStatus() {
 }
 
 void GotimeTrayIcon::loadIcons() {
-    _stoppedIcon = QPixmap(":/images/trayicon-stopped.svg");
-    _activeIcons << QPixmap(":/images/trayicon-1.svg");
-    _activeIcons << QPixmap(":/images/trayicon-2.svg");
-    _activeIcons << QPixmap(":/images/trayicon-3.svg");
-    _activeIcons << QPixmap(":/images/trayicon-4.svg");
+#ifdef Q_OS_MAC
+    QString prefix(":/images/osx/");
+#else
+    QString prefix(":/images/");
+#endif
+
+    _stoppedIcon = QPixmap(prefix + "trayicon-stopped.svg");
+    _activeIcons << QPixmap(prefix + "trayicon-1.svg");
+    _activeIcons << QPixmap(prefix + "trayicon-2.svg");
+    _activeIcons << QPixmap(prefix + "trayicon-3.svg");
+    _activeIcons << QPixmap(prefix + "trayicon-4.svg");
 }
 
 void GotimeTrayIcon::projectStarted(const Project &project) {

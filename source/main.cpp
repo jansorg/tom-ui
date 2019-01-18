@@ -20,6 +20,7 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
     #ifdef Q_OS_MAC
+        // locate binary next to our binary in the app bundle
         command = QFileInfo(QCoreApplication::applicationFilePath()).dir().filePath("tom");
     #endif
 

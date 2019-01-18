@@ -44,7 +44,7 @@ add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE d
 )
 
 if(APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "tom")
+    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "Tom")
 endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE source)

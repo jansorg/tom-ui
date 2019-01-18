@@ -6,16 +6,21 @@ set(CMAKE_MODULE_PATH cmake)
 include(cmake/QtCommon.cmake)
 
 # Basic information about project
-project(tom-ui VERSION 1.0.0)
+project(tom-ui
+        VERSION 1.0.0
+        DESCRIPTION "Tom Time Tracker"
+        HOMEPAGE_URL "https://github.com/jansorg/tom-ui"
+        )
 
 # Set PROJECT_VERSION_PATCH and PROJECT_VERSION_TWEAK to 0 if not present, needed by add_project_meta
 fix_project_version()
 
 # Set additional project information
-set(DESCRIPTION "Tom Time Tracker")
 set(COMPANY "Joachim Ansorg")
 set(COPYRIGHT "Copyright (c) 2019 Joachim Ansorg. All rights reserved.")
 set(IDENTIFIER "eu.ja-dev.tomui")
+
+set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
 
 add_project_meta(META_FILES_TO_INCLUDE)
 
@@ -37,6 +42,10 @@ endif()
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
     ${CODE_FILES} ${META_FILES_TO_INCLUDE} ${RESOURCE_FILES}
 )
+
+if(APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "tom")
+endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE source)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})

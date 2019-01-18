@@ -43,9 +43,9 @@ add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE d
     ${CODE_FILES} ${META_FILES_TO_INCLUDE} ${RESOURCE_FILES}
 )
 
-if(APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "Tom")
-endif()
+#if(APPLE)
+#    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "tom-ui")
+#endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE source)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})

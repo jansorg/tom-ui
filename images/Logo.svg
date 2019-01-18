@@ -24,18 +24,6 @@
   <defs
      id="defs2">
     <linearGradient
-       inkscape:collect="always"
-       id="linearGradient4565">
-      <stop
-         style="stop-color:#ffe680;stop-opacity:1"
-         offset="0"
-         id="stop4561" />
-      <stop
-         style="stop-color:#ffeeaa;stop-opacity:0;"
-         offset="1"
-         id="stop4563" />
-    </linearGradient>
-    <linearGradient
        id="linearGradient2298"
        osb:paint="solid">
       <stop
@@ -64,16 +52,6 @@
        x2="27.536805"
        y2="19.965429"
        gradientUnits="userSpaceOnUse" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient4565"
-       id="linearGradient4567"
-       x1="9.9254999"
-       y1="296.22186"
-       x2="9.9254999"
-       y2="277.08154"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.116802,0,0,1.0491722,-1.1680203,-14.112418)" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -83,10 +61,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.075102"
-     inkscape:cx="31.74978"
-     inkscape:cy="39.873102"
+     inkscape:cx="8.6165612"
+     inkscape:cy="43.158201"
      inkscape:document-units="mm"
-     inkscape:current-layer="flowRoot819"
+     inkscape:current-layer="g820"
      showgrid="false"
      units="mm"
      width="20mm"
@@ -115,22 +93,24 @@
      transform="translate(0,-277)">
     <g
        id="g820">
-      <ellipse
-         style="opacity:1;fill:url(#linearGradient4567);fill-opacity:1;fill-rule:nonzero;stroke:#898989;stroke-width:0.86596733;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
-         id="path821"
-         cx="10"
-         cy="287"
-         rx="9.4253664"
-         ry="9.4253654" />
+      <rect
+         style="opacity:1;fill:#002255;fill-opacity:1;fill-rule:nonzero;stroke:#cccccc;stroke-width:1.35890102;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.68548387;paint-order:stroke fill markers"
+         id="rect1030"
+         width="18.388561"
+         height="18.388561"
+         x="0.80571938"
+         y="277.80573"
+         ry="0" />
       <g
          aria-label="T"
          transform="matrix(1.5600684,0,0,1.4401843,-25.549088,258.02754)"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333302px;line-height:1.25;font-family:'Frutiger LT Pro';-inkscape-font-specification:'Frutiger LT Pro';letter-spacing:0px;word-spacing:0px;fill:#0044aa;fill-opacity:1;stroke:#424242;stroke-width:0.18746728;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333302px;line-height:1.25;font-family:'Frutiger LT Pro';-inkscape-font-specification:'Frutiger LT Pro';letter-spacing:0px;word-spacing:0px;fill:#ff5555;fill-opacity:1;stroke:none;stroke-width:0.18746728;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
          id="flowRoot819">
         <path
            d="m 26.313619,18.904091 q -1.013,-0.562778 -2.051012,-0.775383 v 6.465693 h -2.951458 v -6.465693 q -1.038013,0.212605 -2.051013,0.775383 l -0.975482,-2.101038 q 0.937964,-0.562778 2.101038,-0.862926 1.163074,-0.300148 2.401186,-0.300148 1.238111,0 2.401186,0.300148 1.163074,0.300148 2.101037,0.862926 z"
-           style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:12.50617599px;font-family:'Montserrat Alternates';-inkscape-font-specification:'Montserrat Alternates, Heavy';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#0044aa;fill-opacity:1;stroke:#424242;stroke-width:0.18746728;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
-           id="path831" />
+           style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:12.50617599px;font-family:'Montserrat Alternates';-inkscape-font-specification:'Montserrat Alternates, Heavy';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ff5555;fill-opacity:1;stroke:none;stroke-width:0.18746728;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+           id="path831"
+           inkscape:connector-curvature="0" />
       </g>
     </g>
   </g>

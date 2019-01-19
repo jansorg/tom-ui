@@ -307,7 +307,30 @@ CommandStatus GotimeControl::run(const QStringList &args) {
 
 Project GotimeControl::createProject(const QString &parentID, const QString &name) {
     QStringList args;
-    args << "create" << "project" << "-p" << parentID << name;
+    args << "create" << "project"
+         << "-output" << "json"
+         << "-p" << parentID
+         << name;
+
+    const CommandStatus &status = run(args);
+    if (status.isSuccessful()) {
+        QJsonDocument json(QJsonDocument::fromJson(status.stdoutContent.toUtf8()));
+
+        const QJsonObject &item = json.object();
+        const QString id = item["id"].toString();
+        const QString parent = item["parent"].toString();
+
+        QStringList names;
+        for (auto v : item["fullName"].toArray()) {
+            names << v.toString();
+        }
+
+        const Project &newProject = Project(names, id, parent);
+        emit projectCreated(newProject);
+
+        return newProject;
+    }
+
     return Project();
 }
 

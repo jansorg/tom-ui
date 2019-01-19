@@ -10,16 +10,16 @@ namespace Icons {
         return QIcon::fromTheme("help-about", QIcon(":/images/start.svg"));
     }
 
-    inline QIcon newProject() {
-        return QIcon(":/oxygen/tab-new-background.svg");
-    }
-
     inline QIcon start() {
         return QIcon(":/images/start.svg");
     }
 
     inline QIcon stop() {
         return QIcon(":/images/stop.svg");
+    }
+
+    inline QIcon newProject() {
+        return QIcon::fromTheme("list-add", QIcon(":/images/add.svg"));
     }
 
     inline QIcon removeFrame() {

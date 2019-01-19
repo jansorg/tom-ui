@@ -15,16 +15,18 @@
 class ProjectTreeView : public QTreeView {
 Q_OBJECT
 
-public:
-    explicit ProjectTreeView(QWidget *parent);
-
-    void setup(GotimeControl *control, ProjectStatusManager* statusManager);
-
-    void refresh();
-
 signals:
 
     void projectSelected(const Project &project);
+
+public:
+    explicit ProjectTreeView(QWidget *parent);
+
+    void setup(GotimeControl *control, ProjectStatusManager *statusManager);
+
+public slots:
+
+    void refresh();
 
 protected:
     ProjectTreeModel *getProjectModel();
@@ -36,13 +38,16 @@ private slots:
     void onCurrentChanged(const QModelIndex &index, const QModelIndex &prev);
 
     void projectUpdated(const Project &project);
-    void projectsStatusChanged(const QStringList& projectIDs);
+
+    void projectsStatusChanged(const QStringList &projectIDs);
 
 private:
+    void createNewProject(const Project &parentProject);
+
     void showContextMenu(ProjectTreeItem *item, const QPoint &globalPos);
 
     GotimeControl *_control;
-    ProjectStatusManager* _statusManager;
+    ProjectStatusManager *_statusManager;
 };
 
 

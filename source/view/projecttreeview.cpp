@@ -1,5 +1,7 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QHeaderView>
+#include <icons.h>
+#include <QtWidgets/QInputDialog>
 
 #include "projecttreeview.h"
 
@@ -15,6 +17,7 @@ void ProjectTreeView::setup(GotimeControl *control, ProjectStatusManager *status
     _statusManager = statusManager;
 
     connect(_control, &GotimeControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
+    connect(_control, &GotimeControl::projectCreated, this, &ProjectTreeView::refresh);
     connect(_statusManager, &ProjectStatusManager::projectsStatusChanged, this, &ProjectTreeView::projectsStatusChanged);
 }
 
@@ -43,8 +46,10 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
     const Project &project = item->getProject();
 
     QMenu menu;
-    QAction *start = menu.addAction(QIcon(":/images/start.svg"), "Start", [this, project] { _control->startProject(project); });
-    QAction *stop = menu.addAction(QIcon(":/images/stop.svg"), "Stop", [this] { _control->stopActivity(); });
+    QAction *start = menu.addAction(Icons::start(), "Start", [this, project] { _control->startProject(project); });
+    QAction *stop = menu.addAction(Icons::stop(), "Stop", [this] { _control->stopActivity(); });
+    menu.addSeparator();
+    menu.addAction(Icons::newProject(), "Create new project", [this, project] { createNewProject(project); } );
 
     bool started = _control->isStarted(project);
     start->setEnabled(!started);
@@ -80,4 +85,12 @@ void ProjectTreeView::projectsStatusChanged(const QStringList &projectIDs) {
 
 ProjectTreeModel *ProjectTreeView::getProjectModel() {
     return dynamic_cast<ProjectTreeModel *>(this->model());
+}
+
+void ProjectTreeView::createNewProject(const Project &parentProject) {
+    bool ok;
+    QString projectName = QInputDialog::getText(this, tr("Create Project"), tr("Project name:"), QLineEdit::Normal, "", &ok);
+    if (ok && !projectName.isEmpty()){
+        _control->createProject(parentProject.getID(), projectName);
+    }
 }

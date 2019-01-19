@@ -21,7 +21,7 @@ public:
      * @param project
      * @return  The new project. If the create call failed, then the returned project will return false for Project::isValid()
      */
-    Project createProject(const QString& parentID, const QString& name);
+    Project createProject(const QString &parentID, const QString &name);
 
     QList<Project> loadProjects(int max = -1);
 
@@ -55,8 +55,11 @@ signals:
 
     void projectUpdated(const Project &project);
 
-    void frameUpdated(const QString& id, const QString& projectID);
-    void frameRemoved(const QString& id, const QString& projectID);
+    void projectCreated(const Project &project);
+
+    void frameUpdated(const QString &id, const QString &projectID);
+
+    void frameRemoved(const QString &id, const QString &projectID);
 
 public slots:
 

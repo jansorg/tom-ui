@@ -17,7 +17,6 @@ public:
 
     ~ProjectTreeModel() override;
 
-    void loadProjects();
 
     Project projectAtIndex(const QModelIndex &index);
 
@@ -46,6 +45,10 @@ public:
     void updateProjectStatus(const QString &projectID);
 
     QModelIndex getProjectRow(const QString &projectID) const;
+
+public slots:
+
+    void loadProjects();
 
 private slots:
 

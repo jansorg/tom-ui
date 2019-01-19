@@ -100,7 +100,14 @@
     </property>
     <addaction name="actionHelpAbout"/>
    </widget>
+   <widget class="QMenu" name="menuImport">
+    <property name="title">
+     <string>I&amp;mport</string>
+    </property>
+    <addaction name="actionImportMacTimeTracker"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuImport"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
@@ -152,7 +159,8 @@
   </action>
   <action name="actionCreateProject">
    <property name="icon">
-    <iconset theme="document-new"/>
+    <iconset theme="document-new">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Create New Project</string>
@@ -162,6 +170,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+P</string>
+   </property>
+  </action>
+  <action name="actionImportMacTimeTracker">
+   <property name="text">
+    <string>Mac Time Tracker</string>
    </property>
   </action>
  </widget>
@@ -245,10 +258,27 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionImportMacTimeTracker</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>importMacTimeTracker()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>385</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshData()</slot>
   <slot>helpAbout()</slot>
   <slot>createProject()</slot>
+  <slot>importMacTimeTracker()</slot>
  </slots>
 </ui>

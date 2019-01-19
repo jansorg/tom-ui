@@ -3,6 +3,8 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QMainWindow>
 #include <dialogs/commondialogs.h>
+#include <QtWidgets/QInputDialog>
+#include <QtWidgets/QFileDialog>
 
 #include "version.h"
 #include "icons.h"
@@ -46,4 +48,12 @@ void MainWindow::helpAbout() {
 
 void MainWindow::createProject() {
     CommonDialogs::createProject(Project(), _control, this);
+}
+
+void MainWindow::importMacTimeTracker() {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Mac Time Tracker CSV export"),"",tr("CSV Files (*.csv)"));
+
+    if (!fileName.isEmpty()) {
+        _control->importMacTimeTracker(fileName);
+    }
 }

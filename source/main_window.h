@@ -13,16 +13,21 @@ class MainWindow : public QMainWindow {
 Q_OBJECT
 
 public:
-    explicit MainWindow(GotimeControl *control, ProjectStatusManager* statusManager, QMainWindow *parent = nullptr);
+    explicit MainWindow(GotimeControl *control, ProjectStatusManager *statusManager, QMainWindow *parent = nullptr);
 
     ~MainWindow() override;
 
 public slots:
+
     void helpAbout();
 
 private slots:
+
     void refreshData();
+
     void createProject();
+
+    void importMacTimeTracker();
 
 private:
     void createActions();

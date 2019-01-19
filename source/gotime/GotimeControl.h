@@ -45,7 +45,11 @@ public:
 
     bool removeFrame(Frame frame);
 
+    bool importMacTimeTracker(const QString &filename);
+
 signals:
+
+    void dataImported();
 
     void projectStarted(const Project &);
 

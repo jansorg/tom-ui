@@ -16,8 +16,7 @@ ProjectTreeModel::ProjectTreeModel(GotimeControl *control, ProjectStatusManager 
     loadProjects();
 
     connect(_control, &GotimeControl::projectCreated, this, &ProjectTreeModel::addProject);
-
-//    printProjects(0, _rootItem);
+    connect(_control, &GotimeControl::dataImported, this, &ProjectTreeModel::loadProjects);
 }
 
 ProjectTreeModel::~ProjectTreeModel() {

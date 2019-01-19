@@ -342,11 +342,22 @@ bool GotimeControl::removeFrame(Frame frame) {
     args << "remove" << "frame" << frame.id;
 
     const CommandStatus &status = run(args);
-    qDebug() << status.stdoutContent;
-
     bool ok = status.isSuccessful();
     if (ok) {
         emit frameRemoved(frame.id, frame.projectID);
     }
     return ok;
+}
+
+bool GotimeControl::importMacTimeTracker(const QString &filename) {
+    QStringList args;
+    args << "import" << "macTimeTracker" << filename;
+
+    const CommandStatus &status = run(args);
+    qDebug() << status.stdoutContent;
+
+    if (status.isSuccessful()) {
+        emit dataImported();
+    }
+    return status.isSuccessful();
 }

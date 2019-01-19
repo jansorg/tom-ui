@@ -1,5 +1,7 @@
 **This is a project in its early stages. It's not yet functional.**
 
+![](docs/screenshot%20mac.png)
+
 # gotime-ui
 gotime-ui is a simple Qt5-based frontend for the [tom](https://github.com/jansorg/tom) time tracking cli.
 

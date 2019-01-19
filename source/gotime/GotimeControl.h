@@ -43,6 +43,8 @@ public:
 
     bool updateFrame(QString id, QString projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, QString notes);
 
+    bool removeFrame(Frame frame);
+
 signals:
 
     void projectStarted(const Project &);
@@ -54,6 +56,7 @@ signals:
     void projectUpdated(const Project &project);
 
     void frameUpdated(const QString& id, const QString& projectID);
+    void frameRemoved(const QString& id, const QString& projectID);
 
 public slots:
 
@@ -64,7 +67,7 @@ public slots:
     bool cancelActivity();
 
 private:
-    CommandStatus run(QStringList &args);
+    CommandStatus run(const QStringList &args);
 
     Project _activeProject;
     QHash<QString, Project> _cachedProjects;

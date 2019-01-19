@@ -15,6 +15,6 @@ QVariant ProjectTreeRootItem::data(int column) const {
     return QVariant();
 }
 
-bool ProjectTreeRootItem::setData(int column, const QVariant &) {
+bool ProjectTreeRootItem::setData(int, const QVariant &) {
     return false;
 }

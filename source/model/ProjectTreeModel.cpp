@@ -9,7 +9,8 @@ enum ProjectRoles {
     idRole = Qt::UserRole
 };
 
-ProjectTreeModel::ProjectTreeModel(GotimeControl *control, ProjectStatusManager *statusManager, QObject *parent) : QAbstractItemModel(parent), _control(control),
+ProjectTreeModel::ProjectTreeModel(GotimeControl *control, ProjectStatusManager *statusManager, QObject *parent) : QAbstractItemModel(parent),
+                                                                                                                   _control(control),
                                                                                                                    _statusManager(statusManager) {
     _headers = QStringList() << "Name" << "Today" << "This week" << "This month" << "Total";
     _projects << _control->loadProjects();
@@ -19,7 +20,7 @@ ProjectTreeModel::ProjectTreeModel(GotimeControl *control, ProjectStatusManager 
     _rootItem = new ProjectTreeRootItem(statusManager);
     _rootItem->appendChild(visibleRoot);
 
-    printProjects(0, _rootItem);
+//    printProjects(0, _rootItem);
 }
 
 ProjectTreeModel::~ProjectTreeModel() {

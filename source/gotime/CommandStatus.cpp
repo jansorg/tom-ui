@@ -6,7 +6,7 @@ CommandStatus::CommandStatus(QString &stdout, QString &stderr, int exitCode) : s
 
 }
 
-bool CommandStatus::isSuccessful() {
+bool CommandStatus::isSuccessful() const {
     return exitCode == 0;
 }
 

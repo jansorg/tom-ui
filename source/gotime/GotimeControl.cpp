@@ -76,7 +76,9 @@ bool GotimeControl::startProject(const Project &project) {
 
         if (stopped.isValid()) {
             emit projectStopped(stopped);
-            emit projectUpdated(stopped);
+            if (stopped != _activeProject) {
+                emit projectUpdated(stopped);
+            }
         }
     }
     return success;
@@ -285,7 +287,7 @@ const ProjectsStatus GotimeControl::projectsStatus() {
     return ProjectsStatus(mapping);
 }
 
-CommandStatus GotimeControl::run(QStringList &args) {
+CommandStatus GotimeControl::run(const QStringList &args) {
     qDebug() << "running" << _gotimePath << args;
 
     QProcess process(this);
@@ -307,4 +309,18 @@ Project GotimeControl::createProject(const QString &parentID, const QString &nam
     QStringList args;
     args << "create" << "project" << "-p" << parentID << name;
     return Project();
+}
+
+bool GotimeControl::removeFrame(Frame frame) {
+    QStringList args;
+    args << "remove" << "frame" << frame.id;
+
+    const CommandStatus &status = run(args);
+    qDebug() << status.stdoutContent;
+
+    bool ok = status.isSuccessful();
+    if (ok) {
+        emit frameRemoved(frame.id, frame.projectID);
+    }
+    return ok;
 }

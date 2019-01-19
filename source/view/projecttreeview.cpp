@@ -3,11 +3,9 @@
 
 #include "projecttreeview.h"
 
-#include "gotime/projectstatusmanager.h"
-#include "model/ProjectTreeModel.h"
-
 ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {
     setContextMenuPolicy(Qt::CustomContextMenu);
+    setUniformRowHeights(true);
 
     connect(this, &ProjectTreeView::customContextMenuRequested, this, &ProjectTreeView::onCustomContextMenuRequested);
 }

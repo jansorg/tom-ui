@@ -7,6 +7,7 @@
 class Frame {
 public:
     Frame();
+
     Frame(QString id, QString projectID, QDateTime start, QDateTime end, QDateTime lastUpdated, QString notes, QStringList tags);
 
     const Timespan getDuration() const;
@@ -18,6 +19,14 @@ public:
     QDateTime lastUpdated;
     QString notes;
     QStringList tags;
+
+    inline bool isStopped() {
+        return stopTime.isValid();
+    }
+
+    inline bool isRunning() {
+        return !stopTime.isValid();
+    }
 };
 
 

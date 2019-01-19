@@ -2,12 +2,60 @@
 
 #include "frametableviewmodel.h"
 
-FrameTableViewModel::FrameTableViewModel(QList<Frame *> &frames, GotimeControl *control, QObject *parent) : QAbstractTableModel(parent),
-                                                                                                            _frames(frames),
-                                                                                                            _control(control) {}
+FrameTableViewModel::FrameTableViewModel(GotimeControl *control, QObject *parent) : QAbstractTableModel(parent), _control(control) {
+
+    connect(_control, &GotimeControl::frameRemoved, this, &FrameTableViewModel::onFrameRemoved);
+    connect(_control, &GotimeControl::projectUpdated, this, &FrameTableViewModel::onProjectUpdated);
+}
 
 FrameTableViewModel::~FrameTableViewModel() {
     qDeleteAll(_frames);
+}
+
+void FrameTableViewModel::loadFrames(const Project &project) {
+    _currentProject = project;
+
+    beginResetModel();
+
+    qDeleteAll(_frames);
+
+    if (project.isValid()) {
+        _frames = _control->loadFrames(project.getID(), true);
+    } else {
+        _frames.clear();
+    }
+
+    endResetModel();
+}
+
+void FrameTableViewModel::onFrameRemoved(const QString &frameID, const QString &projectID) {
+    if (projectID == _currentProject.getID()) {
+        int row = findRow(frameID);
+        if (row >= 0) {
+            removeRow(row);
+        }
+    }
+}
+
+bool FrameTableViewModel::removeRows(int row, int count, const QModelIndex &parent) {
+    if (row >= _frames.size() || row + count -1 >= _frames.size()) {
+        return false;
+    }
+
+    beginRemoveRows(parent, row, row + count - 1);
+
+    for (int i = 0; i < count; i++) {
+        _frames.removeAt(row + i);
+    }
+
+    endRemoveRows();
+    return true;
+}
+
+void FrameTableViewModel::onProjectUpdated(const Project &project) {
+    if (project == _currentProject) {
+        loadFrames(project);
+    }
 }
 
 int FrameTableViewModel::rowCount(const QModelIndex &) const {
@@ -15,7 +63,7 @@ int FrameTableViewModel::rowCount(const QModelIndex &) const {
 }
 
 int FrameTableViewModel::columnCount(const QModelIndex &) const {
-    return COL_NOTES + 1;
+    return COLUMN_COUNT;
 }
 
 QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientation, int role) const {
@@ -43,6 +91,15 @@ QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientatio
     }
 
     return QVariant();
+}
+
+Frame *FrameTableViewModel::frameAt(const QModelIndex &index) const {
+    if (!index.isValid()) {
+        return nullptr;
+    }
+
+    Frame *frame = _frames.at(index.row());
+    return frame;
 }
 
 QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
@@ -139,4 +196,15 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
         emit dataChanged(index, index);
     }
     return ok;
+}
+
+int FrameTableViewModel::findRow(const QString &frameID) {
+    int index = 0;
+    for (const auto *frame : _frames) {
+        if (frame->id == frameID) {
+            return index;
+        }
+        index++;
+    }
+    return -1;
 }

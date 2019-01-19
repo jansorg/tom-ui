@@ -9,12 +9,14 @@ Q_OBJECT
 public:
     ProjectStatusManager(GotimeControl *control, QObject *parent);
 
-    ProjectStatus getStatus(const QString& projectID) const;
+    ProjectStatus getStatus(const QString &projectID) const;
 
 signals:
-    void projectsStatusChanged(const QStringList& projectIDs);
+
+    void projectsStatusChanged(const QStringList &projectIDs);
 
 private slots:
+
     void refresh();
 
 private:

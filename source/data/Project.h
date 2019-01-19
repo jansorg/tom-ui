@@ -30,4 +30,6 @@ private:
 
 inline bool operator==(const Project &a, const Project &b) { return a.getID() == b.getID(); }
 
+inline bool operator!=(const Project &a, const Project &b) { return !operator==(a, b); }
+
 #endif //GOTIME_UI_PROJECT_H

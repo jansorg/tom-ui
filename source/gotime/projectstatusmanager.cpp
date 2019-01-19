@@ -5,6 +5,7 @@ ProjectStatusManager::ProjectStatusManager(GotimeControl *control, QObject *pare
 
     connect(_control, &GotimeControl::projectUpdated, this, &ProjectStatusManager::refresh);
     connect(_control, &GotimeControl::frameUpdated, this, &ProjectStatusManager::refresh);
+    connect(_control, &GotimeControl::frameRemoved, this, &ProjectStatusManager::refresh);
 
     _timer = new QTimer(this);
     connect(_timer, &QTimer::timeout, this, &ProjectStatusManager::refresh);
@@ -19,22 +20,10 @@ ProjectStatus ProjectStatusManager::getStatus(const QString &projectID) const {
 
 // load new status, compare to old and emit signal for modified entries
 void ProjectStatusManager::refresh() {
-    const ProjectsStatus &newStatus = loadStatus();
+    //fixme we could diff old vs new state and only update the modified project status info. atm it's quick enough
+    _statusCache = loadStatus();
+    emit projectsStatusChanged(_statusCache.getMapping().keys());
 
-    const auto oldMapping = _statusCache.getMapping();
-    const QHash<QString, ProjectStatus> &newMapping = newStatus.getMapping();
-
-    QStringList changedIDs;
-    for (const auto &status : newMapping) {
-        if (!oldMapping.contains(status.id) || oldMapping.value(status.id) != status) {
-            changedIDs << status.id;
-        }
-    }
-
-    _statusCache = newStatus;
-    if (!changedIDs.isEmpty()) {
-        emit projectsStatusChanged(changedIDs);
-    }
 }
 
 ProjectsStatus ProjectStatusManager::loadStatus() {

@@ -15,7 +15,7 @@ public:
     const QString stderrContent;
     const int exitCode;
 
-    bool isSuccessful();
+    bool isSuccessful() const;
 
     bool isFailed() const;
 };

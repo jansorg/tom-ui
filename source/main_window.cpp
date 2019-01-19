@@ -22,7 +22,7 @@ MainWindow::MainWindow(GotimeControl *control, ProjectStatusManager* statusManag
     ui.actionQuit->setIcon(Icons::exit());
     ui.actionHelpAbout->setIcon(Icons::about());
 
-    connect(ui.projectTree, &ProjectTreeView::projectSelected, ui.frameView, &FrameTableView::loadFrames);
+    connect(ui.projectTree, &ProjectTreeView::projectSelected, ui.frameView, &FrameTableView::onProjectSelected);
     connect(ui.actionQuit, &QAction::triggered, &QCoreApplication::quit);
 
     createActions();

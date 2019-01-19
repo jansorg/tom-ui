@@ -29,7 +29,7 @@
         <bool>true</bool>
        </attribute>
       </widget>
-      <widget class="QTableView" name="frameView">
+      <widget class="FrameTableView" name="frameView">
        <property name="sizeIncrement">
         <size>
          <width>0</width>
@@ -168,6 +168,11 @@
    <class>ProjectTreeView</class>
    <extends>QTreeView</extends>
    <header>view/projecttreeview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>FrameTableView</class>
+   <extends>QTableView</extends>
+   <header>view/frametableview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

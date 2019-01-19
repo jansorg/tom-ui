@@ -17,14 +17,12 @@ MainWindow::MainWindow(GotimeControl *control, ProjectStatusManager* statusManag
 
     ui.setupUi(this);
     ui.projectTree->setup(control, statusManager);
+    ui.frameView->setup(control);
 
     ui.actionQuit->setIcon(Icons::exit());
     ui.actionHelpAbout->setIcon(Icons::about());
 
-    connect(ui.projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::loadFrames);
-    connect(control, &GotimeControl::projectStarted, this, &MainWindow::projectStatusChanged);
-    connect(control, &GotimeControl::projectStopped, this, &MainWindow::projectStatusChanged);
-
+    connect(ui.projectTree, &ProjectTreeView::projectSelected, ui.frameView, &FrameTableView::loadFrames);
     connect(ui.actionQuit, &QAction::triggered, &QCoreApplication::quit);
 
     createActions();
@@ -39,29 +37,6 @@ MainWindow::~MainWindow() = default;
 
 
 void MainWindow::createActions() {
-}
-
-void MainWindow::projectStatusChanged(const Project &project) {
-    if (_selectedProject.getID() == project.getID()) {
-        loadFrames(project);
-    }
-}
-
-void MainWindow::loadFrames(const Project &project) {
-    _selectedProject = project;
-
-    if (!project.isValid()) {
-        ui.frameView->setModel(nullptr);
-        return;
-    }
-
-    auto frames = gotimeControl->loadFrames(project.getID(), true);
-
-    auto *sortedModel = new QSortFilterProxyModel(this);
-    auto *frameModel = new FrameTableViewModel(frames, gotimeControl, this);
-    sortedModel->setSourceModel(frameModel);
-    ui.frameView->setModel(sortedModel);
-    ui.frameView->sortByColumn(0, Qt::DescendingOrder);
 }
 
 void MainWindow::helpAbout() {

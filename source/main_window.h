@@ -21,13 +21,7 @@ public slots:
     void helpAbout();
 
 private slots:
-
-    void projectStatusChanged(const Project &project);
-
     void refreshData();
-
-    void loadFrames(const Project &project);
-
     void createProject();
 
 private:
@@ -35,7 +29,6 @@ private:
 
     Ui::MainWindow ui;
     GotimeControl *gotimeControl;
-    Project _selectedProject;
 };
 
 #endif

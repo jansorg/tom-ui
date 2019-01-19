@@ -28,5 +28,6 @@ private:
     QStringList _names;
 };
 
+inline bool operator==(const Project &a, const Project &b) { return a.getID() == b.getID(); }
 
 #endif //GOTIME_UI_PROJECT_H

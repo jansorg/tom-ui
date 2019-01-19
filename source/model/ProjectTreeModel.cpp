@@ -238,3 +238,13 @@ void ProjectTreeModel::updateProjectStatus(const QString &projectID) {
     }
 }
 
+Project ProjectTreeModel::projectAtIndex(const QModelIndex &index) {
+    void *pointer = index.internalPointer();
+    if (pointer == nullptr) {
+        return Project();
+    }
+
+    auto *item = static_cast<ProjectTreeItem *>(pointer);
+    return item->getProject();
+}
+

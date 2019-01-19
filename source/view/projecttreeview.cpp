@@ -8,6 +8,7 @@
 ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {
     setContextMenuPolicy(Qt::CustomContextMenu);
     setUniformRowHeights(true);
+    setSortingEnabled(true);
 
     connect(this, &ProjectTreeView::customContextMenuRequested, this, &ProjectTreeView::onCustomContextMenuRequested);
 }
@@ -34,12 +35,8 @@ void ProjectTreeView::setup(GotimeControl *control, ProjectStatusManager *status
 }
 
 void ProjectTreeView::onCurrentChanged(const QModelIndex &index, const QModelIndex &) {
-    auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
-    if (item && item->getProject().isValid()) {
-        emit projectSelected(item->getProject());
-    } else {
-        emit projectSelected(Project());
-    }
+    auto sourceIndex = _sortModel->mapToSource(index);
+    emit projectSelected(_sourceModel->projectAtIndex(sourceIndex));
 }
 
 void ProjectTreeView::onCustomContextMenuRequested(const QPoint &pos) {
@@ -60,7 +57,7 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
     QAction *start = menu.addAction(Icons::start(), "Start", [this, project] { _control->startProject(project); });
     QAction *stop = menu.addAction(Icons::stop(), "Stop", [this] { _control->stopActivity(); });
     menu.addSeparator();
-    menu.addAction(Icons::newProject(), "Create new project", [this, project] { createNewProject(project); } );
+    menu.addAction(Icons::newProject(), "Create new project", [this, project] { createNewProject(project); });
 
     bool started = _control->isStarted(project);
     start->setEnabled(!started);
@@ -86,7 +83,7 @@ void ProjectTreeView::projectsStatusChanged(const QStringList &projectIDs) {
 void ProjectTreeView::createNewProject(const Project &parentProject) {
     bool ok;
     QString projectName = QInputDialog::getText(this, tr("Create Project"), tr("Project name:"), QLineEdit::Normal, "", &ok);
-    if (ok && !projectName.isEmpty()){
+    if (ok && !projectName.isEmpty()) {
         _control->createProject(parentProject.getID(), projectName);
     }
 }

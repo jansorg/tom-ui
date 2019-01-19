@@ -14,6 +14,9 @@ ProjectTreeModel::ProjectTreeModel(GotimeControl *control, ProjectStatusManager 
                                                                                                                    _statusManager(statusManager) {
     _headers = QStringList() << "Name" << "Today" << "This week" << "This month" << "Total";
     loadProjects();
+
+    connect(_control, &GotimeControl::projectCreated, this, &ProjectTreeModel::addProject);
+
 //    printProjects(0, _rootItem);
 }
 
@@ -31,10 +34,10 @@ void ProjectTreeModel::loadProjects() {
 
     _projects = _control->loadProjects();
 
-    auto *visibleRoot = new ProjectTreeRootItem(_statusManager, _rootItem);
-    addProjectItems(_projects, visibleRoot);
+    _visibleRootItem = new ProjectTreeRootItem(_statusManager, _rootItem);
+    addProjectItems(_projects, _visibleRootItem);
     _rootItem = new ProjectTreeRootItem(_statusManager);
-    _rootItem->appendChild(visibleRoot);
+    _rootItem->appendChild(_visibleRootItem);
 
     endResetModel();
 }
@@ -246,5 +249,41 @@ Project ProjectTreeModel::projectAtIndex(const QModelIndex &index) {
 
     auto *item = static_cast<ProjectTreeItem *>(pointer);
     return item->getProject();
+}
+
+ProjectTreeItem *ProjectTreeModel::projectItemAtIndex(const QModelIndex &index) {
+    void *pointer = index.internalPointer();
+    if (pointer == nullptr) {
+        return nullptr;
+    }
+
+    return static_cast<ProjectTreeItem *>(pointer);
+}
+
+void ProjectTreeModel::addProject(const Project &project) {
+    if (!project.isValid()) {
+        return;
+    }
+
+    const QModelIndex &row = getProjectRow(project.getID());
+    if (row.isValid()) {
+        return;
+    }
+
+    const QList<Project> projects = QList<Project>() << project;
+
+    QModelIndex parentRow;
+
+    if (project.getParentID().isEmpty()) {
+        parentRow = index(0, 0, QModelIndex());
+    } else {
+        parentRow = getProjectRow(project.getParentID());
+    }
+
+    ProjectTreeItem *parentItem = projectItemAtIndex(parentRow);
+
+    beginInsertRows(parentRow, parentItem->childCount(), parentItem->childCount());
+    parentItem->appendChild(new ProjectTreeItem(project, _statusManager, parentItem));
+    endInsertRows();
 }
 

@@ -47,13 +47,20 @@ public:
 
     QModelIndex getProjectRow(const QString &projectID) const;
 
+private slots:
+
+    void addProject(const Project &project);
+
 private:
     ProjectTreeRootItem *_rootItem;
+    ProjectTreeRootItem *_visibleRootItem;
     GotimeControl *_control;
     QList<Project> _projects;
     ProjectStatusManager *_statusManager;
 
     QStringList _headers;
+
+    ProjectTreeItem *projectItemAtIndex(const QModelIndex &index);
 
     void addProjectItems(const QList<Project> &allProjects, ProjectTreeItem *parent);
 

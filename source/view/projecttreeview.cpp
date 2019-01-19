@@ -30,7 +30,6 @@ void ProjectTreeView::setup(GotimeControl *control, ProjectStatusManager *status
 
     connect(selectionModel(), &QItemSelectionModel::currentRowChanged, this, &ProjectTreeView::onCurrentChanged);
     connect(_control, &GotimeControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
-    connect(_control, &GotimeControl::projectCreated, this, &ProjectTreeView::refresh);
     connect(_statusManager, &ProjectStatusManager::projectsStatusChanged, this, &ProjectTreeView::projectsStatusChanged);
 }
 

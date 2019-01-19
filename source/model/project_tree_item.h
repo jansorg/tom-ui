@@ -36,9 +36,10 @@ public:
     static const int COL_DAY = 1;
     static const int COL_WEEK = 2;
     static const int COL_MONTH = 3;
+    static const int COL_TOTAL = 4;
 
     static const int FIRST_STATUS_COL_INDEX = COL_DAY;
-    static const int LAST_COL_INDEX = COL_MONTH;
+    static const int LAST_COL_INDEX = COL_TOTAL;
     static const int COL_COUNT = LAST_COL_INDEX + 1;
 
 private:

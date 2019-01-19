@@ -1,9 +1,10 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QHeaderView>
-#include <gotime/projectstatusmanager.h>
 
-#include "model/ProjectTreeModel.h"
 #include "projecttreeview.h"
+
+#include "gotime/projectstatusmanager.h"
+#include "model/ProjectTreeModel.h"
 
 ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {
     setContextMenuPolicy(Qt::CustomContextMenu);

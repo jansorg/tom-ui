@@ -239,9 +239,12 @@ bool GotimeControl::updateFrame(QString id, QString projectID, bool updateStart,
 }
 
 const ProjectsStatus GotimeControl::projectsStatus() {
+    QString idList = "id,trackedDay,totalTrackedDay,trackedWeek,totalTrackedWeek,trackedMonth,totalTrackedMonth,trackedYear,totalTrackedYear,trackedAll,totalTrackedAll";
+    const int expectedColumns = idList.count(',') + 1;
+
     QStringList args;
     args << "status" << "projects" << "-f"
-         << "id,trackedDay,totalTrackedDay,trackedWeek,totalTrackedWeek,trackedMonth,totalTrackedMonth,trackedYear,totalTrackedYear";
+         << idList;
 
     CommandStatus cmdStatus = run(args);
     if (cmdStatus.isFailed()) {
@@ -253,7 +256,7 @@ const ProjectsStatus GotimeControl::projectsStatus() {
     QStringList lines = cmdStatus.stdoutContent.split("\n", QString::SkipEmptyParts);
     for (const auto &line : lines) {
         QStringList parts = line.split("\t");
-        if (parts.size() != 9) {
+        if (parts.size() != expectedColumns) {
             qDebug() << "unexpected number of columns in" << line;
             continue;
         }
@@ -272,7 +275,10 @@ const ProjectsStatus GotimeControl::projectsStatus() {
         Timespan year = Timespan(parts.takeFirst().toLongLong());
         Timespan yearTotal = Timespan(parts.takeFirst().toLongLong());
 
-        mapping.insert(id, ProjectStatus(id, year, yearTotal, month, monthTotal, week, weekTotal, day, dayTotal));
+        Timespan all = Timespan(parts.takeFirst().toLongLong());
+        Timespan allTotal = Timespan(parts.takeFirst().toLongLong());
+
+        mapping.insert(id, ProjectStatus(id, all, allTotal, year, yearTotal, month, monthTotal, week, weekTotal, day, dayTotal));
     }
 
     qDebug() << mapping.size();

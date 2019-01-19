@@ -11,7 +11,7 @@ enum ProjectRoles {
 
 ProjectTreeModel::ProjectTreeModel(GotimeControl *control, ProjectStatusManager *statusManager, QObject *parent) : QAbstractItemModel(parent), _control(control),
                                                                                                                    _statusManager(statusManager) {
-    _headers = QStringList() << "Name" << "Today" << "This week" << "This month";
+    _headers = QStringList() << "Name" << "Today" << "This week" << "This month" << "Total";
     _projects << _control->loadProjects();
 
     auto *visibleRoot = new ProjectTreeRootItem(statusManager, _rootItem);

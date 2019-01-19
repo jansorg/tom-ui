@@ -35,6 +35,8 @@ QVariant ProjectTreeItem::data(int column) const {
             return _statusManager->getStatus(_project.getID()).weekTotal.formatShort();
         case COL_MONTH:
             return _statusManager->getStatus(_project.getID()).monthTotal.formatShort();
+        case COL_TOTAL:
+            return _statusManager->getStatus(_project.getID()).allTotal.formatShort();
         default:
             return QVariant();
     }

@@ -3,10 +3,12 @@
 #include "projectstatus.h"
 
 ProjectStatus::ProjectStatus(QString &id,
+                             Timespan all, Timespan allTotal,
                              Timespan year, Timespan yearTotal,
                              Timespan month, Timespan monthTotal,
                              Timespan week, Timespan weekTotal,
                              Timespan day, Timespan dayTotal) : id(id),
+                                                                all(all), allTotal(allTotal),
                                                                 year(year), yearTotal(yearTotal),
                                                                 month(month),
                                                                 monthTotal(monthTotal),

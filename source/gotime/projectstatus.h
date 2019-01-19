@@ -13,12 +13,15 @@ public:
 
     ProjectStatus(
             QString &id,
+            Timespan all, Timespan allTotal,
             Timespan year, Timespan yearTotal,
             Timespan month, Timespan monthTotal,
             Timespan week, Timespan weekTotal,
             Timespan day, Timespan dayTotal);
 
     QString id;
+    Timespan all;
+    Timespan allTotal;
     Timespan year;
     Timespan yearTotal;
     Timespan month;

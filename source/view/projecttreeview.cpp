@@ -2,7 +2,6 @@
 #include <QtWidgets/QHeaderView>
 #include <gotime/projectstatusmanager.h>
 
-#include "gotime/startStop_project_action.h"
 #include "model/ProjectTreeModel.h"
 #include "projecttreeview.h"
 
@@ -12,11 +11,11 @@ ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {
     connect(this, &ProjectTreeView::customContextMenuRequested, this, &ProjectTreeView::onCustomContextMenuRequested);
 }
 
-void ProjectTreeView::setup(GotimeControl *control, ProjectStatusManager* statusManager) {
+void ProjectTreeView::setup(GotimeControl *control, ProjectStatusManager *statusManager) {
     _control = control;
     _statusManager = statusManager;
 
-//    connect(_control, &GotimeControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
+    connect(_control, &GotimeControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
     connect(_statusManager, &ProjectStatusManager::projectsStatusChanged, this, &ProjectTreeView::projectsStatusChanged);
 }
 
@@ -45,10 +44,8 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
     const Project &project = item->getProject();
 
     QMenu menu;
-    QAction *start = menu.addAction(QIcon(":/images/start.svg"), "Start",
-                                    [this, project] { _control->startProject(project); });
+    QAction *start = menu.addAction(QIcon(":/images/start.svg"), "Start", [this, project] { _control->startProject(project); });
     QAction *stop = menu.addAction(QIcon(":/images/stop.svg"), "Stop", [this] { _control->stopActivity(); });
-
 
     bool started = _control->isStarted(project);
     start->setEnabled(!started);

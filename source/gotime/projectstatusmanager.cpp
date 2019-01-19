@@ -1,13 +1,16 @@
 #include "projectstatusmanager.h"
 
 ProjectStatusManager::ProjectStatusManager(GotimeControl *control, QObject *parent) : QObject(parent), _control(control) {
+    refresh();
+
+    connect(_control, &GotimeControl::projectUpdated, this, &ProjectStatusManager::refresh);
+    connect(_control, &GotimeControl::frameUpdated, this, &ProjectStatusManager::refresh);
+
     _timer = new QTimer(this);
     connect(_timer, &QTimer::timeout, this, &ProjectStatusManager::refresh);
 
     // refresh every 30s
     _timer->start(30000);
-
-    refresh();
 }
 
 ProjectStatus ProjectStatusManager::getStatus(const QString &projectID) const {
@@ -22,15 +25,13 @@ void ProjectStatusManager::refresh() {
     const QHash<QString, ProjectStatus> &newMapping = newStatus.getMapping();
 
     QStringList changedIDs;
-
     for (const auto &status : newMapping) {
-        if (!oldMapping.contains(status.id)) {
-            changedIDs << status.id;
-        } else if (oldMapping.value(status.id) != status) {
+        if (!oldMapping.contains(status.id) || oldMapping.value(status.id) != status) {
             changedIDs << status.id;
         }
     }
 
+    _statusCache = newStatus;
     if (!changedIDs.isEmpty()) {
         emit projectsStatusChanged(changedIDs);
     }

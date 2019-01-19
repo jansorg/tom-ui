@@ -53,6 +53,7 @@ signals:
 
     void projectUpdated(const Project &project);
 
+    void frameUpdated(const QString& id, const QString& projectID);
 
 public slots:
 

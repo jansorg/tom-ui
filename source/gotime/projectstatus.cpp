@@ -16,9 +16,7 @@ ProjectStatus::ProjectStatus(QString &id,
 
 ProjectStatus::ProjectStatus() = default;
 
-ProjectsStatus::ProjectsStatus(const QHash<QString, ProjectStatus> &mapping) : _map(mapping) {
-
-}
+ProjectsStatus::ProjectsStatus(const QHash<QString, ProjectStatus> &mapping) : _map(mapping) {}
 
 ProjectsStatus::ProjectsStatus() = default;
 
@@ -27,7 +25,6 @@ ProjectStatus ProjectsStatus::get(const QString &projectID) const {
 //        qDebug() << "project not found" << projectID << "available" << _map.keys();
         return ProjectStatus();
     }
-
     return _map[projectID];
 }
 

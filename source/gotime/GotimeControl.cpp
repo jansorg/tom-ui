@@ -66,7 +66,7 @@ bool GotimeControl::isStarted(const Project &project) {
 }
 
 bool GotimeControl::startProject(const Project &project) {
-    auto success = run(QStringList() << "start" << project.getName()).isSuccessful();
+    auto success = run(QStringList() << "start" << project.getID()).isSuccessful();
     if (success) {
         auto stopped = _activeProject;
         _activeProject = project;
@@ -214,14 +214,10 @@ bool GotimeControl::updateFrame(Frame *frame,
                                 bool updateEnd, QDateTime end,
                                 bool updateNotes,
                                 QString notes) {
-    return updateFrame(frame->id, frame->projectID, updateStart, start, updateEnd, end, updateNotes, notes);
+    return updateFrame(frame->id, frame->projectID, updateStart, std::move(start), updateEnd, std::move(end), updateNotes, std::move(notes));
 }
 
-bool GotimeControl::updateFrame(QString id, QString projectID,
-                                bool updateStart, QDateTime start,
-                                bool updateEnd, QDateTime end,
-                                bool updateNotes,
-                                QString notes) {
+bool GotimeControl::updateFrame(QString id, QString projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, QString notes) {
     QStringList args;
     args << "edit" << id;
     if (updateStart) {
@@ -236,11 +232,8 @@ bool GotimeControl::updateFrame(QString id, QString projectID,
 
     CommandStatus status = run(args);
     bool success = status.isSuccessful();
-    if (success && !projectID.isEmpty()) {
-        const Project &project = _cachedProjects.value(projectID);
-        if (project.isValid()) {
-            emit projectUpdated(project);
-        }
+    if (success) {
+        emit frameUpdated(id, projectID);
     }
     return success;
 }
@@ -304,7 +297,7 @@ CommandStatus GotimeControl::run(QStringList &args) {
     return CommandStatus(output, errOutput, process.exitCode());
 }
 
-Project GotimeControl::createProject(const QString& parentID, const QString& name) {
+Project GotimeControl::createProject(const QString &parentID, const QString &name) {
     QStringList args;
     args << "create" << "project" << "-p" << parentID << name;
     return Project();

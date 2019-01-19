@@ -2,6 +2,7 @@
 #include <QtWidgets/QHeaderView>
 #include <icons.h>
 #include <QtWidgets/QInputDialog>
+#include <dialogs/commondialogs.h>
 
 #include "projecttreeview.h"
 
@@ -80,9 +81,5 @@ void ProjectTreeView::projectsStatusChanged(const QStringList &projectIDs) {
 }
 
 void ProjectTreeView::createNewProject(const Project &parentProject) {
-    bool ok;
-    QString projectName = QInputDialog::getText(this, tr("Create Project"), tr("Project name:"), QLineEdit::Normal, "", &ok);
-    if (ok && !projectName.isEmpty()) {
-        _control->createProject(parentProject.getID(), projectName);
-    }
+    CommonDialogs::createProject(parentProject, _control, this);
 }

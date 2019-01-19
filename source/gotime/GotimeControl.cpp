@@ -309,8 +309,11 @@ Project GotimeControl::createProject(const QString &parentID, const QString &nam
     QStringList args;
     args << "create" << "project"
          << "--output" << "json"
-         << "-p" << parentID
          << name;
+
+    if (!parentID.isEmpty()) {
+        args << "-p" << parentID;
+    }
 
     const CommandStatus &status = run(args);
     if (status.isSuccessful()) {

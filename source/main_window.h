@@ -28,7 +28,7 @@ private:
     void createActions();
 
     Ui::MainWindow ui;
-    GotimeControl *gotimeControl;
+    GotimeControl *_control;
 };
 
 #endif

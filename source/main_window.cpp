@@ -2,15 +2,13 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QMainWindow>
+#include <dialogs/commondialogs.h>
 
 #include "version.h"
 #include "icons.h"
 #include "main_window.h"
-#include "model/frametableviewmodel.h"
-#include "model/ProjectTreeModel.h"
-#include "view/projecttreeview.h"
 
-MainWindow::MainWindow(GotimeControl *control, ProjectStatusManager* statusManager, QMainWindow *parent) : QMainWindow(parent), gotimeControl(control) {
+MainWindow::MainWindow(GotimeControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(parent), _control(control) {
 //#ifdef Q_OS_LINUX
     setWindowIcon(QIcon(":/images/logo32.png"));
 //#endif
@@ -40,10 +38,12 @@ void MainWindow::createActions() {
 }
 
 void MainWindow::helpAbout() {
-    QString about = QString("Tom is a simple UI for the <a href=\"https://github.com/jansorg/tom-ui\">tom time tracker</a> command line application.<br><br>Version: %1").arg(PROJECT_VERSION);
+    QString about = QString("Tom is a simple UI for the <a href=\"https://github.com/jansorg/tom-ui\">tom time tracker</a> command line application.<br><br>Version: %1")
+            .arg(PROJECT_VERSION);
+
     QMessageBox::about(this, "About Tom", about);
 }
 
 void MainWindow::createProject() {
-
+    CommonDialogs::createProject(Project(), _control, this);
 }

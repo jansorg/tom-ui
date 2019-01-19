@@ -29,6 +29,8 @@ private slots:
 
     void importMacTimeTracker();
 
+    void importFanurio();
+
 private:
     void createActions();
 

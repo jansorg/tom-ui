@@ -57,3 +57,11 @@ void MainWindow::importMacTimeTracker() {
         _control->importMacTimeTracker(fileName);
     }
 }
+
+void MainWindow::importFanurio() {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Fanurio CSV export"),"",tr("CSV Files (*.csv)"));
+
+    if (!fileName.isEmpty()) {
+        _control->importFanurioCSV(fileName);
+    }
+}

@@ -361,3 +361,16 @@ bool GotimeControl::importMacTimeTracker(const QString &filename) {
     }
     return status.isSuccessful();
 }
+
+bool GotimeControl::importFanurioCSV(const QString &filename) {
+    QStringList args;
+    args << "import" << "fanurio" << filename;
+
+    const CommandStatus &status = run(args);
+    qDebug() << status.stdoutContent;
+
+    if (status.isSuccessful()) {
+        emit dataImported();
+    }
+    return status.isSuccessful();
+}

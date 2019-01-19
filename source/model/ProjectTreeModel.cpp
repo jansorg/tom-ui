@@ -13,13 +13,7 @@ ProjectTreeModel::ProjectTreeModel(GotimeControl *control, ProjectStatusManager 
                                                                                                                    _control(control),
                                                                                                                    _statusManager(statusManager) {
     _headers = QStringList() << "Name" << "Today" << "This week" << "This month" << "Total";
-    _projects << _control->loadProjects();
-
-    auto *visibleRoot = new ProjectTreeRootItem(statusManager, _rootItem);
-    createProjectItems(_projects, visibleRoot);
-    _rootItem = new ProjectTreeRootItem(statusManager);
-    _rootItem->appendChild(visibleRoot);
-
+    loadProjects();
 //    printProjects(0, _rootItem);
 }
 
@@ -27,7 +21,25 @@ ProjectTreeModel::~ProjectTreeModel() {
     delete _rootItem;
 }
 
-void ProjectTreeModel::createProjectItems(const QList<Project> &allProjects, ProjectTreeItem *parent) {
+void ProjectTreeModel::loadProjects() {
+    beginResetModel();
+
+    if (_rootItem) {
+//        delete _rootItem;
+        _rootItem = nullptr;
+    }
+
+    _projects = _control->loadProjects();
+
+    auto *visibleRoot = new ProjectTreeRootItem(_statusManager, _rootItem);
+    addProjectItems(_projects, visibleRoot);
+    _rootItem = new ProjectTreeRootItem(_statusManager);
+    _rootItem->appendChild(visibleRoot);
+
+    endResetModel();
+}
+
+void ProjectTreeModel::addProjectItems(const QList<Project> &allProjects, ProjectTreeItem *parent) {
     const auto &parentID = parent->getProject().getID();
 
     for (const auto &p: allProjects) {
@@ -35,7 +47,7 @@ void ProjectTreeModel::createProjectItems(const QList<Project> &allProjects, Pro
             auto *item = new ProjectTreeItem(p, _statusManager, parent);
             parent->appendChild(item);
 
-            createProjectItems(allProjects, item);
+            addProjectItems(allProjects, item);
         }
     }
 }

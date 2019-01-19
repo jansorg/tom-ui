@@ -16,6 +16,18 @@ void ProjectTreeView::setup(GotimeControl *control, ProjectStatusManager *status
     _control = control;
     _statusManager = statusManager;
 
+    _sourceModel = new ProjectTreeModel(_control, _statusManager, this);
+
+    _sortModel = new QSortFilterProxyModel(this);
+    _sortModel->setSourceModel(_sourceModel);
+    setModel(_sortModel);
+
+    header()->setStretchLastSection(false);
+    header()->setSectionResizeMode(0, QHeaderView::Stretch);
+    header()->setCascadingSectionResizes(true);
+    sortByColumn(0, Qt::AscendingOrder);
+
+    connect(selectionModel(), &QItemSelectionModel::currentRowChanged, this, &ProjectTreeView::onCurrentChanged);
     connect(_control, &GotimeControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
     connect(_control, &GotimeControl::projectCreated, this, &ProjectTreeView::refresh);
     connect(_statusManager, &ProjectStatusManager::projectsStatusChanged, this, &ProjectTreeView::projectsStatusChanged);
@@ -34,8 +46,7 @@ void ProjectTreeView::onCustomContextMenuRequested(const QPoint &pos) {
     const QModelIndex &index = indexAt(pos);
 
     if (index.isValid()) {
-        auto *model = getProjectModel();
-        ProjectTreeItem *item = model->getItem(index);
+        ProjectTreeItem *item = _sourceModel->getItem(_sortModel->mapToSource(index));
 
         // Note: We must map the point to global from the viewport to account for the header.
         showContextMenu(item, viewport()->mapToGlobal(pos));
@@ -59,32 +70,17 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
 }
 
 void ProjectTreeView::refresh() {
-    //fixme delete old model?
-    auto *model = new ProjectTreeModel(_control, _statusManager, this);
-
-    this->setModel(model);
-    this->sortByColumn(0, Qt::AscendingOrder);
-    this->header()->setStretchLastSection(false);
-    this->header()->setSectionResizeMode(0, QHeaderView::Stretch);
-    this->header()->setCascadingSectionResizes(true);
-
-    connect(this->selectionModel(), &QItemSelectionModel::currentRowChanged, this, &ProjectTreeView::onCurrentChanged);
+    _sourceModel->loadProjects();
 }
 
 void ProjectTreeView::projectUpdated(const Project &project) {
-    auto *model = getProjectModel();
-    model->updateProject(project);
+    _sourceModel->updateProject(project);
 }
 
 void ProjectTreeView::projectsStatusChanged(const QStringList &projectIDs) {
-    auto *model = getProjectModel();
     for (const auto &id : projectIDs) {
-        model->updateProjectStatus(id);
+        _sourceModel->updateProjectStatus(id);
     }
-}
-
-ProjectTreeModel *ProjectTreeView::getProjectModel() {
-    return dynamic_cast<ProjectTreeModel *>(this->model());
 }
 
 void ProjectTreeView::createNewProject(const Project &parentProject) {

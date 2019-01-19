@@ -107,8 +107,11 @@
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
    <property name="floatable">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -149,8 +152,7 @@
   </action>
   <action name="actionCreateProject">
    <property name="icon">
-    <iconset resource="../resources/resources.qrc">
-     <normaloff>:/oxygen/tab-new-background.svg</normaloff>:/oxygen/tab-new-background.svg</iconset>
+    <iconset theme="document-new"/>
    </property>
    <property name="text">
     <string>Create New Project</string>

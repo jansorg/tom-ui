@@ -28,9 +28,6 @@ public slots:
 
     void refresh();
 
-protected:
-    ProjectTreeModel *getProjectModel();
-
 private slots:
 
     void onCustomContextMenuRequested(const QPoint &pos);
@@ -48,6 +45,9 @@ private:
 
     GotimeControl *_control;
     ProjectStatusManager *_statusManager;
+
+    ProjectTreeModel *_sourceModel;
+    QSortFilterProxyModel *_sortModel;
 };
 
 

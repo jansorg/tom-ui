@@ -13,11 +13,10 @@ FrameTableViewModel::~FrameTableViewModel() {
 }
 
 void FrameTableViewModel::loadFrames(const Project &project) {
-    _currentProject = project;
-
     beginResetModel();
 
-    qDeleteAll(_frames);
+    _currentProject = project;
+//    qDeleteAll(_frames);
 
     if (project.isValid()) {
         _frames = _control->loadFrames(project.getID(), true);

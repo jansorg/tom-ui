@@ -17,6 +17,8 @@ public:
 
     ~ProjectTreeModel() override;
 
+    void loadProjects();
+
     QVariant data(const QModelIndex &index, int role) const override;
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
@@ -51,7 +53,7 @@ private:
 
     QStringList _headers;
 
-    void createProjectItems(const QList<Project> &allProjects, ProjectTreeItem *parent);
+    void addProjectItems(const QList<Project> &allProjects, ProjectTreeItem *parent);
 
     void printProjects(int level, ProjectTreeItem *root);
 };

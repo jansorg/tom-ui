@@ -308,7 +308,7 @@ CommandStatus GotimeControl::run(const QStringList &args) {
 Project GotimeControl::createProject(const QString &parentID, const QString &name) {
     QStringList args;
     args << "create" << "project"
-         << "-output" << "json"
+         << "--output" << "json"
          << "-p" << parentID
          << name;
 

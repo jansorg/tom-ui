@@ -21,7 +21,7 @@ public:
      * @param project
      * @return  The new project. If the create call failed, then the returned project will return false for Project::isValid()
      */
-    Project createProject(Project project);
+    Project createProject(const QString& parentID, const QString& name);
 
     QList<Project> loadProjects(int max = -1);
 

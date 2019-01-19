@@ -35,3 +35,10 @@ int ProjectsStatus::size() const {
     return _map.size();
 }
 
+QStringList ProjectsStatus::getProjectIDs() {
+    return QStringList(_map.keys());
+}
+
+const QHash<QString, ProjectStatus> &ProjectsStatus::getMapping() const {
+    return _map;
+}

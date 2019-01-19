@@ -24,6 +24,8 @@ public:
 
     double asSeconds() const;
 
+    inline qint64 asMillis() const { return _msecs; }
+
     const QString format() const;
 
     const QString formatShort() const;
@@ -40,5 +42,8 @@ private:
     static const qint64 _msecsPerHour = 60 * _msecsPerMinute;
 };
 
+inline bool operator==(const Timespan &a, const Timespan &b) { return a.asMillis() == b.asMillis(); }
+
+inline bool operator!=(const Timespan &a, const Timespan &b) { return !operator==(a, b); }
 
 #endif //GOTIME_UI_TIMESPAN_H

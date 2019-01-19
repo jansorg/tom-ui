@@ -39,9 +39,26 @@ public:
 
     int size() const;
 
+    QStringList getProjectIDs();
+
+    const QHash<QString, ProjectStatus> &getMapping() const;
+
 private:
     QHash<QString, ProjectStatus> _map;
 };
+
+
+inline bool operator==(const ProjectStatus &a, const ProjectStatus &b) {
+    return a.id == b.id &&
+           a.week == b.week &&
+           a.weekTotal == b.weekTotal &&
+           a.month == b.month &&
+           a.monthTotal == b.monthTotal &&
+           a.year == b.year &&
+           a.yearTotal == b.yearTotal;
+};
+
+inline bool operator!=(const ProjectStatus &a, const ProjectStatus &b) { return !operator==(a, b); };
 
 
 #endif //TOM_UI_PROJECTSTATUS_H

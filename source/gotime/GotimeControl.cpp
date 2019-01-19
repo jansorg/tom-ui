@@ -62,7 +62,7 @@ QList<Project> GotimeControl::loadProjects(int max) {
 }
 
 bool GotimeControl::isStarted(const Project &project) {
-    return _activeProject.getID() == project.getID();
+    return project.isValid() && _activeProject.getID() == project.getID();
 }
 
 bool GotimeControl::startProject(const Project &project) {
@@ -304,8 +304,8 @@ CommandStatus GotimeControl::run(QStringList &args) {
     return CommandStatus(output, errOutput, process.exitCode());
 }
 
-Project GotimeControl::createProject(Project project) {
+Project GotimeControl::createProject(const QString& parentID, const QString& name) {
     QStringList args;
-    args << "create" << "project";
+    args << "create" << "project" << "-p" << parentID << name;
     return Project();
 }

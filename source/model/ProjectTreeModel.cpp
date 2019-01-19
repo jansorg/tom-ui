@@ -9,50 +9,33 @@ enum ProjectRoles {
     idRole = Qt::UserRole
 };
 
-ProjectTreeModel::ProjectTreeModel(GotimeControl *control, QObject *parent) : QAbstractItemModel(parent), _control(control) {
-    QList<QVariant> headers;
-    headers << "Name" << "Today" << "This week" << "This month";
-
-    _rootItem = new ProjectTreeItem(headers);
+ProjectTreeModel::ProjectTreeModel(GotimeControl *control, ProjectStatusManager *statusManager, QObject *parent) : QAbstractItemModel(parent), _control(control),
+                                                                                                                   _statusManager(statusManager) {
+    _headers = QStringList() << "Name" << "Today" << "This week" << "This month";
     _projects << _control->loadProjects();
 
-    // fixme update status regularly?
-    _status = control->projectsStatus();
+    auto *visibleRoot = new ProjectTreeRootItem(statusManager, _rootItem);
+    createProjectItems(_projects, visibleRoot);
+    _rootItem = new ProjectTreeRootItem(statusManager);
+    _rootItem->appendChild(visibleRoot);
 
-    createProjectItems(_rootItem);
+    printProjects(0, _rootItem);
 }
 
 ProjectTreeModel::~ProjectTreeModel() {
     delete _rootItem;
 }
 
-void ProjectTreeModel::createProjectItems(ProjectTreeItem *root) {
-    for (const auto &project : _projects) {
-        if (project.getParentID().isEmpty()) {
-            root->appendChild(createModelItem(_projects, project, root));
-        }
-    }
-}
+void ProjectTreeModel::createProjectItems(const QList<Project> &allProjects, ProjectTreeItem *parent) {
+    const auto &parentID = parent->getProject().getID();
 
-ProjectTreeItem *
-ProjectTreeModel::createModelItem(const QList<Project> &allProjects, const Project &project, ProjectTreeItem *parent) {
-    QString projectID = project.getID();
-    ProjectStatus state = _status.get(projectID);
-
-    auto *item = new ProjectTreeItem(project, state, parent);
     for (const auto &p: allProjects) {
-        if (p.getParentID() == project.getID()) {
-            item->appendChild(createModelItem(allProjects, p, item));
-        }
-    }
-    return item;
-}
+        if (p.getParentID() == parentID) {
+            auto *item = new ProjectTreeItem(p, _statusManager, parent);
+            parent->appendChild(item);
 
-int ProjectTreeModel::columnCount(const QModelIndex &parent) const {
-    if (parent.isValid()) {
-        return static_cast<ProjectTreeItem *>(parent.internalPointer())->columnCount();
-    } else {
-        return _rootItem->columnCount();
+            createProjectItems(allProjects, item);
+        }
     }
 }
 
@@ -105,7 +88,7 @@ bool ProjectTreeModel::setData(const QModelIndex &index, const QVariant &value, 
     }
 
     ProjectTreeItem *item = getItem(index);
-    if (item == _rootItem) {
+    if (!item || item == _rootItem) {
         return false;
     }
 
@@ -126,7 +109,8 @@ Qt::ItemFlags ProjectTreeModel::flags(const QModelIndex &index) const {
         return Qt::NoItemFlags;
     }
 
-    if (index.column() == ProjectTreeItem::COL_NAME) {
+    ProjectTreeItem *item = getItem(index);
+    if (item && item->getProject().isValid() && index.column() == ProjectTreeItem::COL_NAME) {
         return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
     }
 
@@ -139,11 +123,11 @@ QVariant ProjectTreeModel::headerData(int section, Qt::Orientation orientation, 
     }
 
     if (role == Qt::DisplayRole) {
-        return _rootItem->data(section);
+        return _headers.at(section);
     }
 
     if (role == Qt::TextAlignmentRole) {
-        if (section >= 1) {
+        if (section >= ProjectTreeItem::FIRST_STATUS_COL_INDEX) {
             return Qt::AlignRight;
         }
         return Qt::AlignLeft;
@@ -158,6 +142,9 @@ QModelIndex ProjectTreeModel::index(int row, int column, const QModelIndex &pare
     }
 
     ProjectTreeItem *parentItem = getItem(parent);
+    if (!parentItem) {
+        return {};
+    }
 
     ProjectTreeItem *childItem = parentItem->child(row);
     if (childItem) {
@@ -172,8 +159,12 @@ QModelIndex ProjectTreeModel::parent(const QModelIndex &index) const {
     }
 
     auto *childItem = getItem(index);
+    if (!childItem || childItem == _rootItem) {
+        return {};
+    }
+
     auto *parentItem = childItem->parentItem();
-    if (!parentItem || parentItem == _rootItem) {
+    if (!parentItem) {
         return {};
     }
     return createIndex(parentItem->row(), 0, parentItem);
@@ -216,12 +207,20 @@ QModelIndex ProjectTreeModel::getProjectRow(const QString &projectID) const {
 void ProjectTreeModel::updateProject(const Project &project) {
     const QModelIndex &row = getProjectRow(project.getID());
     if (row.isValid()) {
-        _status = _control->projectsStatus();
-
         ProjectTreeItem *item = getItem(row);
         if (item) {
-            item->refreshWith(project, _status.get(project.getID()));
+            item->refreshWith(project);
             emit dataChanged(row, row.siblingAtColumn(ProjectTreeItem::LAST_COL_INDEX));
+        }
+    }
+}
+
+void ProjectTreeModel::updateProjectStatus(const QString &projectID) {
+    const QModelIndex &row = getProjectRow(projectID);
+    if (row.isValid()) {
+        ProjectTreeItem *item = getItem(row);
+        if (item) {
+            emit dataChanged(row.siblingAtColumn(ProjectTreeItem::FIRST_STATUS_COL_INDEX), row.siblingAtColumn(ProjectTreeItem::LAST_COL_INDEX));
         }
     }
 }

@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QtWidgets/QMessageBox>
+#include <gotime/projectstatusmanager.h>
 
 #include "main_window.h"
 #include "tray.h"
@@ -24,8 +25,10 @@ int main(int argc, char *argv[]) {
         command = QFileInfo(QCoreApplication::applicationFilePath()).dir().filePath("tom");
     #endif
 
-    GotimeControl *control = new GotimeControl(command, bash, nullptr);
-    MainWindow mainWindow(control);
+    auto *control = new GotimeControl(command, bash, nullptr);
+    auto *statusManager = new ProjectStatusManager(control, nullptr);
+
+    MainWindow mainWindow(control, statusManager);
     mainWindow.show();
 
     new GotimeTrayIcon(control, &mainWindow);

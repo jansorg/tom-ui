@@ -7,12 +7,13 @@
 #include "data/Project.h"
 #include "gotime/GotimeControl.h"
 #include "project_tree_item.h"
+#include "projecttreerootitem.h"
 
 class ProjectTreeModel : public QAbstractItemModel {
 Q_OBJECT
 
 public:
-    ProjectTreeModel(GotimeControl *control, QObject *parent);
+    ProjectTreeModel(GotimeControl *control, ProjectStatusManager *statusManager, QObject *parent);
 
     ~ProjectTreeModel() override;
 
@@ -28,7 +29,9 @@ public:
 
     int rowCount(const QModelIndex &parent) const override;
 
-    int columnCount(const QModelIndex &parent) const override;
+    inline int columnCount(const QModelIndex &) const override {
+        return ProjectTreeItem::COL_COUNT;
+    }
 
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 
@@ -36,18 +39,21 @@ public:
 
     void updateProject(const Project &project);
 
+    void updateProjectStatus(const QString &projectID);
+
     QModelIndex getProjectRow(const QString &projectID) const;
 
 private:
-    ProjectTreeItem *_rootItem;
+    ProjectTreeRootItem *_rootItem;
     GotimeControl *_control;
     QList<Project> _projects;
-    ProjectsStatus _status;
+    ProjectStatusManager *_statusManager;
 
-    void createProjectItems(ProjectTreeItem *root);
-    ProjectTreeItem *createModelItem(const QList<Project> &allProjects, const Project &project, ProjectTreeItem* parent);
+    QStringList _headers;
 
-    void printProjects(int level, ProjectTreeItem* root);
+    void createProjectItems(const QList<Project> &allProjects, ProjectTreeItem *parent);
+
+    void printProjects(int level, ProjectTreeItem *root);
 };
 
 #endif //GOTIME_UI_PROJECTTREEMODEL_H

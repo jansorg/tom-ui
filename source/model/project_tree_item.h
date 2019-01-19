@@ -5,11 +5,11 @@
 #include <QVariant>
 #include <data/Project.h>
 #include <gotime/projectstatus.h>
+#include <gotime/projectstatusmanager.h>
 
 class ProjectTreeItem {
 public:
-    explicit ProjectTreeItem(const QList<QVariant>& data);
-    explicit ProjectTreeItem(const Project &project, const ProjectStatus& status, ProjectTreeItem *parentItem = 0);
+    explicit ProjectTreeItem(const Project &project, const ProjectStatusManager *statusManager, ProjectTreeItem *parentItem = nullptr);
 
     ~ProjectTreeItem();
 
@@ -19,19 +19,17 @@ public:
 
     int childCount() const;
 
-    int columnCount() const;
+    virtual QVariant data(int column) const;
 
-    QVariant data(int column) const;
-
-    bool setData(int column, const QVariant &value);
+    virtual bool setData(int column, const QVariant &value);
 
     int row() const;
 
-    ProjectTreeItem *parentItem();
+    virtual ProjectTreeItem *parentItem();
 
     const Project &getProject() const;
 
-    void refreshWith(const Project &project, const ProjectStatus &status);
+    virtual void refreshWith(const Project &project);
 
 public:
     static const int COL_NAME = 0;
@@ -39,13 +37,17 @@ public:
     static const int COL_WEEK = 2;
     static const int COL_MONTH = 3;
 
+    static const int FIRST_STATUS_COL_INDEX = COL_DAY;
     static const int LAST_COL_INDEX = COL_MONTH;
+    static const int COL_COUNT = LAST_COL_INDEX + 1;
 
 private:
-    QList<ProjectTreeItem *> _childItems;
+    Project _project;
+    const ProjectStatusManager *_statusManager;
     ProjectTreeItem *_parentItem;
-    const Project _project;
-    QList<QVariant> _itemData;
+
+    QList<ProjectTreeItem *> _childItems;
+    QString _projectName;
 };
 
 #endif // TREEITEM_H

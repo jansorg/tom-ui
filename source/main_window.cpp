@@ -10,13 +10,13 @@
 #include "model/ProjectTreeModel.h"
 #include "view/projecttreeview.h"
 
-MainWindow::MainWindow(GotimeControl *control, QMainWindow *parent) : QMainWindow(parent), gotimeControl(control) {
+MainWindow::MainWindow(GotimeControl *control, ProjectStatusManager* statusManager, QMainWindow *parent) : QMainWindow(parent), gotimeControl(control) {
 //#ifdef Q_OS_LINUX
     setWindowIcon(QIcon(":/images/logo32.png"));
 //#endif
 
     ui.setupUi(this);
-    ui.projectTree->setControl(control);
+    ui.projectTree->setup(control, statusManager);
 
     ui.actionQuit->setIcon(Icons::exit());
     ui.actionHelpAbout->setIcon(Icons::about());

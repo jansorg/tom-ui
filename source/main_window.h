@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include <QtWidgets/QSystemTrayIcon>
+#include <gotime/projectstatusmanager.h>
 
 #include "ui_main_window.h"
 #include "data/Project.h"
@@ -12,7 +13,7 @@ class MainWindow : public QMainWindow {
 Q_OBJECT
 
 public:
-    explicit MainWindow(GotimeControl *control, QMainWindow *parent = nullptr);
+    explicit MainWindow(GotimeControl *control, ProjectStatusManager* statusManager, QMainWindow *parent = nullptr);
 
     ~MainWindow() override;
 
@@ -33,9 +34,7 @@ private:
     void createActions();
 
     Ui::MainWindow ui;
-
     GotimeControl *gotimeControl;
-
     Project _selectedProject;
 };
 

@@ -1,5 +1,6 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QHeaderView>
+#include <gotime/projectstatusmanager.h>
 
 #include "gotime/startStop_project_action.h"
 #include "model/ProjectTreeModel.h"
@@ -11,9 +12,12 @@ ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {
     connect(this, &ProjectTreeView::customContextMenuRequested, this, &ProjectTreeView::onCustomContextMenuRequested);
 }
 
-void ProjectTreeView::setControl(GotimeControl *control) {
+void ProjectTreeView::setup(GotimeControl *control, ProjectStatusManager* statusManager) {
     _control = control;
-    connect(_control, &GotimeControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
+    _statusManager = statusManager;
+
+//    connect(_control, &GotimeControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
+    connect(_statusManager, &ProjectStatusManager::projectsStatusChanged, this, &ProjectTreeView::projectsStatusChanged);
 }
 
 void ProjectTreeView::onCurrentChanged(const QModelIndex &index, const QModelIndex &) {
@@ -55,7 +59,7 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
 
 void ProjectTreeView::refresh() {
     //fixme delete old model?
-    auto *model = new ProjectTreeModel(_control, this);
+    auto *model = new ProjectTreeModel(_control, _statusManager, this);
 
     this->setModel(model);
     this->sortByColumn(0, Qt::AscendingOrder);
@@ -69,6 +73,13 @@ void ProjectTreeView::refresh() {
 void ProjectTreeView::projectUpdated(const Project &project) {
     auto *model = getProjectModel();
     model->updateProject(project);
+}
+
+void ProjectTreeView::projectsStatusChanged(const QStringList &projectIDs) {
+    auto *model = getProjectModel();
+    for (const auto &id : projectIDs) {
+        model->updateProjectStatus(id);
+    }
 }
 
 ProjectTreeModel *ProjectTreeView::getProjectModel() {

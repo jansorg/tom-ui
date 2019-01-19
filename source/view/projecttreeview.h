@@ -18,7 +18,7 @@ Q_OBJECT
 public:
     explicit ProjectTreeView(QWidget *parent);
 
-    void setControl(GotimeControl *control);
+    void setup(GotimeControl *control, ProjectStatusManager* statusManager);
 
     void refresh();
 
@@ -36,11 +36,13 @@ private slots:
     void onCurrentChanged(const QModelIndex &index, const QModelIndex &prev);
 
     void projectUpdated(const Project &project);
+    void projectsStatusChanged(const QStringList& projectIDs);
 
 private:
     void showContextMenu(ProjectTreeItem *item, const QPoint &globalPos);
 
     GotimeControl *_control;
+    ProjectStatusManager* _statusManager;
 };
 
 

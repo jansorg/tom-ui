@@ -11,7 +11,10 @@ QString Project::getName() const {
 }
 
 QString Project::getShortName() const {
-    return this->_names.last();
+    if (_names.isEmpty()) {
+        return "";
+    }
+    return _names.last();
 }
 
 QString Project::getID() const {
@@ -23,5 +26,5 @@ QString Project::getParentID() const {
 }
 
 bool Project::isValid() const {
-    return !this->_id.isEmpty();
+    return !this->_id.isEmpty() && !_names.isEmpty();
 }

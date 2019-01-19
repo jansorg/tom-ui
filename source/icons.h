@@ -23,7 +23,7 @@ namespace Icons {
     }
 
     inline QIcon removeFrame() {
-        return QIcon(":/images/remove.svg");
+        return QIcon::fromTheme("list-remove", QIcon(":/images/remove.svg"));
     }
 }
 

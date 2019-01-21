@@ -2,8 +2,8 @@
 
 ![](docs/screenshot%20mac.png)
 
-# gotime-ui
-gotime-ui is a simple Qt5-based frontend for the [tom](https://github.com/jansorg/tom) time tracking cli.
+# tom-ui
+tom-ui is a simple Qt5-based frontend for the [tom](https://github.com/jansorg/tom) time tracking cli.
 
 It's developed to not interrupt the work and to be as less hassle as possible. It will support many features of the 
 command-line client `gotime`.

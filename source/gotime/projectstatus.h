@@ -30,6 +30,8 @@ public:
     Timespan weekTotal;
     Timespan day;
     Timespan dayTotal;
+
+    static const QString OVERALL_ID;
 };
 
 class ProjectsStatus {
@@ -45,6 +47,8 @@ public:
     QStringList getProjectIDs();
 
     const QHash<QString, ProjectStatus> &getMapping() const;
+
+    ProjectStatus getOverallStatus();
 
 private:
     QHash<QString, ProjectStatus> _map;

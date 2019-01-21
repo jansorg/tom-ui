@@ -2,6 +2,8 @@
 
 #include "projectstatus.h"
 
+const QString ProjectStatus::OVERALL_ID = "ALL";
+
 ProjectStatus::ProjectStatus(QString &id,
                              Timespan all, Timespan allTotal,
                              Timespan year, Timespan yearTotal,
@@ -24,7 +26,6 @@ ProjectsStatus::ProjectsStatus() = default;
 
 ProjectStatus ProjectsStatus::get(const QString &projectID) const {
     if (!_map.contains(projectID)) {
-//        qDebug() << "project not found" << projectID << "available" << _map.keys();
         return ProjectStatus();
     }
     return _map[projectID];
@@ -40,4 +41,8 @@ QStringList ProjectsStatus::getProjectIDs() {
 
 const QHash<QString, ProjectStatus> &ProjectsStatus::getMapping() const {
     return _map;
+}
+
+ProjectStatus ProjectsStatus::getOverallStatus() {
+    return get("ALL");
 }

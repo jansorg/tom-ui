@@ -240,13 +240,16 @@ bool GotimeControl::updateFrame(QString id, QString projectID, bool updateStart,
     return success;
 }
 
-const ProjectsStatus GotimeControl::projectsStatus() {
+const ProjectsStatus GotimeControl::projectsStatus(const QString& overallID) {
     QString idList = "id,trackedDay,totalTrackedDay,trackedWeek,totalTrackedWeek,trackedMonth,totalTrackedMonth,trackedYear,totalTrackedYear,trackedAll,totalTrackedAll";
     const int expectedColumns = idList.count(',') + 1;
 
     QStringList args;
     args << "status" << "projects" << "-f"
          << idList;
+    if (!overallID.isEmpty()) {
+        args << "--show-overall" << overallID;
+    }
 
     CommandStatus cmdStatus = run(args);
     if (cmdStatus.isFailed()) {

@@ -28,5 +28,9 @@ void ProjectStatusManager::refresh() {
 }
 
 ProjectsStatus ProjectStatusManager::loadStatus() {
-    return _control->projectsStatus();
+    return _control->projectsStatus(ProjectStatus::OVERALL_ID);
+}
+
+ProjectStatus ProjectStatusManager::getOverallStatus() const {
+    return _statusCache.get(ProjectStatus::OVERALL_ID);
 }

@@ -21,11 +21,11 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
     connect(_stopTaskAction, SIGNAL(triggered()), control, SLOT(stopActivity()));
     _menu->addAction(_stopTaskAction);
 
-    _cancelTaskAction = new QAction("Cancel active project...");
-    _cancelTaskAction->setToolTip("Stop the active project without recording new data.");
-    connect(_cancelTaskAction, SIGNAL(triggered()), control, SLOT(cancelActivity()));
-    _menu->addAction(_cancelTaskAction);
-
+//    _cancelTaskAction = new QAction("Cancel active project...");
+//    _cancelTaskAction->setToolTip("Stop the active project without recording new data.");
+//    connect(_cancelTaskAction, SIGNAL(triggered()), control, SLOT(cancelActivity()));
+//    _menu->addAction(_cancelTaskAction);
+//
     _menu->addSection(tr("Projects"));
 
     _separatorAction = _menu->addSeparator();
@@ -55,6 +55,7 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
     connect(control, &GotimeControl::projectUpdated, this, &GotimeTrayIcon::projectUpdated);
 
     const GotimeStatus &status = control->status();
+    _stopTaskAction->setEnabled(status.isValid);
     if (status.isValid) {
         const Project &project = status.currentProject();
         if (project.isValid()) {
@@ -68,13 +69,14 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
 }
 
 void GotimeTrayIcon::updateProjects() {
-    //remove existing actions
+    // remove existing actions
     for (auto action : _projectActions) {
         _menu->removeAction(action);
     }
     _projectActions.clear();
 
-    for (auto project : _control->loadRecentProjects(6)) {
+    // add new entries
+    for (const auto &project : _control->loadRecentProjects(6)) {
         auto action = new StartProjectAction(project, _control, this);
         _projectActions << action;
     }
@@ -94,9 +96,9 @@ void GotimeTrayIcon::updateStatus() {
 
 void GotimeTrayIcon::loadIcons() {
 #ifdef Q_OS_MAC
-    QString prefix(":/images/osx/");
+    QString prefix(":/icons/osx/");
 #else
-    QString prefix(":/images/");
+    QString prefix(":/icons/");
 #endif
 
     _stoppedIcon = QPixmap(prefix + "trayicon-stopped.svg");
@@ -119,7 +121,7 @@ void GotimeTrayIcon::projectStarted(const Project &project) {
     }
 
     _stopTaskAction->setEnabled(true);
-    _cancelTaskAction->setEnabled(true);
+//    _cancelTaskAction->setEnabled(true);
 
     projectUpdated(project);
 }
@@ -131,7 +133,7 @@ void GotimeTrayIcon::projectStopped(const Project &project) {
     _statusUpdateTimer->stop();
 
     _stopTaskAction->setEnabled(false);
-    _cancelTaskAction->setEnabled(false);
+//    _cancelTaskAction->setEnabled(false);
 
     projectUpdated(project);
 }

@@ -29,7 +29,7 @@ public:
 
     GotimeStatus status();
 
-    const ProjectsStatus projectsStatus();
+    const ProjectsStatus projectsStatus(const QString& overallID);
 
     bool isStarted(const Project &project);
 

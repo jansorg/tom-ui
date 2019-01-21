@@ -44,7 +44,7 @@ public:
     static const int LAST_COL_INDEX = COL_TOTAL;
     static const int COL_COUNT = LAST_COL_INDEX + 1;
 
-private:
+protected:
     Project _project;
     const ProjectStatusManager *_statusManager;
     ProjectTreeItem *_parentItem;

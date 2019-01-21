@@ -36,7 +36,7 @@ private:
     QSystemTrayIcon *_trayIcon;
     QList<QAction *> _projectActions;
     QAction *_stopTaskAction;
-    QAction *_cancelTaskAction;
+//    QAction *_cancelTaskAction;
     QAction *_separatorAction;
 
     int _activeIconIndex;

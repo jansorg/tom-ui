@@ -10,6 +10,7 @@ public:
     ProjectStatusManager(GotimeControl *control, QObject *parent);
 
     ProjectStatus getStatus(const QString &projectID) const;
+    ProjectStatus getOverallStatus() const;
 
 signals:
 

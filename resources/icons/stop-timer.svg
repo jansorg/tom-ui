@@ -17,8 +17,8 @@
    inkscape:export-filename="/home/jansorg/Projects/Go/gotime-ui/gotime-qt5/resources/images/trayicon.png"
    inkscape:export-xdpi="27.940001"
    inkscape:export-ydpi="27.940001"
-   inkscape:version="0.92.2 2405546, 2018-03-11"
-   sodipodi:docname="stop.svg">
+   inkscape:version="0.92.4 5da689c313, 2019-01-14"
+   sodipodi:docname="stop-timer.svg">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -29,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.075102"
-     inkscape:cx="3.8278945"
+     inkscape:cx="10.053734"
      inkscape:cy="37.795276"
      inkscape:document-units="mm"
      inkscape:current-layer="g820"
@@ -60,24 +60,14 @@
      transform="translate(0,-277)">
     <g
        id="g820">
-      <g
-         id="g829"
-         transform="translate(-0.52916598)">
-        <rect
-           style="fill:#800000;fill-opacity:0.86666667;stroke:none;stroke-width:0.80171472;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
-           id="rect814"
-           width="3.6904879"
-           height="14.883423"
-           x="5.2865081"
-           y="279.55829" />
-        <rect
-           y="279.55829"
-           x="12.081336"
-           height="14.883423"
-           width="3.6904879"
-           id="rect816"
-           style="fill:#800000;fill-opacity:0.86666667;stroke:none;stroke-width:0.80171472;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal" />
-      </g>
+      <rect
+         y="279.5"
+         x="2.5"
+         height="15"
+         width="15"
+         id="rect814"
+         style="fill:#ff0000;fill-opacity:0.86666667;stroke:none;stroke-width:1.62262356;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:normal"
+         ry="0.86003721" />
     </g>
   </g>
 </svg>

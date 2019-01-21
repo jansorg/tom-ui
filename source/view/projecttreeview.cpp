@@ -3,6 +3,7 @@
 #include <icons.h>
 #include <QtWidgets/QInputDialog>
 #include <dialogs/commondialogs.h>
+#include <model/projecttreesortfiltermodel.h>
 
 #include "projecttreeview.h"
 
@@ -20,7 +21,7 @@ void ProjectTreeView::setup(GotimeControl *control, ProjectStatusManager *status
 
     _sourceModel = new ProjectTreeModel(_control, _statusManager, this);
 
-    _sortModel = new QSortFilterProxyModel(this);
+    _sortModel = new ProjectTreeSortFilterModel(this);
     _sortModel->setSourceModel(_sourceModel);
     setModel(_sortModel);
 

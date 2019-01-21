@@ -2,6 +2,7 @@
 #include <model/project_tree_item.h>
 #include <QtWidgets/QMenu>
 #include <icons.h>
+#include <model/frametablesortfiltermodel.h>
 #include "frametableview.h"
 
 FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent) {
@@ -13,7 +14,7 @@ void FrameTableView::setup(GotimeControl *control) {
 
     _sourceModel = new FrameTableViewModel(_control, this);
 
-    _sortedModel = new QSortFilterProxyModel(this);
+    _sortedModel = new FrameTableSortFilterModel(this);
     _sortedModel->setSourceModel(_sourceModel);
     setModel(_sortedModel);
 

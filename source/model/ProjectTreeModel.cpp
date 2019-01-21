@@ -4,10 +4,7 @@
 
 #include "gotime/GotimeControl.h"
 #include "ProjectTreeModel.h"
-
-enum ProjectRoles {
-    idRole = Qt::UserRole
-};
+#include "UserRoles.h"
 
 ProjectTreeModel::ProjectTreeModel(GotimeControl *control, ProjectStatusManager *statusManager, QObject *parent) : QAbstractItemModel(parent),
                                                                                                                    _control(control),
@@ -75,13 +72,6 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         return item->data(index.column());
     }
 
-//    if (role == Qt::DecorationRole && index.column() == ProjectTreeItem::COL_NAME) {
-//        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
-//        if (_control->isStarted(item->getProject())) {
-//            return QVariant(QColor(Qt::green));
-//        }
-//    }
-
     if (role == Qt::BackgroundColorRole) {
         auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
         if (_control->isStarted(item->getProject())) {
@@ -89,9 +79,14 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         }
     }
 
-    if (role == idRole) {
+    if (role == IDRole) {
         auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
         return item->getProject().getID();
+    }
+
+    if (role == SortValueRole) {
+        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
+        return item->sortData(index.column());
     }
 
     return QVariant();
@@ -212,7 +207,7 @@ void ProjectTreeModel::printProjects(int level, ProjectTreeItem *root) {
 }
 
 QModelIndex ProjectTreeModel::getProjectRow(const QString &projectID) const {
-    const QModelIndexList &list = match(index(0, 0, QModelIndex()), idRole, projectID, 1, Qt::MatchExactly | Qt::MatchRecursive);
+    const QModelIndexList &list = match(index(0, 0, QModelIndex()), IDRole, projectID, 1, Qt::MatchExactly | Qt::MatchRecursive);
     if (list.size() == 1) {
         return list.first();
     }

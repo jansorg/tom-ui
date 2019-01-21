@@ -1,6 +1,7 @@
 #include <QColor>
 
 #include "frametableviewmodel.h"
+#include "UserRoles.h"
 
 FrameTableViewModel::FrameTableViewModel(GotimeControl *control, QObject *parent) : QAbstractTableModel(parent), _control(control) {
 
@@ -168,6 +169,19 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
         // right align the duration
         if (index.column() == COL_DURATION) {
             return Qt::AlignRight + Qt::AlignVCenter;
+        }
+    }
+
+    if (role == SortValueRole) {
+        Frame *frame = _frames.at(index.row());
+        if (index.column() == COL_START_DATE || index.column() == COL_START) {
+            return frame->startTime;
+        }
+        if (index.column() == COL_END) {
+            return frame->stopTime;
+        }
+        if (index.column() == COL_DURATION) {
+            return frame->durationMillis(true);
         }
     }
 

@@ -31,6 +31,15 @@ public:
     inline bool isSpanningMultipleDays() {
         return isStopped() && abs(startTime.daysTo(stopTime)) >= 1;
     }
+
+    inline qint64 durationMillis(bool includeActive) {
+        if (isRunning() && includeActive) {
+            return QDateTime::currentDateTime().toMSecsSinceEpoch() - startTime.toMSecsSinceEpoch();
+        } else if (isRunning()) {
+            return 0;
+        }
+        return stopTime.toMSecsSinceEpoch() - startTime.toMSecsSinceEpoch();
+    }
 };
 
 

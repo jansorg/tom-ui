@@ -19,6 +19,8 @@ public:
 
     int childCount() const;
 
+    qint64 sortData(int column) const;
+
     virtual QVariant data(int column) const;
 
     virtual bool setData(int column, const QVariant &value);

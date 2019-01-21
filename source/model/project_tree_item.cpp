@@ -25,6 +25,21 @@ int ProjectTreeItem::childCount() const {
     return _childItems.count();
 }
 
+qint64 ProjectTreeItem::sortData(int column) const {
+    switch (column) {
+        case COL_DAY:
+            return _statusManager->getStatus(_project.getID()).dayTotal.asMillis();
+        case COL_WEEK:
+            return _statusManager->getStatus(_project.getID()).weekTotal.asMillis();
+        case COL_MONTH:
+            return _statusManager->getStatus(_project.getID()).monthTotal.asMillis();
+        case COL_TOTAL:
+            return _statusManager->getStatus(_project.getID()).allTotal.asMillis();
+        default:
+            return 0;
+    }
+}
+
 QVariant ProjectTreeItem::data(int column) const {
     switch (column) {
         case COL_NAME:

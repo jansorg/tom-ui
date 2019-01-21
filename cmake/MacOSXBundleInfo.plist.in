@@ -28,13 +28,11 @@
     <string>${MACOSX_BUNDLE_BUNDLE_VERSION}</string>
     <key>CSResourcesFileMapped</key>
     <true/>
-    <key>LSRequiresCarbon</key>
-    <true/>
     <key>NSHumanReadableCopyright</key>
     <string>${MACOSX_BUNDLE_COPYRIGHT}</string>
     <key>NSPrincipalClass</key>
     <string>NSApplication</string>
     <key>NSHighResolutionCapable</key>
-    <string>True</string>
+    <true/>
 </dict>
 </plist>

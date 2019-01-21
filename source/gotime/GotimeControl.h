@@ -27,6 +27,9 @@ public:
 
     QList<Project> loadRecentProjects(int max);
 
+    QList<Project> cachedProjects() const;
+    const Project cachedProject(const QString& id) const;
+
     GotimeStatus status();
 
     const ProjectsStatus projectsStatus(const QString &overallID);

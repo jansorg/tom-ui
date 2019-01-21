@@ -3,6 +3,9 @@
 #include "frametableviewmodel.h"
 #include "UserRoles.h"
 
+const auto grayColorValue = QVariant(QColor(Qt::gray));
+const auto alignedRightVCenter = QVariant(Qt::AlignRight + Qt::AlignVCenter);
+
 FrameTableViewModel::FrameTableViewModel(GotimeControl *control, QObject *parent) : QAbstractTableModel(parent), _control(control) {
 
     connect(_control, &GotimeControl::frameRemoved, this, &FrameTableViewModel::onFrameRemoved);
@@ -80,6 +83,8 @@ QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientatio
                 return "Duration";
             case COL_TAGS:
                 return "Tags";
+            case COL_PROJECT:
+                return "Project";
             case COL_NOTES:
                 return "Notes";
             default:
@@ -129,6 +134,9 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
                 return frame->getDuration().format();
             case COL_TAGS:
                 return frame->tags;
+            case COL_PROJECT:
+                //remove prefix of current project?
+                return _control->cachedProject(frame->projectID).getName();
             case COL_NOTES:
                 return frame->notes;
             default:
@@ -157,7 +165,12 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
         if (index.column() == COL_DURATION) {
             Frame *frame = _frames.at(index.row());
             if (!frame->stopTime.isValid()) {
-                return QVariant(QColor(Qt::gray));
+                return grayColorValue;
+            }
+        } else if (index.column() == COL_PROJECT) {
+            Frame *frame = _frames.at(index.row());
+            if (frame->projectID == _currentProject.getID()) {
+                return grayColorValue;
             }
         }
     }
@@ -165,11 +178,11 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::TextAlignmentRole) {
         // right align the end column
         if (index.column() == COL_END) {
-            return Qt::AlignRight + Qt::AlignVCenter;
+            return alignedRightVCenter;
         }
         // right align the duration
         if (index.column() == COL_DURATION) {
-            return Qt::AlignRight + Qt::AlignVCenter;
+            return alignedRightVCenter;
         }
     }
 
@@ -190,14 +203,11 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
 }
 
 Qt::ItemFlags FrameTableViewModel::flags(const QModelIndex &index) const {
-    if (!index.isValid()) {
-        return Qt::ItemIsEnabled;
+    if (index.isValid() && (index.column() != COL_DURATION && index.column() != COL_TAGS && index.column() != COL_PROJECT)) {
+        return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
     }
 
-    if (index.column() == COL_DURATION || index.column() == COL_TAGS) {
-        return QAbstractTableModel::flags(index);
-    }
-    return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+    return QAbstractTableModel::flags(index);
 }
 
 bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &value, int role) {

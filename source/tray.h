@@ -23,12 +23,10 @@ private slots:
     void projectStarted(const Project &);
     void projectStopped(const Project &);
     void projectUpdated(const Project &);
-    void updateIcon();
 
 private:
     void updateProjects();
 
-    QTimer *_iconTimer;
     QTimer *_statusUpdateTimer;
 
     QMenu *_menu;
@@ -36,11 +34,11 @@ private:
     QSystemTrayIcon *_trayIcon;
     QList<QAction *> _projectActions;
     QAction *_stopTaskAction;
-//    QAction *_cancelTaskAction;
     QAction *_separatorAction;
 
-    int _activeIconIndex;
-    QVector<QPixmap> _activeIcons;
+    GotimeStatus _lastStatus;
+
+    QPixmap _startedIcon;
     QPixmap _stoppedIcon;
 
     void loadIcons();

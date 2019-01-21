@@ -17,7 +17,7 @@
    inkscape:export-filename="/home/jansorg/Projects/Go/gotime-ui/gotime-qt5/resources/images/trayicon.png"
    inkscape:export-xdpi="27.939999"
    inkscape:export-ydpi="27.939999"
-   inkscape:version="0.92.2 2405546, 2018-03-11"
+   inkscape:version="0.92.4 5da689c313, 2019-01-14"
    sodipodi:docname="trayicon-stopped.svg">
   <defs
      id="defs2" />
@@ -29,7 +29,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="13.631612"
-     inkscape:cx="19.641512"
+     inkscape:cx="25.929221"
      inkscape:cy="37.010992"
      inkscape:document-units="mm"
      inkscape:current-layer="g817"
@@ -66,21 +66,13 @@
       <g
          id="g817">
         <rect
-           style="opacity:0.7;fill:#000080;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers"
-           id="rect818"
-           width="17.499998"
-           height="17.499998"
-           x="1.3915006"
-           y="278.31226"
-           ry="1.1023623" />
-        <rect
-           ry="0.55284643"
-           y="282.67404"
-           x="5.7665"
-           height="8.7764359"
-           width="8.749999"
+           ry="0.77113539"
+           y="280.94138"
+           x="4.0390511"
+           height="12.241773"
+           width="12.204897"
            id="rect848"
-           style="opacity:0.7;fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
+           style="opacity:0.7;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
       </g>
     </g>
   </g>

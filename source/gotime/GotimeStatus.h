@@ -14,11 +14,11 @@ public:
 
     const QDateTime &startTime() const;
 
-    const bool isValid;
+    bool isValid;
 
 private:
-    const Project _project;
-    const QDateTime _startTime;
+    Project _project;
+    QDateTime _startTime;
 };
 
 #endif 

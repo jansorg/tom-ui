@@ -18,6 +18,7 @@ GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject 
 }
 
 void GotimeControl::cacheProjects(const QList<Project> &projects) {
+    //fixme sync on mutex?
     _cachedProjects.clear();
     for (const auto &project : projects) {
         _cachedProjects[project.getID()] = project;
@@ -55,7 +56,7 @@ QList<Project> GotimeControl::loadProjects(int max) {
         }
     }
 
-    if (max == 0) {
+    if (max <= 0) {
         cacheProjects(result);
     }
     return result;
@@ -145,7 +146,7 @@ QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubproje
     QStringList args = QStringList() << "frames"
                                      << "-o" << "json"
                                      << "-p" << projectID
-                                     << "-f" << "id,startTime,stopTime,lastUpdated,notes";
+                                     << "-f" << "id,projectID,startTime,stopTime,lastUpdated,notes";
 
     if (includeSubprojects) {
         args.append("--subprojects");
@@ -175,6 +176,7 @@ QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubproje
 
         const QJsonObject &item = arrayItem.toObject();
         const QString id = item["id"].toString();
+        const QString nestedProjectID = item["projectID"].toString();
         const QDateTime start = QDateTime::fromString(item["startTime"].toString(), Qt::ISODate);
         const QDateTime end = QDateTime::fromString(item["stopTime"].toString(), Qt::ISODate);
         const QDateTime lastUpdated = QDateTime::fromString(item["lastUpdated"].toString(), Qt::ISODate);
@@ -182,7 +184,7 @@ QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubproje
         const QStringList tags = QStringList();
 
         // fixme who's deleting the allocated data?
-        result.append(new Frame(id, projectID, start, end, lastUpdated, notes, tags));
+        result.append(new Frame(id, nestedProjectID, start, end, lastUpdated, notes, tags));
     }
     return result;
 }
@@ -392,4 +394,12 @@ void GotimeControl::resetAll() {
     if (status.isSuccessful()) {
         emit dataResetNeeded();
     }
+}
+
+QList<Project> GotimeControl::cachedProjects() const {
+    return _cachedProjects.values();
+}
+
+const Project GotimeControl::cachedProject(const QString &id) const {
+    return _cachedProjects.value(id);
 }

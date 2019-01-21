@@ -7,6 +7,7 @@
 
 #include "tray.h"
 #include "icons.h"
+#include "osenvinfo.h"
 
 GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) : QObject(),
                                                                                   _control(control),
@@ -20,11 +21,6 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
     _stopTaskAction->setToolTip("Stop the current project and record data.");
     connect(_stopTaskAction, SIGNAL(triggered()), control, SLOT(stopActivity()));
     _menu->addAction(_stopTaskAction);
-
-//    _cancelTaskAction = new QAction("Cancel active project...");
-//    _cancelTaskAction->setToolTip("Stop the active project without recording new data.");
-//    connect(_cancelTaskAction, SIGNAL(triggered()), control, SLOT(cancelActivity()));
-//    _menu->addAction(_cancelTaskAction);
 //
     _menu->addSection(tr("Projects"));
 
@@ -47,8 +43,6 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
     _statusUpdateTimer = new QTimer(this);
     connect(_statusUpdateTimer, &QTimer::timeout, this, &GotimeTrayIcon::updateStatus);
 
-    _iconTimer = new QTimer(this);
-    connect(_iconTimer, &QTimer::timeout, this, &GotimeTrayIcon::updateIcon);
     connect(control, &GotimeControl::projectStarted, this, &GotimeTrayIcon::projectStarted);
     connect(control, &GotimeControl::projectStopped, this, &GotimeTrayIcon::projectStopped);
     connect(control, &GotimeControl::projectCancelled, this, &GotimeTrayIcon::projectStopped);
@@ -59,8 +53,6 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
     if (status.isValid) {
         const Project &project = status.currentProject();
         if (project.isValid()) {
-            _trayIcon->setIcon(_activeIcons.at(0));
-
             projectStarted(project);
         } else {
             projectStopped(project);
@@ -84,11 +76,16 @@ void GotimeTrayIcon::updateProjects() {
 }
 
 void GotimeTrayIcon::updateStatus() {
-    const GotimeStatus &status = _control->status();
-    if (status.isValid) {
-        const Timespan span = Timespan::of(status.startTime(), QDateTime::currentDateTime());
+    if (_lastStatus.isValid) {
+        const Timespan span = Timespan::of(_lastStatus.startTime(), QDateTime::currentDateTime());
 
-        _trayIcon->setToolTip(QString("%1: <b>%2</b>").arg(status.currentProject().getName()).arg(span.format()));
+        QString tooltip;
+        if (OSEnvInfo::supportsHTMLTooltips()) {
+            tooltip = QString("%1: <b>%2</b>").arg(_lastStatus.currentProject().getName()).arg(span.format());
+        } else {
+            tooltip = QString("%1: %2").arg(_lastStatus.currentProject().getName()).arg(span.format());
+        }
+        _trayIcon->setToolTip(tooltip);
     } else {
         _trayIcon->setToolTip("No active project");
     }
@@ -96,44 +93,34 @@ void GotimeTrayIcon::updateStatus() {
 
 void GotimeTrayIcon::loadIcons() {
 #ifdef Q_OS_MAC
-    QString prefix(":/icons/osx/");
+    _startedIcon = QPixmap(":/icons/osx/trayicon-started.svg");
+    _stoppedIcon = QPixmap(":/icons/osx/trayicon-stopped.svg");
 #else
     QString prefix(":/icons/");
+    _startedIcon = QPixmap(":/icons/trayicon-started.svg");
+    _stoppedIcon = QPixmap(":/icons/trayicon-stopped.svg");
 #endif
-
-    _stoppedIcon = QPixmap(prefix + "trayicon-stopped.svg");
-    _activeIcons << QPixmap(prefix + "trayicon-1.svg");
-    _activeIcons << QPixmap(prefix + "trayicon-2.svg");
-    _activeIcons << QPixmap(prefix + "trayicon-3.svg");
-    _activeIcons << QPixmap(prefix + "trayicon-4.svg");
 }
 
 void GotimeTrayIcon::projectStarted(const Project &project) {
-    if (!_iconTimer->isActive()) {
-        _trayIcon->setIcon(_activeIcons.at(0));
+    _trayIcon->setIcon(_startedIcon);
 
-        _activeIconIndex = 0;
-        _iconTimer->start(1000);
-    }
-
+    _lastStatus = _control->status();
     if (!_statusUpdateTimer->isActive()) {
         _statusUpdateTimer->start(2500);
     }
 
     _stopTaskAction->setEnabled(true);
-//    _cancelTaskAction->setEnabled(true);
 
     projectUpdated(project);
 }
 
 void GotimeTrayIcon::projectStopped(const Project &project) {
+    _lastStatus = GotimeStatus();
+
     _trayIcon->setIcon(_stoppedIcon);
-
-    _iconTimer->stop();
     _statusUpdateTimer->stop();
-
     _stopTaskAction->setEnabled(false);
-//    _cancelTaskAction->setEnabled(false);
 
     projectUpdated(project);
 }
@@ -141,10 +128,4 @@ void GotimeTrayIcon::projectStopped(const Project &project) {
 void GotimeTrayIcon::projectUpdated(const Project &) {
     updateStatus();
     updateProjects();
-}
-
-void GotimeTrayIcon::updateIcon() {
-    _activeIconIndex = _activeIconIndex % _activeIcons.size();
-    _trayIcon->setIcon(_activeIcons.at(_activeIconIndex));
-    _activeIconIndex++;
 }

@@ -74,13 +74,6 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         return item->data(index.column());
     }
 
-    if (role == Qt::BackgroundColorRole) {
-        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
-        if (_control->isStarted(item->getProject())) {
-            return QBrush(QColor(255, 255, 210));
-        }
-    }
-
     if (role == Qt::DecorationRole) {
         if (index.column() == ProjectTreeItem::COL_NAME) {
             auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());

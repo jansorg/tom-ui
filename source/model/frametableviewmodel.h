@@ -1,7 +1,3 @@
-//
-// Created by jansorg on 07.01.19.
-//
-
 #ifndef GOTIME_UI_FRAMETABLEVIEWMODEL_H
 #define GOTIME_UI_FRAMETABLEVIEWMODEL_H
 
@@ -16,7 +12,7 @@ public:
 
     ~FrameTableViewModel() override;
 
-    void loadFrames(const Project& project);
+    void loadFrames(const Project &project);
 
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 
@@ -27,7 +23,8 @@ public:
     bool removeRows(int row, int count, const QModelIndex &parent) override;
 
 private slots:
-    void onFrameRemoved(const QString& frameID, const QString& projectID);
+
+    void onFrameRemoved(const QString &frameID, const QString &projectID);
 
     void onProjectUpdated(const Project &project);
 
@@ -52,7 +49,8 @@ private:
     static const int COL_END = 2;
     static const int COL_DURATION = 3;
     static const int COL_TAGS = 4;
-    static const int COL_NOTES = 5;
+    static const int COL_PROJECT = 5;
+    static const int COL_NOTES = 6;
 
     static const int COLUMN_COUNT = COL_NOTES + 1;
 };

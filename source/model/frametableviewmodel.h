@@ -47,11 +47,12 @@ private:
 
     Project _currentProject;
 
-    static const int COL_START = 0;
-    static const int COL_END = 1;
-    static const int COL_DURATION = 2;
-    static const int COL_TAGS = 3;
-    static const int COL_NOTES = 4;
+    static const int COL_START_DATE = 0;
+    static const int COL_START = 1;
+    static const int COL_END = 2;
+    static const int COL_DURATION = 3;
+    static const int COL_TAGS = 4;
+    static const int COL_NOTES = 5;
 
     static const int COLUMN_COUNT = COL_NOTES + 1;
 };

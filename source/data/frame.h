@@ -27,6 +27,10 @@ public:
     inline bool isRunning() {
         return !stopTime.isValid();
     }
+
+    inline bool isSpanningMultipleDays() {
+        return isStopped() && abs(startTime.daysTo(stopTime)) >= 1;
+    }
 };
 
 

@@ -16,7 +16,7 @@ void FrameTableViewModel::loadFrames(const Project &project) {
     beginResetModel();
 
     _currentProject = project;
-//    qDeleteAll(_frames);
+    qDeleteAll(_frames);
 
     if (project.isValid()) {
         _frames = _control->loadFrames(project.getID(), true);
@@ -68,6 +68,8 @@ int FrameTableViewModel::columnCount(const QModelIndex &) const {
 QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientation, int role) const {
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
+            case COL_START_DATE:
+                return "Day";
             case COL_START:
                 return "Start";
             case COL_END:
@@ -84,8 +86,11 @@ QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientatio
     }
 
     if (role == Qt::TextAlignmentRole && orientation == Qt::Horizontal) {
-        if (section == COL_DURATION) {
-            return Qt::AlignRight;
+        if (section == COL_START_DATE || section == COL_START) {
+            return Qt::AlignLeading;
+        }
+        if (section == COL_DURATION || section == COL_END) {
+            return Qt::AlignTrailing;
         }
     }
 
@@ -102,7 +107,34 @@ Frame *FrameTableViewModel::frameAt(const QModelIndex &index) const {
 }
 
 QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
-    if (role == Qt::DisplayRole || role == Qt::EditRole) {
+    if (role == Qt::DisplayRole) {
+        Frame *frame = _frames.at(index.row());
+
+        switch (index.column()) {
+            case COL_START_DATE:
+                return frame->startTime.date().toString(Qt::SystemLocaleShortDate);
+            case COL_START:
+                return frame->startTime.time().toString(Qt::SystemLocaleShortDate);
+            case COL_END:
+                if (frame->isSpanningMultipleDays()) {
+                    return frame->stopTime.toString(Qt::SystemLocaleShortDate);
+                }
+                return frame->stopTime.time().toString(Qt::SystemLocaleShortDate);
+            case COL_DURATION:
+                if (!frame->stopTime.isValid()) {
+                    return Timespan::of(frame->startTime, QDateTime::currentDateTime()).format();
+                }
+                return frame->getDuration().format();
+            case COL_TAGS:
+                return frame->tags;
+            case COL_NOTES:
+                return frame->notes;
+            default:
+                break;
+        }
+    }
+
+    if (role == Qt::EditRole) {
         Frame *frame = _frames.at(index.row());
 
         switch (index.column()) {
@@ -110,11 +142,6 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
                 return frame->startTime;
             case COL_END:
                 return frame->stopTime;
-            case COL_DURATION:
-                if (!frame->stopTime.isValid()) {
-                    return Timespan::of(frame->startTime, QDateTime::currentDateTime()).format();
-                }
-                return frame->getDuration().format();
             case COL_TAGS:
                 return frame->tags;
             case COL_NOTES:
@@ -134,6 +161,10 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
     }
 
     if (role == Qt::TextAlignmentRole) {
+        // right align the end column
+        if (index.column() == COL_END) {
+            return Qt::AlignRight + Qt::AlignVCenter;
+        }
         // right align the duration
         if (index.column() == COL_DURATION) {
             return Qt::AlignRight + Qt::AlignVCenter;

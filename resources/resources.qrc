@@ -1,21 +1,23 @@
 <!DOCTYPE RCC>
 <RCC version="1.0">
   <qresource>
-    <file>images/logo.svg</file>
-    <file>images/logo32.png</file>
+    <file>icons/logo.svg</file>
+    <file>icons/logo32.png</file>
+    <file>icons/logo64.png</file>
 
-    <file>images/trayicon-1.svg</file>
-    <file>images/trayicon-2.svg</file>
-    <file>images/trayicon-3.svg</file>
-    <file>images/trayicon-4.svg</file>
-    <file>images/trayicon-stopped.svg</file>
-    <file>images/start.svg</file>
-    <file>images/stop.svg</file>
+    <file>icons/start-timer.svg</file>
+    <file>icons/stop-timer.svg</file>
 
-    <file>images/osx/trayicon-1.svg</file>
-    <file>images/osx/trayicon-2.svg</file>
-    <file>images/osx/trayicon-3.svg</file>
-    <file>images/osx/trayicon-4.svg</file>
-    <file>images/osx/trayicon-stopped.svg</file>
+    <file>icons/trayicon-1.svg</file>
+    <file>icons/trayicon-2.svg</file>
+    <file>icons/trayicon-3.svg</file>
+    <file>icons/trayicon-4.svg</file>
+    <file>icons/trayicon-stopped.svg</file>
+
+    <file>icons/osx/trayicon-1.svg</file>
+    <file>icons/osx/trayicon-2.svg</file>
+    <file>icons/osx/trayicon-3.svg</file>
+    <file>icons/osx/trayicon-4.svg</file>
+    <file>icons/osx/trayicon-stopped.svg</file>
   </qresource>
 </RCC>

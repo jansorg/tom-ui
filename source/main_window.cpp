@@ -11,8 +11,8 @@
 #include "main_window.h"
 
 MainWindow::MainWindow(GotimeControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(parent), _control(control) {
-//#ifdef Q_OS_LINUX
-    setWindowIcon(QIcon(":/images/logo32.png"));
+//#ifndef Q_OS_MAC
+    setWindowIcon(Icons::Logo());
 //#endif
 
     ui.setupUi(this);

@@ -55,8 +55,8 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
     const Project &project = item->getProject();
 
     QMenu menu;
-    QAction *start = menu.addAction(Icons::start(), "Start", [this, project] { _control->startProject(project); });
-    QAction *stop = menu.addAction(Icons::stop(), "Stop", [this] { _control->stopActivity(); });
+    QAction *start = menu.addAction(Icons::startTimer(), "Start", [this, project] { _control->startProject(project); });
+    QAction *stop = menu.addAction(Icons::stopTimer(), "Stop", [this] { _control->stopActivity(); });
     menu.addSeparator();
     menu.addAction(Icons::newProject(), "Create new project", [this, project] { createNewProject(project); });
 

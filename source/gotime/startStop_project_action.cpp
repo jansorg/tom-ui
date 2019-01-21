@@ -1,3 +1,4 @@
+#include <icons.h>
 #include "startStop_project_action.h"
 
 const Project &StartProjectAction::getProject() {
@@ -30,14 +31,14 @@ StartProjectAction::StartProjectAction(const Project &project, GotimeControl *co
 void StartProjectAction::projectStarted(const Project &project) {
     if (project.getID() == _project.getID()) {
         this->setText(project.getName());
-        this->setIcon(QIcon(":/images/stop.svg"));
+        this->setIcon(Icons::stopTimer());
     }
 }
 
 void StartProjectAction::projectStopped(const Project &project) {
     if (project.getID() == _project.getID()) {
         this->setText(project.getName());
-        this->setIcon(QIcon(":/images/start.svg"));
+        this->setIcon(Icons::startTimer());
     }
 }
 

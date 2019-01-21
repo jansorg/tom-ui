@@ -13,7 +13,7 @@ ProjectTreeModel::ProjectTreeModel(GotimeControl *control, ProjectStatusManager 
     loadProjects();
 
     connect(_control, &GotimeControl::projectCreated, this, &ProjectTreeModel::addProject);
-    connect(_control, &GotimeControl::dataImported, this, &ProjectTreeModel::loadProjects);
+    connect(_control, &GotimeControl::dataResetNeeded, this, &ProjectTreeModel::loadProjects);
 }
 
 ProjectTreeModel::~ProjectTreeModel() {

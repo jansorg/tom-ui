@@ -342,11 +342,10 @@ bool GotimeControl::removeFrame(Frame frame) {
     args << "remove" << "frame" << frame.id;
 
     const CommandStatus &status = run(args);
-    bool ok = status.isSuccessful();
-    if (ok) {
+    if (status.isSuccessful()) {
         emit frameRemoved(frame.id, frame.projectID);
     }
-    return ok;
+    return status.isSuccessful();
 }
 
 bool GotimeControl::importMacTimeTracker(const QString &filename) {
@@ -354,10 +353,8 @@ bool GotimeControl::importMacTimeTracker(const QString &filename) {
     args << "import" << "macTimeTracker" << filename;
 
     const CommandStatus &status = run(args);
-    qDebug() << status.stdoutContent;
-
     if (status.isSuccessful()) {
-        emit dataImported();
+        emit dataResetNeeded();
     }
     return status.isSuccessful();
 }
@@ -367,10 +364,18 @@ bool GotimeControl::importFanurioCSV(const QString &filename) {
     args << "import" << "fanurio" << filename;
 
     const CommandStatus &status = run(args);
-    qDebug() << status.stdoutContent;
-
     if (status.isSuccessful()) {
-        emit dataImported();
+        emit dataResetNeeded();
     }
     return status.isSuccessful();
+}
+
+void GotimeControl::resetAll() {
+    QStringList args;
+    args << "remove" << "all" << "all";
+
+    const CommandStatus &status = run(args);
+    if (status.isSuccessful()) {
+        emit dataResetNeeded();
+    }
 }

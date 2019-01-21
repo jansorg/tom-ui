@@ -91,6 +91,7 @@
      <string>&amp;File</string>
     </property>
     <addaction name="actionRefresh"/>
+    <addaction name="actionResetAllData"/>
     <addaction name="actionMinimize"/>
     <addaction name="actionQuit"/>
    </widget>
@@ -180,7 +181,12 @@
   </action>
   <action name="actionImportFanurio">
    <property name="text">
-    <string>Fanurio CSV</string>
+    <string>&amp;Fanurio CSV</string>
+   </property>
+  </action>
+  <action name="actionResetAllData">
+   <property name="text">
+    <string>Reset all data...</string>
    </property>
   </action>
  </widget>
@@ -296,6 +302,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionResetAllData</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>resetAllData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>385</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshData()</slot>
@@ -303,5 +325,6 @@
   <slot>createProject()</slot>
   <slot>importMacTimeTracker()</slot>
   <slot>importFanurio()</slot>
+  <slot>resetAllData()</slot>
  </slots>
 </ui>

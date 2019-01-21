@@ -46,11 +46,14 @@ public:
     bool removeFrame(Frame frame);
 
     bool importMacTimeTracker(const QString &filename);
+
     bool importFanurioCSV(const QString &filename);
+
+    void resetAll();
 
 signals:
 
-    void dataImported();
+    void dataResetNeeded();
 
     void projectStarted(const Project &);
 

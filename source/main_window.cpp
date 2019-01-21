@@ -51,7 +51,7 @@ void MainWindow::createProject() {
 }
 
 void MainWindow::importMacTimeTracker() {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Mac Time Tracker CSV export"),"",tr("CSV Files (*.csv)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Mac Time Tracker CSV export"), "", tr("CSV Files (*.csv)"));
 
     if (!fileName.isEmpty()) {
         _control->importMacTimeTracker(fileName);
@@ -59,9 +59,16 @@ void MainWindow::importMacTimeTracker() {
 }
 
 void MainWindow::importFanurio() {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Fanurio CSV export"),"",tr("CSV Files (*.csv)"));
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Fanurio CSV export"), "", tr("CSV Files (*.csv)"));
 
     if (!fileName.isEmpty()) {
         _control->importFanurioCSV(fileName);
+    }
+}
+
+void MainWindow::resetAllData() {
+    QMessageBox::StandardButton reply = QMessageBox::question(this, tr("Reset data"), tr("Do you want to remove all projects, tags and frames?"), QMessageBox::Yes | QMessageBox::No);
+    if (reply == QMessageBox::Yes) {
+        _control->resetAll();
     }
 }

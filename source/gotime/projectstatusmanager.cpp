@@ -6,7 +6,7 @@ ProjectStatusManager::ProjectStatusManager(GotimeControl *control, QObject *pare
     connect(_control, &GotimeControl::projectUpdated, this, &ProjectStatusManager::refresh);
     connect(_control, &GotimeControl::frameUpdated, this, &ProjectStatusManager::refresh);
     connect(_control, &GotimeControl::frameRemoved, this, &ProjectStatusManager::refresh);
-    connect(_control, &GotimeControl::dataImported, this, &ProjectStatusManager::refresh);
+    connect(_control, &GotimeControl::dataResetNeeded, this, &ProjectStatusManager::refresh);
 
     _timer = new QTimer(this);
     connect(_timer, &QTimer::timeout, this, &ProjectStatusManager::refresh);

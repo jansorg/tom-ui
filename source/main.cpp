@@ -18,6 +18,7 @@ int main(int argc, char *argv[]) {
     }
 
     QApplication::setQuitOnLastWindowClosed(false);
+    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication app(argc, argv);
 
     #ifdef Q_OS_MAC

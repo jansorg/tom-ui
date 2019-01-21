@@ -20,6 +20,7 @@ public:
 public slots:
 
     void helpAbout();
+    void resetAllData();
 
 private slots:
 

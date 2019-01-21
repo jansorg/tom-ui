@@ -1,6 +1,7 @@
 #include <QtGui/QColor>
 #include <QtGui/QFont>
 #include <QtGui/QBrush>
+#include <icons.h>
 
 #include "gotime/GotimeControl.h"
 #include "ProjectTreeModel.h"
@@ -24,6 +25,7 @@ void ProjectTreeModel::loadProjects() {
     beginResetModel();
 
     if (_rootItem) {
+        //fixme cleanup
 //        delete _rootItem;
         _rootItem = nullptr;
     }
@@ -76,6 +78,15 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
         if (_control->isStarted(item->getProject())) {
             return QBrush(QColor(255, 255, 210));
+        }
+    }
+
+    if (role == Qt::DecorationRole) {
+        if (index.column() == ProjectTreeItem::COL_NAME) {
+            auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
+            if (_control->isStarted(item->getProject())) {
+                return Icons::stopTimer();
+            }
         }
     }
 

@@ -7,6 +7,7 @@ FrameTableViewModel::FrameTableViewModel(GotimeControl *control, QObject *parent
 
     connect(_control, &GotimeControl::frameRemoved, this, &FrameTableViewModel::onFrameRemoved);
     connect(_control, &GotimeControl::projectUpdated, this, &FrameTableViewModel::onProjectUpdated);
+    connect(_control, &GotimeControl::dataResetNeeded, [this] { this->loadFrames(Project()); });
 }
 
 FrameTableViewModel::~FrameTableViewModel() {
@@ -38,7 +39,7 @@ void FrameTableViewModel::onFrameRemoved(const QString &frameID, const QString &
 }
 
 bool FrameTableViewModel::removeRows(int row, int count, const QModelIndex &parent) {
-    if (row >= _frames.size() || row + count -1 >= _frames.size()) {
+    if (row >= _frames.size() || row + count - 1 >= _frames.size()) {
         return false;
     }
 

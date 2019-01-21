@@ -66,6 +66,14 @@ void MainWindow::importFanurio() {
     }
 }
 
+void MainWindow::importWatson() {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Watson frames file"), "", tr("Watson frames files (frames)"));
+
+    if (!fileName.isEmpty()) {
+        _control->importWatsonFrames(fileName);
+    }
+}
+
 void MainWindow::resetAllData() {
     QMessageBox::StandardButton reply = QMessageBox::question(this, tr("Reset data"), tr("Do you want to remove all projects, tags and frames?"), QMessageBox::Yes | QMessageBox::No);
     if (reply == QMessageBox::Yes) {

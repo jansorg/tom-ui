@@ -29,7 +29,7 @@ public:
 
     GotimeStatus status();
 
-    const ProjectsStatus projectsStatus(const QString& overallID);
+    const ProjectsStatus projectsStatus(const QString &overallID);
 
     bool isStarted(const Project &project);
 
@@ -48,6 +48,8 @@ public:
     bool importMacTimeTracker(const QString &filename);
 
     bool importFanurioCSV(const QString &filename);
+
+    bool importWatsonFrames(const QString &filename);
 
     void resetAll();
 

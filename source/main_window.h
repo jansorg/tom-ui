@@ -20,6 +20,7 @@ public:
 public slots:
 
     void helpAbout();
+
     void resetAllData();
 
 private slots:
@@ -31,6 +32,8 @@ private slots:
     void importMacTimeTracker();
 
     void importFanurio();
+
+    void importWatson();
 
 private:
     void createActions();

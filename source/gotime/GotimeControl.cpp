@@ -240,7 +240,7 @@ bool GotimeControl::updateFrame(QString id, QString projectID, bool updateStart,
     return success;
 }
 
-const ProjectsStatus GotimeControl::projectsStatus(const QString& overallID) {
+const ProjectsStatus GotimeControl::projectsStatus(const QString &overallID) {
     QString idList = "id,trackedDay,totalTrackedDay,trackedWeek,totalTrackedWeek,trackedMonth,totalTrackedMonth,trackedYear,totalTrackedYear,trackedAll,totalTrackedAll";
     const int expectedColumns = idList.count(',') + 1;
 
@@ -365,6 +365,17 @@ bool GotimeControl::importMacTimeTracker(const QString &filename) {
 bool GotimeControl::importFanurioCSV(const QString &filename) {
     QStringList args;
     args << "import" << "fanurio" << filename;
+
+    const CommandStatus &status = run(args);
+    if (status.isSuccessful()) {
+        emit dataResetNeeded();
+    }
+    return status.isSuccessful();
+}
+
+bool GotimeControl::importWatsonFrames(const QString &filename) {
+    QStringList args;
+    args << "import" << "watson" << filename;
 
     const CommandStatus &status = run(args);
     if (status.isSuccessful()) {

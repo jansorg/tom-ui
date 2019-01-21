@@ -107,6 +107,7 @@
     </property>
     <addaction name="actionImportMacTimeTracker"/>
     <addaction name="actionImportFanurio"/>
+    <addaction name="actionImpotWatson"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuImport"/>
@@ -186,7 +187,12 @@
   </action>
   <action name="actionResetAllData">
    <property name="text">
-    <string>Reset all data...</string>
+    <string>Reset all &amp;data...</string>
+   </property>
+  </action>
+  <action name="actionImpotWatson">
+   <property name="text">
+    <string>Watson frames.json</string>
    </property>
   </action>
  </widget>
@@ -318,6 +324,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionImpotWatson</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>importWatson()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>385</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshData()</slot>
@@ -326,5 +348,6 @@
   <slot>importMacTimeTracker()</slot>
   <slot>importFanurio()</slot>
   <slot>resetAllData()</slot>
+  <slot>importWatson()</slot>
  </slots>
 </ui>

@@ -8,6 +8,8 @@ echo "Building release $VERSION"
 echo -n "$VERSION" > ./version.txt
 git commit -m "Prepearing release of $VERSION" version.txt
 git push
+git tag "v$VERSION"
+git push --tags
 export TOM_VERSION="$VERSION"
 
 TARGET="$PWD/release-$VERSION"

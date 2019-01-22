@@ -5,10 +5,12 @@ set(CMAKE_MODULE_PATH cmake)
 # Include Qt basic functions
 include(cmake/QtCommon.cmake)
 
+file(READ version.txt VERSION)
+
 # Basic information about project
 project(tom-ui
         LANGUAGES CXX
-        VERSION 1.0.0
+        VERSION ${VERSION}
         DESCRIPTION "Tom Time Tracker"
         HOMEPAGE_URL "https://github.com/jansorg/tom-ui")
 

@@ -19,7 +19,6 @@ RUN apt-get update \
 	software-properties-common \
 	libqt5svg5-dev
 
-ADD ubuntu18.10 /dist
-COPY build-deb.sh /root 
+COPY build-ubuntu-deb.sh /root
 
 ENTRYPOINT ["tail", "-f", "/dev/null"]

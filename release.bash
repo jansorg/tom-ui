@@ -12,7 +12,7 @@ TARGET="$PWD/release-$VERSION"
 mkdir -p "$TARGET"
 
 function finish {
-    docker stop tom:ubuntu
+    true docker stop tom-ubuntu
 }
 
 trap finish EXIT

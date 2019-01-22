@@ -5,8 +5,10 @@ VERSION="$1"
 [[ -z "$VERSION" ]] && echo "No version given" && exit -1
 
 echo "Building release $VERSION"
-echo "$VERSION" > ./version.txt
-export TOM_VERSION="$VERSION"
+echo -n "$VERSION" > ./version.txt
+git commit -m "Prepearing release of $VERSION" version.txt
+git push
+#export TOM_VERSION="$VERSION"
 
 TARGET="$PWD/release-$VERSION"
 mkdir -p "$TARGET"
@@ -19,7 +21,6 @@ trap finish EXIT
 
 set -e
 
-
 function buildUbuntu() {
     # ubuntu pakcages
     for name in "$SOURCE"/deployment/ubuntu/*.Dockerfile ; do
@@ -31,7 +32,7 @@ function buildUbuntu() {
             DEB_TARGET="$TARGET/$UBUNTU_VERSION"
             mkdir -p "$DEB_TARGET"
 
-            CONTAINER="tom:ubuntu"
+            CONTAINER="tom-ubuntu"
             true docker stop "$CONTAINER"
 
             docker build --rm -t "$CONTAINER" -f "$name" .

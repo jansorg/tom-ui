@@ -20,6 +20,8 @@ set(COMPANY "Joachim Ansorg")
 set(COPYRIGHT "Copyright (c) 2019 Joachim Ansorg. All rights reserved.")
 set(IDENTIFIER "eu.ja-dev.tomui")
 
+set(CPACK_PACKAGE_CONTACT "mail@ja-dev.eu")
+
 set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
 
 add_project_meta(META_FILES_TO_INCLUDE)

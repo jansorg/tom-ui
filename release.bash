@@ -24,6 +24,8 @@ trap finish EXIT
 set -e
 
 function buildUbuntu() {
+    local CONTAINER="tom-ubuntu"
+
     # ubuntu packages
     for name in "$SOURCE"/deployment/ubuntu/*.Dockerfile ; do
         (
@@ -34,7 +36,6 @@ function buildUbuntu() {
             DEB_TARGET="$TARGET/$UBUNTU_VERSION"
             mkdir -p "$DEB_TARGET"
 
-            CONTAINER="tom-ubuntu"
             true docker stop "$CONTAINER"
 
             docker build --rm -t "$CONTAINER" -f "$name" .

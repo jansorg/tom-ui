@@ -20,9 +20,9 @@ set(COMPANY "Joachim Ansorg")
 set(COPYRIGHT "Copyright (c) 2019 Joachim Ansorg. All rights reserved.")
 set(IDENTIFIER "eu.ja-dev.tomui")
 
-INCLUDE(CPack)
 set(CPACK_PACKAGE_CONTACT "mail@ja-dev.eu")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+INCLUDE(CPack)
 
 set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
 

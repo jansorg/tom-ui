@@ -33,6 +33,10 @@ configure_file (
         "source/version.h.in"
         "${PROJECT_BINARY_DIR}/version.h"
 )
+configure_file (
+        "cmake/Info.plist.in"
+        "${PROJECT_BINARY_DIR}/Info.plist"
+)
 
 file(GLOB_RECURSE UI_FILES source/*.ui)
 file(GLOB_RECURSE CODE_FILES source/*.cpp source/*.h)

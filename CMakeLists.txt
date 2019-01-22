@@ -22,7 +22,6 @@ set(IDENTIFIER "eu.ja-dev.tomui")
 
 set(CPACK_PACKAGE_CONTACT "mail@ja-dev.eu")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
-INCLUDE(CPack)
 
 set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
 
@@ -72,3 +71,5 @@ elseif(APPLE)
 elseif(WIN32)
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 endif()
+
+INCLUDE(CPack)

@@ -11,7 +11,7 @@ rm -rf build
 mkdir build
 cd build
 cmake -DCMAKE_PREFIX_PATH="$QTDIR" -DCMAKE_BUILD_TYPE="Release" ..
-make
+make -j2
 
 mv tom-ui.app Tom.app
 go build -o Tom.app/Contents/MacOS/tom -ldflags "-s -w" github.com/jansorg/tom

@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
-
 SOURCE="$PWD"
 VERSION="$1"
 [[ -z "$VERSION" ]] && echo "No version given" && exit -1
@@ -12,6 +10,15 @@ export TOM_VERSION="$VERSION"
 
 TARGET="$PWD/release-$VERSION"
 mkdir -p "$TARGET"
+
+function finish {
+    docker stop tom:ubuntu
+}
+
+trap finish EXIT
+
+set -e
+
 
 function buildUbuntu() {
     # ubuntu pakcages
@@ -24,14 +31,14 @@ function buildUbuntu() {
             DEB_TARGET="$TARGET/$UBUNTU_VERSION"
             mkdir -p "$DEB_TARGET"
 
-            CONTAINER="tom:$UBUNTU_VERSION"
+            CONTAINER="tom:ubuntu"
             true docker stop "$CONTAINER"
 
             docker build --rm -t "$CONTAINER" -f "$name" .
-            docker run -d -t -i --rm --name "tom-$UBUNTU_VERSION" -v "$DEB_TARGET:/dist" "$CONTAINER"
-            docker exec -e TOM_VERSION "tom-$UBUNTU_VERSION" bash /root/build-ubuntu-deb.sh
+            docker run -d -t -i --rm --name "tom-ubuntu" -v "$DEB_TARGET:/dist" "$CONTAINER"
+            docker exec -e TOM_VERSION "tom-ubuntu" bash /root/build-ubuntu-deb.sh
 
-            docker stop "$CONTAINER"
+            docker stop "tom-ubuntu"
 
             mv "$DEB_TARGET"/*.deb "$TARGET"
         )

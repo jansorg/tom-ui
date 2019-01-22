@@ -48,6 +48,7 @@ function buildUbuntu() {
             docker stop "$CONTAINER"
 
             mv "$DEB_TARGET"/*.deb "$TARGET/tom-$VERSION-$UBUNTU_VERSION.deb"
+            rm -rf "$DEB_TARGET"
         )
     done
 }

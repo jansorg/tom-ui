@@ -17,4 +17,3 @@ mv tom-ui.app Tom.app
 go build -o Tom.app/Contents/MacOS/tom -ldflags "-s -w" github.com/jansorg/tom
 install_name_tool -add_rpath "@executable_path/../Frameworks" Tom.app/Contents/MacOS/tom-ui
 "$QTDIR/bin/macdeployqt" Tom.app -dmg
-

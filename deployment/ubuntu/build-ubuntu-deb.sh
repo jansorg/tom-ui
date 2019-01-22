@@ -11,5 +11,4 @@ cd build
 cmake -DCMAKE_BUILD_TYPE="Release" ..
 make -j2
 cpack -G DEB
-ls -la
 cp *.deb /dist

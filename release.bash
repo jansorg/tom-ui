@@ -8,7 +8,7 @@ echo "Building release $VERSION"
 echo -n "$VERSION" > ./version.txt
 git commit -m "Prepearing release of $VERSION" version.txt
 git push
-#export TOM_VERSION="$VERSION"
+export TOM_VERSION="$VERSION"
 
 TARGET="$PWD/release-$VERSION"
 mkdir -p "$TARGET"
@@ -22,7 +22,7 @@ trap finish EXIT
 set -e
 
 function buildUbuntu() {
-    # ubuntu pakcages
+    # ubuntu packages
     for name in "$SOURCE"/deployment/ubuntu/*.Dockerfile ; do
         (
             cd "$(dirname "$name")"
@@ -41,10 +41,16 @@ function buildUbuntu() {
 
             docker stop "tom-ubuntu"
 
-            mv "$DEB_TARGET"/*.deb "$TARGET"
+            mv "$DEB_TARGET"/*.deb "$TARGET/tom-$VERSION-$UBUNTU_VERSION.deb"
         )
     done
 }
 
+function buildMacOS() {
+    echo "Building DMG for macOS Mojave..."
+    ssh mojave "source /etc/profile; cd dev; rm -rf tom-ui; git clone https://github.com/jansorg/tom-ui; cd tom-ui; bash ./deployment/build-mac-dmg.sh" && scp mojave:dev/tom-ui/build/Tom.dmg "$TARGET"
+}
 
 buildUbuntu
+
+buildMacOS

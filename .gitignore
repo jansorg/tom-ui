@@ -3,5 +3,5 @@
 *.swo
 /build
 /deployment/ubuntu18.10
-/local-builds.bash
+/local-release.bash
 /release-*

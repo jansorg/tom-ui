@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+git pull
+
 go get github.com/jansorg/tom
 
 QTDIR="$HOME/Qt/5.12.0/clang_64"

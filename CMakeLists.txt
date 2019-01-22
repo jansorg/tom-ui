@@ -20,7 +20,9 @@ set(COMPANY "Joachim Ansorg")
 set(COPYRIGHT "Copyright (c) 2019 Joachim Ansorg. All rights reserved.")
 set(IDENTIFIER "eu.ja-dev.tomui")
 
+INCLUDE(CPack)
 set(CPACK_PACKAGE_CONTACT "mail@ja-dev.eu")
+set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 
 set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
 
@@ -59,6 +61,7 @@ target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg)
 
 if (UNIX)
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+    install(FILES $ENV{HOME}/go/bin/tom DESTINATION bin)
 elseif(APPLE)
     install(TARGETS ${PROJECT_NAME} DESTINATION .)
     set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
@@ -69,6 +72,3 @@ elseif(APPLE)
 elseif(WIN32)
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 endif()
-
-
-INCLUDE(CPack)

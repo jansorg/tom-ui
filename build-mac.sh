@@ -2,7 +2,8 @@
 
 git pull
 
-go get -u github.com/jansorg/tom
+go get github.com/jansorg/tom
+(cd $HOME/go/src/github.com/jansorg/tom/ && git pull)
 
 QTDIR="$HOME/Qt/5.12.0/clang_64"
 

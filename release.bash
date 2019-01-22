@@ -38,10 +38,10 @@ function buildUbuntu() {
             true docker stop "$CONTAINER"
 
             docker build --rm -t "$CONTAINER" -f "$name" .
-            docker run -d -t -i --rm --name "tom-ubuntu" -v "$DEB_TARGET:/dist" "$CONTAINER"
-            docker exec -e TOM_VERSION "tom-ubuntu" bash /root/build-ubuntu-deb.sh
+            docker run -d -t -i --rm --name "$CONTAINER" -v "$DEB_TARGET:/dist" "$CONTAINER"
+            docker exec -e TOM_VERSION "$CONTAINER" bash /root/build-ubuntu-deb.sh
 
-            docker stop "tom-ubuntu"
+            docker stop "$CONTAINER"
 
             mv "$DEB_TARGET"/*.deb "$TARGET/tom-$VERSION-$UBUNTU_VERSION.deb"
         )

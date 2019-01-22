@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 git pull
+[[ -n "$TOM_VERSION" ]] && git checkout "v${TOM_VERSION}"
 
 go get github.com/jansorg/tom
 (cd $HOME/go/src/github.com/jansorg/tom/ && git pull)

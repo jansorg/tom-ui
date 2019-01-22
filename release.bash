@@ -50,7 +50,7 @@ function buildUbuntu() {
 
 function buildMacOS() {
     echo "Building DMG for macOS Mojave..."
-    ssh mojave "source /etc/profile; cd dev; rm -rf tom-ui; git clone https://github.com/jansorg/tom-ui; cd tom-ui; bash ./deployment/build-mac-dmg.sh" && scp mojave:dev/tom-ui/build/Tom.dmg "$TARGET"
+    ssh mojave "source /etc/profile; cd dev; rm -rf tom-ui; git clone https://github.com/jansorg/tom-ui; cd tom-ui; bash TOM_VERSION=$VERSION ./deployment/build-mac-dmg.sh" && scp mojave:dev/tom-ui/build/Tom.dmg "$TARGET"
 }
 
 buildUbuntu

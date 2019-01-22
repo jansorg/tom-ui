@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+[[ -z "$GITHUB_USER" ]] && echo "No GITHUB_USER defined" && exit -1
+[[ -z "$GITHUB_TOKEN" ]] && echo "No GITHUB_TOKEN defined" && exit -1
+
 SOURCE="$PWD"
 VERSION="$1"
 [[ -z "$VERSION" ]] && echo "No version given" && exit -1
@@ -51,9 +54,29 @@ function buildUbuntu() {
 
 function buildMacOS() {
     echo "Building DMG for macOS Mojave..."
-    ssh mojave "source /etc/profile; cd dev; rm -rf tom-ui; git clone https://github.com/jansorg/tom-ui; cd tom-ui; bash TOM_VERSION=$VERSION ./deployment/build-mac-dmg.sh" && scp mojave:dev/tom-ui/build/Tom.dmg "$TARGET"
+    ssh mojave "source /etc/profile; cd dev; rm -rf tom-ui; git clone https://github.com/jansorg/tom-ui; cd tom-ui; export TOM_VERSION=$VERSION; bash ./deployment/build-mac-dmg.sh" && scp mojave:dev/tom-ui/build/Tom.dmg "$TARGET"
+}
+
+function uploadAssets() {
+    for f in "release-$VERSION"; do
+        echo -e "Uploading files in $f..."
+        ARGS=""
+        for n in $TARGET/*.deb $TARGET/*.dmg; do
+            ARGS="$ARGS -a $n"
+        done
+
+        hub release create --draft "v$VERSION" -m "Version $VERSION" $ARGS
+    done
+}
+
+function cleanup() {
+    rm -rf "$TARGET"
 }
 
 buildUbuntu
 
 buildMacOS
+
+uploadAssets
+
+cleanup

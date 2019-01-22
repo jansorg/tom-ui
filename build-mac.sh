@@ -7,7 +7,7 @@ QTDIR="$HOME/Qt/5.12.0/clang_64"
 rm -rf build
 mkdir build
 cd build
-cmake .. -DCMAKE_PREFIX_PATH="$QTDIR"
+cmake -DCMAKE_PREFIX_PATH="$QTDIR" -DCMAKE_BUILD_TYPE="Release" ..
 make
 
 mv tom-ui.app Tom.app

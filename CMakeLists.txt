@@ -7,6 +7,7 @@ include(cmake/QtCommon.cmake)
 
 # Basic information about project
 project(tom-ui
+        LANGUAGES CXX
         VERSION 1.0.0
         DESCRIPTION "Tom Time Tracker"
         HOMEPAGE_URL "https://github.com/jansorg/tom-ui")

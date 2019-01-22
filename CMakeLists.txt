@@ -46,7 +46,7 @@ add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE d
 
 if (APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES
-            MACOSX_BUNDLE_INFO_PLIST cmake/Info.plist.in
+            MACOSX_BUNDLE_INFO_PLIST ${PROJECT_SOURCE_DIR}/cmake/Info.plist.in
             MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
 endif()
 

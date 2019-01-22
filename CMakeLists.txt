@@ -24,6 +24,7 @@ set(CPACK_PACKAGE_CONTACT "mail@ja-dev.eu")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 
 set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
+set(MACOSX_BUNDLE_INFO_PLIST cmake/Info.plist.in)
 
 add_project_meta(META_FILES_TO_INCLUDE)
 
@@ -32,10 +33,6 @@ set(RESOURCE_FILES resources/resources.qrc)
 configure_file (
         "source/version.h.in"
         "${PROJECT_BINARY_DIR}/version.h"
-)
-configure_file (
-        "cmake/Info.plist.in"
-        "${PROJECT_BINARY_DIR}/Info.plist"
 )
 
 file(GLOB_RECURSE UI_FILES source/*.ui)

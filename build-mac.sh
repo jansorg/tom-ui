@@ -2,7 +2,7 @@
 
 git pull
 
-go get github.com/jansorg/tom
+go get -u github.com/jansorg/tom
 
 QTDIR="$HOME/Qt/5.12.0/clang_64"
 

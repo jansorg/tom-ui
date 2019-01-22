@@ -23,8 +23,11 @@ set(IDENTIFIER "eu.ja-dev.tomui")
 set(CPACK_PACKAGE_CONTACT "mail@ja-dev.eu")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 
-set(MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
-set(MACOSX_BUNDLE_INFO_PLIST cmake/Info.plist.in)
+if (APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+            MACOSX_BUNDLE_INFO_PLIST cmake/Info.plist.in
+            MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
+endif()
 
 add_project_meta(META_FILES_TO_INCLUDE)
 

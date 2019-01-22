@@ -2,3 +2,4 @@
 *.swp
 *.swo
 /build
+/deployment/ubuntu18.10

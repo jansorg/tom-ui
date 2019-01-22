@@ -23,12 +23,6 @@ set(IDENTIFIER "eu.ja-dev.tomui")
 set(CPACK_PACKAGE_CONTACT "mail@ja-dev.eu")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 
-if (APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-            MACOSX_BUNDLE_INFO_PLIST cmake/Info.plist.in
-            MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
-endif()
-
 add_project_meta(META_FILES_TO_INCLUDE)
 
 set(RESOURCE_FILES resources/resources.qrc)
@@ -49,6 +43,12 @@ endif()
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
     ${CODE_FILES} ${META_FILES_TO_INCLUDE} ${RESOURCE_FILES}
 )
+
+if (APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+            MACOSX_BUNDLE_INFO_PLIST cmake/Info.plist.in
+            MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
+endif()
 
 #if(APPLE)
 #    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "tom-ui")

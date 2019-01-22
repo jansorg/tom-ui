@@ -43,7 +43,7 @@ file(GLOB_RECURSE CODE_FILES source/*.cpp source/*.h)
 
 add_compile_options(-std=c++11 -Wall -Wextra)
 if(CMAKE_BUILD_TYPE EQUAL "release")
-    add_compile_options(-O2)
+    add_compile_options(-O3)
 endif()
 
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS

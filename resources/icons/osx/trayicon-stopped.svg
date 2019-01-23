@@ -24,12 +24,14 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <rect
-     ry="1.3568451"
-     y="1.5210102"
-     x="1.5210102"
-     height="16.957979"
-     width="16.957979"
-     id="rect815"
-     style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.3602035;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.68548387;paint-order:stroke fill markers" />
+  <g
+     id="flowRoot819"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:13.33333302px;line-height:1.25;font-family:'Frutiger LT Pro';-inkscape-font-specification:'Frutiger LT Pro';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.18746728;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+     transform="matrix(1.5600684,0,0,1.4401843,-25.549088,-18.972461)"
+     aria-label="T">
+    <path
+       id="path831"
+       style="font-style:normal;font-variant:normal;font-weight:900;font-stretch:normal;font-size:12.50617599px;font-family:'Montserrat Alternates';-inkscape-font-specification:'Montserrat Alternates, Heavy';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.18746728;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+       d="m 26.313619,18.904091 q -1.013,-0.562778 -2.051012,-0.775383 v 6.465693 h -2.951458 v -6.465693 q -1.038013,0.212605 -2.051013,0.775383 l -0.975482,-2.101038 q 0.937964,-0.562778 2.101038,-0.862926 1.163074,-0.300148 2.401186,-0.300148 1.238111,0 2.401186,0.300148 1.163074,0.300148 2.101037,0.862926 z" />
+  </g>
 </svg>

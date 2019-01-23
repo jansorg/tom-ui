@@ -28,7 +28,8 @@ public:
     QList<Project> loadRecentProjects(int max);
 
     QList<Project> cachedProjects() const;
-    const Project cachedProject(const QString& id) const;
+
+    const Project cachedProject(const QString &id) const;
 
     GotimeStatus status();
 
@@ -44,9 +45,11 @@ public:
 
     bool updateFrame(Frame *frame, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, QString notes);
 
-    bool updateFrame(QString id, QString projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, QString notes);
+    bool updateFrame(const QString& id, const QString&projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, const QString&notes);
 
     bool removeFrame(Frame frame);
+
+    bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID);
 
     bool importMacTimeTracker(const QString &filename);
 

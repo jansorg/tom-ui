@@ -15,6 +15,12 @@ ProjectTreeItem::~ProjectTreeItem() {
 
 void ProjectTreeItem::appendChild(ProjectTreeItem *item) {
     _childItems.append(item);
+    item->_parentItem = this;
+}
+
+void ProjectTreeItem::removeChild(ProjectTreeItem *item) {
+    _childItems.removeOne(item);
+    item->_parentItem = nullptr;
 }
 
 ProjectTreeItem *ProjectTreeItem::child(int row) {
@@ -84,4 +90,9 @@ const Project &ProjectTreeItem::getProject() const {
 void ProjectTreeItem::refreshWith(const Project &project) {
     _project = project;
     _projectName = project.getShortName();
+}
+
+void ProjectTreeItem::insertChild(ProjectTreeItem *child, int index) {
+    _childItems.insert(index, child);
+    child->_parentItem = this;
 }

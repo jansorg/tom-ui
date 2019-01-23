@@ -2,6 +2,8 @@
 #define GOTIME_UI_PROJECTTREEMODEL_H
 
 
+static const char *const PROJECT_MIME_TYPE = "application/x-tom-projects";
+
 #include <QtCore/QAbstractItemModel>
 
 #include "data/Project.h"
@@ -49,6 +51,16 @@ public slots:
 
     void loadProjects();
 
+    Qt::DropActions supportedDropActions() const override;
+
+    QMimeData *mimeData(const QModelIndexList &indexes) const override;
+
+    QStringList mimeTypes() const override;
+
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
+
+    bool moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationChild) override;
+
 private slots:
 
     void addProject(const Project &project);
@@ -63,6 +75,8 @@ private:
     QStringList _headers;
 
     ProjectTreeItem *projectItemAtIndex(const QModelIndex &index);
+
+    bool _blockUpdates;
 
     void addProjectItems(const QList<Project> &allProjects, ProjectTreeItem *parent);
 

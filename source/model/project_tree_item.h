@@ -14,6 +14,8 @@ public:
     ~ProjectTreeItem();
 
     void appendChild(ProjectTreeItem *child);
+    void insertChild(ProjectTreeItem *child, int atIndex);
+    void removeChild(ProjectTreeItem *child);
 
     ProjectTreeItem *child(int row);
 

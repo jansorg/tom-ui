@@ -190,19 +190,7 @@ QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubproje
 }
 
 bool GotimeControl::renameProject(QString id, QString newName) {
-    QStringList args;
-    args << "rename" << "project" << id << newName;
-
-    CommandStatus status = run(args);
-    bool success = status.isSuccessful();
-    if (success) {
-        const Project &project = _cachedProjects.value(id);
-        if (project.isValid()) {
-            emit projectUpdated(project);
-        }
-    }
-
-    return success;
+    return updateProjects(QStringList() << id, true, newName, false, "");
 }
 
 bool GotimeControl::renameTag(QString id, QString newName) {
@@ -221,9 +209,10 @@ bool GotimeControl::updateFrame(Frame *frame,
     return updateFrame(frame->id, frame->projectID, updateStart, std::move(start), updateEnd, std::move(end), updateNotes, std::move(notes));
 }
 
-bool GotimeControl::updateFrame(QString id, QString projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, QString notes) {
+bool
+GotimeControl::updateFrame(const QString &id, const QString &projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, const QString &notes) {
     QStringList args;
-    args << "edit" << id;
+    args << "edit" << "frame" << id;
     if (updateStart) {
         args << "--start" << start.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
     }
@@ -238,6 +227,37 @@ bool GotimeControl::updateFrame(QString id, QString projectID, bool updateStart,
     bool success = status.isSuccessful();
     if (success) {
         emit frameUpdated(id, projectID);
+    }
+    return success;
+}
+
+bool GotimeControl::updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID) {
+    if (ids.isEmpty() || (!updateName && !updateParent)) {
+        return true;
+    }
+
+    QStringList args;
+    args << "edit" << "project";
+    if (updateName) {
+        args << "--name" << name;
+    }
+    if (updateParent) {
+        args << "--parent" << parentID;
+    }
+    args << ids;
+
+    CommandStatus status = run(args);
+    bool success = status.isSuccessful();
+    if (success) {
+        // fixme find smarter way to update a single project? needs to handle hierarchy changes
+        loadProjects();
+
+        for (const auto &id : ids) {
+            const Project &p = cachedProject(id);
+            if (p.isValid()) {
+                emit projectUpdated(p);
+            }
+        }
     }
     return success;
 }
@@ -288,12 +308,11 @@ const ProjectsStatus GotimeControl::projectsStatus(const QString &overallID) {
         mapping.insert(id, ProjectStatus(id, all, allTotal, year, yearTotal, month, monthTotal, week, weekTotal, day, dayTotal));
     }
 
-    qDebug() << mapping.size();
     return ProjectsStatus(mapping);
 }
 
 CommandStatus GotimeControl::run(const QStringList &args) {
-    qDebug() << "running" << _gotimePath << args;
+//    qDebug() << "running" << _gotimePath << args;
 
     QProcess process(this);
     if (_bashScript) {
@@ -306,7 +325,7 @@ CommandStatus GotimeControl::run(const QStringList &args) {
     QString output(process.readAllStandardOutput());
     QString errOutput(process.readAllStandardError());
 
-    qDebug() << "exit code:" << process.exitCode();
+//    qDebug() << "exit code:" << process.exitCode();
     return CommandStatus(output, errOutput, process.exitCode());
 }
 

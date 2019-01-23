@@ -95,7 +95,6 @@ void GotimeTrayIcon::loadIcons() {
 #ifdef Q_OS_MAC
     _startedIcon = QIcon(QPixmap(":/icons/osx/trayicon-started.svg"));
     _stoppedIcon = QIcon(QPixmap(":/icons/osx/trayicon-stopped.svg"));
-    _startedIcon.setIsMask(true);
     _stoppedIcon.setIsMask(true);
 #else
     _startedIcon = QIcon(QPixmap(":/icons/trayicon-started.svg"));

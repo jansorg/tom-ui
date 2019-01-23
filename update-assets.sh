@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
+set -e
 
 # export plain svgs for Qt
-inkscape -l resources/icons/logo.svg icons/Logo.svg
-inkscape -l res/AppIcon.svg icons/Logo.svg
+inkscape -l resources/icons/logo.svg images/Logo.svg
+for f in images/icons/*.svg images/icons/*/*.svg; do
+    dir="$(dirname $f)"
+    dir="resources/${dir#images/}"
+    mkdir -p "$dir"
+    inkscape -l "$dir/$(basename $f)" "$f"
+done
 
+inkscape -l res/AppIcon.svg images/Logo.svg
+
+# export pngs
 inkscape -e resources/icons/logo32.png -w 32 -h 32 resources/icons/logo.svg
 inkscape -e resources/icons/logo64.png -w 64 -h 64 resources/icons/logo.svg
 

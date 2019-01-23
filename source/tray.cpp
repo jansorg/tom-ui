@@ -93,12 +93,13 @@ void GotimeTrayIcon::updateStatus() {
 
 void GotimeTrayIcon::loadIcons() {
 #ifdef Q_OS_MAC
-    _startedIcon = QPixmap(":/icons/osx/trayicon-started.svg");
-    _stoppedIcon = QPixmap(":/icons/osx/trayicon-stopped.svg");
+    _startedIcon = QIcon(QPixmap(":/icons/osx/trayicon-started.svg"));
+    _stoppedIcon = QIcon(QPixmap(":/icons/osx/trayicon-stopped.svg"));
+    _startedIcon.setIsMask(true);
+    _stoppedIcon.setIsMask(true);
 #else
-    QString prefix(":/icons/");
-    _startedIcon = QPixmap(":/icons/trayicon-started.svg");
-    _stoppedIcon = QPixmap(":/icons/trayicon-stopped.svg");
+    _startedIcon = QIcon(QPixmap(":/icons/trayicon-started.svg"));
+    _stoppedIcon = QIcon(QPixmap(":/icons/trayicon-stopped.svg"));
 #endif
 }
 

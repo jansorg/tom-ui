@@ -38,8 +38,8 @@ private:
 
     GotimeStatus _lastStatus;
 
-    QPixmap _startedIcon;
-    QPixmap _stoppedIcon;
+    QIcon _startedIcon;
+    QIcon _stoppedIcon;
 
     void loadIcons();
 };

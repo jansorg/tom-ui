@@ -96,3 +96,11 @@ void ProjectTreeItem::insertChild(ProjectTreeItem *child, int index) {
     _childItems.insert(index, child);
     child->_parentItem = this;
 }
+
+bool ProjectTreeItem::removeChildAt(int index) {
+    if (index < 0 || index >= _childItems.size()) {
+        return false;
+    }
+    _childItems.removeAt(index);
+    return true;
+}

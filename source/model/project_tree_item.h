@@ -16,6 +16,7 @@ public:
     void appendChild(ProjectTreeItem *child);
     void insertChild(ProjectTreeItem *child, int atIndex);
     void removeChild(ProjectTreeItem *child);
+    bool removeChildAt(int index);
 
     ProjectTreeItem *child(int row);
 

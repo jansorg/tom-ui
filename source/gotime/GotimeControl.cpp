@@ -209,8 +209,7 @@ bool GotimeControl::updateFrame(Frame *frame,
     return updateFrame(frame->id, frame->projectID, updateStart, std::move(start), updateEnd, std::move(end), updateNotes, std::move(notes));
 }
 
-bool
-GotimeControl::updateFrame(const QString &id, const QString &projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, const QString &notes) {
+bool GotimeControl::updateFrame(const QString &id, const QString &projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, const QString &notes) {
     QStringList args;
     args << "edit" << "frame" << id;
     if (updateStart) {
@@ -312,7 +311,7 @@ const ProjectsStatus GotimeControl::projectsStatus(const QString &overallID) {
 }
 
 CommandStatus GotimeControl::run(const QStringList &args) {
-//    qDebug() << "running" << _gotimePath << args;
+    qDebug() << "running" << _gotimePath << args;
 
     QProcess process(this);
     if (_bashScript) {
@@ -325,7 +324,9 @@ CommandStatus GotimeControl::run(const QStringList &args) {
     QString output(process.readAllStandardOutput());
     QString errOutput(process.readAllStandardError());
 
-//    qDebug() << "exit code:" << process.exitCode();
+    if (process.exitCode() != 0) {
+        qDebug() << "exit code:" << process.exitCode() << "stdout:" << output << "stderr" << errOutput;
+    }
     return CommandStatus(output, errOutput, process.exitCode());
 }
 

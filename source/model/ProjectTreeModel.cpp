@@ -99,6 +99,8 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
 }
 
 bool ProjectTreeModel::setData(const QModelIndex &index, const QVariant &value, int role) {
+    qDebug() << "setData" << index << value << role;
+
     if (!index.isValid() || role != Qt::EditRole) {
         return false;
     }
@@ -309,19 +311,17 @@ QMimeData *ProjectTreeModel::mimeData(const QModelIndexList &indexes) const {
         projectIDs << treeItem->getProject().getID();
     }
 
-    qDebug() << "mimeData of " << projectIDs;
-
     auto *result = new QMimeData();
     result->setData(PROJECT_MIME_TYPE, projectIDs.join("||").toUtf8());
     return result;
 }
+
 
 bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) {
     if (!parent.isValid() || action != Qt::MoveAction) {
         return false;
     }
 
-    qDebug() << "drop of" << data->formats();
     if (!data->hasFormat(PROJECT_MIME_TYPE)) {
         return false;
     }
@@ -331,7 +331,7 @@ bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         return false;
     }
 
-    const QStringList ids = QString::fromUtf8(bytes).split("||");
+    const QStringList ids = QString::fromUtf8(bytes).split("||", QString::SkipEmptyParts);
     if (ids.isEmpty()) {
         return false;
     }
@@ -341,26 +341,34 @@ bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         return false;
     }
 
-    QString parentID = parentItem->getProject().getID();
-    qDebug() << "drop of" << ids << "on " << parentID;
+    const QString &parentID = parentItem->getProject().getID();
 
+    // don't move data in the model if the data couldn't be changed in tom
     bool success = _control->updateProjects(ids, false, "", true, parentID);
     if (!success) {
+        qDebug() << "tom update failed for move of projects" << ids << "into" << parentID;
         return false;
     }
 
     for (const auto &projectID : ids) {
-        const QModelIndex &rowItem = getProjectRow(projectID);
-        const QModelIndex &rowParent = rowItem.parent();
+        const QModelIndex &rowIndex = getProjectRow(projectID);
+        if (!rowIndex.isValid()) {
+            return false;
+        }
 
-        moveRow(rowParent, rowItem.row(), parent, 0);
+        // using moveRows here breaks our proxy model. The View class seems to remove the source rows on its own when move/moveInternal is used
+        // therefore we're just inserting and let the View call removeRows()
+        beginInsertRows(parent, 0, 0);
+        parentItem->insertChild(getItem(rowIndex), 0);
+        endInsertRows();
     }
+
     return true;
 }
 
 bool ProjectTreeModel::moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationChild) {
-    qDebug() << "moveRows in" << getItem(sourceParent)->getProject().getName() << " from " << sourceRow << "(count" << count << ") to parent"
-             << getItem(destinationParent)->getProject().getName() << "at" << destinationChild << "";
+    qDebug() << "moveRows: from parent" << getItem(sourceParent)->getProject().getName() << ", row" << sourceRow << "(count" << count << ") to parent"
+             << getItem(destinationParent)->getProject().getName() << "at row" << destinationChild << "";
 
     // fixme make sure that source is not moved onto a child element
     // fixme fix collapsing tree if proxy model is used (use removeRow insertRow instead?)
@@ -371,25 +379,57 @@ bool ProjectTreeModel::moveRows(const QModelIndex &sourceParent, int sourceRow, 
         return false;
     }
 
-    _blockUpdates = true;
-
-    ProjectTreeItem *sourceParentItem = getItem(sourceParent);
-    ProjectTreeItem *destinationParentItem = getItem(destinationParent);
+    ProjectTreeItem *oldParent = getItem(sourceParent);
+    ProjectTreeItem *newParent = getItem(destinationParent);
     for (int i = 0; i < count; i++) {
-        const QModelIndex &sourceRowIndex = index(sourceRow + i, 0, sourceParent);
+        const QModelIndex &sourceRowIndex = sourceParent.child(sourceRow + i, 0);
         ProjectTreeItem *rowItem = getItem(sourceRowIndex);
         if (!rowItem) {
-            qDebug() << "invalid row found";
+            qDebug() << "source row invalid row found" << i;
             continue;
         }
 
-        qDebug() << "moving item" << rowItem->getProject().getName() << "into parent" << destinationParentItem->getProject().getName();
-        sourceParentItem->removeChild(rowItem);
-        destinationParentItem->insertChild(rowItem, destinationChild + i);
+        qDebug() << "moving item" << rowItem->getProject().getName() << "into parent" << newParent->getProject().getName();
+        oldParent->removeChildAt(sourceRow + i);
+        newParent->insertChild(rowItem, 0);
     }
 
-    _blockUpdates = false;
     endMoveRows();
 
     return true;
+}
+
+bool ProjectTreeModel::insertRows(int row, int count, const QModelIndex &parent) {
+    ProjectTreeItem *parentItem = getItem(parent);
+    qDebug() << "inserting rows at" << row << "count" << count << "into" << parentItem->getProject().getName();
+
+    beginInsertRows(parent, row, row + count - 1);
+    for (int i = 0; i < count; i++) {
+        parentItem->insertChild(new ProjectTreeItem(Project(), _statusManager, parentItem), i);
+    }
+    endInsertRows();
+
+    return true;
+}
+
+bool ProjectTreeModel::removeRows(int row, int count, const QModelIndex &parent) {
+    qDebug() << "removing rows" << row << "to" << row + count - 1 << "from" << getItem(parent)->getProject().getName();
+    if (!parent.isValid()) {
+        return false;
+    }
+
+    ProjectTreeItem *parentItem = getItem(parent);
+    bool result = true;
+
+    beginRemoveRows(parent, row, row + count - 1);
+    for (int i = 0; i < count; i++) {
+        if (!parentItem->removeChildAt(row + i)) {
+            qDebug() << "removing item failed" << i;
+            result = false;
+            break;
+        }
+    }
+    endRemoveRows();
+
+    return result;
 }

@@ -61,6 +61,10 @@ public slots:
 
     bool moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationChild) override;
 
+    bool insertRows(int row, int count, const QModelIndex &parent) override;
+
+    bool removeRows(int row, int count, const QModelIndex &parent) override;
+
 private slots:
 
     void addProject(const Project &project);
@@ -75,8 +79,6 @@ private:
     QStringList _headers;
 
     ProjectTreeItem *projectItemAtIndex(const QModelIndex &index);
-
-    bool _blockUpdates;
 
     void addProjectItems(const QList<Project> &allProjects, ProjectTreeItem *parent);
 

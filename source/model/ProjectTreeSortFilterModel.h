@@ -8,7 +8,7 @@
 
 #include <QtCore/QSortFilterProxyModel>
 
-class ProjectTreeSortFilterModel : public QSortFilterProxyModel{
+class ProjectTreeSortFilterModel : public QSortFilterProxyModel {
 public:
     explicit ProjectTreeSortFilterModel(QObject *parent);
 

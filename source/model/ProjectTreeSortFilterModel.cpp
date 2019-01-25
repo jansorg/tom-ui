@@ -1,7 +1,9 @@
 #include "ProjectTreeSortFilterModel.h"
 #include "UserRoles.h"
 
-ProjectTreeSortFilterModel::ProjectTreeSortFilterModel(QObject *parent) : QSortFilterProxyModel(parent) {}
+ProjectTreeSortFilterModel::ProjectTreeSortFilterModel(QObject *parent) : QSortFilterProxyModel(parent) {
+    setSortRole(UserRoles::SortValueRole);
+}
 
 bool ProjectTreeSortFilterModel::lessThan(const QModelIndex &source_left, const QModelIndex &source_right) const {
     QVariant sortLeft = source_left.data(SortValueRole);

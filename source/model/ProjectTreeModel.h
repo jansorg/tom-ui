@@ -59,7 +59,7 @@ public slots:
 
     bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
 
-    bool moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationChild) override;
+//    bool moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationChild) override;
 
     bool insertRows(int row, int count, const QModelIndex &parent) override;
 
@@ -70,11 +70,11 @@ private slots:
     void addProject(const Project &project);
 
 private:
+    TomControl *_control;
+    ProjectStatusManager *_statusManager;
     ProjectTreeRootItem *_rootItem;
     ProjectTreeRootItem *_visibleRootItem;
-    TomControl *_control;
     QList<Project> _projects;
-    ProjectStatusManager *_statusManager;
 
     QStringList _headers;
 

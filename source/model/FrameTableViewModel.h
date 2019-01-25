@@ -39,9 +39,9 @@ private:
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
-    QList<Frame *> _frames;
     TomControl *_control;
 
+    QList<Frame *> _frames;
     Project _currentProject;
 
     static const int COL_START_DATE = 0;

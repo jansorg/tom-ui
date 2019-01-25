@@ -8,8 +8,10 @@
 #include "UserRoles.h"
 
 ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, QObject *parent) : QAbstractItemModel(parent),
-                                                                                                                   _control(control),
-                                                                                                                   _statusManager(statusManager) {
+                                                                                                                _control(control),
+                                                                                                                _statusManager(statusManager),
+                                                                                                                _rootItem(nullptr),
+                                                                                                                _visibleRootItem(nullptr) {
     _headers = QStringList() << "Name" << "Today" << "This week" << "This month" << "Total";
     loadProjects();
 
@@ -27,8 +29,7 @@ void ProjectTreeModel::loadProjects() {
     beginResetModel();
 
     if (_rootItem) {
-        //fixme cleanup
-//        delete _rootItem;
+        delete _rootItem;
         _rootItem = nullptr;
     }
 
@@ -61,38 +62,33 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     }
 
     if (role == Qt::TextAlignmentRole && index.column() >= ProjectTreeItem::COL_DAY) {
-        return Qt::AlignRight + Qt::AlignVCenter;
+        return Qt::AlignTrailing + Qt::AlignVCenter;
     }
 
     if (role == Qt::ForegroundRole) {
-        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
+        auto *item = getItem(index);
         if (index.column() >= ProjectTreeItem::COL_DAY && item->data(index.column()).toString() == QString("0:00h")) {
             return QVariant(QColor(Qt::gray));
         };
     }
 
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
-        return item->data(index.column());
+        return getItem(index)->data(index.column());
     }
 
     if (role == Qt::DecorationRole) {
-        if (index.column() == ProjectTreeItem::COL_NAME) {
-            auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
-            if (_control->isStarted(item->getProject())) {
-                return Icons::stopTimer();
-            }
+        if (index.column() == ProjectTreeItem::COL_NAME && _control->isStarted(getItem(index)->getProject())) {
+            return Icons::stopTimer();
         }
     }
 
     if (role == IDRole) {
-        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
-        return item->getProject().getID();
+        return getItem(index)->getProject().getID();
     }
 
     if (role == SortValueRole) {
-        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
-        return item->sortData(index.column());
+        qDebug() << "data" << index << role;
+        return getItem(index)->sortData(index.column());
     }
 
     return QVariant();
@@ -136,7 +132,7 @@ Qt::ItemFlags ProjectTreeModel::flags(const QModelIndex &index) const {
     if (item == _visibleRootItem) {
         return Qt::ItemIsDropEnabled | QAbstractItemModel::flags(index);
     }
-    return Qt::ItemIsDropEnabled | QAbstractItemModel::flags(index);
+    return QAbstractItemModel::flags(index);
 }
 
 QVariant ProjectTreeModel::headerData(int section, Qt::Orientation orientation, int role) const {
@@ -366,6 +362,7 @@ bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     return true;
 }
 
+/*
 bool ProjectTreeModel::moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationChild) {
     qDebug() << "moveRows: from parent" << getItem(sourceParent)->getProject().getName() << ", row" << sourceRow << "(count" << count << ") to parent"
              << getItem(destinationParent)->getProject().getName() << "at row" << destinationChild << "";
@@ -398,6 +395,7 @@ bool ProjectTreeModel::moveRows(const QModelIndex &sourceParent, int sourceRow, 
 
     return true;
 }
+*/
 
 bool ProjectTreeModel::insertRows(int row, int count, const QModelIndex &parent) {
     ProjectTreeItem *parentItem = getItem(parent);

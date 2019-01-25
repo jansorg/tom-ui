@@ -30,6 +30,16 @@ public:
 
     QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
+    static const int COL_START_DATE = 0;
+    static const int COL_START = 1;
+    static const int COL_END = 2;
+    static const int COL_DURATION = 3;
+    static const int COL_TAGS = 4;
+    static const int COL_PROJECT = 5;
+    static const int COL_NOTES = 6;
+
+    static const int COLUMN_COUNT = COL_NOTES + 1;
+
 private slots:
 
     void onFramesRemoved(const QStringList &frameIDs, const QString &projectID);
@@ -51,16 +61,6 @@ private:
 
     QList<Frame *> _frames;
     Project _currentProject;
-
-    static const int COL_START_DATE = 0;
-    static const int COL_START = 1;
-    static const int COL_END = 2;
-    static const int COL_DURATION = 3;
-    static const int COL_TAGS = 4;
-    static const int COL_PROJECT = 5;
-    static const int COL_NOTES = 6;
-
-    static const int COLUMN_COUNT = COL_NOTES + 1;
 };
 
 

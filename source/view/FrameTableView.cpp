@@ -1,9 +1,11 @@
-#include <model/FrameTableViewModel.h>
-#include <model/ProjectTreeItem.h>
 #include <QtWidgets/QMenu>
-#include <icons.h>
-#include <model/FrameTableSortFilterModel.h>
+#include <QtWidgets/QHeaderView>
+
+#include "model/FrameTableViewModel.h"
+#include "model/ProjectTreeItem.h"
+#include "model/FrameTableSortFilterModel.h"
 #include "FrameTableView.h"
+#include "icons.h"
 
 FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent) {
     setContextMenuPolicy(Qt::CustomContextMenu);
@@ -20,6 +22,11 @@ void FrameTableView::setup(TomControl *control) {
     _sortedModel = new FrameTableSortFilterModel(this);
     _sortedModel->setSourceModel(_sourceModel);
     setModel(_sortedModel);
+
+    horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_START_DATE, QHeaderView::ResizeToContents);
+    horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_START, QHeaderView::ResizeToContents);
+    horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_END, QHeaderView::ResizeToContents);
+    horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_DURATION, QHeaderView::ResizeToContents);
 
     sortByColumn(0, Qt::DescendingOrder);
 

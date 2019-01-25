@@ -142,8 +142,16 @@
     <addaction name="actionImportFanurio"/>
     <addaction name="actionImpotWatson"/>
    </widget>
+   <widget class="QMenu" name="menuProject">
+    <property name="title">
+     <string>Pro&amp;ject</string>
+    </property>
+    <addaction name="actionProjectStart"/>
+    <addaction name="actionProjectStop"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuImport"/>
+   <addaction name="menuProject"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
@@ -165,6 +173,9 @@
    <addaction name="actionCreateProject"/>
   </widget>
   <action name="actionQuit">
+   <property name="icon">
+    <iconset theme="application-exit"/>
+   </property>
    <property name="text">
     <string>E&amp;xit</string>
    </property>
@@ -181,11 +192,17 @@
    </property>
   </action>
   <action name="actionRefresh">
+   <property name="icon">
+    <iconset theme="view-refresh"/>
+   </property>
    <property name="text">
     <string>&amp;Refresh</string>
    </property>
   </action>
   <action name="actionHelpAbout">
+   <property name="icon">
+    <iconset theme="help-about"/>
+   </property>
    <property name="text">
     <string>&amp;About Tom</string>
    </property>
@@ -226,6 +243,16 @@
   <action name="actionImpotWatson">
    <property name="text">
     <string>&amp;Watson frames.json</string>
+   </property>
+  </action>
+  <action name="actionProjectStart">
+   <property name="text">
+    <string>&amp;Start Project</string>
+   </property>
+  </action>
+  <action name="actionProjectStop">
+   <property name="text">
+    <string>Sto&amp;p Project</string>
    </property>
   </action>
  </widget>

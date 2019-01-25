@@ -28,3 +28,5 @@ for s in 16 32 48 128 256;  do
 done
 png2icns res/AppIcon.icns res/AppIcon_*px.png
 rm res/AppIcon_*px.png
+
+(cd resources && rm -f resources.qrc && rcc --project -o resources.qrc )

@@ -1,17 +1,13 @@
-<!DOCTYPE RCC>
-<RCC version="1.0">
-  <qresource>
-    <file>icons/logo.svg</file>
-    <file>icons/logo32.png</file>
-    <file>icons/logo64.png</file>
-
-    <file>icons/start-timer.svg</file>
-    <file>icons/stop-timer.svg</file>
-
-    <file>icons/trayicon-started.svg</file>
-    <file>icons/trayicon-stopped.svg</file>
-
-    <file>icons/osx/trayicon-started.svg</file>
-    <file>icons/osx/trayicon-stopped.svg</file>
-  </qresource>
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+<file>./icons/logo.svg</file>
+<file>./icons/logo32.png</file>
+<file>./icons/logo64.png</file>
+<file>./icons/osx/trayicon-started.svg</file>
+<file>./icons/osx/trayicon-stopped.svg</file>
+<file>./icons/timer-start.svg</file>
+<file>./icons/timer-stop.svg</file>
+<file>./icons/trayicon-started.svg</file>
+<file>./icons/trayicon-stopped.svg</file>
+</qresource>
 </RCC>

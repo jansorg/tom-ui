@@ -86,8 +86,10 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         return getItem(index)->getProject().getID();
     }
 
-    if (role == SortValueRole) {
-        qDebug() << "data" << index << role;
+    if (role == SortValueRole && index.column() < ProjectTreeItem::FIRST_STATUS_COL_INDEX) {
+        return getItem(index)->data(index.column());
+    } else if (role == SortValueRole) {
+//        qDebug() << "data" << index << role;
         return getItem(index)->sortData(index.column());
     }
 
@@ -146,9 +148,9 @@ QVariant ProjectTreeModel::headerData(int section, Qt::Orientation orientation, 
 
     if (role == Qt::TextAlignmentRole) {
         if (section >= ProjectTreeItem::FIRST_STATUS_COL_INDEX) {
-            return Qt::AlignRight;
+            return Qt::AlignTrailing;
         }
-        return Qt::AlignLeft;
+        return Qt::AlignLeading;
     }
 
     return QVariant();

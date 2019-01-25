@@ -5,7 +5,7 @@
 #include <QtCore>
 #include <QtWidgets/QInputDialog>
 
-#include "commondialogs.h"
+#include "CommonDialogs.h"
 
 Project CommonDialogs::createProject(const Project &parentProject, GotimeControl *control, QWidget *parent) {
     bool ok;

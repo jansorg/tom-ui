@@ -4,8 +4,8 @@
 #include <QList>
 #include <QVariant>
 #include <data/Project.h>
-#include <gotime/projectstatus.h>
-#include <gotime/projectstatusmanager.h>
+#include <gotime/ProjectStatus.h>
+#include <gotime/ProjectStatusManager.h>
 
 class ProjectTreeItem {
 public:

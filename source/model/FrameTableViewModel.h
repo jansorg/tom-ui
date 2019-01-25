@@ -4,7 +4,7 @@
 #include <QtCore/QAbstractTableModel>
 #include <gotime/GotimeControl.h>
 
-#include "data/frame.h"
+#include "data/Frame.h"
 
 class FrameTableViewModel : public QAbstractTableModel {
 public:

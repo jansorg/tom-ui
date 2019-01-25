@@ -192,7 +192,7 @@
   </action>
   <action name="actionImpotWatson">
    <property name="text">
-    <string>Watson frames.json</string>
+    <string>&amp;Watson frames.json</string>
    </property>
   </action>
  </widget>
@@ -200,12 +200,12 @@
   <customwidget>
    <class>ProjectTreeView</class>
    <extends>QTreeView</extends>
-   <header>view/projecttreeview.h</header>
+   <header>view/ProjectTreeView.h</header>
   </customwidget>
   <customwidget>
    <class>FrameTableView</class>
    <extends>QTableView</extends>
-   <header>view/frametableview.h</header>
+   <header>view/FrameTableView.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -1,6 +1,6 @@
 #include <QColor>
 
-#include "frametableviewmodel.h"
+#include "FrameTableViewModel.h"
 #include "UserRoles.h"
 
 const auto grayColorValue = QVariant(QColor(Qt::gray));

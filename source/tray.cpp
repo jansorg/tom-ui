@@ -3,7 +3,7 @@
 #include <QtWidgets/QMainWindow>
 
 #include "gotime/GotimeControl.h"
-#include "gotime/startStop_project_action.h"
+#include "gotime/StartStopProjectAction.h"
 
 #include "tray.h"
 #include "icons.h"

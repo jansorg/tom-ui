@@ -8,7 +8,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QTreeView>
 
-#include "model/project_tree_item.h"
+#include "model/ProjectTreeItem.h"
 #include "model/ProjectTreeModel.h"
 #include "gotime/GotimeControl.h"
 

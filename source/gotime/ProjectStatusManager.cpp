@@ -1,4 +1,4 @@
-#include "projectstatusmanager.h"
+#include "ProjectStatusManager.h"
 
 ProjectStatusManager::ProjectStatusManager(GotimeControl *control, QObject *parent) : QObject(parent), _control(control) {
     refresh();

@@ -3,7 +3,7 @@
 
 #include <QtGui>
 #include <QtWidgets/QSystemTrayIcon>
-#include <gotime/projectstatusmanager.h>
+#include <gotime/ProjectStatusManager.h>
 
 #include "ui_main_window.h"
 #include "data/Project.h"

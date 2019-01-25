@@ -6,7 +6,7 @@
 #define TOM_UI_PROJECTTREEROOTITEM_H
 
 
-#include "project_tree_item.h"
+#include "ProjectTreeItem.h"
 
 class ProjectTreeRootItem  : public ProjectTreeItem {
 public:

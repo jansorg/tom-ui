@@ -2,7 +2,7 @@
 // Created by jansorg on 07.01.19.
 //
 
-#include "frame.h"
+#include "Frame.h"
 
 Frame::Frame() : id(""), projectID(""), startTime(), stopTime(), lastUpdated(), notes(""), tags() {
 

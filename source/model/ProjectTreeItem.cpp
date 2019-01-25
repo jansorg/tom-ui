@@ -1,7 +1,7 @@
 #include <QStringList>
 #include <QtCore>
 
-#include "project_tree_item.h"
+#include "ProjectTreeItem.h"
 
 ProjectTreeItem::ProjectTreeItem(const Project &project, const ProjectStatusManager *statusManager, ProjectTreeItem *parent) : _project(project),
                                                                                                                                _statusManager(statusManager),

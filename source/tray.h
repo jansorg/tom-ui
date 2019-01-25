@@ -7,7 +7,7 @@
 #include <QtWidgets/QSystemTrayIcon>
 
 #include "gotime/GotimeControl.h"
-#include "gotime/startStop_project_action.h"
+#include "gotime/StartStopProjectAction.h"
 
 class GotimeTrayIcon : public QObject {
 Q_OBJECT

@@ -1,5 +1,5 @@
 #include <icons.h>
-#include "startStop_project_action.h"
+#include "StartStopProjectAction.h"
 
 const Project &StartProjectAction::getProject() {
     return _project;

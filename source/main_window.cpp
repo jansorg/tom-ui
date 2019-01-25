@@ -2,7 +2,7 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QMainWindow>
-#include <dialogs/commondialogs.h>
+#include <dialogs/CommonDialogs.h>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QFileDialog>
 

@@ -1,4 +1,4 @@
-#include "projecttreesortfiltermodel.h"
+#include "ProjectTreeSortFilterModel.h"
 #include "UserRoles.h"
 
 ProjectTreeSortFilterModel::ProjectTreeSortFilterModel(QObject *parent) : QSortFilterProxyModel(parent) {}

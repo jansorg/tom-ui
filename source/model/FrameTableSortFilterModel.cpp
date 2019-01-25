@@ -1,5 +1,5 @@
-#include "frametablesortfiltermodel.h"
-#include "frametableviewmodel.h"
+#include "FrameTableSortFilterModel.h"
+#include "FrameTableViewModel.h"
 #include "UserRoles.h"
 
 FrameTableSortFilterModel::FrameTableSortFilterModel(QObject *parent) : QSortFilterProxyModel(parent) {}

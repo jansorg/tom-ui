@@ -1,4 +1,4 @@
-#include "projecttreerootitem.h"
+#include "ProjectTreeRootItem.h"
 
 ProjectTreeRootItem::ProjectTreeRootItem(const ProjectStatusManager *statusManager, ProjectTreeItem *parent) : ProjectTreeItem(Project(), statusManager, parent) {}
 

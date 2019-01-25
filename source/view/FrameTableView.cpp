@@ -1,9 +1,9 @@
-#include <model/frametableviewmodel.h>
-#include <model/project_tree_item.h>
+#include <model/FrameTableViewModel.h>
+#include <model/ProjectTreeItem.h>
 #include <QtWidgets/QMenu>
 #include <icons.h>
-#include <model/frametablesortfiltermodel.h>
-#include "frametableview.h"
+#include <model/FrameTableSortFilterModel.h>
+#include "FrameTableView.h"
 
 FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent) {
     setContextMenuPolicy(Qt::CustomContextMenu);

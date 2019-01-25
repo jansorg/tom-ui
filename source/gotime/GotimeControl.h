@@ -3,12 +3,12 @@
 
 #include <QtCore>
 #include <QtCore/QString>
-#include <data/frame.h>
+#include <data/Frame.h>
 
 #include "data/Project.h"
 #include "CommandStatus.h"
 #include "GotimeStatus.h"
-#include "projectstatus.h"
+#include "ProjectStatus.h"
 
 class GotimeControl : public QObject {
 Q_OBJECT

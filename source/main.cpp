@@ -1,6 +1,6 @@
 #include <QApplication>
 #include <QtWidgets/QMessageBox>
-#include <gotime/projectstatusmanager.h>
+#include <gotime/ProjectStatusManager.h>
 
 #include "main_window.h"
 #include "tray.h"

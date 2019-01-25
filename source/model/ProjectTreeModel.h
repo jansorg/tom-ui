@@ -8,8 +8,8 @@ static const char *const PROJECT_MIME_TYPE = "application/x-tom-projects";
 
 #include "data/Project.h"
 #include "gotime/GotimeControl.h"
-#include "project_tree_item.h"
-#include "projecttreerootitem.h"
+#include "ProjectTreeItem.h"
+#include "ProjectTreeRootItem.h"
 
 class ProjectTreeModel : public QAbstractItemModel {
 Q_OBJECT

@@ -2,10 +2,10 @@
 #include <QtWidgets/QHeaderView>
 #include <icons.h>
 #include <QtWidgets/QInputDialog>
-#include <dialogs/commondialogs.h>
-#include <model/projecttreesortfiltermodel.h>
+#include <dialogs/CommonDialogs.h>
+#include <model/ProjectTreeSortFilterModel.h>
 
-#include "projecttreeview.h"
+#include "ProjectTreeView.h"
 
 ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {
     setContextMenuPolicy(Qt::CustomContextMenu);

@@ -1,6 +1,6 @@
 #include <QtCore>
 
-#include "projectstatus.h"
+#include "ProjectStatus.h"
 
 const QString ProjectStatus::OVERALL_ID = "ALL";
 

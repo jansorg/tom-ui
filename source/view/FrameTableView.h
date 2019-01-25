@@ -6,7 +6,7 @@
 
 #include "gotime/GotimeControl.h"
 #include "data/Project.h"
-#include "model/frametableviewmodel.h"
+#include "model/FrameTableViewModel.h"
 
 class FrameTableView : public QTableView {
 Q_OBJECT

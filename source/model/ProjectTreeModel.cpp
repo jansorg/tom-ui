@@ -2,18 +2,19 @@
 #include <QtGui/QFont>
 #include <QtGui/QBrush>
 #include <QtGui/QList>
-#include <icons.h>
 
 #include "gotime/TomControl.h"
 #include "ProjectTreeModel.h"
 #include "UserRoles.h"
 #include "FrameTableViewModel.h"
+#include "icons.h"
 
-ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, QObject *parent) : QAbstractItemModel(parent),
-                                                                                                                _control(control),
-                                                                                                                _statusManager(statusManager),
-                                                                                                                _rootItem(nullptr),
-                                                                                                                _visibleRootItem(nullptr) {
+ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, QObject *parent)
+        : QAbstractItemModel(parent),
+          _control(control),
+          _statusManager(statusManager),
+          _rootItem(nullptr),
+          _visibleRootItem(nullptr) {
     _headers = QStringList() << "Name" << "Today" << "This week" << "This month" << "Total";
 
     if (!_rootItem) {
@@ -128,7 +129,8 @@ Qt::ItemFlags ProjectTreeModel::flags(const QModelIndex &index) const {
 
     ProjectTreeItem *item = getItem(index);
     if (item && item->getProject().isValid() && index.column() == ProjectTreeItem::COL_NAME) {
-        return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
+        return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsSelectable | Qt::ItemIsEnabled |
+               Qt::ItemIsEditable;
     }
 
     // the visible root is not draggable, but accepts drops
@@ -218,7 +220,8 @@ void ProjectTreeModel::printProjects(int level, ProjectTreeItem *root) {
 }
 
 QModelIndex ProjectTreeModel::getProjectRow(const QString &projectID) const {
-    const QModelIndexList &list = match(index(0, 0, QModelIndex()), IDRole, projectID, 1, Qt::MatchExactly | Qt::MatchRecursive);
+    const QModelIndexList &list = match(index(0, 0, QModelIndex()), IDRole, projectID, 1,
+                                        Qt::MatchExactly | Qt::MatchRecursive);
     if (list.size() == 1) {
         return list.first();
     }
@@ -241,7 +244,8 @@ void ProjectTreeModel::updateProjectStatus(const QString &projectID) {
     if (row.isValid()) {
         ProjectTreeItem *item = getItem(row);
         if (item) {
-            emit dataChanged(row.siblingAtColumn(ProjectTreeItem::FIRST_STATUS_COL_INDEX), row.siblingAtColumn(ProjectTreeItem::LAST_COL_INDEX));
+            emit dataChanged(row.siblingAtColumn(ProjectTreeItem::FIRST_STATUS_COL_INDEX),
+                             row.siblingAtColumn(ProjectTreeItem::LAST_COL_INDEX));
         }
     }
 }
@@ -315,7 +319,8 @@ QMimeData *ProjectTreeModel::mimeData(const QModelIndexList &indexes) const {
     return result;
 }
 
-bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) {
+bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column,
+                                    const QModelIndex &parent) {
     if (data->hasFormat(PROJECTS_MIME_TYPE)) {
         return handleDropProjectIDs(data, action, row, column, parent);
     } else if (data->hasFormat(FRAMES_MIME_TYPE)) {
@@ -324,7 +329,8 @@ bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     return false;
 }
 
-bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/, const QModelIndex &parent) {
+bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/,
+                                            const QModelIndex &parent) {
     if (action != Qt::MoveAction) {
         return false;
     }
@@ -369,7 +375,8 @@ bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropActio
     return true;
 }
 
-bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/, const QModelIndex &parent) {
+bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/,
+                                          const QModelIndex &parent) {
     if (!parent.isValid() || action != Qt::MoveAction) {
         return false;
     }
@@ -395,7 +402,8 @@ bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction 
     const QString &parentProjectID = parentItem->getProject().getID();
 
     // don't move data in the model if the data couldn't be changed in tom
-    bool success = _control->updateFrame(ids, sourceProjectID, false, QDateTime(), false, QDateTime(), false, "", true, parentProjectID);
+    bool success = _control->updateFrame(ids, sourceProjectID, false, QDateTime(), false, QDateTime(), false, "", true,
+                                         parentProjectID);
     if (!success) {
         qDebug() << "tom update failed for move of frames" << ids << "into" << parentProjectID;
         return false;

@@ -6,6 +6,7 @@
 #include "gotime/TomControl.h"
 #include "ProjectTreeModel.h"
 #include "UserRoles.h"
+#include "FrameTableViewModel.h"
 
 ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, QObject *parent) : QAbstractItemModel(parent),
                                                                                                                 _control(control),
@@ -89,7 +90,6 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     if (role == SortValueRole && index.column() < ProjectTreeItem::FIRST_STATUS_COL_INDEX) {
         return getItem(index)->data(index.column());
     } else if (role == SortValueRole) {
-//        qDebug() << "data" << index << role;
         return getItem(index)->sortData(index.column());
     }
 
@@ -296,7 +296,7 @@ Qt::DropActions ProjectTreeModel::supportedDropActions() const {
 }
 
 QStringList ProjectTreeModel::mimeTypes() const {
-    return QStringList() << PROJECT_MIME_TYPE;
+    return QStringList() << PROJECTS_MIME_TYPE << FRAMES_MIME_TYPE;
 }
 
 QMimeData *ProjectTreeModel::mimeData(const QModelIndexList &indexes) const {
@@ -310,21 +310,25 @@ QMimeData *ProjectTreeModel::mimeData(const QModelIndexList &indexes) const {
     }
 
     auto *result = new QMimeData();
-    result->setData(PROJECT_MIME_TYPE, projectIDs.join("||").toUtf8());
+    result->setData(PROJECTS_MIME_TYPE, projectIDs.join("||").toUtf8());
     return result;
 }
 
-
 bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) {
-    if (!parent.isValid() || action != Qt::MoveAction) {
+    if (data->hasFormat(PROJECTS_MIME_TYPE)) {
+        return handleDropProjectIDs(data, action, row, column, parent);
+    } else if (data->hasFormat(FRAMES_MIME_TYPE)) {
+        return handleDropFrameIDs(data, action, row, column, parent);
+    }
+    return false;
+}
+
+bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) {
+    if (action != Qt::MoveAction) {
         return false;
     }
 
-    if (!data->hasFormat(PROJECT_MIME_TYPE)) {
-        return false;
-    }
-
-    const QByteArray &bytes = data->data(PROJECT_MIME_TYPE);
+    const QByteArray &bytes = data->data(PROJECTS_MIME_TYPE);
     if (bytes.isEmpty()) {
         return false;
     }
@@ -361,6 +365,37 @@ bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action
         endInsertRows();
     }
 
+    return true;
+}
+
+bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) {
+    if (!parent.isValid() || action != Qt::MoveAction) {
+        return false;
+    }
+
+    const QByteArray &bytes = data->data(FRAMES_MIME_TYPE);
+    if (bytes.isEmpty()) {
+        return false;
+    }
+
+    const QStringList ids = QString::fromUtf8(bytes).split("||", QString::SkipEmptyParts);
+    if (ids.isEmpty()) {
+        return false;
+    }
+
+    ProjectTreeItem *parentItem = getItem(parent);
+    if (!parentItem || parentItem == _visibleRootItem || !parentItem->getProject().isValid()) {
+        return false;
+    }
+
+    const QString &parentProjectID = parentItem->getProject().getID();
+
+    // don't move data in the model if the data couldn't be changed in tom
+    bool success = _control->updateFrame(ids,"",  false, QDateTime(), false, QDateTime(), false, "", true, parentProjectID);
+    if (!success) {
+        qDebug() << "tom update failed for move of frames" << ids << "into" << parentProjectID;
+        return false;
+    }
     return true;
 }
 

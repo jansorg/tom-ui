@@ -6,6 +6,8 @@
 
 #include "data/Frame.h"
 
+static const QString& FRAMES_MIME_TYPE = "application/x-tom-frames";
+
 class FrameTableViewModel : public QAbstractTableModel {
 public:
     explicit FrameTableViewModel(TomControl *control, QObject *parent);
@@ -21,6 +23,12 @@ public:
     Frame *frameAt(const QModelIndex &index) const;
 
     bool removeRows(int row, int count, const QModelIndex &parent) override;
+
+    Qt::DropActions supportedDragActions() const override;
+
+    QStringList mimeTypes() const override;
+
+    QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
 private slots:
 

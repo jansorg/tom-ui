@@ -12,7 +12,7 @@ ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {
     setUniformRowHeights(true);
     setSortingEnabled(true);
 
-    setDragDropMode(QAbstractItemView::InternalMove);
+    setDragDropMode(QAbstractItemView::DragDrop);
     setDragEnabled(true);
     setAcceptDrops(true);
     setDropIndicatorShown(true);

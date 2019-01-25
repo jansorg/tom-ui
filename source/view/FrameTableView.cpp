@@ -7,13 +7,16 @@
 
 FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent) {
     setContextMenuPolicy(Qt::CustomContextMenu);
+
+    setDragDropMode(QTableView::DragOnly);
+    setDragEnabled(true);
+    setAcceptDrops(false);
 }
 
 void FrameTableView::setup(TomControl *control) {
     _control = control;
 
     _sourceModel = new FrameTableViewModel(_control, this);
-
     _sortedModel = new FrameTableSortFilterModel(this);
     _sortedModel->setSourceModel(_sourceModel);
     setModel(_sortedModel);

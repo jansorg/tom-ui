@@ -202,15 +202,20 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
         }
     }
 
+    if (role == IDRole) {
+        Frame *frame = _frames.at(index.row());
+        return frame->id;
+    }
+
     return QVariant();
 }
 
 Qt::ItemFlags FrameTableViewModel::flags(const QModelIndex &index) const {
     if (index.isValid() && (index.column() != COL_DURATION && index.column() != COL_TAGS && index.column() != COL_PROJECT)) {
-        return QAbstractTableModel::flags(index) | Qt::ItemIsEditable;
+        return QAbstractTableModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
     }
 
-    return QAbstractTableModel::flags(index);
+    return QAbstractTableModel::flags(index) | Qt::ItemIsDragEnabled;
 }
 
 bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &value, int role) {
@@ -265,4 +270,26 @@ int FrameTableViewModel::findRow(const QString &frameID) {
         index++;
     }
     return -1;
+}
+
+Qt::DropActions FrameTableViewModel::supportedDragActions() const {
+    return Qt::MoveAction;
+}
+
+QStringList FrameTableViewModel::mimeTypes() const {
+    return QStringList() << FRAMES_MIME_TYPE;
+}
+
+QMimeData *FrameTableViewModel::mimeData(const QModelIndexList &indexes) const {
+    QStringList ids;
+    for (auto index : indexes) {
+        if (index.isValid()) {
+            ids << index.data(IDRole).toString();
+        }
+    }
+
+    qDebug() << "prepared drag of " << ids;
+    auto *mime = new QMimeData();
+    mime->setData(FRAMES_MIME_TYPE, ids.join("||").toUtf8());
+    return mime;
 }

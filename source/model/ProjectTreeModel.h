@@ -1,8 +1,7 @@
 #ifndef GOTIME_UI_PROJECTTREEMODEL_H
 #define GOTIME_UI_PROJECTTREEMODEL_H
 
-
-static const char *const PROJECT_MIME_TYPE = "application/x-tom-projects";
+static const QString& PROJECTS_MIME_TYPE = "application/x-tom-projects";
 
 #include <QtCore/QAbstractItemModel>
 
@@ -79,6 +78,9 @@ private:
     QStringList _headers;
 
     ProjectTreeItem *projectItemAtIndex(const QModelIndex &index);
+
+    bool handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
+    bool handleDropFrameIDs(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
 
     void addProjectItems(const QList<Project> &allProjects, ProjectTreeItem *parent);
 

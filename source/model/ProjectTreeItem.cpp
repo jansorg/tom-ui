@@ -10,7 +10,7 @@ ProjectTreeItem::ProjectTreeItem(const Project &project, const ProjectStatusMana
 }
 
 ProjectTreeItem::~ProjectTreeItem() {
-    qDeleteAll(_childItems);
+    reset();
 }
 
 void ProjectTreeItem::appendChild(ProjectTreeItem *item) {
@@ -103,4 +103,9 @@ bool ProjectTreeItem::removeChildAt(int index) {
     }
     _childItems.removeAt(index);
     return true;
+}
+
+void ProjectTreeItem::reset() {
+    qDeleteAll(_childItems);
+    _childItems.clear();
 }

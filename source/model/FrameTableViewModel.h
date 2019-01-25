@@ -6,7 +6,7 @@
 
 #include "data/Frame.h"
 
-static const QString& FRAMES_MIME_TYPE = "application/x-tom-frames";
+static const QString &FRAMES_MIME_TYPE = "application/x-tom-frames";
 
 class FrameTableViewModel : public QAbstractTableModel {
 public:
@@ -43,6 +43,8 @@ public:
 private slots:
 
     void onFramesRemoved(const QStringList &frameIDs, const QString &projectID);
+
+    void onFramesMoved(const QStringList &frameIDs, const QString &oldProjectID, const QString &newProjectID);
 
     void onProjectUpdated(const Project &project);
 

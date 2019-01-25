@@ -59,6 +59,8 @@ public:
 
     void resetAll();
 
+    bool isChildProject(const QString &id, const QString &parentID);
+
 signals:
 
     void dataResetNeeded();
@@ -76,6 +78,8 @@ signals:
     void framesUpdated(const QStringList &id, const QString &projectID);
 
     void framesRemoved(const QStringList &ids, const QString &projectID);
+
+    void framesMoved(const QStringList &ids, const QString &oldProjectID, const QString& newProjectID);
 
 public slots:
 

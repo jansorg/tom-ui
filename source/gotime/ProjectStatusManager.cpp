@@ -3,16 +3,19 @@
 ProjectStatusManager::ProjectStatusManager(TomControl *control, QObject *parent) : QObject(parent), _control(control) {
     refresh();
 
+    connect(_control, &TomControl::dataResetNeeded, this, &ProjectStatusManager::refresh);
+
     connect(_control, &TomControl::projectUpdated, this, &ProjectStatusManager::refresh);
+
     connect(_control, &TomControl::framesUpdated, this, &ProjectStatusManager::refresh);
     connect(_control, &TomControl::framesRemoved, this, &ProjectStatusManager::refresh);
-    connect(_control, &TomControl::dataResetNeeded, this, &ProjectStatusManager::refresh);
+    connect(_control, &TomControl::framesMoved, this, &ProjectStatusManager::refresh);
 
     _timer = new QTimer(this);
     connect(_timer, &QTimer::timeout, this, &ProjectStatusManager::refresh);
 
     // refresh every 30s
-    _timer->start(30000);
+    _timer->start(30 * 1000);
 }
 
 ProjectStatus ProjectStatusManager::getStatus(const QString &projectID) const {

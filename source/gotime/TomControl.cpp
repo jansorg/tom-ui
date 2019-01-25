@@ -251,8 +251,9 @@ bool TomControl::updateFrame(const QStringList &ids, const QString &currentProje
     if (success) {
         // fixme handle update of proejct id (remove and updated?)
         if (!projectID.isEmpty()) {
-            // fixme quick and dirty for now
-            emit dataResetNeeded();
+            if (!currentProjectID.isEmpty()) {
+                emit framesMoved(ids, currentProjectID, projectID);
+            }
         } else if (!currentProjectID.isEmpty()) {
             emit framesUpdated(ids, currentProjectID);
         }
@@ -452,4 +453,17 @@ QList<Project> TomControl::cachedProjects() const {
 
 const Project TomControl::cachedProject(const QString &id) const {
     return _cachedProjects.value(id);
+}
+
+bool TomControl::isChildProject(const QString &id, const QString &parentID) {
+    if (id.isEmpty() || parentID.isEmpty()) {
+        return false;
+    }
+
+    for (auto p = cachedProject(id); p.isValid(); p = cachedProject(p.getParentID())) {
+        if (p.getID() == parentID) {
+            return true;
+        }
+    }
+    return false;
 }

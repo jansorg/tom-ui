@@ -18,6 +18,8 @@ public:
     void removeChild(ProjectTreeItem *child);
     bool removeChildAt(int index);
 
+    void reset();
+
     ProjectTreeItem *child(int row);
 
     int childCount() const;

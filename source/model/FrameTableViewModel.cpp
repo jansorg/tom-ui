@@ -9,6 +9,7 @@ const auto alignedRightVCenter = QVariant(Qt::AlignRight + Qt::AlignVCenter);
 FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) : QAbstractTableModel(parent), _control(control) {
 
     connect(_control, &TomControl::framesRemoved, this, &FrameTableViewModel::onFramesRemoved);
+    connect(_control, &TomControl::framesMoved, this, &FrameTableViewModel::onFramesMoved);
     connect(_control, &TomControl::projectUpdated, this, &FrameTableViewModel::onProjectUpdated);
     connect(_control, &TomControl::dataResetNeeded, [this] { this->loadFrames(Project()); });
 }
@@ -34,12 +35,39 @@ void FrameTableViewModel::loadFrames(const Project &project) {
 
 void FrameTableViewModel::onFramesRemoved(const QStringList &frameIDs, const QString &projectID) {
     qDebug() << "frames removed of" << projectID << "if matching" << _currentProject.getID();
-    // checking current project might help, we'd have to match against all child projects, though
+    if (!_control->isChildProject(projectID, _currentProject.getID())) {
+        return;
+    }
+
     // fixme this loop is possible to optimize to do less view updates
     for (const auto &id : frameIDs) {
         int row = findRow(id);
         if (row >= 0) {
             removeRow(row);
+        }
+    }
+}
+
+void FrameTableViewModel::onFramesMoved(const QStringList &frameIDs, const QString &oldProjectID, const QString &newProjectID) {
+    qDebug() << "frames moved from" << oldProjectID << "to" << newProjectID;
+
+    // don't remove from list if old and new project are in the hierarchy of the currently shown project
+    // we have to update the project column, though
+    if (_control->isChildProject(oldProjectID, _currentProject.getID()) && _control->isChildProject(newProjectID, _currentProject.getID())) {
+        for (const auto &id : frameIDs) {
+            int row = findRow(id);
+            if (row >= 0) {
+                _frames.at(row)->projectID = newProjectID;
+                emit dataChanged(createIndex(row, COL_PROJECT), createIndex(row, COL_PROJECT));
+            }
+        }
+    } else {
+        // otherwise we'll remove the items from the view
+        for (const auto &id : frameIDs) {
+            int row = findRow(id);
+            if (row >= 0) {
+                removeRow(row);
+            }
         }
     }
 }
@@ -50,17 +78,16 @@ bool FrameTableViewModel::removeRows(int row, int count, const QModelIndex &pare
     }
 
     beginRemoveRows(parent, row, row + count - 1);
-
     for (int i = 0; i < count; i++) {
         _frames.removeAt(row + i);
     }
-
     endRemoveRows();
+
     return true;
 }
 
 void FrameTableViewModel::onProjectUpdated(const Project &project) {
-    if (project == _currentProject) {
+    if (_control->isChildProject(project.getID(), _currentProject.getID())) {
         loadFrames(project);
     }
 }
@@ -281,7 +308,12 @@ QStringList FrameTableViewModel::mimeTypes() const {
 }
 
 QMimeData *FrameTableViewModel::mimeData(const QModelIndexList &indexes) const {
+    if (!_currentProject.isValid()) {
+        return nullptr;
+    }
+
     QStringList ids;
+    ids << _currentProject.getID();
     for (auto index : indexes) {
         if (index.isValid()) {
             ids << index.data(IDRole).toString();

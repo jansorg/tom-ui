@@ -26,7 +26,7 @@
       </property>
       <widget class="ProjectTreeView" name="projectTree">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+        <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -34,8 +34,11 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>150</height>
+         <height>200</height>
         </size>
+       </property>
+       <property name="accessibleDescription">
+        <string>List of projects</string>
        </property>
        <attribute name="headerShowSortIndicator" stdset="0">
         <bool>true</bool>
@@ -45,14 +48,23 @@
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
-         <verstretch>1</verstretch>
+         <verstretch>10</verstretch>
         </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>200</height>
+        </size>
        </property>
        <property name="sizeIncrement">
         <size>
          <width>0</width>
-         <height>1</height>
+         <height>0</height>
         </size>
+       </property>
+       <property name="accessibleDescription">
+        <string>List of tracked time</string>
        </property>
        <property name="editTriggers">
         <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed|QAbstractItemView::SelectedClicked</set>

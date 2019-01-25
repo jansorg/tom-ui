@@ -140,7 +140,7 @@
     </property>
     <addaction name="actionImportMacTimeTracker"/>
     <addaction name="actionImportFanurio"/>
-    <addaction name="actionImpotWatson"/>
+    <addaction name="actionImportWatson"/>
    </widget>
    <widget class="QMenu" name="menuProject">
     <property name="title">
@@ -171,6 +171,8 @@
     <bool>false</bool>
    </attribute>
    <addaction name="actionCreateProject"/>
+   <addaction name="actionProjectStart"/>
+   <addaction name="actionProjectStop"/>
   </widget>
   <action name="actionQuit">
    <property name="icon">
@@ -240,7 +242,7 @@
     <string>Reset all &amp;data...</string>
    </property>
   </action>
-  <action name="actionImpotWatson">
+  <action name="actionImportWatson">
    <property name="text">
     <string>&amp;Watson frames.json</string>
    </property>
@@ -249,10 +251,16 @@
    <property name="text">
     <string>&amp;Start Project</string>
    </property>
+   <property name="toolTip">
+    <string>Start the currently selected project</string>
+   </property>
   </action>
   <action name="actionProjectStop">
    <property name="text">
     <string>Sto&amp;p Project</string>
+   </property>
+   <property name="toolTip">
+    <string>Stop the currently selected project</string>
    </property>
   </action>
  </widget>
@@ -385,7 +393,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionImpotWatson</sender>
+   <sender>actionImportWatson</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>importWatson()</slot>

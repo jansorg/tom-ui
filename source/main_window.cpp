@@ -19,6 +19,13 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     ui.projectTree->setup(control, statusManager);
     ui.frameView->setup(control);
 
+    ui.actionImportMacTimeTracker->setIcon(Icons::importData());
+    ui.actionImportFanurio->setIcon(Icons::importData());
+    ui.actionImportWatson->setIcon(Icons::importData());
+
+    ui.actionProjectStart->setIcon(Icons::projectStart());
+    ui.actionProjectStop->setIcon(Icons::projectStop());
+
     connect(ui.projectTree, &ProjectTreeView::projectSelected, ui.frameView, &FrameTableView::onProjectSelected);
     connect(ui.actionQuit, &QAction::triggered, &QCoreApplication::quit);
 

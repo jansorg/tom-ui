@@ -50,6 +50,18 @@ namespace Icons {
         return themeIcon("list-remove");
     }
 
+    inline const QIcon importData() {
+        return themeIcon("document-import");
+    }
+
+    inline const QIcon projectStart() {
+        return themeIcon("chronometer-start");
+    }
+
+    inline const QIcon projectStop() {
+        return themeIcon("chronometer-pause");
+    }
+
     inline const QIcon Logo() {
         return icon("logo64.png");
     }

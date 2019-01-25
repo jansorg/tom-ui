@@ -5,8 +5,8 @@
 #include "TomControl.h"
 
 TomControl::TomControl(const QString gotimePath, bool bashScript, QObject *parent) : QObject(parent),
-                                                                                           _gotimePath(gotimePath),
-                                                                                           _bashScript(bashScript) {
+                                                                                     _gotimePath(gotimePath),
+                                                                                     _bashScript(bashScript) {
 
     // updates our project cache
     loadProjects();
@@ -201,17 +201,37 @@ bool TomControl::renameTag(QString id, QString newName) {
     return status.isSuccessful();
 }
 
-bool TomControl::updateFrame(Frame *frame,
-                                bool updateStart, QDateTime start,
-                                bool updateEnd, QDateTime end,
-                                bool updateNotes,
-                                QString notes) {
-    return updateFrame(frame->id, frame->projectID, updateStart, std::move(start), updateEnd, std::move(end), updateNotes, std::move(notes));
+bool TomControl::updateFrame(QList<Frame *> frames,
+                             bool updateStart, QDateTime start,
+                             bool updateEnd, QDateTime end,
+                             bool updateNotes, const QString &notes,
+                             bool updateProject, const QString &projectID) {
+    // for now we expect that all frames belong to the same project
+    if (frames.isEmpty()) {
+        return false;
+    }
+
+    QStringList frameIDs;
+
+    const Frame *first = frames.constFirst();
+    for (const auto *frame : frames) {
+        if (frame->projectID != first->projectID) {
+            qDebug() << "more than one project used in frame list";
+            return false;
+        }
+        frameIDs << frame->id;
+    }
+
+    return updateFrame(frameIDs, projectID, updateStart, std::move(start), updateEnd, std::move(end), updateNotes, notes, updateProject, projectID);
 }
 
-bool TomControl::updateFrame(const QString &id, const QString &projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, const QString &notes) {
+bool TomControl::updateFrame(const QStringList &ids, const QString &currentProjectID,
+                             bool updateStart, QDateTime start,
+                             bool updateEnd, QDateTime end,
+                             bool updateNotes, const QString &notes,
+                             bool updateProject, const QString &projectID) {
     QStringList args;
-    args << "edit" << "frame" << id;
+    args << "edit" << "frame";
     if (updateStart) {
         args << "--start" << start.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
     }
@@ -221,11 +241,15 @@ bool TomControl::updateFrame(const QString &id, const QString &projectID, bool u
     if (updateNotes) {
         args << "--notes" << notes;
     }
+    if (updateProject) {
+        args << "--project" << projectID;
+    }
+    args << ids;
 
     CommandStatus status = run(args);
     bool success = status.isSuccessful();
     if (success) {
-        emit frameUpdated(id, projectID);
+        emit framesUpdated(ids, currentProjectID);
     }
     return success;
 }
@@ -368,7 +392,7 @@ bool TomControl::removeFrame(Frame frame) {
 
     const CommandStatus &status = run(args);
     if (status.isSuccessful()) {
-        emit frameRemoved(frame.id, frame.projectID);
+        emit framesRemoved(QStringList() << frame.id, frame.projectID);
     }
     return status.isSuccessful();
 }

@@ -24,7 +24,7 @@ public:
 
 private slots:
 
-    void onFrameRemoved(const QString &frameID, const QString &projectID);
+    void onFramesRemoved(const QStringList &frameIDs, const QString &projectID);
 
     void onProjectUpdated(const Project &project);
 

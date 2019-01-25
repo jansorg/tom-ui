@@ -36,11 +36,11 @@ void FrameTableView::onCustomContextMenuRequested(const QPoint &pos) {
 
 void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
     QMenu menu;
-    QAction *stop = menu.addAction(Icons::stopTimer(), "Stop", [this, frame] { _control->updateFrame(frame, false, QDateTime(), true, QDateTime::currentDateTime(), false, ""); });
+    QAction *stop = menu.addAction(Icons::stopTimer(), "Stop", [this, frame] { _control->updateFrame(QList<Frame*>() << frame, false, QDateTime(), true, QDateTime::currentDateTime(), false, "", false, ""); });
     stop->setEnabled(frame->isRunning());
 
     menu.addSeparator();
-    menu.addAction(Icons::removeFrame(), "Delete", [this, frame] { qDebug() << "removing frame" << frame->notes; _control->removeFrame(*frame); });
+    menu.addAction(Icons::removeFrame(), "Delete", [this, frame] { qDebug() << "removing frame" << frame->id; _control->removeFrame(*frame); });
 
     menu.exec(globalPos);
 }

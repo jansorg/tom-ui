@@ -4,8 +4,8 @@ ProjectStatusManager::ProjectStatusManager(TomControl *control, QObject *parent)
     refresh();
 
     connect(_control, &TomControl::projectUpdated, this, &ProjectStatusManager::refresh);
-    connect(_control, &TomControl::frameUpdated, this, &ProjectStatusManager::refresh);
-    connect(_control, &TomControl::frameRemoved, this, &ProjectStatusManager::refresh);
+    connect(_control, &TomControl::framesUpdated, this, &ProjectStatusManager::refresh);
+    connect(_control, &TomControl::framesRemoved, this, &ProjectStatusManager::refresh);
     connect(_control, &TomControl::dataResetNeeded, this, &ProjectStatusManager::refresh);
 
     _timer = new QTimer(this);

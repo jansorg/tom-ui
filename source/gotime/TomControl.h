@@ -43,9 +43,9 @@ public:
 
     bool renameTag(QString id, QString newName);
 
-    bool updateFrame(Frame *frame, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, QString notes);
+    bool updateFrame(QList<Frame *> frames, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, const QString &notes, bool updateProject, const QString& projectID);
 
-    bool updateFrame(const QString& id, const QString&projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, const QString&notes);
+    bool updateFrame(const QStringList& ids, const QString&currentProjectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, const QString&notes, bool updateProject, const QString& projectID);
 
     bool removeFrame(Frame frame);
 
@@ -73,9 +73,9 @@ signals:
 
     void projectCreated(const Project &project);
 
-    void frameUpdated(const QString &id, const QString &projectID);
+    void framesUpdated(const QStringList &id, const QString &projectID);
 
-    void frameRemoved(const QString &id, const QString &projectID);
+    void framesRemoved(const QStringList &ids, const QString &projectID);
 
 public slots:
 

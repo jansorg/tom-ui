@@ -8,7 +8,7 @@ const auto alignedRightVCenter = QVariant(Qt::AlignRight + Qt::AlignVCenter);
 
 FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) : QAbstractTableModel(parent), _control(control) {
 
-    connect(_control, &TomControl::frameRemoved, this, &FrameTableViewModel::onFrameRemoved);
+    connect(_control, &TomControl::framesRemoved, this, &FrameTableViewModel::onFramesRemoved);
     connect(_control, &TomControl::projectUpdated, this, &FrameTableViewModel::onProjectUpdated);
     connect(_control, &TomControl::dataResetNeeded, [this] { this->loadFrames(Project()); });
 }
@@ -32,9 +32,12 @@ void FrameTableViewModel::loadFrames(const Project &project) {
     endResetModel();
 }
 
-void FrameTableViewModel::onFrameRemoved(const QString &frameID, const QString &projectID) {
-    if (projectID == _currentProject.getID()) {
-        int row = findRow(frameID);
+void FrameTableViewModel::onFramesRemoved(const QStringList &frameIDs, const QString &projectID) {
+    qDebug() << "frames removed of" << projectID << "if matching" << _currentProject.getID();
+    // checking current project might help, we'd have to match against all child projects, though
+    // fixme this loop is possible to optimize to do less view updates
+    for (const auto &id : frameIDs) {
+        int row = findRow(id);
         if (row >= 0) {
             removeRow(row);
         }
@@ -229,16 +232,16 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
     switch (col) {
         case COL_START: {
             startTime = value.toDateTime();
-            ok = _control->updateFrame(frame, true, startTime, false, QDateTime(), false, "");
+            ok = _control->updateFrame(QList<Frame *>() << frame, true, startTime, false, QDateTime(), false, "", false, "");
             break;
         }
         case COL_END:
             endTime = value.toDateTime();
-            ok = _control->updateFrame(frame, false, QDateTime(), true, endTime, false, "");
+            ok = _control->updateFrame(QList<Frame *>() << frame, false, QDateTime(), true, endTime, false, "", false, "");
             break;
         case COL_NOTES:
             notes = value.toString();
-            ok = _control->updateFrame(frame, false, QDateTime(), false, QDateTime(), true, notes);
+            ok = _control->updateFrame(QList<Frame *>() << frame, false, QDateTime(), false, QDateTime(), true, notes, false, "");
             break;
         default:
             ok = false;

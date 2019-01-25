@@ -37,7 +37,7 @@ configure_file (
 file(GLOB_RECURSE UI_FILES source/*.ui)
 file(GLOB_RECURSE CODE_FILES source/*.cpp source/*.h)
 
-add_compile_options(-std=c++11 -Wall -Wextra)
+add_compile_options(-std=c++14 -Wall -Wextra)
 if(CMAKE_BUILD_TYPE EQUAL "release")
     add_compile_options(-O3)
 endif()

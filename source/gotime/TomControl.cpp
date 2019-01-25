@@ -1,11 +1,13 @@
 #include <utility>
 
+#include <utility>
+
 #include <QtCore/QProcess>
 
 #include "TomControl.h"
 
-TomControl::TomControl(const QString gotimePath, bool bashScript, QObject *parent) : QObject(parent),
-                                                                                     _gotimePath(gotimePath),
+TomControl::TomControl(QString gotimePath, bool bashScript, QObject *parent) : QObject(parent),
+                                                                                     _gotimePath(std::move(gotimePath)),
                                                                                      _bashScript(bashScript) {
 
     // updates our project cache
@@ -142,7 +144,7 @@ GotimeStatus TomControl::status() {
     return GotimeStatus(true, project, startTime);
 }
 
-QList<Frame *> TomControl::loadFrames(QString projectID, bool includeSubprojects) {
+QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubprojects) {
     QStringList args = QStringList() << "frames"
                                      << "-o" << "json"
                                      << "-p" << projectID
@@ -189,11 +191,11 @@ QList<Frame *> TomControl::loadFrames(QString projectID, bool includeSubprojects
     return result;
 }
 
-bool TomControl::renameProject(QString id, QString newName) {
+bool TomControl::renameProject(const QString &id, const QString &newName) {
     return updateProjects(QStringList() << id, true, newName, false, "");
 }
 
-bool TomControl::renameTag(QString id, QString newName) {
+bool TomControl::renameTag(const QString &id, const QString &newName) {
     QStringList args;
     args << "rename" << "tag" << id << newName;
 
@@ -201,9 +203,9 @@ bool TomControl::renameTag(QString id, QString newName) {
     return status.isSuccessful();
 }
 
-bool TomControl::updateFrame(QList<Frame *> frames,
-                             bool updateStart, QDateTime start,
-                             bool updateEnd, QDateTime end,
+bool TomControl::updateFrame(const QList<Frame *> &frames,
+                             bool updateStart, const QDateTime &start,
+                             bool updateEnd, const QDateTime &end,
                              bool updateNotes, const QString &notes,
                              bool updateProject, const QString &projectID) {
     // for now we expect that all frames belong to the same project
@@ -222,12 +224,12 @@ bool TomControl::updateFrame(QList<Frame *> frames,
         frameIDs << frame->id;
     }
 
-    return updateFrame(frameIDs, projectID, updateStart, std::move(start), updateEnd, std::move(end), updateNotes, notes, updateProject, projectID);
+    return updateFrame(frameIDs, projectID, updateStart, start, updateEnd, end, updateNotes, notes, updateProject, projectID);
 }
 
 bool TomControl::updateFrame(const QStringList &ids, const QString &currentProjectID,
-                             bool updateStart, QDateTime start,
-                             bool updateEnd, QDateTime end,
+                             bool updateStart, const QDateTime &start,
+                             bool updateEnd, const QDateTime &end,
                              bool updateNotes, const QString &notes,
                              bool updateProject, const QString &projectID) {
     QStringList args;
@@ -261,7 +263,8 @@ bool TomControl::updateFrame(const QStringList &ids, const QString &currentProje
     return success;
 }
 
-bool TomControl::updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID) {
+bool TomControl::updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent,
+                                const QString &parentID) {
     if (ids.isEmpty() || (!updateName && !updateParent)) {
         return true;
     }
@@ -335,13 +338,15 @@ const ProjectsStatus TomControl::projectsStatus(const QString &overallID) {
         Timespan all = Timespan(parts.takeFirst().toLongLong());
         Timespan allTotal = Timespan(parts.takeFirst().toLongLong());
 
-        mapping.insert(id, ProjectStatus(id, all, allTotal, year, yearTotal, month, monthTotal, week, weekTotal, day, dayTotal));
+        mapping.insert(id, ProjectStatus(id, all, allTotal, year, yearTotal, month, monthTotal, week, weekTotal, day,
+                                         dayTotal));
     }
 
     return ProjectsStatus(mapping);
 }
 
 CommandStatus TomControl::run(const QStringList &args) {
+    auto start = QDateTime::currentDateTime().toMSecsSinceEpoch();
     qDebug() << "running" << _gotimePath << args;
 
     QProcess process(this);
@@ -358,6 +363,7 @@ CommandStatus TomControl::run(const QStringList &args) {
     if (process.exitCode() != 0) {
         qDebug() << "exit code:" << process.exitCode() << "stdout:" << output << "stderr" << errOutput;
     }
+    qDebug() << "tom command:" << (QDateTime::currentDateTime().toMSecsSinceEpoch() - start) << "ms";
     return CommandStatus(output, errOutput, process.exitCode());
 }
 
@@ -393,7 +399,7 @@ Project TomControl::createProject(const QString &parentID, const QString &name) 
     return Project();
 }
 
-bool TomControl::removeFrame(Frame frame) {
+bool TomControl::removeFrame(const Frame &frame) {
     QStringList args;
     args << "remove" << "frame" << frame.id;
 

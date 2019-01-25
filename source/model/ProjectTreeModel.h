@@ -84,7 +84,7 @@ private:
 
     void addProjectItems(const QList<Project> &allProjects, ProjectTreeItem *parent);
 
-    void printProjects(int level, ProjectTreeItem *root);
+    static void printProjects(int level, ProjectTreeItem *root);
 };
 
 #endif //GOTIME_UI_PROJECTTREEMODEL_H

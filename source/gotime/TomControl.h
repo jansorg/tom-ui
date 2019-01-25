@@ -37,17 +37,19 @@ public:
 
     bool isStarted(const Project &project);
 
-    QList<Frame *> loadFrames(QString projectID, bool includeSubprojects);
+    QList<Frame *> loadFrames(const QString &projectID, bool includeSubprojects);
 
-    bool renameProject(QString id, QString newName);
+    bool renameProject(const QString &id, const QString &newName);
 
-    bool renameTag(QString id, QString newName);
+    bool renameTag(const QString &id, const QString &newName);
 
-    bool updateFrame(QList<Frame *> frames, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, const QString &notes, bool updateProject, const QString& projectID);
+    bool updateFrame(const QList<Frame *> &frames, bool updateStart, const QDateTime &start, bool updateEnd,
+                     const QDateTime &end, bool updateNotes, const QString &notes, bool updateProject, const QString& projectID);
 
-    bool updateFrame(const QStringList& ids, const QString&currentProjectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, const QString&notes, bool updateProject, const QString& projectID);
+    bool updateFrame(const QStringList& ids, const QString&currentProjectID, bool updateStart, const QDateTime &start, bool updateEnd,
+                     const QDateTime &end, bool updateNotes, const QString&notes, bool updateProject, const QString& projectID);
 
-    bool removeFrame(Frame frame);
+    bool removeFrame(const Frame &frame);
 
     bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID);
 

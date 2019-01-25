@@ -71,7 +71,7 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         auto *item = getItem(index);
         if (index.column() >= ProjectTreeItem::COL_DAY && item->data(index.column()).toString() == QString("0:00h")) {
             return QVariant(QColor(Qt::gray));
-        };
+        }
     }
 
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
@@ -369,7 +369,7 @@ bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropActio
     return true;
 }
 
-bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) {
+bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/, const QModelIndex &parent) {
     if (!parent.isValid() || action != Qt::MoveAction) {
         return false;
     }

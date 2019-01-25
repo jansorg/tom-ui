@@ -7,13 +7,13 @@
 
 #include "ui_main_window.h"
 #include "data/Project.h"
-#include "gotime/GotimeControl.h"
+#include "gotime/TomControl.h"
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
 
 public:
-    explicit MainWindow(GotimeControl *control, ProjectStatusManager *statusManager, QMainWindow *parent = nullptr);
+    explicit MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent = nullptr);
 
     ~MainWindow() override;
 
@@ -39,7 +39,7 @@ private:
     void createActions();
 
     Ui::MainWindow ui;
-    GotimeControl *_control;
+    TomControl *_control;
 };
 
 #endif

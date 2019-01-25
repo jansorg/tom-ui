@@ -2,13 +2,13 @@
 #define GOTIME_UI_FRAMETABLEVIEWMODEL_H
 
 #include <QtCore/QAbstractTableModel>
-#include <gotime/GotimeControl.h>
+#include <gotime/TomControl.h>
 
 #include "data/Frame.h"
 
 class FrameTableViewModel : public QAbstractTableModel {
 public:
-    explicit FrameTableViewModel(GotimeControl *control, QObject *parent);
+    explicit FrameTableViewModel(TomControl *control, QObject *parent);
 
     ~FrameTableViewModel() override;
 
@@ -40,7 +40,7 @@ private:
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
     QList<Frame *> _frames;
-    GotimeControl *_control;
+    TomControl *_control;
 
     Project _currentProject;
 

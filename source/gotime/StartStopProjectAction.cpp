@@ -5,7 +5,7 @@ const Project &StartProjectAction::getProject() {
     return _project;
 }
 
-StartProjectAction::StartProjectAction(const Project &project, GotimeControl *control, QObject *parent) : QAction(parent),
+StartProjectAction::StartProjectAction(const Project &project, TomControl *control, QObject *parent) : QAction(parent),
                                                                                                           _control(control),
                                                                                                           _project(project) {
     if (control->isStarted(project)) {

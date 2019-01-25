@@ -9,7 +9,7 @@ FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent) {
     setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
-void FrameTableView::setup(GotimeControl *control) {
+void FrameTableView::setup(TomControl *control) {
     _control = control;
 
     _sourceModel = new FrameTableViewModel(_control, this);

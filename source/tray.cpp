@@ -2,14 +2,14 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMainWindow>
 
-#include "gotime/GotimeControl.h"
+#include "gotime/TomControl.h"
 #include "gotime/StartStopProjectAction.h"
 
 #include "tray.h"
 #include "icons.h"
 #include "osenvinfo.h"
 
-GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) : QObject(),
+GotimeTrayIcon::GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow) : QObject(),
                                                                                   _control(control),
                                                                                   _trayIcon(new QSystemTrayIcon(this)) {
 
@@ -43,10 +43,10 @@ GotimeTrayIcon::GotimeTrayIcon(GotimeControl *control, QMainWindow *mainWindow) 
     _statusUpdateTimer = new QTimer(this);
     connect(_statusUpdateTimer, &QTimer::timeout, this, &GotimeTrayIcon::updateStatus);
 
-    connect(control, &GotimeControl::projectStarted, this, &GotimeTrayIcon::projectStarted);
-    connect(control, &GotimeControl::projectStopped, this, &GotimeTrayIcon::projectStopped);
-    connect(control, &GotimeControl::projectCancelled, this, &GotimeTrayIcon::projectStopped);
-    connect(control, &GotimeControl::projectUpdated, this, &GotimeTrayIcon::projectUpdated);
+    connect(control, &TomControl::projectStarted, this, &GotimeTrayIcon::projectStarted);
+    connect(control, &TomControl::projectStopped, this, &GotimeTrayIcon::projectStopped);
+    connect(control, &TomControl::projectCancelled, this, &GotimeTrayIcon::projectStopped);
+    connect(control, &TomControl::projectUpdated, this, &GotimeTrayIcon::projectUpdated);
 
     const GotimeStatus &status = control->status();
     _stopTaskAction->setEnabled(status.isValid);

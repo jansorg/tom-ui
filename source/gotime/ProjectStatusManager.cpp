@@ -1,12 +1,12 @@
 #include "ProjectStatusManager.h"
 
-ProjectStatusManager::ProjectStatusManager(GotimeControl *control, QObject *parent) : QObject(parent), _control(control) {
+ProjectStatusManager::ProjectStatusManager(TomControl *control, QObject *parent) : QObject(parent), _control(control) {
     refresh();
 
-    connect(_control, &GotimeControl::projectUpdated, this, &ProjectStatusManager::refresh);
-    connect(_control, &GotimeControl::frameUpdated, this, &ProjectStatusManager::refresh);
-    connect(_control, &GotimeControl::frameRemoved, this, &ProjectStatusManager::refresh);
-    connect(_control, &GotimeControl::dataResetNeeded, this, &ProjectStatusManager::refresh);
+    connect(_control, &TomControl::projectUpdated, this, &ProjectStatusManager::refresh);
+    connect(_control, &TomControl::frameUpdated, this, &ProjectStatusManager::refresh);
+    connect(_control, &TomControl::frameRemoved, this, &ProjectStatusManager::refresh);
+    connect(_control, &TomControl::dataResetNeeded, this, &ProjectStatusManager::refresh);
 
     _timer = new QTimer(this);
     connect(_timer, &QTimer::timeout, this, &ProjectStatusManager::refresh);

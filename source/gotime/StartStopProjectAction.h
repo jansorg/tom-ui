@@ -4,13 +4,13 @@
 #include <QtWidgets/QAction>
 
 #include "data/Project.h"
-#include "GotimeControl.h"
+#include "TomControl.h"
 
 class StartProjectAction : public QAction {
 Q_OBJECT
 
 public:
-    explicit StartProjectAction(const Project &project, GotimeControl *control, QObject *parent);
+    explicit StartProjectAction(const Project &project, TomControl *control, QObject *parent);
 
     const Project &getProject();
 
@@ -22,7 +22,7 @@ private slots:
     void toggleProjectStatus();
 
 private:
-    GotimeControl *_control;
+    TomControl *_control;
     Project _project;
 };
 

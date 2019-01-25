@@ -2,12 +2,12 @@
 #define TOM_UI_PROJECTSTATUSMANAGER_H
 
 #include <QtCore/QObject>
-#include "GotimeControl.h"
+#include "TomControl.h"
 
 class ProjectStatusManager : public QObject {
 Q_OBJECT
 public:
-    ProjectStatusManager(GotimeControl *control, QObject *parent);
+    ProjectStatusManager(TomControl *control, QObject *parent);
 
     ProjectStatus getStatus(const QString &projectID) const;
     ProjectStatus getOverallStatus() const;
@@ -28,7 +28,7 @@ private:
     ProjectsStatus loadStatus();
 
     QTimer *_timer;
-    GotimeControl *_control;
+    TomControl *_control;
 
     ProjectsStatus _statusCache;
 };

@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
         command = QFileInfo(QCoreApplication::applicationFilePath()).dir().filePath("tom");
     #endif
 
-    auto *control = new GotimeControl(command, bash, nullptr);
+    auto *control = new TomControl(command, bash, nullptr);
     auto *statusManager = new ProjectStatusManager(control, nullptr);
 
     MainWindow mainWindow(control, statusManager);

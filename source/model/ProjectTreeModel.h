@@ -7,7 +7,7 @@ static const char *const PROJECT_MIME_TYPE = "application/x-tom-projects";
 #include <QtCore/QAbstractItemModel>
 
 #include "data/Project.h"
-#include "gotime/GotimeControl.h"
+#include "gotime/TomControl.h"
 #include "ProjectTreeItem.h"
 #include "ProjectTreeRootItem.h"
 
@@ -15,7 +15,7 @@ class ProjectTreeModel : public QAbstractItemModel {
 Q_OBJECT
 
 public:
-    ProjectTreeModel(GotimeControl *control, ProjectStatusManager *statusManager, QObject *parent);
+    ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, QObject *parent);
 
     ~ProjectTreeModel() override;
 
@@ -72,7 +72,7 @@ private slots:
 private:
     ProjectTreeRootItem *_rootItem;
     ProjectTreeRootItem *_visibleRootItem;
-    GotimeControl *_control;
+    TomControl *_control;
     QList<Project> _projects;
     ProjectStatusManager *_statusManager;
 

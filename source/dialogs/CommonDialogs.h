@@ -5,12 +5,12 @@
 #ifndef TOM_UI_COMMONDIALOGS_H
 #define TOM_UI_COMMONDIALOGS_H
 
-#include <gotime/GotimeControl.h>
+#include <gotime/TomControl.h>
 #include "data/Project.h"
 
 class CommonDialogs {
 public:
-    static Project createProject(const Project& parentProject, GotimeControl* control, QWidget* parent);
+    static Project createProject(const Project& parentProject, TomControl* control, QWidget* parent);
 };
 
 

@@ -20,7 +20,7 @@ ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {
     connect(this, &ProjectTreeView::customContextMenuRequested, this, &ProjectTreeView::onCustomContextMenuRequested);
 }
 
-void ProjectTreeView::setup(GotimeControl *control, ProjectStatusManager *statusManager) {
+void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusManager) {
     _control = control;
     _statusManager = statusManager;
 
@@ -36,7 +36,7 @@ void ProjectTreeView::setup(GotimeControl *control, ProjectStatusManager *status
     sortByColumn(0, Qt::AscendingOrder);
 
     connect(selectionModel(), &QItemSelectionModel::currentRowChanged, this, &ProjectTreeView::onCurrentChanged);
-    connect(_control, &GotimeControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
+    connect(_control, &TomControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
     connect(_statusManager, &ProjectStatusManager::projectsStatusChanged, this, &ProjectTreeView::projectsStatusChanged);
 }
 

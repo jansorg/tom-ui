@@ -2,9 +2,9 @@
 
 #include <QtCore/QProcess>
 
-#include "GotimeControl.h"
+#include "TomControl.h"
 
-GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject *parent) : QObject(parent),
+TomControl::TomControl(const QString gotimePath, bool bashScript, QObject *parent) : QObject(parent),
                                                                                            _gotimePath(gotimePath),
                                                                                            _bashScript(bashScript) {
 
@@ -17,7 +17,7 @@ GotimeControl::GotimeControl(const QString gotimePath, bool bashScript, QObject 
     }
 }
 
-void GotimeControl::cacheProjects(const QList<Project> &projects) {
+void TomControl::cacheProjects(const QList<Project> &projects) {
     //fixme sync on mutex?
     _cachedProjects.clear();
     for (const auto &project : projects) {
@@ -25,11 +25,11 @@ void GotimeControl::cacheProjects(const QList<Project> &projects) {
     }
 }
 
-QList<Project> GotimeControl::loadRecentProjects(int max) {
+QList<Project> TomControl::loadRecentProjects(int max) {
     return this->loadProjects(max);
 }
 
-QList<Project> GotimeControl::loadProjects(int max) {
+QList<Project> TomControl::loadProjects(int max) {
     QStringList args = QStringList() << "projects"
                                      << "--name-delimiter=||"
                                      << "-f"
@@ -62,11 +62,11 @@ QList<Project> GotimeControl::loadProjects(int max) {
     return result;
 }
 
-bool GotimeControl::isStarted(const Project &project) {
+bool TomControl::isStarted(const Project &project) {
     return project.isValid() && _activeProject.getID() == project.getID();
 }
 
-bool GotimeControl::startProject(const Project &project) {
+bool TomControl::startProject(const Project &project) {
     auto success = run(QStringList() << "start" << project.getID()).isSuccessful();
     if (success) {
         auto stopped = _activeProject;
@@ -85,7 +85,7 @@ bool GotimeControl::startProject(const Project &project) {
     return success;
 }
 
-bool GotimeControl::cancelActivity() {
+bool TomControl::cancelActivity() {
     _activeProject = Project();;
 
     const GotimeStatus &active = status();
@@ -98,7 +98,7 @@ bool GotimeControl::cancelActivity() {
     return success;
 }
 
-bool GotimeControl::stopActivity() {
+bool TomControl::stopActivity() {
     const GotimeStatus &current = status();
 
     _activeProject = Project();
@@ -110,7 +110,7 @@ bool GotimeControl::stopActivity() {
     return success;
 }
 
-GotimeStatus GotimeControl::status() {
+GotimeStatus TomControl::status() {
     // frameID, projectName, projectID, ...
     QStringList args = QStringList() << "status"
                                      << "--name-delimiter=||"
@@ -142,7 +142,7 @@ GotimeStatus GotimeControl::status() {
     return GotimeStatus(true, project, startTime);
 }
 
-QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubprojects) {
+QList<Frame *> TomControl::loadFrames(QString projectID, bool includeSubprojects) {
     QStringList args = QStringList() << "frames"
                                      << "-o" << "json"
                                      << "-p" << projectID
@@ -189,11 +189,11 @@ QList<Frame *> GotimeControl::loadFrames(QString projectID, bool includeSubproje
     return result;
 }
 
-bool GotimeControl::renameProject(QString id, QString newName) {
+bool TomControl::renameProject(QString id, QString newName) {
     return updateProjects(QStringList() << id, true, newName, false, "");
 }
 
-bool GotimeControl::renameTag(QString id, QString newName) {
+bool TomControl::renameTag(QString id, QString newName) {
     QStringList args;
     args << "rename" << "tag" << id << newName;
 
@@ -201,7 +201,7 @@ bool GotimeControl::renameTag(QString id, QString newName) {
     return status.isSuccessful();
 }
 
-bool GotimeControl::updateFrame(Frame *frame,
+bool TomControl::updateFrame(Frame *frame,
                                 bool updateStart, QDateTime start,
                                 bool updateEnd, QDateTime end,
                                 bool updateNotes,
@@ -209,7 +209,7 @@ bool GotimeControl::updateFrame(Frame *frame,
     return updateFrame(frame->id, frame->projectID, updateStart, std::move(start), updateEnd, std::move(end), updateNotes, std::move(notes));
 }
 
-bool GotimeControl::updateFrame(const QString &id, const QString &projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, const QString &notes) {
+bool TomControl::updateFrame(const QString &id, const QString &projectID, bool updateStart, QDateTime start, bool updateEnd, QDateTime end, bool updateNotes, const QString &notes) {
     QStringList args;
     args << "edit" << "frame" << id;
     if (updateStart) {
@@ -230,7 +230,7 @@ bool GotimeControl::updateFrame(const QString &id, const QString &projectID, boo
     return success;
 }
 
-bool GotimeControl::updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID) {
+bool TomControl::updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID) {
     if (ids.isEmpty() || (!updateName && !updateParent)) {
         return true;
     }
@@ -261,7 +261,7 @@ bool GotimeControl::updateProjects(const QStringList &ids, bool updateName, cons
     return success;
 }
 
-const ProjectsStatus GotimeControl::projectsStatus(const QString &overallID) {
+const ProjectsStatus TomControl::projectsStatus(const QString &overallID) {
     QString idList = "id,trackedDay,totalTrackedDay,trackedWeek,totalTrackedWeek,trackedMonth,totalTrackedMonth,trackedYear,totalTrackedYear,trackedAll,totalTrackedAll";
     const int expectedColumns = idList.count(',') + 1;
 
@@ -310,7 +310,7 @@ const ProjectsStatus GotimeControl::projectsStatus(const QString &overallID) {
     return ProjectsStatus(mapping);
 }
 
-CommandStatus GotimeControl::run(const QStringList &args) {
+CommandStatus TomControl::run(const QStringList &args) {
     qDebug() << "running" << _gotimePath << args;
 
     QProcess process(this);
@@ -330,7 +330,7 @@ CommandStatus GotimeControl::run(const QStringList &args) {
     return CommandStatus(output, errOutput, process.exitCode());
 }
 
-Project GotimeControl::createProject(const QString &parentID, const QString &name) {
+Project TomControl::createProject(const QString &parentID, const QString &name) {
     QStringList args;
     args << "create" << "project"
          << "--output" << "json"
@@ -362,7 +362,7 @@ Project GotimeControl::createProject(const QString &parentID, const QString &nam
     return Project();
 }
 
-bool GotimeControl::removeFrame(Frame frame) {
+bool TomControl::removeFrame(Frame frame) {
     QStringList args;
     args << "remove" << "frame" << frame.id;
 
@@ -373,7 +373,7 @@ bool GotimeControl::removeFrame(Frame frame) {
     return status.isSuccessful();
 }
 
-bool GotimeControl::importMacTimeTracker(const QString &filename) {
+bool TomControl::importMacTimeTracker(const QString &filename) {
     QStringList args;
     args << "import" << "macTimeTracker" << filename;
 
@@ -384,7 +384,7 @@ bool GotimeControl::importMacTimeTracker(const QString &filename) {
     return status.isSuccessful();
 }
 
-bool GotimeControl::importFanurioCSV(const QString &filename) {
+bool TomControl::importFanurioCSV(const QString &filename) {
     QStringList args;
     args << "import" << "fanurio" << filename;
 
@@ -395,7 +395,7 @@ bool GotimeControl::importFanurioCSV(const QString &filename) {
     return status.isSuccessful();
 }
 
-bool GotimeControl::importWatsonFrames(const QString &filename) {
+bool TomControl::importWatsonFrames(const QString &filename) {
     QStringList args;
     args << "import" << "watson" << filename;
 
@@ -406,7 +406,7 @@ bool GotimeControl::importWatsonFrames(const QString &filename) {
     return status.isSuccessful();
 }
 
-void GotimeControl::resetAll() {
+void TomControl::resetAll() {
     QStringList args;
     args << "remove" << "all" << "all";
 
@@ -416,10 +416,10 @@ void GotimeControl::resetAll() {
     }
 }
 
-QList<Project> GotimeControl::cachedProjects() const {
+QList<Project> TomControl::cachedProjects() const {
     return _cachedProjects.values();
 }
 
-const Project GotimeControl::cachedProject(const QString &id) const {
+const Project TomControl::cachedProject(const QString &id) const {
     return _cachedProjects.value(id);
 }

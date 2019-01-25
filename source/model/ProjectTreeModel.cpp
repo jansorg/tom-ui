@@ -3,18 +3,18 @@
 #include <QtGui/QBrush>
 #include <icons.h>
 
-#include "gotime/GotimeControl.h"
+#include "gotime/TomControl.h"
 #include "ProjectTreeModel.h"
 #include "UserRoles.h"
 
-ProjectTreeModel::ProjectTreeModel(GotimeControl *control, ProjectStatusManager *statusManager, QObject *parent) : QAbstractItemModel(parent),
+ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, QObject *parent) : QAbstractItemModel(parent),
                                                                                                                    _control(control),
                                                                                                                    _statusManager(statusManager) {
     _headers = QStringList() << "Name" << "Today" << "This week" << "This month" << "Total";
     loadProjects();
 
-    connect(_control, &GotimeControl::projectCreated, this, &ProjectTreeModel::addProject);
-    connect(_control, &GotimeControl::dataResetNeeded, this, &ProjectTreeModel::loadProjects);
+    connect(_control, &TomControl::projectCreated, this, &ProjectTreeModel::addProject);
+    connect(_control, &TomControl::dataResetNeeded, this, &ProjectTreeModel::loadProjects);
 }
 
 ProjectTreeModel::~ProjectTreeModel() {

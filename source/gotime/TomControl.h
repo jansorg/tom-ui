@@ -10,11 +10,11 @@
 #include "GotimeStatus.h"
 #include "ProjectStatus.h"
 
-class GotimeControl : public QObject {
+class TomControl : public QObject {
 Q_OBJECT
 
 public:
-    explicit GotimeControl(QString gotimePath, bool bashScript, QObject *parent);
+    explicit TomControl(QString gotimePath, bool bashScript, QObject *parent);
 
     /**
      * Create a new project.

@@ -4,7 +4,7 @@
 #include <QtCore/QArgument>
 #include <QtWidgets/QTableView>
 
-#include "gotime/GotimeControl.h"
+#include "gotime/TomControl.h"
 #include "data/Project.h"
 #include "model/FrameTableViewModel.h"
 
@@ -13,7 +13,7 @@ Q_OBJECT
 public:
     explicit FrameTableView(QWidget *parent);
 
-    void setup(GotimeControl *control);
+    void setup(TomControl *control);
 
 public slots:
 
@@ -24,7 +24,7 @@ private slots:
     void onCustomContextMenuRequested(const QPoint &pos);
 
 private:
-    GotimeControl *_control;
+    TomControl *_control;
     QSortFilterProxyModel *_sortedModel;
     FrameTableViewModel *_sourceModel;
 

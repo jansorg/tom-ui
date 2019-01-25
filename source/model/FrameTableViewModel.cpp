@@ -6,11 +6,11 @@
 const auto grayColorValue = QVariant(QColor(Qt::gray));
 const auto alignedRightVCenter = QVariant(Qt::AlignRight + Qt::AlignVCenter);
 
-FrameTableViewModel::FrameTableViewModel(GotimeControl *control, QObject *parent) : QAbstractTableModel(parent), _control(control) {
+FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) : QAbstractTableModel(parent), _control(control) {
 
-    connect(_control, &GotimeControl::frameRemoved, this, &FrameTableViewModel::onFrameRemoved);
-    connect(_control, &GotimeControl::projectUpdated, this, &FrameTableViewModel::onProjectUpdated);
-    connect(_control, &GotimeControl::dataResetNeeded, [this] { this->loadFrames(Project()); });
+    connect(_control, &TomControl::frameRemoved, this, &FrameTableViewModel::onFrameRemoved);
+    connect(_control, &TomControl::projectUpdated, this, &FrameTableViewModel::onProjectUpdated);
+    connect(_control, &TomControl::dataResetNeeded, [this] { this->loadFrames(Project()); });
 }
 
 FrameTableViewModel::~FrameTableViewModel() {

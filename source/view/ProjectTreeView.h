@@ -10,7 +10,7 @@
 
 #include "model/ProjectTreeItem.h"
 #include "model/ProjectTreeModel.h"
-#include "gotime/GotimeControl.h"
+#include "gotime/TomControl.h"
 
 class ProjectTreeView : public QTreeView {
 Q_OBJECT
@@ -22,7 +22,7 @@ signals:
 public:
     explicit ProjectTreeView(QWidget *parent);
 
-    void setup(GotimeControl *control, ProjectStatusManager *statusManager);
+    void setup(TomControl *control, ProjectStatusManager *statusManager);
 
 public slots:
 
@@ -45,7 +45,7 @@ private:
 
 private:
 
-    GotimeControl *_control;
+    TomControl *_control;
     ProjectStatusManager *_statusManager;
 
     ProjectTreeModel *_sourceModel;

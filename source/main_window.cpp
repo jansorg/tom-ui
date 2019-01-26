@@ -9,6 +9,7 @@
 #include "version.h"
 #include "icons.h"
 #include "main_window.h"
+#include "ActionUtils.h"
 
 MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(
         parent), _control(control) {
@@ -28,6 +29,7 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 
     ui.actionProjectStart->setIcon(Icons::projectStart());
     ui.actionProjectStop->setIcon(Icons::projectStop());
+    ui.actionProjectRemove->setIcon(Icons::projectRemove());
 
     ui.actionTimeEntryRemove->setIcon(Icons::timeEntryDelete());
 
@@ -114,6 +116,7 @@ void MainWindow::resetAllData() {
 
 void MainWindow::onProjectSelectionChange(const Project &current) {
     ui.actionProjectStart->setEnabled(current.isValid());
+    ui.actionProjectRemove->setEnabled(current.isValid());
 }
 
 void MainWindow::onProjectStatusChange() {
@@ -133,6 +136,10 @@ void MainWindow::stopCurrentProject() {
 
 void MainWindow::deleteSelectedTimeEntries() {
     ui.frameView->deleteSelectedEntries();
+}
+
+void MainWindow::deleteCurrentProject() {
+    ActionUtils::removeProject(_control, ui.projectTree->getCurrentProject(), this);
 }
 
 void MainWindow::onEntrySelectionChange(const QItemSelection &selection) {

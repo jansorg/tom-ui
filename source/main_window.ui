@@ -148,6 +148,8 @@
     </property>
     <addaction name="actionProjectStart"/>
     <addaction name="actionProjectStop"/>
+    <addaction name="separator"/>
+    <addaction name="actionProjectRemove"/>
    </widget>
    <widget class="QMenu" name="menuTracked_Items">
     <property name="title">
@@ -291,6 +293,11 @@
    </property>
    <property name="shortcut">
     <string comment="Remove the currently selected time entries">Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionProjectRemove">
+   <property name="text">
+    <string>&amp;Delete project...</string>
    </property>
   </action>
  </widget>
@@ -486,6 +493,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionProjectRemove</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>deleteCurrentProject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>385</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshData()</slot>
@@ -498,5 +521,6 @@
   <slot>startCurrentProject()</slot>
   <slot>stopCurrentProject()</slot>
   <slot>deleteSelectedTimeEntries()</slot>
+  <slot>deleteCurrentProject()</slot>
  </slots>
 </ui>

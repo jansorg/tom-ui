@@ -4,6 +4,7 @@
 #include <QtWidgets/QInputDialog>
 #include <dialogs/CommonDialogs.h>
 #include <model/ProjectTreeSortFilterModel.h>
+#include <ActionUtils.h>
 
 #include "ProjectTreeView.h"
 
@@ -71,8 +72,10 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
 
     QAction *stop = menu.addAction(Icons::stopTimer(), "Stop", [this] { _control->stopActivity(); });
     stop->setIconVisibleInMenu(true);
+
     menu.addSeparator();
     menu.addAction(Icons::projectNew(), "Create new subproject", [this, project] { createNewProject(project); })->setIconVisibleInMenu(true);
+    menu.addAction(Icons::projectRemove(), "Delete project...", [this, project] { ActionUtils::removeProject(_control, project, this); })->setIconVisibleInMenu(true);
 
     bool started = _control->isStarted(project);
     start->setEnabled(!started);

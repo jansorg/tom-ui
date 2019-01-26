@@ -37,6 +37,7 @@ private slots:
 
     void startCurrentProject();
     void stopCurrentProject();
+    void deleteCurrentProject();
 
     void deleteSelectedTimeEntries();
 

@@ -32,6 +32,7 @@ ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *st
     addProjectItems(_projects, _visibleRootItem);
 
     connect(_control, &TomControl::projectCreated, this, &ProjectTreeModel::addProject);
+    connect(_control, &TomControl::projectRemoved, this, &ProjectTreeModel::removeProject);
     connect(_control, &TomControl::dataResetNeeded, this, &ProjectTreeModel::loadProjects);
 }
 
@@ -284,7 +285,7 @@ void ProjectTreeModel::addProject(const Project &project) {
     }
 
     const QModelIndex &row = getProjectRow(project.getID());
-    if (row.isValid()) {
+    if (!row.isValid()) {
         return;
     }
 
@@ -303,6 +304,19 @@ void ProjectTreeModel::addProject(const Project &project) {
     beginInsertRows(parentRow, parentItem->childCount(), parentItem->childCount());
     parentItem->appendChild(new ProjectTreeItem(project, _statusManager, parentItem));
     endInsertRows();
+}
+
+void ProjectTreeModel::removeProject(const Project &project) {
+    if (!project.isValid()) {
+        return;
+    }
+
+    const QModelIndex &row = getProjectRow(project.getID());
+    if (!row.isValid()) {
+        return;
+    }
+
+    removeRow(row.row(), row.parent());
 }
 
 Qt::DropActions ProjectTreeModel::supportedDropActions() const {

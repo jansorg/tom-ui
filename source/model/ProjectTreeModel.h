@@ -67,6 +67,7 @@ public slots:
 private slots:
 
     void addProject(const Project &project);
+    void removeProject(const Project &project);
 
 private:
     TomControl *_control;

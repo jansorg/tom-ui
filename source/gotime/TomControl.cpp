@@ -399,6 +399,17 @@ Project TomControl::createProject(const QString &parentID, const QString &name) 
     return Project();
 }
 
+bool TomControl::removeProject(const Project& project) {
+    QStringList args;
+    args << "remove" << "project" << project.getID();
+
+    auto status = run(args);
+    if (status.isSuccessful()) {
+        emit projectRemoved(project);
+    }
+    return status.isSuccessful();
+}
+
 bool TomControl::removeFrames(const QList<Frame*> &frames) {
     QStringList ids;
     QStringList projectIDs;

@@ -54,6 +54,10 @@ namespace Icons {
         return icon("document-new");
     }
 
+    inline QIcon projectRemove() {
+        return icon("edit-delete");
+    }
+
     inline const QIcon projectStart() {
         return icon("timer-start");
     }

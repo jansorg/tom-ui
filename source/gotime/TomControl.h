@@ -41,6 +41,8 @@ public:
 
     bool renameProject(const QString &id, const QString &newName);
 
+    bool removeProject(const Project& project);
+
     bool renameTag(const QString &id, const QString &newName);
 
     bool updateFrame(const QList<Frame *> &frames, bool updateStart, const QDateTime &start, bool updateEnd,
@@ -76,6 +78,8 @@ signals:
     void projectUpdated(const Project &project);
 
     void projectCreated(const Project &project);
+
+    void projectRemoved(const Project &project);
 
     void framesUpdated(const QStringList &id, const QString &projectID);
 

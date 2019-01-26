@@ -23,10 +23,13 @@ void FrameTableView::setup(TomControl *control) {
     _sortedModel->setSourceModel(_sourceModel);
     setModel(_sortedModel);
 
+    horizontalHeader()->setResizeContentsPrecision(1);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_START_DATE, QHeaderView::ResizeToContents);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_START, QHeaderView::ResizeToContents);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_END, QHeaderView::ResizeToContents);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_DURATION, QHeaderView::ResizeToContents);
+//    horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_SUBPROJECT, QHeaderView::ResizeToContents);
+    setColumnWidth(FrameTableViewModel::COL_SUBPROJECT, 22 * fontMetrics().averageCharWidth());
 
     sortByColumn(0, Qt::DescendingOrder);
 
@@ -46,15 +49,68 @@ void FrameTableView::onCustomContextMenuRequested(const QPoint &pos) {
 
 void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
     QMenu menu;
-    QAction *stop = menu.addAction(Icons::stopTimer(), "Stop", [this, frame] { _control->updateFrame(QList<Frame*>() << frame, false, QDateTime(), true, QDateTime::currentDateTime(), false, "", false, ""); });
+    QAction *stop = menu.addAction(Icons::stopTimer(), "Stop", [this, frame] {
+        _control->updateFrame(QList<Frame *>() << frame,
+                              false, QDateTime(),
+                              true, QDateTime::currentDateTime(),
+                              false, "",
+                              false, "");
+    });
     stop->setEnabled(frame->isRunning());
 
     menu.addSeparator();
-    menu.addAction(Icons::removeFrame(), "Delete", [this, frame] { qDebug() << "removing frame" << frame->id; _control->removeFrame(*frame); });
+    menu.addAction(Icons::removeFrame(), "Delete", this, &FrameTableView::deleteSelectedEntries);
 
     menu.exec(globalPos);
 }
 
 void FrameTableView::onProjectSelected(const Project &project) {
     _sourceModel->loadFrames(project);
+}
+
+void FrameTableView::deleteSelectedEntries() {
+    const QModelIndexList &rows = selectionModel()->selectedRows(FrameTableViewModel::FIRST_COL);
+    if (rows.isEmpty()) {
+        return;
+    }
+
+    QList<Frame *> frames;
+    for (auto row: rows) {
+        auto sourceRow = _sortedModel->mapToSource(row);
+        Frame *frame = _sourceModel->frameAt(sourceRow);
+        if (frame) {
+            frames << frame;
+        }
+    }
+
+    if (!frames.isEmpty()) {
+        _control->removeFrames(frames);
+    }
+}
+
+int FrameTableView::sizeHintForColumn(int column) const {
+    const QFontMetrics &metrics = fontMetrics();
+
+    int padding = 25;
+    int result = 0;
+
+    if (column == FrameTableViewModel::COL_START_DATE) {
+        QString sample = QDateTime::currentDateTime().date().toString(Qt::SystemLocaleShortDate);
+        result = metrics.width(sample);
+    } else if (column == FrameTableViewModel::COL_START) {
+        QString sample = QDateTime::currentDateTime().time().toString(Qt::SystemLocaleShortDate);
+        result = metrics.width(sample);
+    } else if (column == FrameTableViewModel::COL_END) {
+        QString sample = QDateTime::currentDateTime().toString(Qt::SystemLocaleShortDate);
+        result = metrics.width(sample);
+    } else if (column == FrameTableViewModel::COL_DURATION) {
+        const QString &sample = Timespan(1000 * 60 * 60 * 10).format();
+        result = metrics.width(sample);
+    } else if (column == FrameTableViewModel::COL_SUBPROJECT) {
+        result = metrics.averageCharWidth() * 20;
+    } else {
+        result = QTableView::sizeHintForColumn(column);
+    }
+
+    return result + padding;
 }

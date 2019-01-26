@@ -14,29 +14,22 @@ StartProjectAction::StartProjectAction(const Project &project, TomControl *contr
         projectStopped(project);
     }
 
-    connect(this, SIGNAL(triggered()),
-            this, SLOT(toggleProjectStatus()));
+    connect(this, SIGNAL(triggered()), this, SLOT(toggleProjectStatus()));
 
-    connect(control, SIGNAL(projectStarted(
-                                    const Project &)),
-            this, SLOT(projectStarted(
-                               const Project &)));
+    connect(control, SIGNAL(projectStarted(const Project &)), this, SLOT(projectStarted(const Project &)));
 
-    connect(control, SIGNAL(projectStopped(
-                                    const Project &)),
-            this, SLOT(projectStopped(
-                               const Project &)));
+    connect(control, SIGNAL(projectStopped(const Project &)), this, SLOT(projectStopped(const Project &)));
 }
 
 void StartProjectAction::projectStarted(const Project &project) {
-    if (project.getID() == _project.getID()) {
+    if (project == _project) {
         this->setText(project.getName());
         this->setIcon(Icons::stopTimer());
     }
 }
 
 void StartProjectAction::projectStopped(const Project &project) {
-    if (project.getID() == _project.getID()) {
+    if (project == _project) {
         this->setText(project.getName());
         this->setIcon(Icons::startTimer());
     }

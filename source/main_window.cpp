@@ -10,7 +10,8 @@
 #include "icons.h"
 #include "main_window.h"
 
-MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(parent), _control(control) {
+MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(
+        parent), _control(control) {
 //#ifndef Q_OS_MAC
     setWindowIcon(Icons::Logo());
 //#endif
@@ -26,7 +27,16 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     ui.actionProjectStart->setIcon(Icons::projectStart());
     ui.actionProjectStop->setIcon(Icons::projectStop());
 
+    ui.actionTimeEntryRemove->setIcon(Icons::timeEntryDelete());
+
     connect(ui.projectTree, &ProjectTreeView::projectSelected, ui.frameView, &FrameTableView::onProjectSelected);
+    connect(ui.projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::onProjectSelectionChange);
+
+    connect(ui.frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onEntrySelectionChange);
+
+    connect(_control, &TomControl::projectStarted, this, &MainWindow::onProjectStatusChange);
+    connect(_control, &TomControl::projectStopped, this, &MainWindow::onProjectStatusChange);
+
     connect(ui.actionQuit, &QAction::triggered, &QCoreApplication::quit);
 
     createActions();
@@ -35,6 +45,8 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 
 void MainWindow::refreshData() {
     ui.projectTree->refresh();
+    onProjectStatusChange();
+    onEntrySelectionChange(QItemSelection());
 }
 
 MainWindow::~MainWindow() = default;
@@ -44,7 +56,8 @@ void MainWindow::createActions() {
 }
 
 void MainWindow::helpAbout() {
-    QString about = QString("Tom is a simple UI for the <a href=\"https://github.com/jansorg/tom-ui\">tom time tracker</a> command line application.<br><br>Version: %1")
+    QString about = QString(
+            "Tom is a simple UI for the <a href=\"https://github.com/jansorg/tom-ui\">tom time tracker</a> command line application.<br><br>Version: %1")
             .arg(PROJECT_VERSION);
 
     QMessageBox::about(this, "About Tom", about);
@@ -55,7 +68,10 @@ void MainWindow::createProject() {
 }
 
 void MainWindow::importMacTimeTracker() {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Mac Time Tracker CSV export"), "", tr("CSV Files (*.csv)"));
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Select Mac Time Tracker CSV export"),
+                                                    "",
+                                                    tr("CSV Files (*.csv)"));
 
     if (!fileName.isEmpty()) {
         _control->importMacTimeTracker(fileName);
@@ -63,7 +79,10 @@ void MainWindow::importMacTimeTracker() {
 }
 
 void MainWindow::importFanurio() {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Fanurio CSV export"), "", tr("CSV Files (*.csv)"));
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Select Fanurio CSV export"),
+                                                    "",
+                                                    tr("CSV Files (*.csv)"));
 
     if (!fileName.isEmpty()) {
         _control->importFanurioCSV(fileName);
@@ -71,7 +90,10 @@ void MainWindow::importFanurio() {
 }
 
 void MainWindow::importWatson() {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Select Watson frames file"), "", tr("Watson frames files (frames)"));
+    QString fileName = QFileDialog::getOpenFileName(this,
+                                                    tr("Select Watson frames file"),
+                                                    "",
+                                                    tr("Watson frames files (frames)"));
 
     if (!fileName.isEmpty()) {
         _control->importWatsonFrames(fileName);
@@ -79,8 +101,38 @@ void MainWindow::importWatson() {
 }
 
 void MainWindow::resetAllData() {
-    QMessageBox::StandardButton reply = QMessageBox::question(this, tr("Reset data"), tr("Do you want to remove all projects, tags and frames?"), QMessageBox::Yes | QMessageBox::No);
+    QMessageBox::StandardButton reply = QMessageBox::question(this,
+                                                              tr("Reset data"),
+                                                              tr("Do you want to remove all projects, tags and frames?"),
+                                                              QMessageBox::Yes | QMessageBox::No);
     if (reply == QMessageBox::Yes) {
         _control->resetAll();
     }
+}
+
+void MainWindow::onProjectSelectionChange(const Project &current) {
+    ui.actionProjectStart->setEnabled(current.isValid());
+}
+
+void MainWindow::onProjectStatusChange() {
+    ui.actionProjectStop->setEnabled(_control->status().currentProject().isValid());
+}
+
+void MainWindow::startCurrentProject() {
+    const Project &project = ui.projectTree->getCurrentProject();
+    if (project.isValid()) {
+        _control->startProject(project);
+    }
+}
+
+void MainWindow::stopCurrentProject() {
+    _control->stopActivity();
+}
+
+void MainWindow::deleteSelectedTimeEntries() {
+    ui.frameView->deleteSelectedEntries();
+}
+
+void MainWindow::onEntrySelectionChange(const QItemSelection &selection) {
+    ui.actionTimeEntryRemove->setEnabled(!selection.isEmpty());
 }

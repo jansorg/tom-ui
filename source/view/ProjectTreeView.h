@@ -1,7 +1,3 @@
-//
-// Created by jansorg on 16.01.19.
-//
-
 #ifndef TOM_UI_PROJECTTREEVIEW_H
 #define TOM_UI_PROJECTTREEVIEW_H
 
@@ -23,6 +19,8 @@ public:
     explicit ProjectTreeView(QWidget *parent);
 
     void setup(TomControl *control, ProjectStatusManager *statusManager);
+
+    const Project getCurrentProject();
 
 public slots:
 

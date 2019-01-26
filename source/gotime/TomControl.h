@@ -49,7 +49,7 @@ public:
     bool updateFrame(const QStringList& ids, const QString&currentProjectID, bool updateStart, const QDateTime &start, bool updateEnd,
                      const QDateTime &end, bool updateNotes, const QString&notes, bool updateProject, const QString& projectID);
 
-    bool removeFrame(const Frame &frame);
+    bool removeFrames(const QList<Frame*> &frames);
 
     bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID);
 

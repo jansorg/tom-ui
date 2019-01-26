@@ -55,11 +55,15 @@ namespace Icons {
     }
 
     inline const QIcon projectStart() {
-        return themeIcon("chronometer-start");
+        return icon("timer-start");
     }
 
     inline const QIcon projectStop() {
-        return themeIcon("chronometer-pause");
+        return icon("timer-stop");
+    }
+
+    inline const QIcon timeEntryDelete() {
+        return icon("edit-delete");
     }
 
     inline const QIcon Logo() {

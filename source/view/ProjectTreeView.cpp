@@ -37,12 +37,18 @@ void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusMan
 
     connect(selectionModel(), &QItemSelectionModel::currentRowChanged, this, &ProjectTreeView::onCurrentChanged);
     connect(_control, &TomControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
-    connect(_statusManager, &ProjectStatusManager::projectsStatusChanged, this, &ProjectTreeView::projectsStatusChanged);
+    connect(_statusManager, &ProjectStatusManager::projectsStatusChanged, this,
+            &ProjectTreeView::projectsStatusChanged);
 }
 
 void ProjectTreeView::onCurrentChanged(const QModelIndex &index, const QModelIndex &) {
     auto sourceIndex = _sortModel->mapToSource(index);
-    emit projectSelected(_sourceModel->projectAtIndex(sourceIndex));
+    if (!sourceIndex.isValid()) {
+        emit projectSelected(Project());
+    } else {
+        emit projectSelected(_sourceModel->projectAtIndex(sourceIndex));
+    }
+
 }
 
 void ProjectTreeView::onCustomContextMenuRequested(const QPoint &pos) {
@@ -60,7 +66,8 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
     const Project &project = item->getProject();
 
     QMenu menu;
-    QAction *start = menu.addAction(Icons::startTimer(), "Start", [this, project] { _control->startProject(project); });
+    QAction *start = menu.addAction(Icons::startTimer(), "Start",
+                                    [this, project] { _control->startProject(project); });
     QAction *stop = menu.addAction(Icons::stopTimer(), "Stop", [this] { _control->stopActivity(); });
     menu.addSeparator();
     menu.addAction(Icons::newProject(), "Create new subproject", [this, project] { createNewProject(project); });
@@ -88,4 +95,19 @@ void ProjectTreeView::projectsStatusChanged(const QStringList &projectIDs) {
 
 void ProjectTreeView::createNewProject(const Project &parentProject) {
     CommonDialogs::createProject(parentProject, _control, this);
+}
+
+const Project ProjectTreeView::getCurrentProject() {
+    const QModelIndex &current = currentIndex();
+    if (!current.isValid()) {
+        return Project();
+    }
+    
+    const QModelIndex &sourceIndex = _sortModel->mapToSource(current);
+    ProjectTreeItem *item = _sourceModel->getItem(sourceIndex);
+    if (!item) {
+        return Project();
+    }
+
+    return item->getProject();
 }

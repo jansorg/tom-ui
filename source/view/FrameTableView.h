@@ -19,6 +19,11 @@ public slots:
 
     void onProjectSelected(const Project &project);
 
+    void deleteSelectedEntries();
+
+protected:
+    int sizeHintForColumn(int column) const override;
+
 private slots:
 
     void onCustomContextMenuRequested(const QPoint &pos);
@@ -30,6 +35,5 @@ private:
 
     void showContextMenu(Frame *frame, QPoint globalPos);
 };
-
 
 #endif //TOM_UI_FRAMETABLEVIEW_H

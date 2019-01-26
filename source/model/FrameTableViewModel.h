@@ -35,9 +35,10 @@ public:
     static const int COL_END = 2;
     static const int COL_DURATION = 3;
     static const int COL_TAGS = 4;
-    static const int COL_PROJECT = 5;
+    static const int COL_SUBPROJECT = 5;
     static const int COL_NOTES = 6;
 
+    static const int FIRST_COL = 0;
     static const int COLUMN_COUNT = COL_NOTES + 1;
 
 private slots:

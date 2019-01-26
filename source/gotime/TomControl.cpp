@@ -399,13 +399,21 @@ Project TomControl::createProject(const QString &parentID, const QString &name) 
     return Project();
 }
 
-bool TomControl::removeFrame(const Frame &frame) {
+bool TomControl::removeFrames(const QList<Frame*> &frames) {
+    QStringList ids;
+    QStringList projectIDs;
+    for (auto frame : frames) {
+        ids << frame->id;
+        projectIDs << frame->projectID;
+    }
+
     QStringList args;
-    args << "remove" << "frame" << frame.id;
+    args << "remove" << "frame" << ids;
 
     const CommandStatus &status = run(args);
     if (status.isSuccessful()) {
-        emit framesRemoved(QStringList() << frame.id, frame.projectID);
+        //fixme allow more than one project
+        emit framesRemoved(ids, projectIDs.first());
     }
     return status.isSuccessful();
 }

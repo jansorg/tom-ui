@@ -6,7 +6,8 @@
 const auto grayColorValue = QVariant(QColor(Qt::gray));
 const auto alignedRightVCenter = QVariant(Qt::AlignRight + Qt::AlignVCenter);
 
-FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) : QAbstractTableModel(parent), _control(control) {
+FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) : QAbstractTableModel(parent),
+                                                                                 _control(control) {
 
     connect(_control, &TomControl::framesRemoved, this, &FrameTableViewModel::onFramesRemoved);
     connect(_control, &TomControl::framesMoved, this, &FrameTableViewModel::onFramesMoved);
@@ -48,17 +49,19 @@ void FrameTableViewModel::onFramesRemoved(const QStringList &frameIDs, const QSt
     }
 }
 
-void FrameTableViewModel::onFramesMoved(const QStringList &frameIDs, const QString &oldProjectID, const QString &newProjectID) {
+void FrameTableViewModel::onFramesMoved(const QStringList &frameIDs, const QString &oldProjectID,
+                                        const QString &newProjectID) {
     qDebug() << "frames moved from" << oldProjectID << "to" << newProjectID;
 
     // don't remove from list if old and new project are in the hierarchy of the currently shown project
     // we have to update the project column, though
-    if (_control->isChildProject(oldProjectID, _currentProject.getID()) && _control->isChildProject(newProjectID, _currentProject.getID())) {
+    if (_control->isChildProject(oldProjectID, _currentProject.getID()) &&
+        _control->isChildProject(newProjectID, _currentProject.getID())) {
         for (const auto &id : frameIDs) {
             int row = findRow(id);
             if (row >= 0) {
                 _frames.at(row)->projectID = newProjectID;
-                emit dataChanged(createIndex(row, COL_PROJECT), createIndex(row, COL_PROJECT));
+                emit dataChanged(createIndex(row, COL_SUBPROJECT), createIndex(row, COL_SUBPROJECT));
             }
         }
     } else {
@@ -113,8 +116,8 @@ QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientatio
                 return "Duration";
             case COL_TAGS:
                 return "Tags";
-            case COL_PROJECT:
-                return "Project";
+            case COL_SUBPROJECT:
+                return "Subproject";
             case COL_NOTES:
                 return "Notes";
             default:
@@ -164,9 +167,15 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
                 return frame->getDuration().format();
             case COL_TAGS:
                 return frame->tags;
-            case COL_PROJECT:
+            case COL_SUBPROJECT: {
                 //remove prefix of current project?
-                return _control->cachedProject(frame->projectID).getName();
+                const QString &parentName = _currentProject.getName();
+                QString name = _control->cachedProject(frame->projectID).getName();
+                if (parentName == name) {
+                    return "";
+                }
+                return name.remove(parentName + "/");
+            }
             case COL_NOTES:
                 return frame->notes;
             default:
@@ -195,11 +204,6 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
         if (index.column() == COL_DURATION) {
             Frame *frame = _frames.at(index.row());
             if (!frame->stopTime.isValid()) {
-                return grayColorValue;
-            }
-        } else if (index.column() == COL_PROJECT) {
-            Frame *frame = _frames.at(index.row());
-            if (frame->projectID == _currentProject.getID()) {
                 return grayColorValue;
             }
         }
@@ -238,7 +242,8 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
 }
 
 Qt::ItemFlags FrameTableViewModel::flags(const QModelIndex &index) const {
-    if (index.isValid() && (index.column() != COL_DURATION && index.column() != COL_TAGS && index.column() != COL_PROJECT)) {
+    if (index.isValid() &&
+        (index.column() != COL_DURATION && index.column() != COL_TAGS && index.column() != COL_SUBPROJECT)) {
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
     }
 
@@ -264,16 +269,19 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
     switch (col) {
         case COL_START: {
             startTime = value.toDateTime();
-            ok = _control->updateFrame(QList<Frame *>() << frame, true, startTime, false, QDateTime(), false, "", false, "");
+            ok = _control->updateFrame(QList<Frame *>() << frame, true, startTime, false, QDateTime(), false, "", false,
+                                       "");
             break;
         }
         case COL_END:
             endTime = value.toDateTime();
-            ok = _control->updateFrame(QList<Frame *>() << frame, false, QDateTime(), true, endTime, false, "", false, "");
+            ok = _control->updateFrame(QList<Frame *>() << frame, false, QDateTime(), true, endTime, false, "", false,
+                                       "");
             break;
         case COL_NOTES:
             notes = value.toString();
-            ok = _control->updateFrame(QList<Frame *>() << frame, false, QDateTime(), false, QDateTime(), true, notes, false, "");
+            ok = _control->updateFrame(QList<Frame *>() << frame, false, QDateTime(), false, QDateTime(), true, notes,
+                                       false, "");
             break;
         default:
             ok = false;

@@ -67,6 +67,8 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
     QMenu menu;
     QAction *start = menu.addAction(Icons::startTimer(), "Start",
                                     [this, project] { _control->startProject(project); });
+    start->setIconVisibleInMenu(true);
+
     QAction *stop = menu.addAction(Icons::stopTimer(), "Stop", [this] { _control->stopActivity(); });
     stop->setIconVisibleInMenu(true);
     menu.addSeparator();

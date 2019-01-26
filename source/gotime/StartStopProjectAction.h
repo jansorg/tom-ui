@@ -12,12 +12,6 @@ Q_OBJECT
 public:
     explicit StartProjectAction(const Project &project, TomControl *control, QObject *parent);
 
-    const Project &getProject();
-
-private slots:
-    void projectStarted(const Project &project);
-    void projectStopped(const Project &project);
-
 private slots:
     void toggleProjectStatus();
 

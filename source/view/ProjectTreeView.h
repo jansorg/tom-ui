@@ -43,11 +43,11 @@ private:
 
 private:
 
-    TomControl *_control;
-    ProjectStatusManager *_statusManager;
+    TomControl *_control{};
+    ProjectStatusManager *_statusManager{};
 
-    ProjectTreeModel *_sourceModel;
-    QSortFilterProxyModel *_sortModel;
+    ProjectTreeModel *_sourceModel{};
+    QSortFilterProxyModel *_sortModel{};
 };
 
 

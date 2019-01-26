@@ -20,6 +20,8 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     ui.projectTree->setup(control, statusManager);
     ui.frameView->setup(control);
 
+    ui.actionCreateProject->setIcon(Icons::projectNew());
+
     ui.actionImportMacTimeTracker->setIcon(Icons::importData());
     ui.actionImportFanurio->setIcon(Icons::importData());
     ui.actionImportWatson->setIcon(Icons::importData());

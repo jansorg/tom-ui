@@ -19,6 +19,7 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow) : Q
 
     _stopTaskAction = new QAction("Stop active project...");
     _stopTaskAction->setToolTip("Stop the current project and record data.");
+    _stopTaskAction->setIconVisibleInMenu(true);
     connect(_stopTaskAction, SIGNAL(triggered()), control, SLOT(stopActivity()));
     _menu->addAction(_stopTaskAction);
 
@@ -26,7 +27,9 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow) : Q
 
     _separatorAction = _menu->addSeparator();
     _separatorAction->setText("Actions");
+
     QAction *showWindowAction = new QAction("&Show window", this);
+    showWindowAction->setIconVisibleInMenu(true);
     connect(showWindowAction, &QAction::triggered, mainWindow, &QMainWindow::show);
     _menu->addAction(showWindowAction);
 

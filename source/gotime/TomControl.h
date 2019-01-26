@@ -10,6 +10,10 @@
 #include "GotimeStatus.h"
 #include "ProjectStatus.h"
 
+enum TimeRoundingMode {
+    NONE, UP, NEAREST, DOWN
+};
+
 class TomControl : public QObject {
 Q_OBJECT
 
@@ -64,6 +68,8 @@ public:
     void resetAll();
 
     bool isChildProject(const QString &id, const QString &parentID);
+
+    QString htmlReport(QStringList projectIDs, QDate start, QDate end, TimeRoundingMode frameRoundingMode, int frameRoundingMinutes, QStringList splits, QString templateID);
 
 signals:
 

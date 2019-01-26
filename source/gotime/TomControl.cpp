@@ -7,8 +7,8 @@
 #include "TomControl.h"
 
 TomControl::TomControl(QString gotimePath, bool bashScript, QObject *parent) : QObject(parent),
-                                                                                     _gotimePath(std::move(gotimePath)),
-                                                                                     _bashScript(bashScript) {
+                                                                               _gotimePath(std::move(gotimePath)),
+                                                                               _bashScript(bashScript) {
 
     // updates our project cache
     loadProjects();
@@ -224,7 +224,8 @@ bool TomControl::updateFrame(const QList<Frame *> &frames,
         frameIDs << frame->id;
     }
 
-    return updateFrame(frameIDs, projectID, updateStart, start, updateEnd, end, updateNotes, notes, updateProject, projectID);
+    return updateFrame(frameIDs, projectID, updateStart, start, updateEnd, end, updateNotes, notes, updateProject,
+                       projectID);
 }
 
 bool TomControl::updateFrame(const QStringList &ids, const QString &currentProjectID,
@@ -399,7 +400,7 @@ Project TomControl::createProject(const QString &parentID, const QString &name) 
     return Project();
 }
 
-bool TomControl::removeProject(const Project& project) {
+bool TomControl::removeProject(const Project &project) {
     QStringList args;
     args << "remove" << "project" << project.getID();
 
@@ -410,7 +411,7 @@ bool TomControl::removeProject(const Project& project) {
     return status.isSuccessful();
 }
 
-bool TomControl::removeFrames(const QList<Frame*> &frames) {
+bool TomControl::removeFrames(const QList<Frame *> &frames) {
     QStringList ids;
     QStringList projectIDs;
     for (auto frame : frames) {
@@ -491,4 +492,50 @@ bool TomControl::isChildProject(const QString &id, const QString &parentID) {
         }
     }
     return false;
+}
+
+QString TomControl::htmlReport(QStringList projectIDs,
+                               QDate start, QDate end,
+                               TimeRoundingMode frameRoundingMode, int frameRoundingMinutes,
+                               QStringList splits, QString templateID) {
+    QStringList args;
+    args << "report";
+    args << "--split" << splits.join(",");
+
+    if (!projectIDs.isEmpty()) {
+        args << "--project" << projectIDs;
+    }
+
+    if (!templateID.isEmpty()) {
+        args << "--template" << templateID;
+    }
+
+    if (start.isValid() && !start.isNull()) {
+        args << "--from" << QDateTime(start).toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+    }
+
+    if (end.isValid() && !end.isNull()) {
+        args << "--to" << QDateTime(end).toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+    }
+
+    switch (frameRoundingMode){
+        case NONE:
+            break;
+        case NEAREST:
+            args << "--round-frames" << "nearest";
+            break;
+        case UP:
+            args << "--round-frames" << "up";
+            break;
+        case DOWN:
+            break;
+    }
+
+    if (frameRoundingMode != NONE) {
+        args << "--round-frames-to" << QString("%1m").arg(frameRoundingMinutes);
+    }
+
+    const auto &status = run(args);
+
+    return status.stdoutContent;
 }

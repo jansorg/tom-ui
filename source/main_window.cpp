@@ -5,6 +5,7 @@
 #include <dialogs/CommonDialogs.h>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QFileDialog>
+#include <source/report/ProjectReportDialog.h>
 
 #include "version.h"
 #include "icons.h"
@@ -36,7 +37,8 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     connect(ui.projectTree, &ProjectTreeView::projectSelected, ui.frameView, &FrameTableView::onProjectSelected);
     connect(ui.projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::onProjectSelectionChange);
 
-    connect(ui.frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onEntrySelectionChange);
+    connect(ui.frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this,
+            &MainWindow::onEntrySelectionChange);
 
     connect(_control, &TomControl::projectStarted, this, &MainWindow::onProjectStatusChange);
     connect(_control, &TomControl::projectStopped, this, &MainWindow::onProjectStatusChange);
@@ -144,4 +146,10 @@ void MainWindow::deleteCurrentProject() {
 
 void MainWindow::onEntrySelectionChange(const QItemSelection &selection) {
     ui.actionTimeEntryRemove->setEnabled(!selection.isEmpty());
+}
+
+void MainWindow::createReport() {
+//    QStringList &ids = QStringList() << ui.projectTree->getCurrentProject().getID();
+    ProjectReportDialog *dialog = new ProjectReportDialog(QList<Project>(), _control, this);
+    dialog->show();
 }

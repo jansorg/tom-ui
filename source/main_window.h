@@ -36,12 +36,17 @@ private slots:
     void importWatson();
 
     void startCurrentProject();
+
     void stopCurrentProject();
+
     void deleteCurrentProject();
 
     void deleteSelectedTimeEntries();
 
+    void createReport();
+
     void onProjectSelectionChange(const Project &);
+
     void onProjectStatusChange();
 
     void onEntrySelectionChange(const QItemSelection &);

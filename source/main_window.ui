@@ -157,10 +157,17 @@
     </property>
     <addaction name="actionTimeEntryRemove"/>
    </widget>
+   <widget class="QMenu" name="menuReports">
+    <property name="title">
+     <string>&amp;Reports</string>
+    </property>
+    <addaction name="actionReportCreate"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuProject"/>
    <addaction name="menuTracked_Items"/>
    <addaction name="menuImport"/>
+   <addaction name="menuReports"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
@@ -298,6 +305,11 @@
   <action name="actionProjectRemove">
    <property name="text">
     <string>&amp;Delete project...</string>
+   </property>
+  </action>
+  <action name="actionReportCreate">
+   <property name="text">
+    <string>&amp;Create report...</string>
    </property>
   </action>
  </widget>
@@ -509,6 +521,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionReportCreate</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>createReport()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>385</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshData()</slot>
@@ -522,5 +550,6 @@
   <slot>stopCurrentProject()</slot>
   <slot>deleteSelectedTimeEntries()</slot>
   <slot>deleteCurrentProject()</slot>
+  <slot>createReport()</slot>
  </slots>
 </ui>

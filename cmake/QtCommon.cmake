@@ -75,6 +75,7 @@ macro(init_qt)
 set(CMAKE_AUTOMOC ON) # For meta object compiler
 set(CMAKE_AUTORCC ON) # Resource files
 set(CMAKE_AUTOUIC ON) # UI files
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endmacro()
 
 init_os_bundle()

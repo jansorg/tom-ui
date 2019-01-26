@@ -42,16 +42,16 @@ namespace Icons {
         return icon("timer-stop");
     }
 
-    inline QIcon newProject() {
-        return themeIcon("list-add");
-    }
-
     inline const QIcon removeFrame() {
         return themeIcon("list-remove");
     }
 
     inline const QIcon importData() {
         return themeIcon("document-import");
+    }
+
+    inline QIcon projectNew() {
+        return icon("document-new");
     }
 
     inline const QIcon projectStart() {

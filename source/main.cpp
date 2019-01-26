@@ -19,6 +19,10 @@ int main(int argc, char *argv[]) {
 
     QApplication::setQuitOnLastWindowClosed(false);
     QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    #ifdef Q_OS_MAC
+    QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
+    #endif
+
     QApplication app(argc, argv);
 
     #ifdef Q_OS_MAC

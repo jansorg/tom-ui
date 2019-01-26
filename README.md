@@ -27,3 +27,8 @@ To be decided, probably GPL.
 - List of theme icons: https://specifications.freedesktop.org/icon-naming-spec/icon-naming-spec-latest.html
 - cmake:
     - OSX: https://cmake.org/cmake/help/latest/prop_tgt/MACOSX_BUNDLE_INFO_PLIST.html#prop_tgt:MACOSX_BUNDLE_INFO_PLIST
+
+# License
+
+Included from 3rd party:
+- images/icons/document-new.svg: Emerald icon theme

@@ -28,8 +28,9 @@ void FrameTableView::setup(TomControl *control) {
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_START, QHeaderView::ResizeToContents);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_END, QHeaderView::ResizeToContents);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_DURATION, QHeaderView::ResizeToContents);
-//    horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_SUBPROJECT, QHeaderView::ResizeToContents);
-    setColumnWidth(FrameTableViewModel::COL_SUBPROJECT, 22 * fontMetrics().averageCharWidth());
+
+    // horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_SUBPROJECT, QHeaderView::ResizeToContents);
+    setColumnWidth(FrameTableViewModel::COL_SUBPROJECT, 17 * fontMetrics().averageCharWidth());
 
     sortByColumn(0, Qt::DescendingOrder);
 

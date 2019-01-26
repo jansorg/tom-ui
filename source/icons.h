@@ -66,6 +66,10 @@ namespace Icons {
         return icon("edit-delete");
     }
 
+    inline QIcon activeProject() {
+        return icon("project-active");
+    }
+
     inline const QIcon Logo() {
         return icon("logo64.png");
     }

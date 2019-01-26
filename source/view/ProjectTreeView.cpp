@@ -37,8 +37,7 @@ void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusMan
 
     connect(selectionModel(), &QItemSelectionModel::currentRowChanged, this, &ProjectTreeView::onCurrentChanged);
     connect(_control, &TomControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
-    connect(_statusManager, &ProjectStatusManager::projectsStatusChanged, this,
-            &ProjectTreeView::projectsStatusChanged);
+    connect(_statusManager, &ProjectStatusManager::projectsStatusChanged, this, &ProjectTreeView::projectsStatusChanged);
 }
 
 void ProjectTreeView::onCurrentChanged(const QModelIndex &index, const QModelIndex &) {
@@ -81,6 +80,8 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
 
 void ProjectTreeView::refresh() {
     _sourceModel->loadProjects();
+
+    expandToDepth(0);
 }
 
 void ProjectTreeView::projectUpdated(const Project &project) {

@@ -1,7 +1,10 @@
+#include <QtWidgets/QApplication>
+
 #include <QtGui/QColor>
 #include <QtGui/QFont>
 #include <QtGui/QBrush>
 #include <QtGui/QList>
+#include <QtGui/QPalette>
 
 #include "gotime/TomControl.h"
 #include "ProjectTreeModel.h"
@@ -80,8 +83,14 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     }
 
     if (role == Qt::DecorationRole) {
-        if (index.column() == ProjectTreeItem::COL_NAME && _control->isStarted(getItem(index)->getProject())) {
-            return Icons::stopTimer();
+        if (index.column() == ProjectTreeItem::COL_DAY && _control->isStarted(getItem(index)->getProject())) {
+            return Icons::activeProject();
+        }
+    }
+
+    if (role == Qt::BackgroundRole) {
+        if (_control->isStarted(getItem(index)->getProject())) {
+            return QApplication::palette().alternateBase();
         }
     }
 

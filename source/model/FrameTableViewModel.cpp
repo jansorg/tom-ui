@@ -242,6 +242,10 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
 }
 
 Qt::ItemFlags FrameTableViewModel::flags(const QModelIndex &index) const {
+    if (!index.isValid()) {
+        return Qt::NoItemFlags;
+    }
+
     if (index.isValid() &&
         (index.column() != COL_DURATION && index.column() != COL_TAGS && index.column() != COL_SUBPROJECT)) {
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;

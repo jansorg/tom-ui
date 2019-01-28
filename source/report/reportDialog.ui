@@ -64,7 +64,7 @@
            <bool>true</bool>
           </property>
           <property name="dragDropMode">
-           <enum>QAbstractItemView::NoDragDrop</enum>
+           <enum>QAbstractItemView::InternalMove</enum>
           </property>
           <property name="defaultDropAction">
            <enum>Qt::CopyAction</enum>
@@ -88,7 +88,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="go-up"/>
+             <iconset theme="go-up">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="shortcut">
              <string>Alt+Up</string>
@@ -101,7 +102,8 @@
              <string/>
             </property>
             <property name="icon">
-             <iconset theme="go-down"/>
+             <iconset theme="go-down">
+              <normaloff>.</normaloff>.</iconset>
             </property>
             <property name="shortcut">
              <string>Alt+Down</string>

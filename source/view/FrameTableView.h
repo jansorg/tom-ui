@@ -30,7 +30,7 @@ private slots:
 
 private:
     TomControl *_control;
-    QSortFilterProxyModel *_sortedModel;
+    QSortFilterProxyModel *_proxyModel;
     FrameTableViewModel *_sourceModel;
 
     void showContextMenu(Frame *frame, QPoint globalPos);

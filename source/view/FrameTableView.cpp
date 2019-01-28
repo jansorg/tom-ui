@@ -1,5 +1,6 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QHeaderView>
+#include <QtTest/QAbstractItemModelTester>
 
 #include "model/FrameTableViewModel.h"
 #include "model/ProjectTreeItem.h"
@@ -19,9 +20,11 @@ void FrameTableView::setup(TomControl *control) {
     _control = control;
 
     _sourceModel = new FrameTableViewModel(_control, this);
-    _sortedModel = new FrameTableSortFilterModel(this);
-    _sortedModel->setSourceModel(_sourceModel);
-    setModel(_sortedModel);
+    _proxyModel = new FrameTableSortFilterModel(this);
+    _proxyModel->setSourceModel(_sourceModel);
+    setModel(_proxyModel);
+
+//    new QAbstractItemModelTester(_sourceModel, QAbstractItemModelTester::FailureReportingMode::Warning, this);
 
     horizontalHeader()->setResizeContentsPrecision(1);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_START_DATE, QHeaderView::ResizeToContents);
@@ -41,7 +44,7 @@ void FrameTableView::onCustomContextMenuRequested(const QPoint &pos) {
     const QModelIndex &index = indexAt(pos);
 
     if (index.isValid()) {
-        const QModelIndex &sourceIndex = _sortedModel->mapToSource(index);
+        const QModelIndex &sourceIndex = _proxyModel->mapToSource(index);
         Frame *frame = _sourceModel->frameAt(sourceIndex);
 
         showContextMenu(frame, viewport()->mapToGlobal(pos));
@@ -77,7 +80,7 @@ void FrameTableView::deleteSelectedEntries() {
 
     QList<Frame *> frames;
     for (auto row: rows) {
-        auto sourceRow = _sortedModel->mapToSource(row);
+        auto sourceRow = _proxyModel->mapToSource(row);
         Frame *frame = _sourceModel->frameAt(sourceRow);
         if (frame) {
             frames << frame;

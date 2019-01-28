@@ -36,7 +36,7 @@ void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusMan
 
     _sourceModel->loadProjects();
 
-    new QAbstractItemModelTester(_proxyModel, QAbstractItemModelTester::FailureReportingMode::Warning, this);
+    new QAbstractItemModelTester(_proxyModel, QAbstractItemModelTester::FailureReportingMode::Fatal, this);
 
 //    connect(this, &QTreeView::expanded, [] { qDebug() << "item expanded"; });
 //    connect(this, &QTreeView::collapsed, [] { qDebug() << "item collapsed"; });

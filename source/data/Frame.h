@@ -24,7 +24,7 @@ public:
         return stopTime.isValid();
     }
 
-    inline bool isRunning() {
+    inline bool isActive() {
         return !stopTime.isValid();
     }
 
@@ -33,9 +33,9 @@ public:
     }
 
     inline qint64 durationMillis(bool includeActive) {
-        if (isRunning() && includeActive) {
+        if (isActive() && includeActive) {
             return QDateTime::currentDateTime().toMSecsSinceEpoch() - startTime.toMSecsSinceEpoch();
-        } else if (isRunning()) {
+        } else if (isActive()) {
             return 0;
         }
         return stopTime.toMSecsSinceEpoch() - startTime.toMSecsSinceEpoch();

@@ -31,7 +31,7 @@ void ProjectStatusManager::refresh() {
 }
 
 ProjectsStatus ProjectStatusManager::loadStatus() {
-    return _control->projectsStatus(ProjectStatus::OVERALL_ID);
+    return _control->projectsStatus(ProjectStatus::OVERALL_ID, true);
 }
 
 ProjectStatus ProjectStatusManager::getOverallStatus() const {

@@ -49,6 +49,8 @@ private slots:
 
     void onProjectUpdated(const Project &project);
 
+    void onUpdateActiveFrames();
+
 private:
     int rowCount(const QModelIndex &parent) const override;
 

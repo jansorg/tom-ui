@@ -73,6 +73,11 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
 
     if (role == Qt::ForegroundRole) {
         auto *item = projectItem(index);
+
+        if (index.column() == ProjectTreeItem::COL_DAY && _control->isStarted(item->getProject(), false)) {
+            return QVariant(QColor(Qt::darkRed));
+        }
+
         if (index.column() >= ProjectTreeItem::COL_DAY && item->data(index.column()).toString() == QString("0:00h")) {
             return QVariant(QColor(Qt::gray));
         }
@@ -82,15 +87,14 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         return projectItem(index)->data(index.column());
     }
 
-    if (role == Qt::DecorationRole) {
-        if (index.column() == ProjectTreeItem::COL_DAY && _control->isStarted(projectItem(index)->getProject())) {
+    if (role == Qt::DecorationRole && index.column() == ProjectTreeItem::COL_DAY) {
+        if (_control->isStarted(projectItem(index)->getProject())) {
             return Icons::activeProject();
         }
-    }
 
-    if (role == Qt::BackgroundRole) {
-        if (_control->isStarted(projectItem(index)->getProject())) {
-            return QApplication::palette().alternateBase();
+        auto *item = projectItem(index);
+        if ((item == _visibleRootItem && _control->cachedActiveProject().isValid()) || _control->isStarted(item->getProject(), true)) {
+            return Icons::withActiveSubproject();
         }
     }
 

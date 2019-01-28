@@ -4,6 +4,7 @@
 #include "UserRoles.h"
 
 const auto grayColorValue = QVariant(QColor(Qt::gray));
+const auto redColorValue = QVariant(QColor(Qt::darkRed));
 const auto alignedRightVCenter = QVariant(Qt::AlignRight + Qt::AlignVCenter);
 
 FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) : QAbstractTableModel(parent),
@@ -13,6 +14,10 @@ FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) :
     connect(_control, &TomControl::framesMoved, this, &FrameTableViewModel::onFramesMoved);
     connect(_control, &TomControl::projectUpdated, this, &FrameTableViewModel::onProjectUpdated);
     connect(_control, &TomControl::dataResetNeeded, [this] { this->loadFrames(Project()); });
+
+    auto *frameUpdateTimer = new QTimer(this);
+    frameUpdateTimer->start(1000);
+    connect(frameUpdateTimer, &QTimer::timeout, this, &FrameTableViewModel::onUpdateActiveFrames);
 }
 
 FrameTableViewModel::~FrameTableViewModel() {
@@ -204,7 +209,7 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
         if (index.column() == COL_DURATION) {
             Frame *frame = _frames.at(index.row());
             if (!frame->stopTime.isValid()) {
-                return grayColorValue;
+                return redColorValue;
             }
         }
     }
@@ -336,4 +341,15 @@ QMimeData *FrameTableViewModel::mimeData(const QModelIndexList &indexes) const {
     auto *mime = new QMimeData();
     mime->setData(FRAMES_MIME_TYPE, ids.join("||").toUtf8());
     return mime;
+}
+
+void FrameTableViewModel::onUpdateActiveFrames() {
+    const auto &frames = _frames;
+    int size = frames.count();
+
+    for (int i = 0; i < size; i++) {
+        if (frames.at(i)->isActive()) {
+            emit dataChanged(createIndex(i, COL_DURATION), createIndex(i, COL_DURATION));
+        }
+    }
 }

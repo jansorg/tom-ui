@@ -60,7 +60,7 @@ void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
                               false, "",
                               false, "");
     });
-    stop->setEnabled(frame->isRunning());
+    stop->setEnabled(frame->isActive());
 
     menu.addSeparator();
     menu.addAction(Icons::removeFrame(), "Delete", this, &FrameTableView::deleteSelectedEntries)->setIconVisibleInMenu(true);

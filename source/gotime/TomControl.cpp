@@ -1,7 +1,5 @@
 #include <utility>
 
-#include <utility>
-
 #include <QtCore/QProcess>
 
 #include "TomControl.h"
@@ -64,8 +62,23 @@ QList<Project> TomControl::loadProjects(int max) {
     return result;
 }
 
-bool TomControl::isStarted(const Project &project) {
-    return project.isValid() && _activeProject.getID() == project.getID();
+bool TomControl::isStarted(const Project &project, bool includeSubprojects) {
+    if (!project.isValid()) {
+        return false;
+    }
+    bool active = _activeProject.getID() == project.getID();
+    if (!active && includeSubprojects) {
+        // fixme we could optimize this with a mapping parent -> children
+        for (const auto &p : _cachedProjects.values()) {
+            if (p.getParentID() == project.getID()) {
+                bool started = isStarted(p, true);
+                if (started) {
+                    return started;
+                }
+            }
+        }
+    }
+    return active;
 }
 
 bool TomControl::startProject(const Project &project) {
@@ -296,13 +309,15 @@ bool TomControl::updateProjects(const QStringList &ids, bool updateName, const Q
     return success;
 }
 
-const ProjectsStatus TomControl::projectsStatus(const QString &overallID) {
+const ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool includeActive) {
     QString idList = "id,trackedDay,totalTrackedDay,trackedWeek,totalTrackedWeek,trackedMonth,totalTrackedMonth,trackedYear,totalTrackedYear,trackedAll,totalTrackedAll";
     const int expectedColumns = idList.count(',') + 1;
 
     QStringList args;
-    args << "status" << "projects" << "-f"
-         << idList;
+    args << "status" << "projects" << "-f" << idList;
+    if (includeActive) {
+        args << "--include-active";
+    }
     if (!overallID.isEmpty()) {
         args << "--show-overall" << overallID;
     }
@@ -518,7 +533,7 @@ QString TomControl::htmlReport(QStringList projectIDs,
         args << "--to" << QDateTime(end).toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
     }
 
-    switch (frameRoundingMode){
+    switch (frameRoundingMode) {
         case NONE:
             break;
         case NEAREST:
@@ -540,4 +555,8 @@ QString TomControl::htmlReport(QStringList projectIDs,
     const auto &status = run(args);
 
     return status.stdoutContent;
+}
+
+const Project TomControl::cachedActiveProject() const {
+    return _activeProject;
 }

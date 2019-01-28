@@ -35,11 +35,13 @@ public:
 
     const Project cachedProject(const QString &id) const;
 
+    const Project cachedActiveProject() const;
+
     GotimeStatus status();
 
-    const ProjectsStatus projectsStatus(const QString &overallID);
+    const ProjectsStatus projectsStatus(const QString &overallID, bool includeActive);
 
-    bool isStarted(const Project &project);
+    bool isStarted(const Project &project, bool includeSubprojects = false);
 
     QList<Frame *> loadFrames(const QString &projectID, bool includeSubprojects);
 

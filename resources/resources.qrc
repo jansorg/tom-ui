@@ -6,6 +6,7 @@
 <file>./icons/logo64.png</file>
 <file>./icons/osx/trayicon-started.svg</file>
 <file>./icons/osx/trayicon-stopped.svg</file>
+<file>./icons/project-active-subproject.svg</file>
 <file>./icons/project-active.svg</file>
 <file>./icons/timer-start.svg</file>
 <file>./icons/timer-stop.svg</file>

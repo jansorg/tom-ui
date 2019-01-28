@@ -74,6 +74,10 @@ namespace Icons {
         return icon("project-active");
     }
 
+    inline QIcon withActiveSubproject() {
+        return icon("project-active-subproject");
+    }
+
     inline const QIcon Logo() {
         return icon("logo64.png");
     }

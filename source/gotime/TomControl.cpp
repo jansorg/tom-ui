@@ -531,7 +531,9 @@ QString TomControl::htmlReport(QStringList projectIDs,
             break;
     }
 
-    if (frameRoundingMode != NONE) {
+    if (frameRoundingMode == NONE) {
+        args << "--round-frames-to" << "0m";
+    } else {
         args << "--round-frames-to" << QString("%1m").arg(frameRoundingMinutes);
     }
 

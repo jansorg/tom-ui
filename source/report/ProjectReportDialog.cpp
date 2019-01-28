@@ -3,24 +3,29 @@
 #include <QtGlobal>
 
 #include "ProjectReportDialog.h"
+#include "reportsplitmodel.h"
 
 ProjectReportDialog::ProjectReportDialog(QList<Project> projects, TomControl *control, QWidget *parent)
-        : QDialog(parent), _projects(std::move(projects)), _control(control) {
+        : QDialog(parent), _projects(std::move(projects)), _control(control), _splitModel(new ReportSplitModel(this)) {
 
     setupUi(this);
 
+    connect(splitMoveUp, &QPushButton::pressed, [this] { moveSplitSelection(-1); });
+    connect(splitMoveDown, &QPushButton::pressed, [this] { moveSplitSelection(1); });
+    _splitModel->setCheckedItems(QStringList() << "project");
+    splitList->setModel(_splitModel);
+    splitList->adjustSize();
+
+    dateEnd->setDate(QDateTime::currentDateTime().date());
+
     connect(updateButton, &QPushButton::pressed, this, &ProjectReportDialog::updateReport);
-    connect(splitByYear, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
-    connect(splitByMonth, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
-    connect(splitByDay, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
-    connect(splitByProject, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
     connect(frameRoundingMode, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
     connect(frameRoundingValue, QOverload<int>::of(&QSpinBox::valueChanged), this, &ProjectReportDialog::updateReport);
 
     connect(templateBox, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
 
-    dateEnd->setDate(QDateTime::currentDateTime().date());
+    connect(_splitModel, &ReportSplitModel::itemStateChanged, this, &ProjectReportDialog::updateReport);
 
     updateReport();
 }
@@ -33,19 +38,7 @@ void ProjectReportDialog::updateReport() {
         }
     }
 
-    QStringList splits;
-    if (splitByYear->isChecked()) {
-        splits << "year";
-    }
-    if (splitByMonth->isChecked()) {
-        splits << "month";
-    }
-    if (splitByDay->isChecked()) {
-        splits << "day";
-    }
-    if (splitByProject->isChecked()) {
-        splits << "project";
-    }
+    QStringList splits = _splitModel->checkedItems();
 
     int frameRoundingMin = frameRoundingValue->value();
 
@@ -63,5 +56,14 @@ void ProjectReportDialog::updateReport() {
                                                dateStart->date(), dateEnd->date(),
                                                frameMode, frameRoundingMin,
                                                splits, templateBox->currentText());
-    reportView->setContent(html.toUtf8(), "text/html");
+    htmlView->setHtml(html);
+    htmlView->show();
+}
+
+void ProjectReportDialog::moveSplitSelection(int delta) {
+//    const QModelIndex &selected = splitList->selectionModel()->currentIndex();
+//    if (selected.isValid()) {
+//        int row = selected.row();
+//        _splitModel->moveRow(row, delta, );
+//    }
 }

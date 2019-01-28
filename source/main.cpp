@@ -17,8 +17,8 @@ int main(int argc, char *argv[]) {
         bash = QString(argv[2]) == "true";
     }
 
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QApplication::setQuitOnLastWindowClosed(false);
-    QApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     #ifdef Q_OS_MAC
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
     #endif

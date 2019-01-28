@@ -38,21 +38,19 @@ void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusMan
 
     new QAbstractItemModelTester(_proxyModel, QAbstractItemModelTester::FailureReportingMode::Warning, this);
 
-    connect(this, &QTreeView::expanded, [] { qDebug() << "item expanded"; });
-    connect(this, &QTreeView::collapsed, [] { qDebug() << "item collapsed"; });
-
-    connect(_proxyModel, &QSortFilterProxyModel::sourceModelChanged, [] { qDebug() << "source model changes"; });
-    connect(_proxyModel, &QSortFilterProxyModel::modelReset, [] { qDebug() << "model reset"; });
-    connect(_proxyModel, &QSortFilterProxyModel::modelAboutToBeReset, [] { qDebug() << "model about to reset"; });
-    connect(_proxyModel, &QSortFilterProxyModel::rowsMoved, [] { qDebug() << "rows moved"; });
-    connect(_proxyModel, &QSortFilterProxyModel::rowsRemoved, [] { qDebug() << "rows removed"; });
-    connect(_proxyModel, &QSortFilterProxyModel::rowsInserted, [] { qDebug() << "rows inserted"; });
-    connect(_proxyModel, &QSortFilterProxyModel::layoutAboutToBeChanged, []{qDebug() << "layout to be changed";});
-    connect(_proxyModel, &QSortFilterProxyModel::layoutChanged, [](const QList<QPersistentModelIndex> &parents, QAbstractItemModel::LayoutChangeHint hint) { qDebug() << "layout changed"<<parents<<hint; });
-    connect(_proxyModel, &QSortFilterProxyModel::dataChanged, [] { qDebug() << "data changed"; });
-    connect(_proxyModel, &QSortFilterProxyModel::headerDataChanged, [] { qDebug() << "header data changed"; });
-
-//    connect(_sortModel, &QSortFilterProxyModel::layoutChanged, [this](const QList<QPersistentModelIndex> &, QAbstractItemModel::LayoutChangeHint hint) { if (hint == QAbstractItemModel::VerticalSortHint){expandToDepth(0);} });
+//    connect(this, &QTreeView::expanded, [] { qDebug() << "item expanded"; });
+//    connect(this, &QTreeView::collapsed, [] { qDebug() << "item collapsed"; });
+//
+//    connect(_proxyModel, &QSortFilterProxyModel::sourceModelChanged, [] { qDebug() << "source model changes"; });
+//    connect(_proxyModel, &QSortFilterProxyModel::modelReset, [] { qDebug() << "model reset"; });
+//    connect(_proxyModel, &QSortFilterProxyModel::modelAboutToBeReset, [] { qDebug() << "model about to reset"; });
+//    connect(_proxyModel, &QSortFilterProxyModel::rowsMoved, [] { qDebug() << "rows moved"; });
+//    connect(_proxyModel, &QSortFilterProxyModel::rowsRemoved, [] { qDebug() << "rows removed"; });
+//    connect(_proxyModel, &QSortFilterProxyModel::rowsInserted, [] { qDebug() << "rows inserted"; });
+//    connect(_proxyModel, &QSortFilterProxyModel::layoutAboutToBeChanged, []{qDebug() << "layout to be changed";});
+//    connect(_proxyModel, &QSortFilterProxyModel::layoutChanged, [](const QList<QPersistentModelIndex> &parents, QAbstractItemModel::LayoutChangeHint hint) { qDebug() << "layout changed"<<parents<<hint; });
+//    connect(_proxyModel, &QSortFilterProxyModel::dataChanged, [] { qDebug() << "data changed"; });
+//    connect(_proxyModel, &QSortFilterProxyModel::headerDataChanged, [] { qDebug() << "header data changed"; });
 
     header()->setStretchLastSection(false);
     header()->setSectionResizeMode(0, QHeaderView::Stretch);

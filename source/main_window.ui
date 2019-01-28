@@ -133,6 +133,7 @@
      <string>&amp;Help</string>
     </property>
     <addaction name="actionHelpAbout"/>
+    <addaction name="actionAboutQt"/>
    </widget>
    <widget class="QMenu" name="menuImport">
     <property name="title">
@@ -310,6 +311,11 @@
   <action name="actionReportCreate">
    <property name="text">
     <string>&amp;Create report...</string>
+   </property>
+  </action>
+  <action name="actionAboutQt">
+   <property name="text">
+    <string>About Qt</string>
    </property>
   </action>
  </widget>

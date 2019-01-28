@@ -23,7 +23,7 @@ void ProjectTreeItem::removeChild(ProjectTreeItem *item) {
     item->_parentItem = nullptr;
 }
 
-ProjectTreeItem *ProjectTreeItem::child(int row) {
+ProjectTreeItem *ProjectTreeItem::childAt(int row) {
     return _childItems.value(row);
 }
 

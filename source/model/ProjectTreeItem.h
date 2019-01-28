@@ -20,7 +20,7 @@ public:
 
     void reset();
 
-    ProjectTreeItem *child(int row);
+    ProjectTreeItem *childAt(int row);
 
     int childCount() const;
 

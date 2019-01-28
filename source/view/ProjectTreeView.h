@@ -47,7 +47,7 @@ private:
     ProjectStatusManager *_statusManager{};
 
     ProjectTreeModel *_sourceModel{};
-    QSortFilterProxyModel *_sortModel{};
+    QSortFilterProxyModel *_proxyModel{};
 };
 
 

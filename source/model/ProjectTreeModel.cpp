@@ -17,19 +17,17 @@ ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *st
           _control(control),
           _statusManager(statusManager),
           _rootItem(nullptr),
-          _visibleRootItem(nullptr) {
-    _headers = QStringList() << "Name" << "Today" << "This week" << "This month" << "Total";
+          _visibleRootItem(nullptr),
+          _headers(QStringList() << "Name" << "Today" << "This week" << "This month" << "Total") {
 
-    if (!_rootItem) {
-        _rootItem = new ProjectTreeRootItem(_statusManager);
-        _visibleRootItem = new ProjectTreeRootItem(_statusManager, _rootItem);
-        _rootItem->appendChild(_visibleRootItem);
-    } else {
-        _visibleRootItem->reset();
-    }
+    _rootItem = new ProjectTreeRootItem(_statusManager);
+    _visibleRootItem = new ProjectTreeRootItem(_statusManager, _rootItem);
+    _rootItem->appendChild(_visibleRootItem);
 
-    _projects = _control->loadProjects();
-    addProjectItems(_projects, _visibleRootItem);
+    // fixme move into background?
+//    _projects = _control->loadProjects();
+//    setupItem(_visibleRootItem, _projects);
+//    printProjects(0, _rootItem);
 
     connect(_control, &TomControl::projectCreated, this, &ProjectTreeModel::addProject);
     connect(_control, &TomControl::projectRemoved, this, &ProjectTreeModel::removeProject);
@@ -44,21 +42,22 @@ void ProjectTreeModel::loadProjects() {
     qDebug() << "loadProject (reset)";
 
     beginResetModel();
+
     _visibleRootItem->reset();
     _projects = _control->loadProjects();
-    addProjectItems(_projects, _visibleRootItem);
+    setupItem(_visibleRootItem, _projects);
+
     endResetModel();
 }
 
-void ProjectTreeModel::addProjectItems(const QList<Project> &allProjects, ProjectTreeItem *parent) {
-    const auto &parentID = parent->getProject().getID();
-
-    for (const auto &p: allProjects) {
-        if (p.getParentID() == parentID) {
+void ProjectTreeModel::setupItem(ProjectTreeItem *parent, QList<Project> &projects) {
+    const auto &parentProject = parent->getProject();
+    for (const auto &p: projects) {
+        if (p.getParentID() == parentProject.getID()) {
             auto *item = new ProjectTreeItem(p, _statusManager, parent);
             parent->appendChild(item);
 
-            addProjectItems(allProjects, item);
+            setupItem(item, projects);
         }
     }
 }
@@ -73,36 +72,37 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     }
 
     if (role == Qt::ForegroundRole) {
-        auto *item = getItem(index);
+        auto *item = projectItem(index);
         if (index.column() >= ProjectTreeItem::COL_DAY && item->data(index.column()).toString() == QString("0:00h")) {
             return QVariant(QColor(Qt::gray));
         }
     }
 
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        return getItem(index)->data(index.column());
+        return projectItem(index)->data(index.column());
     }
 
     if (role == Qt::DecorationRole) {
-        if (index.column() == ProjectTreeItem::COL_DAY && _control->isStarted(getItem(index)->getProject())) {
+        if (index.column() == ProjectTreeItem::COL_DAY && _control->isStarted(projectItem(index)->getProject())) {
             return Icons::activeProject();
         }
     }
 
     if (role == Qt::BackgroundRole) {
-        if (_control->isStarted(getItem(index)->getProject())) {
+        if (_control->isStarted(projectItem(index)->getProject())) {
             return QApplication::palette().alternateBase();
         }
     }
 
     if (role == IDRole) {
-        return getItem(index)->getProject().getID();
+        return projectItem(index)->getProject().getID();
     }
 
     if (role == SortValueRole && index.column() < ProjectTreeItem::FIRST_STATUS_COL_INDEX) {
-        return getItem(index)->data(index.column());
-    } else if (role == SortValueRole) {
-        return getItem(index)->sortData(index.column());
+        return projectItem(index)->data(index.column());
+    }
+    if (role == SortValueRole) {
+        return projectItem(index)->sortData(index.column());
     }
 
     return QVariant();
@@ -115,38 +115,40 @@ bool ProjectTreeModel::setData(const QModelIndex &index, const QVariant &value, 
         return false;
     }
 
-    ProjectTreeItem *item = getItem(index);
-    if (!item || item == _rootItem) {
+    if (index.column() != 0) {
         return false;
     }
 
-    if (index.column() == 0) {
-        QString newName = value.toString();
-        bool ok = _control->renameProject(item->getProject().getID(), newName);
-        if (ok && item->setData(index.column(), newName)) {
-            emit dataChanged(index, index);
-        }
-        return ok;
+    ProjectTreeItem *item = projectItem(index);
+    if (!item || item == _rootItem || item == _visibleRootItem) {
+        return false;
     }
 
-    return false;
+    QString newName = value.toString();
+    bool ok = _control->renameProject(item->getProject().getID(), newName);
+    if (ok && item->setData(index.column(), newName)) {
+        emit dataChanged(index, index);
+    }
+    return ok;
+
 }
 
 Qt::ItemFlags ProjectTreeModel::flags(const QModelIndex &index) const {
     if (!index.isValid()) {
-        return Qt::NoItemFlags;
+        return QAbstractItemModel::flags(index);
     }
 
-    ProjectTreeItem *item = getItem(index);
-    if (item && item->getProject().isValid() && index.column() == ProjectTreeItem::COL_NAME) {
-        return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsSelectable | Qt::ItemIsEnabled |
-               Qt::ItemIsEditable;
-    }
+    ProjectTreeItem *item = projectItem(index);
 
     // the visible root is not draggable, but accepts drops
     if (item == _visibleRootItem) {
         return Qt::ItemIsDropEnabled | QAbstractItemModel::flags(index);
     }
+
+    if (item && item->getProject().isValid() && index.column() == ProjectTreeItem::COL_NAME) {
+        return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
+    }
+
     return QAbstractItemModel::flags(index);
 }
 
@@ -166,7 +168,7 @@ QVariant ProjectTreeModel::headerData(int section, Qt::Orientation orientation, 
         return Qt::AlignLeading;
     }
 
-    return QVariant();
+    return QAbstractItemModel::headerData(section, orientation, role);
 }
 
 QModelIndex ProjectTreeModel::index(int row, int column, const QModelIndex &parent) const {
@@ -174,16 +176,17 @@ QModelIndex ProjectTreeModel::index(int row, int column, const QModelIndex &pare
         return {};
     }
 
-    ProjectTreeItem *parentItem = getItem(parent);
+    ProjectTreeItem *parentItem = projectItem(parent);
     if (!parentItem) {
         return {};
     }
 
-    ProjectTreeItem *childItem = parentItem->child(row);
-    if (childItem) {
-        return createIndex(row, column, childItem);
+    ProjectTreeItem *childItem = parentItem->childAt(row);
+    if (!childItem) {
+        return {};
     }
-    return {};
+
+    return createIndex(row, column, childItem);
 }
 
 QModelIndex ProjectTreeModel::parent(const QModelIndex &index) const {
@@ -191,47 +194,50 @@ QModelIndex ProjectTreeModel::parent(const QModelIndex &index) const {
         return {};
     }
 
-    auto *childItem = getItem(index);
-    if (!childItem || childItem == _rootItem) {
+    auto *item = projectItem(index);
+    if (!item || item == _rootItem) {
         return {};
     }
 
-    auto *parentItem = childItem->parentItem();
+    auto *parentItem = item->parentItem();
     if (!parentItem) {
         return {};
     }
+
     return createIndex(parentItem->row(), 0, parentItem);
 }
 
 int ProjectTreeModel::rowCount(const QModelIndex &parent) const {
+    if (!parent.isValid()) {
+        return _rootItem->childCount();
+    }
+
     if (parent.column() > ProjectTreeItem::COL_NAME) {
         return 0;
     }
 
-    ProjectTreeItem *parentItem = getItem(parent);
+    ProjectTreeItem *parentItem = projectItem(parent);
     return parentItem->childCount();
 }
 
-ProjectTreeItem *ProjectTreeModel::getItem(const QModelIndex &index) const {
-    if (index.isValid()) {
-        auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
-        if (item) {
-            return item;
-        }
+ProjectTreeItem *ProjectTreeModel::projectItem(const QModelIndex &index) const {
+    if (!index.isValid()) {
+        return _rootItem;
     }
-    return _rootItem;
+
+    auto *item = static_cast<ProjectTreeItem *>(index.internalPointer());
+    return item;
 }
 
 void ProjectTreeModel::printProjects(int level, ProjectTreeItem *root) {
     qDebug() << QString(" ").repeated(level) << root->data(0).toString();
     for (int i = 0; i < root->childCount(); ++i) {
-        printProjects(level + 1, root->child(i));
+        printProjects(level + 1, root->childAt(i));
     }
 }
 
 QModelIndex ProjectTreeModel::getProjectRow(const QString &projectID) const {
-    const QModelIndexList &list = match(index(0, 0, QModelIndex()), IDRole, projectID, 1,
-                                        Qt::MatchExactly | Qt::MatchRecursive);
+    const QModelIndexList &list = match(index(0, 0, QModelIndex()), IDRole, projectID, 1, Qt::MatchExactly | Qt::MatchRecursive);
     if (list.size() == 1) {
         return list.first();
     }
@@ -241,7 +247,7 @@ QModelIndex ProjectTreeModel::getProjectRow(const QString &projectID) const {
 void ProjectTreeModel::updateProject(const Project &project) {
     const QModelIndex &row = getProjectRow(project.getID());
     if (row.isValid()) {
-        ProjectTreeItem *item = getItem(row);
+        ProjectTreeItem *item = projectItem(row);
         if (item) {
             item->refreshWith(project);
             emit dataChanged(row, row.siblingAtColumn(ProjectTreeItem::LAST_COL_INDEX));
@@ -252,7 +258,7 @@ void ProjectTreeModel::updateProject(const Project &project) {
 void ProjectTreeModel::updateProjectStatus(const QString &projectID) {
     const QModelIndex &row = getProjectRow(projectID);
     if (row.isValid()) {
-        ProjectTreeItem *item = getItem(row);
+        ProjectTreeItem *item = projectItem(row);
         if (item) {
             emit dataChanged(row.siblingAtColumn(ProjectTreeItem::FIRST_STATUS_COL_INDEX),
                              row.siblingAtColumn(ProjectTreeItem::LAST_COL_INDEX));
@@ -261,22 +267,7 @@ void ProjectTreeModel::updateProjectStatus(const QString &projectID) {
 }
 
 Project ProjectTreeModel::projectAtIndex(const QModelIndex &index) {
-    void *pointer = index.internalPointer();
-    if (pointer == nullptr) {
-        return Project();
-    }
-
-    auto *item = static_cast<ProjectTreeItem *>(pointer);
-    return item->getProject();
-}
-
-ProjectTreeItem *ProjectTreeModel::projectItemAtIndex(const QModelIndex &index) {
-    void *pointer = index.internalPointer();
-    if (pointer == nullptr) {
-        return nullptr;
-    }
-
-    return static_cast<ProjectTreeItem *>(pointer);
+    return projectItem(index)->getProject();
 }
 
 void ProjectTreeModel::addProject(const Project &project) {
@@ -285,23 +276,21 @@ void ProjectTreeModel::addProject(const Project &project) {
     }
 
     const QModelIndex &row = getProjectRow(project.getID());
-    if (!row.isValid()) {
+    if (row.isValid()) {
+        // project already exists
         return;
     }
 
     const QList<Project> projects = QList<Project>() << project;
 
-    QModelIndex parentRow;
-
-    if (project.getParentID().isEmpty()) {
-        parentRow = index(0, 0, QModelIndex());
-    } else {
+    QModelIndex parentRow = index(0, 0, QModelIndex());
+    if (!project.getParentID().isEmpty()) {
         parentRow = getProjectRow(project.getParentID());
     }
 
-    ProjectTreeItem *parentItem = projectItemAtIndex(parentRow);
-
-    beginInsertRows(parentRow, parentItem->childCount(), parentItem->childCount());
+    ProjectTreeItem *parentItem = projectItem(parentRow);
+    int nextIndex = parentItem->childCount();
+    beginInsertRows(parentRow, nextIndex, nextIndex);
     parentItem->appendChild(new ProjectTreeItem(project, _statusManager, parentItem));
     endInsertRows();
 }
@@ -330,7 +319,7 @@ QStringList ProjectTreeModel::mimeTypes() const {
 QMimeData *ProjectTreeModel::mimeData(const QModelIndexList &indexes) const {
     QStringList projectIDs;
     for (auto i : indexes) {
-        ProjectTreeItem *treeItem = getItem(i);
+        ProjectTreeItem *treeItem = projectItem(i);
         if (treeItem == nullptr || !treeItem->getProject().isValid()) {
             return nullptr;
         }
@@ -342,18 +331,17 @@ QMimeData *ProjectTreeModel::mimeData(const QModelIndexList &indexes) const {
     return result;
 }
 
-bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column,
-                                    const QModelIndex &parent) {
+bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) {
     if (data->hasFormat(PROJECTS_MIME_TYPE)) {
         return handleDropProjectIDs(data, action, row, column, parent);
-    } else if (data->hasFormat(FRAMES_MIME_TYPE)) {
+    }
+    if (data->hasFormat(FRAMES_MIME_TYPE)) {
         return handleDropFrameIDs(data, action, row, column, parent);
     }
     return false;
 }
 
-bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/,
-                                            const QModelIndex &parent) {
+bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/, const QModelIndex &parent) {
     if (action != Qt::MoveAction) {
         return false;
     }
@@ -368,7 +356,7 @@ bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropActio
         return false;
     }
 
-    ProjectTreeItem *parentItem = getItem(parent);
+    ProjectTreeItem *parentItem = projectItem(parent);
     if (!parentItem) {
         return false;
     }
@@ -391,15 +379,14 @@ bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropActio
         // using moveRows here breaks our proxy model. The View class seems to remove the source rows on its own when move/moveInternal is used
         // therefore we're just inserting and let the View call removeRows()
         beginInsertRows(parent, 0, 0);
-        parentItem->insertChild(getItem(rowIndex), 0);
+        parentItem->insertChild(projectItem(rowIndex), 0);
         endInsertRows();
     }
 
     return true;
 }
 
-bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/,
-                                          const QModelIndex &parent) {
+bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/, const QModelIndex &parent) {
     if (!parent.isValid() || action != Qt::MoveAction) {
         return false;
     }
@@ -417,7 +404,7 @@ bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction 
     // first item is the id of the source project
     const QString &sourceProjectID = ids.takeFirst();
 
-    ProjectTreeItem *parentItem = getItem(parent);
+    ProjectTreeItem *parentItem = projectItem(parent);
     if (!parentItem || parentItem == _visibleRootItem || !parentItem->getProject().isValid()) {
         return false;
     }
@@ -470,7 +457,7 @@ bool ProjectTreeModel::moveRows(const QModelIndex &sourceParent, int sourceRow, 
 */
 
 bool ProjectTreeModel::insertRows(int row, int count, const QModelIndex &parent) {
-    ProjectTreeItem *parentItem = getItem(parent);
+    ProjectTreeItem *parentItem = projectItem(parent);
     qDebug() << "inserting rows at" << row << "count" << count << "into" << parentItem->getProject().getName();
 
     beginInsertRows(parent, row, row + count - 1);
@@ -483,12 +470,12 @@ bool ProjectTreeModel::insertRows(int row, int count, const QModelIndex &parent)
 }
 
 bool ProjectTreeModel::removeRows(int row, int count, const QModelIndex &parent) {
-    qDebug() << "removing rows" << row << "to" << row + count - 1 << "from" << getItem(parent)->getProject().getName();
+    qDebug() << "removing rows" << row << "to" << row + count - 1 << "from" << projectItem(parent)->getProject().getName();
     if (!parent.isValid()) {
         return false;
     }
 
-    ProjectTreeItem *parentItem = getItem(parent);
+    ProjectTreeItem *parentItem = projectItem(parent);
     bool result = true;
 
     beginRemoveRows(parent, row, row + count - 1);

@@ -11,7 +11,6 @@
 ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {
     setContextMenuPolicy(Qt::CustomContextMenu);
     setUniformRowHeights(true);
-    setSortingEnabled(true);
 
     setDragDropMode(QAbstractItemView::DragDrop);
     setDragEnabled(true);
@@ -25,16 +24,36 @@ void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusMan
     _control = control;
     _statusManager = statusManager;
 
+    setSortingEnabled(true);
+
     _sourceModel = new ProjectTreeModel(_control, _statusManager, this);
 
-    _sortModel = new ProjectTreeSortFilterModel(this);
-    _sortModel->setSourceModel(_sourceModel);
-    setModel(_sortModel);
+    _proxyModel = new ProjectTreeSortFilterModel(this);
+    _proxyModel->setSourceModel(_sourceModel);
+
+    setModel(_proxyModel);
+
+    _sourceModel->loadProjects();
+
+    connect(this, &QTreeView::expanded, [] { qDebug() << "item expanded"; });
+    connect(this, &QTreeView::collapsed, [] { qDebug() << "item collapsed"; });
+
+    connect(_proxyModel, &QSortFilterProxyModel::sourceModelChanged, [] { qDebug() << "source model changes"; });
+    connect(_proxyModel, &QSortFilterProxyModel::modelReset, [] { qDebug() << "model reset"; });
+    connect(_proxyModel, &QSortFilterProxyModel::modelAboutToBeReset, [] { qDebug() << "model about to reset"; });
+    connect(_proxyModel, &QSortFilterProxyModel::rowsMoved, [] { qDebug() << "rows moved"; });
+    connect(_proxyModel, &QSortFilterProxyModel::rowsRemoved, [] { qDebug() << "rows removed"; });
+    connect(_proxyModel, &QSortFilterProxyModel::rowsInserted, [] { qDebug() << "rows inserted"; });
+    connect(_proxyModel, &QSortFilterProxyModel::layoutAboutToBeChanged, []{qDebug() << "layout to be changed";});
+    connect(_proxyModel, &QSortFilterProxyModel::layoutChanged, [](const QList<QPersistentModelIndex> &parents, QAbstractItemModel::LayoutChangeHint hint) { qDebug() << "layout changed"<<parents<<hint; });
+    connect(_proxyModel, &QSortFilterProxyModel::dataChanged, [] { qDebug() << "data changed"; });
+    connect(_proxyModel, &QSortFilterProxyModel::headerDataChanged, [] { qDebug() << "header data changed"; });
+
+//    connect(_sortModel, &QSortFilterProxyModel::layoutChanged, [this](const QList<QPersistentModelIndex> &, QAbstractItemModel::LayoutChangeHint hint) { if (hint == QAbstractItemModel::VerticalSortHint){expandToDepth(0);} });
 
     header()->setStretchLastSection(false);
     header()->setSectionResizeMode(0, QHeaderView::Stretch);
     header()->setCascadingSectionResizes(true);
-    sortByColumn(0, Qt::AscendingOrder);
 
     connect(selectionModel(), &QItemSelectionModel::currentRowChanged, this, &ProjectTreeView::onCurrentChanged);
     connect(_control, &TomControl::projectUpdated, this, &ProjectTreeView::projectUpdated);
@@ -42,7 +61,9 @@ void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusMan
 }
 
 void ProjectTreeView::onCurrentChanged(const QModelIndex &index, const QModelIndex &) {
-    auto sourceIndex = _sortModel->mapToSource(index);
+    qDebug() << "current changed";
+
+    auto sourceIndex = _proxyModel->mapToSource(index);
     if (!sourceIndex.isValid()) {
         emit projectSelected(Project());
     } else {
@@ -55,7 +76,7 @@ void ProjectTreeView::onCustomContextMenuRequested(const QPoint &pos) {
     const QModelIndex &index = indexAt(pos);
 
     if (index.isValid()) {
-        ProjectTreeItem *item = _sourceModel->getItem(_sortModel->mapToSource(index));
+        ProjectTreeItem *item = _sourceModel->projectItem(_proxyModel->mapToSource(index));
 
         // Note: We must map the point to global from the viewport to account for the header.
         showContextMenu(item, viewport()->mapToGlobal(pos));
@@ -85,16 +106,21 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
 }
 
 void ProjectTreeView::refresh() {
+    qDebug() << "refresh";
+    reset();
+    _proxyModel->invalidate();
     _sourceModel->loadProjects();
 
     expandToDepth(0);
 }
 
 void ProjectTreeView::projectUpdated(const Project &project) {
+    qDebug() << "projectUpdated";
     _sourceModel->updateProject(project);
 }
 
 void ProjectTreeView::projectsStatusChanged(const QStringList &projectIDs) {
+    qDebug() << "projectStatusChanged";
     for (const auto &id : projectIDs) {
         _sourceModel->updateProjectStatus(id);
     }
@@ -109,9 +135,9 @@ const Project ProjectTreeView::getCurrentProject() {
     if (!current.isValid()) {
         return Project();
     }
-    
-    const QModelIndex &sourceIndex = _sortModel->mapToSource(current);
-    ProjectTreeItem *item = _sourceModel->getItem(sourceIndex);
+
+    const QModelIndex &sourceIndex = _proxyModel->mapToSource(current);
+    ProjectTreeItem *item = _sourceModel->projectItem(sourceIndex);
     if (!item) {
         return Project();
     }

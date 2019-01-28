@@ -38,7 +38,7 @@ public:
 
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
 
-    ProjectTreeItem *getItem(const QModelIndex &index) const;
+    ProjectTreeItem *projectItem(const QModelIndex &index) const;
 
     void updateProject(const Project &project);
 
@@ -75,15 +75,12 @@ private:
     ProjectTreeRootItem *_rootItem;
     ProjectTreeRootItem *_visibleRootItem;
     QList<Project> _projects;
-
     QStringList _headers;
-
-    ProjectTreeItem *projectItemAtIndex(const QModelIndex &index);
 
     bool handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
     bool handleDropFrameIDs(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
 
-    void addProjectItems(const QList<Project> &allProjects, ProjectTreeItem *parent);
+    void setupItem(ProjectTreeItem *parent, QList<Project> &projects);
 
     static void printProjects(int level, ProjectTreeItem *root);
 };

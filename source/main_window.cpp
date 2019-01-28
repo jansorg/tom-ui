@@ -44,6 +44,7 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     connect(_control, &TomControl::projectStopped, this, &MainWindow::onProjectStatusChange);
 
     connect(ui.actionQuit, &QAction::triggered, &QCoreApplication::quit);
+    connect(ui.actionAboutQt, &QAction::triggered, &QApplication::aboutQt);
 
     createActions();
     refreshData();

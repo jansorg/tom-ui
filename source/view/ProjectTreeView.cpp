@@ -5,6 +5,7 @@
 #include <dialogs/CommonDialogs.h>
 #include <model/ProjectTreeSortFilterModel.h>
 #include <ActionUtils.h>
+#include <QtTest/QAbstractItemModelTester>
 
 #include "ProjectTreeView.h"
 
@@ -34,6 +35,8 @@ void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusMan
     setModel(_proxyModel);
 
     _sourceModel->loadProjects();
+
+    new QAbstractItemModelTester(_proxyModel, QAbstractItemModelTester::FailureReportingMode::Warning, this);
 
     connect(this, &QTreeView::expanded, [] { qDebug() << "item expanded"; });
     connect(this, &QTreeView::collapsed, [] { qDebug() << "item collapsed"; });

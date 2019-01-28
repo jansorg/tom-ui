@@ -200,7 +200,7 @@ QModelIndex ProjectTreeModel::parent(const QModelIndex &index) const {
     }
 
     auto *parentItem = item->parentItem();
-    if (!parentItem) {
+    if (!parentItem || parentItem == _rootItem) {
         return {};
     }
 

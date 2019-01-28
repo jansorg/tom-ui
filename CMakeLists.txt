@@ -59,9 +59,9 @@ target_include_directories(${PROJECT_NAME} PRIVATE source)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})
 
 # setup libraries
-find_package(Qt5 COMPONENTS Core Widgets Svg WebEngineWidgets REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets Svg WebEngineWidgets Test REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg Qt5::WebEngineWidgets)
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg Qt5::WebEngineWidgets Qt5::Test )
 
 if (UNIX)
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)

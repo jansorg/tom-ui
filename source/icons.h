@@ -6,7 +6,7 @@
 namespace Icons {
     inline const QIcon icon(const QString &name) {
         if (name.endsWith(".svg") || name.endsWith(".png")) {
-            return QIcon(name);
+            return QIcon(":icons/" + name);
         }
         if (QIcon::hasThemeIcon(name)) {
             return QIcon::fromTheme(name);
@@ -78,7 +78,11 @@ namespace Icons {
         return icon("project-active-subproject");
     }
 
-    inline const QIcon Logo() {
+    inline const QIcon LogoSmall() {
+        return icon("logo32.png");
+    }
+
+    inline const QIcon LogoLarge() {
         return icon("logo64.png");
     }
 }

@@ -15,7 +15,7 @@
 MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(
         parent), _control(control) {
 //#ifndef Q_OS_MAC
-    setWindowIcon(Icons::Logo());
+    setWindowIcon(Icons::LogoLarge());
 //#endif
 
     ui.setupUi(this);

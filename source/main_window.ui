@@ -158,17 +158,10 @@
     </property>
     <addaction name="actionTimeEntryRemove"/>
    </widget>
-   <widget class="QMenu" name="menuReports">
-    <property name="title">
-     <string>&amp;Reports</string>
-    </property>
-    <addaction name="actionReportCreate"/>
-   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuProject"/>
    <addaction name="menuTracked_Items"/>
    <addaction name="menuImport"/>
-   <addaction name="menuReports"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
@@ -315,7 +308,7 @@
   </action>
   <action name="actionAboutQt">
    <property name="text">
-    <string>About Qt</string>
+    <string>About &amp;Qt</string>
    </property>
   </action>
  </widget>

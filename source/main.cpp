@@ -1,7 +1,8 @@
 #include <QApplication>
 #include <QtWidgets/QMessageBox>
-#include <gotime/ProjectStatusManager.h>
 
+#include "qxt/qxtglobalshortcut.h"
+#include "gotime/ProjectStatusManager.h"
 #include "main_window.h"
 #include "tray.h"
 

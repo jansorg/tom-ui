@@ -36,7 +36,24 @@ configure_file (
         "${PROJECT_BINARY_DIR}/version.h"
 )
 
-file(GLOB_RECURSE CODE_FILES source/*.cpp source/*.h)
+file(GLOB_RECURSE CODE_FILES source/*.cpp source/*.h qxt/qxtglobalshortcut.cpp)
+add_definitions( -DQXT_STATIC )
+
+find_package(Qt5 COMPONENTS Core Widgets Svg Test REQUIRED)
+find_package(X11)
+if (X11_FOUND)
+    file(GLOB CODE_FILES ${CODE_FILES} qxt/qxtglobalshortcut_x11.cpp)
+    list(APPEND TOM_LIBS  ${X11_LIBRARIES})
+elseif (Q_WS_WIN OR WIN32)
+    file(GLOB CODE_FILES ${CODE_FILES} qxt/qxtglobalshortcut_win.cpp)
+elseif (Q_OS_MAC OR APPLE)
+    file(GLOB CODE_FILES ${CODE_FILES} qxt/qxtglobalshortcut_mac.cpp)
+else()
+    message(WARNING "Building on unsupported platfom!")
+    set(USE_QXT FALSE)
+endif()
+
+include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 
 add_compile_options(-std=c++14 -Wall -Wextra)
 if(CMAKE_BUILD_TYPE EQUAL "release")
@@ -53,23 +70,15 @@ if (APPLE)
             MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
 endif()
 
-#if(APPLE)
-#    set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "tom-ui")
-#endif()
-
 target_include_directories(${PROJECT_NAME} PRIVATE source)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})
-
-# setup libraries
-find_package(Qt5 COMPONENTS Core Widgets Svg Test REQUIRED)
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg Qt5::Test )
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg Qt5::Test ${TOM_LIBS} )
 
 if(ENABLE_REPORTS)
    find_package(Qt5 OPTIONAL_COMPONENTS WebEngineWidgets)
    target_link_libraries(${PROJECT_NAME} Qt5::WebEngineWidgets)
    add_definitions(-DTOM_REPORTS)
 endif()
-
 
 if (UNIX)
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)

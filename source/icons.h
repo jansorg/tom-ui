@@ -43,7 +43,7 @@ namespace Icons {
     }
 
     inline const QIcon removeFrame() {
-        return themeIcon("edit-delete");
+        return icon("edit-delete");
     }
 
     inline const QIcon importData() {

@@ -21,6 +21,10 @@ private:
     QList<Project> _projects;
     TomControl *_control;
     ReportSplitModel* _splitModel;
+
+#ifdef TOM_REPORT
+    QWebEngineView _webView;
+#endif
 };
 
 #endif //TOM_UI_REPORTDIALOG_H

@@ -9,6 +9,9 @@ ProjectReportDialog::ProjectReportDialog(QList<Project> projects, TomControl *co
         : QDialog(parent), _projects(std::move(projects)), _control(control), _splitModel(new ReportSplitModel(this)) {
 
     setupUi(this);
+#ifdef TOM_REPORT
+    _webview = new QWebEngineView(this);
+#endif
 
     connect(splitMoveUp, &QPushButton::pressed, [this] { moveSplitSelection(-1); });
     connect(splitMoveDown, &QPushButton::pressed, [this] { moveSplitSelection(1); });
@@ -51,13 +54,15 @@ void ProjectReportDialog::updateReport() {
     } else if (frameModeText == "up or down") {
         frameMode = NEAREST;
     }
-
     const QString &html = _control->htmlReport(projects,
                                                dateStart->date(), dateEnd->date(),
                                                frameMode, frameRoundingMin,
                                                splits, templateBox->currentText());
-    htmlView->setHtml(html);
-    htmlView->show();
+
+#ifdef TOM_REPORTS
+    _webView->setHtml(html);
+    _webView->show();
+#endif
 }
 
 void ProjectReportDialog::moveSplitSelection(int delta) {

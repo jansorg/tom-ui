@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.1.0)
 
 set(CMAKE_MODULE_PATH cmake)
 
+option(ENABLE_REPORTS "Enable Webkit component to preview reports" OFF)
+
 # Include Qt basic functions
 include(cmake/QtCommon.cmake)
 
@@ -59,9 +61,15 @@ target_include_directories(${PROJECT_NAME} PRIVATE source)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})
 
 # setup libraries
-find_package(Qt5 COMPONENTS Core Widgets Svg WebEngineWidgets Test REQUIRED)
+find_package(Qt5 COMPONENTS Core Widgets Svg Test REQUIRED)
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg Qt5::Test )
 
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg Qt5::WebEngineWidgets Qt5::Test )
+if(ENABLE_REPORTS)
+   find_package(Qt5 OPTIONAL_COMPONENTS WebEngineWidgets)
+   target_link_libraries(${PROJECT_NAME} Qt5::WebEngineWidgets)
+   add_definitions(-DTOM_REPORTS)
+endif()
+
 
 if (UNIX)
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)

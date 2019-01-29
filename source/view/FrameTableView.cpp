@@ -61,6 +61,7 @@ void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
                               false, "",
                               false, "");
     });
+    stop->setIconVisibleInMenu(true);
     stop->setEnabled(frame->isActive());
 
     menu.addSeparator();

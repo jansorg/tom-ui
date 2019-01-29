@@ -407,6 +407,7 @@ Project TomControl::createProject(const QString &parentID, const QString &name) 
         }
 
         const Project &newProject = Project(names, id, parent);
+        _cachedProjects[id] = newProject;
         emit projectCreated(newProject);
 
         return newProject;
@@ -421,6 +422,7 @@ bool TomControl::removeProject(const Project &project) {
 
     auto status = run(args);
     if (status.isSuccessful()) {
+        _cachedProjects.remove(project.getID());
         emit projectRemoved(project);
     }
     return status.isSuccessful();
@@ -559,4 +561,14 @@ QString TomControl::htmlReport(QStringList projectIDs,
 
 const Project TomControl::cachedActiveProject() const {
     return _activeProject;
+}
+
+bool TomControl::hasSubprojects(const Project &project) {
+    const QString &parentID = project.getID();
+    for (auto p : _cachedProjects) {
+        if (p.getParentID() == parentID) {
+            return true;
+        }
+    }
+    return false;
 }

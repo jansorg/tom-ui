@@ -37,6 +37,8 @@ public:
 
     const Project cachedActiveProject() const;
 
+    bool hasSubprojects(const Project &project);
+
     GotimeStatus status();
 
     const ProjectsStatus projectsStatus(const QString &overallID, bool includeActive);

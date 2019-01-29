@@ -28,6 +28,8 @@ private slots:
 
     void onCustomContextMenuRequested(const QPoint &pos);
 
+    void onSubprojectStatusChange(bool available);
+
 private:
     TomControl *_control;
     QSortFilterProxyModel *_proxyModel;

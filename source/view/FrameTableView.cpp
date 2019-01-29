@@ -24,7 +24,7 @@ void FrameTableView::setup(TomControl *control) {
     _proxyModel->setSourceModel(_sourceModel);
     setModel(_proxyModel);
 
-//    new QAbstractItemModelTester(_sourceModel, QAbstractItemModelTester::FailureReportingMode::Warning, this);
+    // new QAbstractItemModelTester(_sourceModel, QAbstractItemModelTester::FailureReportingMode::Warning, this);
 
     horizontalHeader()->setResizeContentsPrecision(1);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_START_DATE, QHeaderView::ResizeToContents);
@@ -38,6 +38,7 @@ void FrameTableView::setup(TomControl *control) {
     sortByColumn(0, Qt::DescendingOrder);
 
     connect(this, &FrameTableView::customContextMenuRequested, this, &FrameTableView::onCustomContextMenuRequested);
+    connect(_sourceModel, &FrameTableViewModel::subprojectStatusChange, this, &FrameTableView::onSubprojectStatusChange);
 }
 
 void FrameTableView::onCustomContextMenuRequested(const QPoint &pos) {
@@ -70,6 +71,13 @@ void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
 
 void FrameTableView::onProjectSelected(const Project &project) {
     _sourceModel->loadFrames(project);
+}
+void FrameTableView::onSubprojectStatusChange(bool available) {
+    if (available) {
+        showColumn(FrameTableViewModel::COL_SUBPROJECT);
+    } else {
+        hideColumn(FrameTableViewModel::COL_SUBPROJECT);
+    }
 }
 
 void FrameTableView::deleteSelectedEntries() {

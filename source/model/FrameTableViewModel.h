@@ -9,6 +9,7 @@
 static const QString &FRAMES_MIME_TYPE = "application/x-tom-frames";
 
 class FrameTableViewModel : public QAbstractTableModel {
+Q_OBJECT
 public:
     explicit FrameTableViewModel(TomControl *control, QObject *parent);
 
@@ -41,6 +42,10 @@ public:
     static const int FIRST_COL = 0;
     static const int COLUMN_COUNT = COL_NOTES + 1;
 
+signals:
+
+    void subprojectStatusChange(bool available);
+
 private slots:
 
     void onFramesRemoved(const QStringList &frameIDs, const QString &projectID);
@@ -50,6 +55,8 @@ private slots:
     void onProjectUpdated(const Project &project);
 
     void onUpdateActiveFrames();
+
+    void onProjectHierarchyChange();
 
 private:
     int rowCount(const QModelIndex &parent) const override;

@@ -3,7 +3,6 @@
 #include "FrameTableViewModel.h"
 #include "UserRoles.h"
 
-const auto grayColorValue = QVariant(QColor(Qt::gray));
 const auto redColorValue = QVariant(QColor(Qt::darkRed));
 const auto alignedRightVCenter = QVariant(Qt::AlignRight + Qt::AlignVCenter);
 
@@ -13,6 +12,8 @@ FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) :
     connect(_control, &TomControl::framesRemoved, this, &FrameTableViewModel::onFramesRemoved);
     connect(_control, &TomControl::framesMoved, this, &FrameTableViewModel::onFramesMoved);
     connect(_control, &TomControl::projectUpdated, this, &FrameTableViewModel::onProjectUpdated);
+    connect(_control, &TomControl::projectCreated, this, &FrameTableViewModel::onProjectHierarchyChange);
+    connect(_control, &TomControl::projectRemoved, this, &FrameTableViewModel::onProjectHierarchyChange);
     connect(_control, &TomControl::dataResetNeeded, [this] { this->loadFrames(Project()); });
 
     auto *frameUpdateTimer = new QTimer(this);
@@ -37,6 +38,12 @@ void FrameTableViewModel::loadFrames(const Project &project) {
     }
 
     endResetModel();
+
+    emit subprojectStatusChange(_control->hasSubprojects(project));
+}
+
+void FrameTableViewModel::onProjectHierarchyChange() {
+    emit subprojectStatusChange(_control->hasSubprojects(_currentProject));
 }
 
 void FrameTableViewModel::onFramesRemoved(const QStringList &frameIDs, const QString &projectID) {

@@ -4,11 +4,11 @@
 #include <QtCore/QDateTime>
 #include "data/Project.h"
 
-class GotimeStatus {
+class TomStatus {
 public:
-    explicit GotimeStatus();
+    explicit TomStatus();
 
-    explicit GotimeStatus(bool valid, Project &activeProject, QDateTime &startTime);
+    explicit TomStatus(bool valid, Project &activeProject, QDateTime &startTime);
 
     const Project &currentProject() const;
 

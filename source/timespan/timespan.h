@@ -10,7 +10,7 @@
 
 class Timespan {
 public:
-    static Timespan of(const QDateTime &start, const QDateTime &end);
+    static Timespan of(const QDateTime &start, const QDateTime &end = QDateTime::currentDateTime());
 
     Timespan();
 

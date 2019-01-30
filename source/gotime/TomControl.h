@@ -7,7 +7,7 @@
 
 #include "data/Project.h"
 #include "CommandStatus.h"
-#include "GotimeStatus.h"
+#include "TomStatus.h"
 #include "ProjectStatus.h"
 
 enum TimeRoundingMode {
@@ -29,7 +29,7 @@ public:
 
     QList<Project> loadProjects(int max = -1);
 
-    QList<Project> loadRecentProjects(int max);
+    QList<Project> loadRecentProjects(int max = 6);
 
     QList<Project> cachedProjects() const;
 
@@ -39,7 +39,8 @@ public:
 
     bool hasSubprojects(const Project &project);
 
-    GotimeStatus status();
+    TomStatus status();
+    TomStatus cachedStatus();
 
     const ProjectsStatus projectsStatus(const QString &overallID, bool includeActive);
 
@@ -49,17 +50,17 @@ public:
 
     bool renameProject(const QString &id, const QString &newName);
 
-    bool removeProject(const Project& project);
+    bool removeProject(const Project &project);
 
     bool renameTag(const QString &id, const QString &newName);
 
     bool updateFrame(const QList<Frame *> &frames, bool updateStart, const QDateTime &start, bool updateEnd,
-                     const QDateTime &end, bool updateNotes, const QString &notes, bool updateProject, const QString& projectID);
+                     const QDateTime &end, bool updateNotes, const QString &notes, bool updateProject, const QString &projectID);
 
-    bool updateFrame(const QStringList& ids, const QString&currentProjectID, bool updateStart, const QDateTime &start, bool updateEnd,
-                     const QDateTime &end, bool updateNotes, const QString&notes, bool updateProject, const QString& projectID);
+    bool updateFrame(const QStringList &ids, const QString &currentProjectID, bool updateStart, const QDateTime &start, bool updateEnd,
+                     const QDateTime &end, bool updateNotes, const QString &notes, bool updateProject, const QString &projectID);
 
-    bool removeFrames(const QList<Frame*> &frames);
+    bool removeFrames(const QList<Frame *> &frames);
 
     bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID);
 
@@ -95,7 +96,7 @@ signals:
 
     void framesRemoved(const QStringList &ids, const QString &projectID);
 
-    void framesMoved(const QStringList &ids, const QString &oldProjectID, const QString& newProjectID);
+    void framesMoved(const QStringList &ids, const QString &oldProjectID, const QString &newProjectID);
 
 public slots:
 
@@ -110,6 +111,7 @@ private:
 
     Project _activeProject;
     QHash<QString, Project> _cachedProjects;
+    TomStatus _cachedStatus;
 
     QString _gotimePath;
     bool _bashScript;

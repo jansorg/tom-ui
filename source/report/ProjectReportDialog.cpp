@@ -65,7 +65,7 @@ void ProjectReportDialog::updateReport() {
 #endif
 }
 
-void ProjectReportDialog::moveSplitSelection(int delta) {
+void ProjectReportDialog::moveSplitSelection(int /*delta*/) {
 //    const QModelIndex &selected = splitList->selectionModel()->currentIndex();
 //    if (selected.isValid()) {
 //        int row = selected.row();

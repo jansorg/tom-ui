@@ -59,14 +59,14 @@ void GotimeTrayIcon::updateProjects() {
     }
     _projectActions.clear();
 
-    for (const auto &project : _control->loadRecentProjects(6)) {
+    for (const auto &project : _control->loadRecentProjects()) {
         _projectActions << new StartProjectAction(project, _control, this);
     }
     _menu->insertActions(_separatorAction, _projectActions);
 }
 
 void GotimeTrayIcon::updateStatus() {
-    _lastStatus = _control->status();
+    _lastStatus = _control->cachedStatus();
 
     updateProjects();
 

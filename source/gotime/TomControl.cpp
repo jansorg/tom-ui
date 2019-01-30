@@ -11,10 +11,16 @@ TomControl::TomControl(QString gotimePath, bool bashScript, QObject *parent) : Q
     // updates our project cache
     loadProjects();
 
-    const GotimeStatus &status = this->status();
-    if (status.isValid) {
-        _activeProject = status.currentProject();
-    }
+
+    // cache status for the initial value
+    this->status();
+
+    auto *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, [this] {
+        //cache the current status
+        this->status();
+    });
+    timer->start(2000);
 }
 
 void TomControl::cacheProjects(const QList<Project> &projects) {
@@ -85,7 +91,9 @@ bool TomControl::startProject(const Project &project) {
     auto success = run(QStringList() << "start" << project.getID()).isSuccessful();
     if (success) {
         auto stopped = _activeProject;
-        _activeProject = project;
+
+        // update cache
+        status();
 
         emit projectStarted(project);
         emit projectUpdated(project);
@@ -101,12 +109,13 @@ bool TomControl::startProject(const Project &project) {
 }
 
 bool TomControl::cancelActivity() {
-    _activeProject = Project();;
-
-    const GotimeStatus &active = status();
+    const TomStatus &active = status();
 
     bool success = run(QStringList() << "cancel").isSuccessful();
     if (success && active.isValid) {
+        // update our cache
+        status();
+
         emit projectCancelled(active.currentProject());
         emit projectUpdated(active.currentProject());
     }
@@ -114,47 +123,55 @@ bool TomControl::cancelActivity() {
 }
 
 bool TomControl::stopActivity() {
-    const GotimeStatus &current = status();
+    const TomStatus &current = status();
 
     _activeProject = Project();
     bool success = run(QStringList() << "stop").isSuccessful();
     if (success && current.isValid) {
+        // update our cache
+        status();
+
         emit projectStopped(current.currentProject());
         emit projectUpdated(current.currentProject());
     }
     return success;
 }
 
-GotimeStatus TomControl::status() {
+TomStatus TomControl::cachedStatus() {
+    return _cachedStatus;
+}
+
+TomStatus TomControl::status() {
     // frameID, projectName, projectID, ...
     QStringList args = QStringList() << "status"
                                      << "--name-delimiter=||"
                                      << "-f" << "id,projectFullName,projectID,projectParentID,startTime";
 
     CommandStatus status = run(args);
-    if (status.isFailed()) {
-        return GotimeStatus();
+    TomStatus result = TomStatus();
+    if (status.isSuccessful()) {
+        // fixme atm we omly support a single active project
+        QStringList lines = status.stdoutContent.split("\n", QString::SkipEmptyParts);
+        if (!lines.isEmpty()) {
+            QStringList parts = lines.first().split("\t");
+            if (parts.size() != 5) {
+                qWarning() << "unexpected status line" << lines.first();
+                return TomStatus();
+            }
+
+            const QStringList &projectName = parts[1].split("||");
+            const QString &projectID = parts[2];
+            const QString &parentID = parts[3];
+
+            QDateTime startTime = QDateTime::fromString(parts[4], Qt::ISODate);
+            Project project = Project(projectName, projectID, parentID);
+            result = TomStatus(true, project, startTime);
+        }
     }
 
-    // fixme atm we omly support a single active project
-    QStringList lines = status.stdoutContent.split("\n", QString::SkipEmptyParts);
-    if (lines.isEmpty()) {
-        return GotimeStatus();
-    }
-
-    QStringList parts = lines.first().split("\t");
-    if (parts.size() != 5) {
-        qDebug() << "unexpected status line" << lines.first();
-        return GotimeStatus();
-    }
-
-    const QStringList &projectName = parts[1].split("||");
-    const QString &projectID = parts[2];
-    const QString &parentID = parts[3];
-    QDateTime startTime = QDateTime::fromString(parts[4], Qt::ISODate);
-
-    Project project = Project(projectName, projectID, parentID);
-    return GotimeStatus(true, project, startTime);
+    _cachedStatus = result;
+    _activeProject = _cachedStatus.currentProject();
+    return result;
 }
 
 QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubprojects) {

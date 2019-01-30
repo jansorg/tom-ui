@@ -123,7 +123,7 @@ void MainWindow::onProjectSelectionChange(const Project &current) {
 }
 
 void MainWindow::onProjectStatusChange() {
-    ui.actionProjectStop->setEnabled(_control->status().currentProject().isValid());
+    ui.actionProjectStop->setEnabled(_control->cachedStatus().currentProject().isValid());
 }
 
 void MainWindow::startCurrentProject() {

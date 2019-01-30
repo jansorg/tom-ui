@@ -31,7 +31,7 @@ private:
     QAction *_stopTaskAction;
     QAction *_separatorAction;
 
-    GotimeStatus _lastStatus;
+    TomStatus _lastStatus;
 
     QIcon _startedIcon;
     QIcon _stoppedIcon;

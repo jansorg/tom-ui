@@ -55,6 +55,7 @@ ProjectLookup::ProjectLookup(TomControl *control, QWidget *parent) : QDialog(par
 
 void ProjectLookup::keyPressEvent(QKeyEvent *event) {
     // display a menu of the most recent proejcts on arrow down
+    qDebug() << "keyPressEvent" << event;
     if (event->key() == Qt::Key_Down) {
         event->accept();
 

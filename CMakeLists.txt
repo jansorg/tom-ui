@@ -50,9 +50,8 @@ elseif (Q_WS_WIN OR WIN32)
 elseif (Q_OS_MAC OR APPLE)
     file(GLOB CODE_FILES ${CODE_FILES} qxt/qxtglobalshortcut_mac.cpp)
 
-    FIND_LIBRARY( CARBON_LIBRARY Carbon )
-    FIND_LIBRARY( COCOA_LIBRARY Cocoa )
-
+    FIND_LIBRARY(CARBON_LIBRARY Carbon)
+    FIND_LIBRARY(COCOA_LIBRARY Cocoa)
     LIST( APPEND TOM_LIBS ${CARBON_LIBRARY} ${COCOA_LIBRARY} )
 else()
     message(WARNING "Building on unsupported platfom!")

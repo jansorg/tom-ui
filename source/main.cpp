@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
 
     new GotimeTrayIcon(control, &mainWindow);
 
-    const QKeySequence shortcut("Ctrl+Alt+Shift+P");
+    const QKeySequence shortcut(Qt::CTRL + Qt::META + Qt::SHIFT + Qt::Key_P);
     const QxtGlobalShortcut globalShortcut(shortcut);
 
     if (globalShortcut.isValid()) {

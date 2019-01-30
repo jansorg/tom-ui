@@ -6,15 +6,17 @@
 #include "source/gotime/TomControl.h"
 
 class ProjectStatusLabel : public QLabel {
+Q_OBJECT
+
 public:
-    explicit ProjectStatusLabel(QWidget* parent);
+    explicit ProjectStatusLabel(QWidget *parent);
 
     void setup(TomControl *control);
 
 private:
     void updateStatus();
 
-    TomControl* _control;
+    TomControl *_control;
 };
 
 

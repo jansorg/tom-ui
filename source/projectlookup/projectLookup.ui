@@ -26,7 +26,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Tom: Start project</string>
+   <string>Tom: Project</string>
   </property>
   <property name="sizeGripEnabled">
    <bool>false</bool>

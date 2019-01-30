@@ -8,19 +8,22 @@
 #include "ui_projectLookup.h"
 
 class ProjectLookup : public QDialog, private Ui::ProjectLookupDialog {
-public:
-    explicit ProjectLookup(TomControl* control, QWidget* parent);
+Q_OBJECT
 
-    static void show(TomControl* control, QWidget* parent);
+public:
+    explicit ProjectLookup(TomControl *control, QWidget *parent);
+
+    static void show(TomControl *control, QWidget *parent);
 
 private slots:
-    void onProjectStart(const QModelIndex&);
+
+    void onProjectStart(const QModelIndex &);
 
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 
 private:
-    TomControl* _control;
+    TomControl *_control;
 };
 
 

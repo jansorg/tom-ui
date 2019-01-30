@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>709</width>
-    <height>91</height>
+    <height>94</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -67,7 +67,7 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="projectNameEdit">
+    <widget class="ProjectCompletionLineEdit" name="projectNameEdit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
        <horstretch>10</horstretch>
@@ -166,6 +166,11 @@
    <class>ProjectStatusLabel</class>
    <extends>QLabel</extends>
    <header>commonWidgets/projectstatuslabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ProjectCompletionLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>commonWidgets/projectcompletionlineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

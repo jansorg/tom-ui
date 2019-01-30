@@ -19,9 +19,6 @@ private slots:
 
     void onProjectStart(const QModelIndex &);
 
-protected:
-    void keyPressEvent(QKeyEvent *event) override;
-
 private:
     TomControl *_control;
 };

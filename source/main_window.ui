@@ -151,6 +151,7 @@
     <addaction name="actionProjectStart"/>
     <addaction name="actionProjectStop"/>
     <addaction name="separator"/>
+    <addaction name="actionCreateProject"/>
     <addaction name="actionProjectRemove"/>
    </widget>
    <widget class="QMenu" name="menuTracked_Items">
@@ -323,7 +324,7 @@
   </action>
   <action name="actionProjectLookup">
    <property name="text">
-    <string>Start project...</string>
+    <string>Sta&amp;rt project...</string>
    </property>
    <property name="statusTip">
     <string>Quickly lookup a project by name...</string>

@@ -20,6 +20,10 @@ signals:
 protected:
     void keyPressEvent(QKeyEvent *event) override;
 
+private slots:
+
+    void onProjectSelected(const QModelIndex &);
+
 private:
     TomControl *_control;
 };

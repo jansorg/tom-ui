@@ -11,13 +11,10 @@ class ProjectLookup : public QDialog, private Ui::ProjectLookupDialog {
 Q_OBJECT
 
 public:
-    explicit ProjectLookup(TomControl *control, QWidget *parent);
-
     static void show(TomControl *control, QWidget *parent);
 
-private slots:
-
-    void onProjectStart(const QModelIndex &);
+protected:
+    explicit ProjectLookup(TomControl *control, QWidget *parent);
 
 private:
     TomControl *_control;

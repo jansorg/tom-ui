@@ -27,7 +27,7 @@ void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusMan
 
     setSortingEnabled(true);
 
-    _sourceModel = new ProjectTreeModel(_control, _statusManager, this);
+    _sourceModel = new ProjectTreeModel(_control, _statusManager, true, this);
 
     _proxyModel = new ProjectTreeSortFilterModel(this);
     _proxyModel->setSourceModel(_sourceModel);

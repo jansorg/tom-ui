@@ -12,7 +12,7 @@
 #include "FrameTableViewModel.h"
 #include "icons.h"
 
-ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, QObject *parent)
+ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, bool showOverallProject, QObject *parent)
         : QAbstractItemModel(parent),
           _control(control),
           _statusManager(statusManager),
@@ -21,8 +21,12 @@ ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *st
           _headers(QStringList() << "Name" << "Today" << "This week" << "This month" << "Total") {
 
     _rootItem = new ProjectTreeRootItem(_statusManager);
-    _visibleRootItem = new ProjectTreeRootItem(_statusManager, _rootItem);
-    _rootItem->appendChild(_visibleRootItem);
+    if (showOverallProject) {
+        _visibleRootItem = new ProjectTreeRootItem(_statusManager, _rootItem);
+        _rootItem->appendChild(_visibleRootItem);
+    } else {
+        _visibleRootItem = _rootItem;
+    }
 
     // fixme move into background?
 //    _projects = _control->loadProjects();

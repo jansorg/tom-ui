@@ -6,13 +6,14 @@
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QFileDialog>
 #include <source/report/ProjectReportDialog.h>
+#include <source/projectlookup/projectlookup.h>
 
 #include "version.h"
 #include "icons.h"
 #include "main_window.h"
 #include "ActionUtils.h"
 
-MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(parent), _control(control) {
+MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(parent), _control(control), _statusManager(statusManager) {
 //#ifndef Q_OS_MAC
     setWindowIcon(Icons::LogoLarge());
 //#endif
@@ -152,4 +153,8 @@ void MainWindow::createReport() {
 //    QStringList &ids = QStringList() << ui.projectTree->getCurrentProject().getID();
     ProjectReportDialog *dialog = new ProjectReportDialog(QList<Project>(), _control, this);
     dialog->show();
+}
+
+void MainWindow::lookupProject() {
+    ProjectLookup::show(_control, this);
 }

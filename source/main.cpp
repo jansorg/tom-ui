@@ -1,5 +1,6 @@
 #include <QApplication>
 #include <QtWidgets/QMessageBox>
+#include <source/projectlookup/projectlookup.h>
 
 #include "qxt/qxtglobalshortcut.h"
 #include "gotime/ProjectStatusManager.h"
@@ -38,5 +39,17 @@ int main(int argc, char *argv[]) {
     mainWindow.show();
 
     new GotimeTrayIcon(control, &mainWindow);
+
+    const QKeySequence shortcut("Ctrl+Alt+Shift+P");
+    const QxtGlobalShortcut globalShortcut(shortcut);
+
+    if (globalShortcut.isValid()) {
+        QObject::connect(
+                &globalShortcut, &QxtGlobalShortcut::activated, &globalShortcut,
+                [&]{
+                    ProjectLookup::show(control, nullptr);
+                });
+    }
+
     return QApplication::exec();
 }

@@ -51,11 +51,14 @@ private slots:
 
     void onEntrySelectionChange(const QItemSelection &);
 
+    void lookupProject();
+
 private:
     void createActions();
 
     Ui::MainWindow ui;
     TomControl *_control;
+    ProjectStatusManager *_statusManager;
 };
 
 #endif

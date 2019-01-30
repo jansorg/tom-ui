@@ -8,7 +8,7 @@
     <x>0</x>
     <y>0</y>
     <width>911</width>
-    <height>772</height>
+    <height>733</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -121,7 +121,7 @@
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>&amp;File</string>
+     <string>Fi&amp;le</string>
     </property>
     <addaction name="actionRefresh"/>
     <addaction name="actionResetAllData"/>
@@ -147,6 +147,7 @@
     <property name="title">
      <string>Pro&amp;ject</string>
     </property>
+    <addaction name="actionProjectLookup"/>
     <addaction name="actionProjectStart"/>
     <addaction name="actionProjectStop"/>
     <addaction name="separator"/>
@@ -276,6 +277,12 @@
    <property name="toolTip">
     <string>Start the currently selected project</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+B</string>
+   </property>
+   <property name="shortcutContext">
+    <enum>Qt::WindowShortcut</enum>
+   </property>
   </action>
   <action name="actionProjectStop">
    <property name="text">
@@ -283,6 +290,9 @@
    </property>
    <property name="toolTip">
     <string>Stop the currently selected project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
   </action>
   <action name="actionTimeEntryRemove">
@@ -309,6 +319,17 @@
   <action name="actionAboutQt">
    <property name="text">
     <string>About &amp;Qt</string>
+   </property>
+  </action>
+  <action name="actionProjectLookup">
+   <property name="text">
+    <string>Start project...</string>
+   </property>
+   <property name="statusTip">
+    <string>Quickly lookup a project by name...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
  </widget>
@@ -536,6 +557,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionProjectLookup</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>lookupProject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>385</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshData()</slot>
@@ -550,5 +587,6 @@
   <slot>deleteSelectedTimeEntries()</slot>
   <slot>deleteCurrentProject()</slot>
   <slot>createReport()</slot>
+  <slot>lookupProject()</slot>
  </slots>
 </ui>

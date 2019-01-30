@@ -14,7 +14,7 @@ class ProjectTreeModel : public QAbstractItemModel {
 Q_OBJECT
 
 public:
-    ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, QObject *parent);
+    ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, bool showToplevelProject, QObject *parent);
 
     ~ProjectTreeModel() override;
 

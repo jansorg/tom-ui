@@ -26,19 +26,19 @@ namespace Icons {
 
 #endif
 
-    inline QIcon exit() {
+    inline const QIcon exit() {
         return themeIcon("application-exit");
     }
 
-    inline QIcon about() {
+    inline const QIcon about() {
         return themeIcon("help-about");
     }
 
-    inline QIcon startTimer() {
+    inline const QIcon startTimer() {
         return icon("timer-start");
     }
 
-    inline QIcon stopTimer() {
+    inline const QIcon stopTimer() {
         return icon("timer-stop");
     }
 
@@ -50,7 +50,7 @@ namespace Icons {
         return themeIcon("document-import");
     }
 
-    inline QIcon projectNew() {
+    inline const QIcon projectNew() {
         return icon("document-new");
     }
 
@@ -70,11 +70,11 @@ namespace Icons {
         return icon("edit-delete");
     }
 
-    inline QIcon activeProject() {
+    inline const QIcon activeProject() {
         return icon("project-active");
     }
 
-    inline QIcon withActiveSubproject() {
+    inline const QIcon withActiveSubproject() {
         return icon("project-active-subproject");
     }
 

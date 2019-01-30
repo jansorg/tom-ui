@@ -2,6 +2,7 @@
 #define TOM_UI_REPORTDIALOG_H
 
 #include <QStringListModel>
+
 #include "ui_reportDialog.h"
 #include "source/data/Project.h"
 #include "source/gotime/TomControl.h"

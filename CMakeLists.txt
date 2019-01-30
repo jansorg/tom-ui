@@ -41,6 +41,7 @@ add_definitions( -DQXT_STATIC )
 
 find_package(Qt5 COMPONENTS Core Widgets Svg Test REQUIRED)
 find_package(X11)
+
 if (X11_FOUND)
     file(GLOB CODE_FILES ${CODE_FILES} qxt/qxtglobalshortcut_x11.cpp)
     list(APPEND TOM_LIBS  ${X11_LIBRARIES})
@@ -48,6 +49,11 @@ elseif (Q_WS_WIN OR WIN32)
     file(GLOB CODE_FILES ${CODE_FILES} qxt/qxtglobalshortcut_win.cpp)
 elseif (Q_OS_MAC OR APPLE)
     file(GLOB CODE_FILES ${CODE_FILES} qxt/qxtglobalshortcut_mac.cpp)
+
+    FIND_LIBRARY( CARBON_LIBRARY Carbon )
+    FIND_LIBRARY( COCOA_LIBRARY Cocoa )
+
+    LIST( APPEND TOM_LIBS ${CARBON_LIBRARY} ${COCOA_LIBRARY} )
 else()
     message(WARNING "Building on unsupported platfom!")
     set(USE_QXT FALSE)

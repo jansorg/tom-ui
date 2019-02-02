@@ -13,7 +13,7 @@ ProjectReportDialog::ProjectReportDialog(QList<Project> projects, TomControl *co
 //    _webView->settings()->setAttribute(QWebEngineSettings::XSSAuditingEnabled, false);
     previewFrame->layout()->addWidget(_webView);
     _webView->show();
-#elif
+#else
     previewFrame->hide();
 #endif
 

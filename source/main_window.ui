@@ -160,9 +160,19 @@
     </property>
     <addaction name="actionTimeEntryRemove"/>
    </widget>
+   <widget class="QMenu" name="menuReports">
+    <property name="enabled">
+     <bool>true</bool>
+    </property>
+    <property name="title">
+     <string>Reports</string>
+    </property>
+    <addaction name="actionReportCreate"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuProject"/>
    <addaction name="menuTracked_Items"/>
+   <addaction name="menuReports"/>
    <addaction name="menuImport"/>
    <addaction name="menu_Help"/>
   </widget>
@@ -239,7 +249,7 @@
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-    <string>Create New Project</string>
+    <string>&amp;Create New Project</string>
    </property>
    <property name="toolTip">
     <string>Create a new project</string>
@@ -314,7 +324,7 @@
   </action>
   <action name="actionReportCreate">
    <property name="text">
-    <string>&amp;Create report...</string>
+    <string>&amp;Create project report...</string>
    </property>
   </action>
   <action name="actionAboutQt">
@@ -331,6 +341,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionCreateProjectReport">
+   <property name="text">
+    <string>Create project report...</string>
    </property>
   </action>
  </widget>

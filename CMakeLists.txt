@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.1.0)
 
 set(CMAKE_MODULE_PATH cmake)
 
-option(ENABLE_REPORTS "Enable Webkit component to preview reports" OFF)
+option(ENABLE_REPORTS "Enable Webkit component to preview reports" ON)
 
 # Include Qt basic functions
 include(cmake/QtCommon.cmake)
@@ -82,7 +82,7 @@ target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg Qt5::Test ${TOM_LIBS
 if(ENABLE_REPORTS)
    find_package(Qt5 OPTIONAL_COMPONENTS WebEngineWidgets)
    target_link_libraries(${PROJECT_NAME} Qt5::WebEngineWidgets)
-   add_definitions(-DTOM_REPORTS)
+   add_compile_definitions(TOM_REPORTS=true)
 endif()
 
 if (UNIX)

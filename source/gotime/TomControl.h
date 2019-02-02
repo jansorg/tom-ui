@@ -40,6 +40,7 @@ public:
     bool hasSubprojects(const Project &project);
 
     TomStatus status();
+
     TomStatus cachedStatus();
 
     const ProjectsStatus projectsStatus(const QString &overallID, bool includeActive);
@@ -74,7 +75,13 @@ public:
 
     bool isChildProject(const QString &id, const QString &parentID);
 
-    QString htmlReport(QStringList projectIDs, QDate start, QDate end, TimeRoundingMode frameRoundingMode, int frameRoundingMinutes, QStringList splits, QString templateID);
+    QString htmlReport(const QString &outputFile,
+                       QStringList projectIDs, QDate start, QDate end,
+                       TimeRoundingMode frameRoundingMode, int frameRoundingMinutes, QStringList splits, QString templateID,
+                       bool matrixTables,
+                       bool showEmpty,
+                       bool showSummary,
+                       const QString &title, const QString &description);
 
 signals:
 
@@ -107,7 +114,7 @@ public slots:
     bool cancelActivity();
 
 private:
-    CommandStatus run(const QStringList &args);
+    CommandStatus run(const QStringList &args, long timeoutMillis = 1000);
 
     Project _activeProject;
     QHash<QString, Project> _cachedProjects;

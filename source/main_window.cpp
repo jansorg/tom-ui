@@ -5,13 +5,14 @@
 #include <dialogs/CommonDialogs.h>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QFileDialog>
-#include <source/report/ProjectReportDialog.h>
-#include <source/projectlookup/projectlookup.h>
 
 #include "version.h"
 #include "icons.h"
 #include "main_window.h"
 #include "ActionUtils.h"
+
+#include "source/report/ProjectReportDialog.h"
+#include "source/projectlookup/projectlookup.h"
 
 MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(parent), _control(control), _statusManager(statusManager) {
 //#ifndef Q_OS_MAC
@@ -19,6 +20,11 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 //#endif
 
     ui.setupUi(this);
+#ifndef TOM_REPORTS
+    ui.menuReports->setEnabled(false);
+    ui.menuReports->setVisible(false);
+#endif
+
     ui.projectTree->setup(control, statusManager);
     ui.frameView->setup(control);
 

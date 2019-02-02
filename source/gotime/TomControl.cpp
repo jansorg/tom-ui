@@ -378,7 +378,7 @@ const ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool i
     return ProjectsStatus(mapping);
 }
 
-CommandStatus TomControl::run(const QStringList &args) {
+CommandStatus TomControl::run(const QStringList &args, long timeoutMillis) {
     auto start = QDateTime::currentDateTime().toMSecsSinceEpoch();
     qDebug() << "running" << _gotimePath << args;
 
@@ -388,7 +388,7 @@ CommandStatus TomControl::run(const QStringList &args) {
     } else {
         process.start(_gotimePath, args);
     }
-    process.waitForFinished(600);
+    process.waitForFinished(timeoutMillis);
 
     QString output(process.readAllStandardOutput());
     QString errOutput(process.readAllStandardError());
@@ -528,28 +528,50 @@ bool TomControl::isChildProject(const QString &id, const QString &parentID) {
     return false;
 }
 
-QString TomControl::htmlReport(QStringList projectIDs,
+QString TomControl::htmlReport(const QString &outputFile,
+                               QStringList projectIDs,
                                QDate start, QDate end,
                                TimeRoundingMode frameRoundingMode, int frameRoundingMinutes,
-                               QStringList splits, QString templateID) {
+                               QStringList splits, QString templateID,
+                               bool matrixTables,
+                               bool showEmpty,
+                               bool showSummary,
+                               const QString &title, const QString &description) {
     QStringList args;
     args << "report";
-    args << "--split" << splits.join(",");
+    if (!outputFile.isEmpty()) {
+        args << QString("--output-file=%1").arg(outputFile);
+    }
+    args << "--split=" + splits.join(",");
 
     if (!projectIDs.isEmpty()) {
-        args << "--project" << projectIDs;
+        for (const auto &id : projectIDs) {
+            args << "--project=" + id;
+        }
     }
 
     if (!templateID.isEmpty()) {
-        args << "--template" << templateID;
+        args << "--template=" + templateID;
     }
 
     if (start.isValid() && !start.isNull()) {
-        args << "--from" << QDateTime(start).toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+        args << "--from=" + QDateTime(start).toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
     }
 
     if (end.isValid() && !end.isNull()) {
-        args << "--to" << QDateTime(end).toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+        args << "--to=" + QDateTime(end).toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+    }
+
+    args << QString("--matrix-tables=%1").arg(matrixTables ? "true" : "false");
+    args << QString("--show-empty=%1").arg(showEmpty ? "true" : "false");
+    args << QString("--show-summary=%1").arg(showSummary ? "true" : "false");
+
+    if (!title.isEmpty()) {
+        args << "--title=" + title;
+    }
+
+    if (!description.isEmpty()) {
+        args << "--description=" + description;
     }
 
     switch (frameRoundingMode) {
@@ -571,7 +593,7 @@ QString TomControl::htmlReport(QStringList projectIDs,
         args << "--round-frames-to" << QString("%1m").arg(frameRoundingMinutes);
     }
 
-    const auto &status = run(args);
+    const auto &status = run(args, 5000);
 
     return status.stdoutContent;
 }

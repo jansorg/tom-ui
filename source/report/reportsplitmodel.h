@@ -11,7 +11,7 @@
 class ReportSplitModel : public QStringListModel {
 Q_OBJECT
 public:
-    ReportSplitModel(QObject* parent);
+    explicit ReportSplitModel(QObject* parent);
 
     Qt::ItemFlags flags(const QModelIndex &index) const override;
 
@@ -23,12 +23,14 @@ public:
 
     QStringList checkedItems();
 
+    bool moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationRow) override;
+
 signals:
 
     void itemStateChanged();
 
 private:
-    QSet<QPersistentModelIndex> _checked;
+    QSet<QString> _checked;
 };
 
 

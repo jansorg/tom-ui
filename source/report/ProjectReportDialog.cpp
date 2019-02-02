@@ -52,7 +52,7 @@ ProjectReportDialog::ProjectReportDialog(QList<Project> projects, TomControl *co
     connect(showEmptyCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(showSummaryCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
-    updateReport();
+    //updateReport();
 }
 
 void ProjectReportDialog::updateReport() {

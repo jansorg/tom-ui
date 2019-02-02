@@ -10,6 +10,7 @@ RUN apt-get update \
         qt5-default \
         qtbase5-dev \
         libqt5webview5-dev \
+        qtwebengine5-dev \
         qttools5-dev \
         rpm \
         xvfb \

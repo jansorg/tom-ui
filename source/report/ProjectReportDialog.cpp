@@ -1,6 +1,5 @@
 #include <utility>
 #include <QtGlobal>
-#include <QWebEngineSettings>
 
 #include "ProjectReportDialog.h"
 
@@ -10,8 +9,8 @@ ProjectReportDialog::ProjectReportDialog(QList<Project> projects, TomControl *co
     setupUi(this);
 #ifdef TOM_REPORTS
     _webView = new QWebEngineView(this);
-    _webView->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, false);
-    _webView->settings()->setAttribute(QWebEngineSettings::XSSAuditingEnabled, false);
+//    _webView->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, false);
+//    _webView->settings()->setAttribute(QWebEngineSettings::XSSAuditingEnabled, false);
     previewFrame->layout()->addWidget(_webView);
     _webView->show();
 #elif

@@ -21,6 +21,8 @@ ProjectReportDialog::ProjectReportDialog(QList<Project> projects, TomControl *co
         _tempFile = _tempDir.filePath("report.html");
     }
 
+    splitMoveUp->setIcon(style()->standardIcon(QStyle::SP_ArrowUp));
+    splitMoveDown->setIcon(style()->standardIcon(QStyle::SP_ArrowDown));
     connect(splitMoveUp, &QPushButton::pressed, [this] { moveSplitSelection(-1); });
     connect(splitMoveDown, &QPushButton::pressed, [this] { moveSplitSelection(1); });
     _splitModel->setCheckedItems(QStringList() << "project");
@@ -104,7 +106,7 @@ void ProjectReportDialog::moveSplitSelection(int delta) {
         int row = selected.row();
         splitList->clearSelection();
         if (_splitModel->moveRow(QModelIndex(), row, QModelIndex(), row + delta)) {
-            const QModelIndex &newRow = selected.siblingAtRow(row + delta + (delta < 1 ? 0 : 0));
+            const QModelIndex &newRow = selected.siblingAtRow(row + delta);
             splitList->selectionModel()->setCurrentIndex(newRow, QItemSelectionModel::SelectCurrent);
         }
     }

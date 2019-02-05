@@ -33,4 +33,5 @@ To be decided, probably GPL.
 Included from 3rd party:
 - images/icons/document-new.svg: Emerald icon theme
 - images/icons/edit-delete.svg: Emerald icon theme
-- images/icons/window.svg: Emerald icon theme
+- images/icons/window
+.svg: Emerald icon theme

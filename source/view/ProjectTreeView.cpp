@@ -38,20 +38,6 @@ void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusMan
 
     new QAbstractItemModelTester(_proxyModel, QAbstractItemModelTester::FailureReportingMode::Fatal, this);
 
-//    connect(this, &QTreeView::expanded, [] { qDebug() << "item expanded"; });
-//    connect(this, &QTreeView::collapsed, [] { qDebug() << "item collapsed"; });
-//
-//    connect(_proxyModel, &QSortFilterProxyModel::sourceModelChanged, [] { qDebug() << "source model changes"; });
-//    connect(_proxyModel, &QSortFilterProxyModel::modelReset, [] { qDebug() << "model reset"; });
-//    connect(_proxyModel, &QSortFilterProxyModel::modelAboutToBeReset, [] { qDebug() << "model about to reset"; });
-//    connect(_proxyModel, &QSortFilterProxyModel::rowsMoved, [] { qDebug() << "rows moved"; });
-//    connect(_proxyModel, &QSortFilterProxyModel::rowsRemoved, [] { qDebug() << "rows removed"; });
-//    connect(_proxyModel, &QSortFilterProxyModel::rowsInserted, [] { qDebug() << "rows inserted"; });
-//    connect(_proxyModel, &QSortFilterProxyModel::layoutAboutToBeChanged, []{qDebug() << "layout to be changed";});
-//    connect(_proxyModel, &QSortFilterProxyModel::layoutChanged, [](const QList<QPersistentModelIndex> &parents, QAbstractItemModel::LayoutChangeHint hint) { qDebug() << "layout changed"<<parents<<hint; });
-//    connect(_proxyModel, &QSortFilterProxyModel::dataChanged, [] { qDebug() << "data changed"; });
-//    connect(_proxyModel, &QSortFilterProxyModel::headerDataChanged, [] { qDebug() << "header data changed"; });
-
     header()->setStretchLastSection(false);
     header()->setSectionResizeMode(0, QHeaderView::Stretch);
     header()->setCascadingSectionResizes(true);
@@ -88,19 +74,18 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
     const Project &project = item->getProject();
 
     QMenu menu;
-    QAction *start = menu.addAction(Icons::startTimer(), "Start",
-                                    [this, project] { _control->startProject(project); });
+    QAction *start = menu.addAction(Icons::startTimer(), "Start", [this, project] { _control->startProject(project); });
     start->setIconVisibleInMenu(true);
 
     QAction *stop = menu.addAction(Icons::stopTimer(), "Stop", [this] { _control->stopActivity(); });
     stop->setIconVisibleInMenu(true);
 
     menu.addSeparator();
-    menu.addAction(Icons::projectNew(), "Create new subproject", [this, project] { createNewProject(project); })->setIconVisibleInMenu(true);
+    menu.addAction(Icons::projectNew(), "Create new subproject...", [this, project] { createNewProject(project); })->setIconVisibleInMenu(true);
     menu.addAction(Icons::projectRemove(), "Delete project...", [this, project] { ActionUtils::removeProject(_control, project, this); })->setIconVisibleInMenu(true);
 
-    bool started = _control->isStarted(project);
-    start->setEnabled(!started);
+    bool started = project.isValid() && _control->isStarted(project);
+    start->setEnabled(project.isValid() && !started);
     stop->setEnabled(started);
 
     menu.exec(globalPos);

@@ -323,7 +323,7 @@
     <string>Delete the currently selected time entries</string>
    </property>
    <property name="shortcut">
-    <string comment="Remove the currently selected time entries">Ctrl+R</string>
+    <string comment="Remove the currently selected time entries">Ctrl+Del</string>
    </property>
   </action>
   <action name="actionProjectRemove">
@@ -331,7 +331,7 @@
     <string>&amp;Delete project...</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Del</string>
+    <string>Ctrl+Shift+Del</string>
    </property>
   </action>
   <action name="actionReportCreate">
@@ -365,7 +365,7 @@
   </action>
   <action name="actionWindowFocusProjects">
    <property name="text">
-    <string>Focus projects</string>
+    <string>&amp;Focus projects</string>
    </property>
    <property name="toolTip">
     <string>Focus the list of projects</string>
@@ -376,7 +376,7 @@
   </action>
   <action name="actionWindowFocusTimeEntries">
    <property name="text">
-    <string>Focus time entries</string>
+    <string>Focus time &amp;entries</string>
    </property>
    <property name="toolTip">
     <string>Focuses the list of time entries</string>
@@ -387,7 +387,7 @@
   </action>
   <action name="actionProjectSelectActive">
    <property name="text">
-    <string>Select active project</string>
+    <string>S&amp;elect active project</string>
    </property>
    <property name="toolTip">
     <string>Selects the active project in the project tree</string>

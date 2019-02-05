@@ -1,6 +1,7 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QHeaderView>
 #include <QtTest/QAbstractItemModelTester>
+#include <QtWidgets/QLabel>
 
 #include "model/FrameTableViewModel.h"
 #include "model/ProjectTreeItem.h"

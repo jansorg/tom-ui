@@ -158,9 +158,9 @@ void MainWindow::deleteCurrentProject() {
 }
 
 void MainWindow::selectCurrentProject() {
+    _projectTree->setFocus();
     _projectTree->selectProject(_control->cachedActiveProject());
 }
-
 
 void MainWindow::onEntrySelectionChange(const QItemSelection &selection) {
     actionTimeEntryRemove->setEnabled(!selection.isEmpty());

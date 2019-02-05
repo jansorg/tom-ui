@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
         QObject::connect(
                 &globalShortcut, &QxtGlobalShortcut::activated, &globalShortcut,
                 [&] {
-                    ProjectLookup::show(control, nullptr);
+                    ProjectLookup::show(control, &mainWindow, nullptr);
                 });
     } else {
         qWarning() << "failed to install global shortcut";

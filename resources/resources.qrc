@@ -13,6 +13,7 @@
 <file>./icons/timer-stop.svg</file>
 <file>./icons/trayicon-started.svg</file>
 <file>./icons/trayicon-stopped.svg</file>
+<file>./icons/window.svg</file>
 <file>./resources.qrc</file>
 </qresource>
 </RCC>

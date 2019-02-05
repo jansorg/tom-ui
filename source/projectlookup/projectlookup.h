@@ -2,6 +2,7 @@
 #define TOM_UI_PROJECTLOOKUP_H
 
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QMainWindow>
 
 #include "source/gotime/TomControl.h"
 #include "source/gotime/ProjectStatusManager.h"
@@ -11,10 +12,10 @@ class ProjectLookup : public QDialog, private Ui::ProjectLookupDialog {
 Q_OBJECT
 
 public:
-    static void show(TomControl *control, QWidget *parent);
+    static void show(TomControl *control, QMainWindow* window, QWidget *parent);
 
 protected:
-    explicit ProjectLookup(TomControl *control, QWidget *parent);
+    explicit ProjectLookup(TomControl *control, QMainWindow* window, QWidget *parent);
 
 private:
     TomControl *_control;

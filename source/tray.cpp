@@ -28,7 +28,7 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow) : Q
     _separatorAction = _menu->addSeparator();
     _separatorAction->setText("Actions");
 
-    QAction *showWindowAction = new QAction("&Show window", this);
+    QAction *showWindowAction = new QAction(Icons::showMainWindow(), "&Show window", this);
     showWindowAction->setIconVisibleInMenu(true);
     connect(showWindowAction, &QAction::triggered, mainWindow, &QMainWindow::show);
     _menu->addAction(showWindowAction);

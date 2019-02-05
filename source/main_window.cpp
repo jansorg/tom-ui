@@ -163,5 +163,5 @@ void MainWindow::createReport() {
 }
 
 void MainWindow::lookupProject() {
-    ProjectLookup::show(_control, this);
+    ProjectLookup::show(_control, this, this);
 }

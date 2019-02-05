@@ -78,6 +78,10 @@ namespace Icons {
         return icon("project-active-subproject");
     }
 
+    inline const QIcon showMainWindow() {
+        return icon("window");
+    }
+
     inline const QIcon LogoSmall() {
         return icon("logo32.png");
     }

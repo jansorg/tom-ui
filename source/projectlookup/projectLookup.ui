@@ -34,7 +34,7 @@
   <property name="modal">
    <bool>true</bool>
   </property>
-  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0" columnstretch="0,0">
+  <layout class="QGridLayout" name="gridLayout" rowstretch="0,0" columnstretch="0,0,0">
    <property name="sizeConstraint">
     <enum>QLayout::SetFixedSize</enum>
    </property>
@@ -53,6 +53,83 @@
    <property name="spacing">
     <number>6</number>
    </property>
+   <item row="1" column="1">
+    <widget class="QWidget" name="group" native="true">
+     <property name="autoFillBackground">
+      <bool>false</bool>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetFixedSize</enum>
+      </property>
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QWidget" name="activeProjectStatus" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QPushButton" name="stopProjectButton">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::TabFocus</enum>
+           </property>
+           <property name="toolTip">
+            <string>Stop the currently active project</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="shortcut">
+            <string>Ctrl+B</string>
+           </property>
+           <property name="autoDefault">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="ProjectStatusLabel" name="activeProjectLabel">
+           <property name="text">
+            <string>active project</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="0" column="0">
     <widget class="QLabel" name="label">
      <property name="minimumSize">
@@ -66,7 +143,32 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
+   <item row="1" column="2" alignment="Qt::AlignRight">
+    <widget class="QPushButton" name="showMainWindowButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::TabFocus</enum>
+     </property>
+     <property name="toolTip">
+      <string>Display the main window</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="shortcut">
+      <string>Ctrl+M</string>
+     </property>
+     <property name="autoDefault">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1" colspan="2">
     <widget class="ProjectCompletionLineEdit" name="projectNameEdit">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -96,67 +198,8 @@
       <string/>
      </property>
      <property name="placeholderText">
-      <string/>
+      <string>Enter a project name...</string>
      </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QWidget" name="activeProjectStatus" native="true">
-     <property name="autoFillBackground">
-      <bool>false</bool>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <property name="spacing">
-       <number>6</number>
-      </property>
-      <property name="sizeConstraint">
-       <enum>QLayout::SetFixedSize</enum>
-      </property>
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QPushButton" name="stopProjectButton">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="toolTip">
-         <string>Stop the currently active project</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="shortcut">
-         <string>Ctrl+B</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="ProjectStatusLabel" name="activeProjectLabel">
-        <property name="text">
-         <string>active project</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
     </widget>
    </item>
   </layout>
@@ -173,6 +216,12 @@
    <header>commonWidgets/projectcompletionlineedit.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>projectNameEdit</tabstop>
+  <tabstop>stopProjectButton</tabstop>
+  <tabstop>showMainWindowButton</tabstop>
+  <tabstop>stopProjectButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

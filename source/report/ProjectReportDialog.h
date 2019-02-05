@@ -15,21 +15,25 @@
 
 class ProjectReportDialog : public QDialog, private Ui::ReportDialog {
 public:
-    ProjectReportDialog(QList<Project> projects, TomControl *control, QWidget *parent);
+    ProjectReportDialog(QList<Project> projects, TomControl *control, ProjectStatusManager *statusManager, QWidget *parent);
 
 private slots:
 
     void updateReport();
 
+    void projectIndexSelected(const QModelIndex& index);
+
 private:
     void moveSplitSelection(int delta);
 
-    QList<Project> _projects;
+    QStringList _projects;
     TomControl *_control;
     ReportSplitModel *_splitModel;
 
     QTemporaryDir _tempDir;
     QString _tempFile;
+
+    ProjectTreeModel *_projectModel;
 
 #ifdef TOM_REPORTS
     QWebEngineView *_webView;

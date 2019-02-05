@@ -1,10 +1,21 @@
 #include <utility>
 #include <QtGlobal>
+#include <source/model/ProjectTreeModel.h>
+#include <source/view/ProjectTreeView.h>
+#include <source/model/UserRoles.h>
 
 #include "ProjectReportDialog.h"
 
-ProjectReportDialog::ProjectReportDialog(QList<Project> projects, TomControl *control, QWidget *parent)
-        : QDialog(parent), _projects(std::move(projects)), _control(control), _splitModel(new ReportSplitModel(this)), _tempDir("tom-report") {
+ProjectReportDialog::ProjectReportDialog(QList<Project> projects, TomControl *control,
+                                         ProjectStatusManager *statusManager, QWidget *parent)
+        : QDialog(parent), _projects(), _control(control), _splitModel(new ReportSplitModel(this)),
+          _tempDir("tom-report") {
+
+    for (const auto &p : projects) {
+        if (p.isValid()) {
+            _projects << p.getID();
+        }
+    }
 
     setupUi(this);
 #ifdef TOM_REPORTS
@@ -21,6 +32,25 @@ ProjectReportDialog::ProjectReportDialog(QList<Project> projects, TomControl *co
         _tempFile = _tempDir.filePath("report.html");
     }
 
+    // project list
+    _projectModel = new ProjectTreeModel(_control, statusManager, true, this, false, false);
+    _projectModel->loadProjects();
+    auto sortModel = new QSortFilterProxyModel(this);
+    sortModel->setSourceModel(_projectModel);
+    sortModel->sort(ProjectTreeItem::COL_NAME, Qt::AscendingOrder);
+    projectsBox->setModelColumn(ProjectTreeItem::COL_NAME);
+    projectsBox->setModel(_projectModel);
+    auto *view = new ProjectTreeView(projectsBox);
+    projectsBox->setup(view);
+    view->hideColumn(ProjectTreeItem::COL_DAY);
+    view->hideColumn(ProjectTreeItem::COL_WEEK);
+    view->hideColumn(ProjectTreeItem::COL_MONTH);
+    view->hideColumn(ProjectTreeItem::COL_TOTAL);
+    view->expandToDepth(1);
+    view->setDragEnabled(false);
+    view->setAcceptDrops(false);
+
+    // split list
     splitMoveUp->setIcon(style()->standardIcon(QStyle::SP_ArrowUp));
     splitMoveDown->setIcon(style()->standardIcon(QStyle::SP_ArrowDown));
     connect(splitMoveUp, &QPushButton::pressed, [this] { moveSplitSelection(-1); });
@@ -34,6 +64,9 @@ ProjectReportDialog::ProjectReportDialog(QList<Project> projects, TomControl *co
     dateEnd->setDate(QDateTime::currentDateTime().date());
 
     connect(updateButton, &QPushButton::pressed, this, &ProjectReportDialog::updateReport);
+
+    connect(projectsBox, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
+    connect(subprojectsCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
     connect(dateFilterCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(dateStart, &QDateEdit::dateChanged, this, &ProjectReportDialog::updateReport);
@@ -56,13 +89,6 @@ ProjectReportDialog::ProjectReportDialog(QList<Project> projects, TomControl *co
 }
 
 void ProjectReportDialog::updateReport() {
-    QStringList projects;
-    for (const auto &p:_projects) {
-        if (p.isValid()) {
-            projects << p.getID();
-        }
-    }
-
     QStringList splits = _splitModel->checkedItems();
 
     int frameRoundingMin = frameRoundingValue->value();
@@ -84,7 +110,15 @@ void ProjectReportDialog::updateReport() {
         end = dateEnd->date();
     }
 
-    QString html = _control->htmlReport(_tempFile, projects, start, end, frameMode, frameRoundingMin,
+    _projects.clear();
+    const QModelIndex &current = projectsBox->view()->currentIndex();
+    if (current.isValid()) {
+        _projects << current.data(UserRoles::IDRole).toString();
+    }
+    
+    QString html = _control->htmlReport(_tempFile, _projects,
+                                        subprojectsCheckbox->isChecked(),
+                                        start, end, frameMode, frameRoundingMin,
                                         splits, templateBox->currentText(),
                                         matrixTablesCheckbox->isChecked(),
                                         showEmptyCheckbox->isChecked(),
@@ -110,4 +144,12 @@ void ProjectReportDialog::moveSplitSelection(int delta) {
             splitList->selectionModel()->setCurrentIndex(newRow, QItemSelectionModel::SelectCurrent);
         }
     }
+}
+
+void ProjectReportDialog::projectIndexSelected(const QModelIndex &index) {
+    auto id = index.data(UserRoles::IDRole).toString();
+    qDebug() << "project selected" << index << id;
+
+    _projects = QStringList() << id;
+    updateReport();
 }

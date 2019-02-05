@@ -12,13 +12,15 @@
 #include "FrameTableViewModel.h"
 #include "icons.h"
 
-ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, bool showOverallProject, QObject *parent)
+ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, bool showOverallProject,
+                                   QObject *parent, bool enableUpdates, bool enableCheckboxes)
         : QAbstractItemModel(parent),
           _control(control),
           _statusManager(statusManager),
           _rootItem(nullptr),
           _visibleRootItem(nullptr),
-          _headers(QStringList() << "Name" << "Today" << "This week" << "This month" << "Total") {
+          _headers(QStringList() << tr("Name") << tr("Today") << tr("This week") << tr("This month") << tr("Total")),
+          _enableCheckboxes(enableCheckboxes) {
 
     _rootItem = new ProjectTreeRootItem(_statusManager);
     if (showOverallProject) {
@@ -28,14 +30,11 @@ ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *st
         _visibleRootItem = _rootItem;
     }
 
-    // fixme move into background?
-//    _projects = _control->loadProjects();
-//    setupItem(_visibleRootItem, _projects);
-//    printProjects(0, _rootItem);
-
-    connect(_control, &TomControl::projectCreated, this, &ProjectTreeModel::addProject);
-    connect(_control, &TomControl::projectRemoved, this, &ProjectTreeModel::removeProject);
-    connect(_control, &TomControl::dataResetNeeded, this, &ProjectTreeModel::loadProjects);
+    if (enableUpdates) {
+        connect(_control, &TomControl::projectCreated, this, &ProjectTreeModel::addProject);
+        connect(_control, &TomControl::projectRemoved, this, &ProjectTreeModel::removeProject);
+        connect(_control, &TomControl::dataResetNeeded, this, &ProjectTreeModel::loadProjects);
+    }
 }
 
 ProjectTreeModel::~ProjectTreeModel() {
@@ -43,7 +42,7 @@ ProjectTreeModel::~ProjectTreeModel() {
 }
 
 void ProjectTreeModel::loadProjects() {
-    qDebug() << "loadProject (reset)";
+//    qDebug() << "loadProject (reset)";
 
     beginResetModel();
 
@@ -97,9 +96,15 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         }
 
         auto *item = projectItem(index);
-        if ((item == _visibleRootItem && _control->cachedActiveProject().isValid()) || _control->isStarted(item->getProject(), true)) {
+        if ((item == _visibleRootItem && _control->cachedActiveProject().isValid()) ||
+            _control->isStarted(item->getProject(), true)) {
             return Icons::withActiveSubproject();
         }
+    }
+
+    if (_enableCheckboxes && role == Qt::CheckStateRole && index.column() == ProjectTreeItem::COL_NAME) {
+        const QString &id = projectItem(index)->getProject().getID();
+        return _checkedProjectIDs.contains(id) ? Qt::Checked : Qt::Unchecked;
     }
 
     if (role == IDRole) {
@@ -118,6 +123,16 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
 
 bool ProjectTreeModel::setData(const QModelIndex &index, const QVariant &value, int role) {
     qDebug() << "setData" << index << value << role;
+
+    if (_enableCheckboxes && role == Qt::CheckStateRole && index.column() == ProjectTreeItem::COL_NAME) {
+        const QString &id = projectItem(index)->getProject().getID();
+        if (value == Qt::Checked) {
+            _checkedProjectIDs.insert(id);
+        } else {
+            _checkedProjectIDs.remove(id);
+        }
+        return true;
+    }
 
     if (!index.isValid() || role != Qt::EditRole) {
         return false;
@@ -148,13 +163,19 @@ Qt::ItemFlags ProjectTreeModel::flags(const QModelIndex &index) const {
 
     ProjectTreeItem *item = projectItem(index);
 
+    auto base = _enableCheckboxes ? Qt::ItemIsUserCheckable : Qt::NoItemFlags;
+
     // the visible root is not draggable, but accepts drops
     if (item == _visibleRootItem) {
-        return Qt::ItemIsDropEnabled | QAbstractItemModel::flags(index);
+        return base | Qt::ItemIsDropEnabled | QAbstractItemModel::flags(index);
     }
 
     if (item && item->getProject().isValid() && index.column() == ProjectTreeItem::COL_NAME) {
-        return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
+        return base
+               | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled
+               | Qt::ItemIsSelectable
+               | Qt::ItemIsEnabled
+               | Qt::ItemIsEditable;
     }
 
     return QAbstractItemModel::flags(index);
@@ -245,7 +266,8 @@ void ProjectTreeModel::printProjects(int level, ProjectTreeItem *root) {
 }
 
 QModelIndex ProjectTreeModel::getProjectRow(const QString &projectID) const {
-    const QModelIndexList &list = match(index(0, 0, QModelIndex()), IDRole, projectID, 1, Qt::MatchExactly | Qt::MatchRecursive);
+    const QModelIndexList &list = match(index(0, 0, QModelIndex()), IDRole, projectID, 1,
+                                        Qt::MatchExactly | Qt::MatchRecursive);
     if (list.size() == 1) {
         return list.first();
     }
@@ -339,7 +361,8 @@ QMimeData *ProjectTreeModel::mimeData(const QModelIndexList &indexes) const {
     return result;
 }
 
-bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) {
+bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column,
+                                    const QModelIndex &parent) {
     if (data->hasFormat(PROJECTS_MIME_TYPE)) {
         return handleDropProjectIDs(data, action, row, column, parent);
     }
@@ -349,7 +372,8 @@ bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     return false;
 }
 
-bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/, const QModelIndex &parent) {
+bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/,
+                                            const QModelIndex &parent) {
     if (action != Qt::MoveAction) {
         return false;
     }
@@ -394,7 +418,8 @@ bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropActio
     return true;
 }
 
-bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/, const QModelIndex &parent) {
+bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/,
+                                          const QModelIndex &parent) {
     if (!parent.isValid() || action != Qt::MoveAction) {
         return false;
     }
@@ -478,7 +503,8 @@ bool ProjectTreeModel::insertRows(int row, int count, const QModelIndex &parent)
 }
 
 bool ProjectTreeModel::removeRows(int row, int count, const QModelIndex &parent) {
-    qDebug() << "removing rows" << row << "to" << row + count - 1 << "from" << projectItem(parent)->getProject().getName();
+    qDebug() << "removing rows" << row << "to" << row + count - 1 << "from"
+             << projectItem(parent)->getProject().getName();
     if (!parent.isValid()) {
         return false;
     }

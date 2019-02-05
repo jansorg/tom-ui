@@ -1,8 +1,6 @@
 #ifndef GOTIME_UI_PROJECTTREEMODEL_H
 #define GOTIME_UI_PROJECTTREEMODEL_H
 
-static const QString& PROJECTS_MIME_TYPE = "application/x-tom-projects";
-
 #include <QtCore/QAbstractItemModel>
 
 #include "data/Project.h"
@@ -10,11 +8,13 @@ static const QString& PROJECTS_MIME_TYPE = "application/x-tom-projects";
 #include "ProjectTreeItem.h"
 #include "ProjectTreeRootItem.h"
 
+static const QString& PROJECTS_MIME_TYPE = QString("application/x-tom-projects");
+
 class ProjectTreeModel : public QAbstractItemModel {
 Q_OBJECT
 
 public:
-    ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, bool showToplevelProject, QObject *parent);
+    ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, bool showToplevelProject, QObject *parent, bool enableUpdates = true, bool enableCheckboxes = false);
 
     ~ProjectTreeModel() override;
 
@@ -76,6 +76,9 @@ private:
     ProjectTreeRootItem *_visibleRootItem;
     QList<Project> _projects;
     QStringList _headers;
+    bool _enableCheckboxes;
+
+    QSet<QString> _checkedProjectIDs;
 
     bool handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
     bool handleDropFrameIDs(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);

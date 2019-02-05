@@ -14,7 +14,8 @@
 #include "source/report/ProjectReportDialog.h"
 #include "source/projectlookup/projectlookup.h"
 
-MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(parent), _control(control), _statusManager(statusManager) {
+MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(
+        parent), _control(control), _statusManager(statusManager) {
 //#ifndef Q_OS_MAC
     setWindowIcon(Icons::LogoLarge());
 //#endif
@@ -157,7 +158,7 @@ void MainWindow::onEntrySelectionChange(const QItemSelection &selection) {
 
 void MainWindow::createReport() {
 //    QStringList &ids = QStringList() << ui.projectTree->getCurrentProject().getID();
-    ProjectReportDialog *dialog = new ProjectReportDialog(QList<Project>(), _control, this);
+    ProjectReportDialog *dialog = new ProjectReportDialog(QList<Project>(), _control, _statusManager, this);
     dialog->show();
 }
 

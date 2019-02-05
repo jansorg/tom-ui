@@ -76,7 +76,9 @@ public:
     bool isChildProject(const QString &id, const QString &parentID);
 
     QString htmlReport(const QString &outputFile,
-                       QStringList projectIDs, QDate start, QDate end,
+                       QStringList projectIDs,
+                       bool includeSubprojects,
+                       QDate start, QDate end,
                        TimeRoundingMode frameRoundingMode, int frameRoundingMinutes, QStringList splits, QString templateID,
                        bool matrixTables,
                        bool showEmpty,

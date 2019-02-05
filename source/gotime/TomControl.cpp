@@ -380,7 +380,9 @@ const ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool i
 
 CommandStatus TomControl::run(const QStringList &args, long timeoutMillis) {
     auto start = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    qDebug() << "running" << _gotimePath << args;
+    if (args.first() != "status") {
+        qDebug() << "running" << _gotimePath << args;
+    }
 
     QProcess process(this);
     if (_bashScript) {
@@ -396,7 +398,9 @@ CommandStatus TomControl::run(const QStringList &args, long timeoutMillis) {
     if (process.exitCode() != 0) {
         qDebug() << "exit code:" << process.exitCode() << "stdout:" << output << "stderr" << errOutput;
     }
-    qDebug() << "tom command:" << (QDateTime::currentDateTime().toMSecsSinceEpoch() - start) << "ms";
+    if (args.first() != "status") {
+        qDebug() << "tom command:" << (QDateTime::currentDateTime().toMSecsSinceEpoch() - start) << "ms";
+    }
     return CommandStatus(output, errOutput, process.exitCode());
 }
 
@@ -530,6 +534,7 @@ bool TomControl::isChildProject(const QString &id, const QString &parentID) {
 
 QString TomControl::htmlReport(const QString &outputFile,
                                QStringList projectIDs,
+                               bool includeSubprojects,
                                QDate start, QDate end,
                                TimeRoundingMode frameRoundingMode, int frameRoundingMinutes,
                                QStringList splits, QString templateID,
@@ -549,6 +554,8 @@ QString TomControl::htmlReport(const QString &outputFile,
             args << "--project=" + id;
         }
     }
+
+    args << QString("--subprojects=%1").arg(includeSubprojects ? "true" : "false");
 
     if (!templateID.isEmpty()) {
         args << "--template=" + templateID;

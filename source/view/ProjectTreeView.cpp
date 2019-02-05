@@ -145,3 +145,11 @@ const Project ProjectTreeView::getCurrentProject() {
 
     return item->getProject();
 }
+
+void ProjectTreeView::selectProject(const Project &project) {
+    if (project.isValid()) {
+        setCurrentIndex(_proxyModel->mapFromSource(_sourceModel->getProjectRow(project.getID())));
+    } else {
+        clearSelection();
+    }
+}

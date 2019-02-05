@@ -14,51 +14,53 @@
 #include "source/report/ProjectReportDialog.h"
 #include "source/projectlookup/projectlookup.h"
 
-MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(
-        parent), _control(control), _statusManager(statusManager) {
+MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(parent),
+                                                                                                        Ui::MainWindow(),
+                                                                                                        _control(control),
+                                                                                                        _statusManager(statusManager) {
 //#ifndef Q_OS_MAC
     setWindowIcon(Icons::LogoLarge());
 //#endif
 
-    ui.setupUi(this);
+    setupUi(this);
 #ifndef TOM_REPORTS
-    ui.menuReports->setEnabled(false);
-    ui.menuReports->setVisible(false);
+    menuReports->setEnabled(false);
+    menuReports->setVisible(false);
 #endif
 
-    ui.projectTree->setup(control, statusManager);
-    ui.frameView->setup(control);
+    _projectTree->setup(control, statusManager);
+    _frameView->setup(control);
 
-    ui.actionCreateProject->setIcon(Icons::projectNew());
+    actionCreateProject->setIcon(Icons::projectNew());
 
-    ui.actionImportMacTimeTracker->setIcon(Icons::importData());
-    ui.actionImportFanurio->setIcon(Icons::importData());
-    ui.actionImportWatson->setIcon(Icons::importData());
+    actionImportMacTimeTracker->setIcon(Icons::importData());
+    actionImportFanurio->setIcon(Icons::importData());
+    actionImportWatson->setIcon(Icons::importData());
 
-    ui.actionProjectStart->setIcon(Icons::projectStart());
-    ui.actionProjectStop->setIcon(Icons::projectStop());
-    ui.actionProjectRemove->setIcon(Icons::projectRemove());
+    actionProjectStart->setIcon(Icons::projectStart());
+    actionProjectStop->setIcon(Icons::projectStop());
+    actionProjectRemove->setIcon(Icons::projectRemove());
 
-    ui.actionTimeEntryRemove->setIcon(Icons::timeEntryDelete());
+    actionTimeEntryRemove->setIcon(Icons::timeEntryDelete());
 
-    connect(ui.projectTree, &ProjectTreeView::projectSelected, ui.frameView, &FrameTableView::onProjectSelected);
-    connect(ui.projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::onProjectSelectionChange);
+    connect(_projectTree, &ProjectTreeView::projectSelected, _frameView, &FrameTableView::onProjectSelected);
+    connect(_projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::onProjectSelectionChange);
 
-    connect(ui.frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this,
+    connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this,
             &MainWindow::onEntrySelectionChange);
 
     connect(_control, &TomControl::projectStarted, this, &MainWindow::onProjectStatusChange);
     connect(_control, &TomControl::projectStopped, this, &MainWindow::onProjectStatusChange);
 
-    connect(ui.actionQuit, &QAction::triggered, &QCoreApplication::quit);
-    connect(ui.actionAboutQt, &QAction::triggered, &QApplication::aboutQt);
+    connect(actionQuit, &QAction::triggered, &QCoreApplication::quit);
+    connect(actionAboutQt, &QAction::triggered, &QApplication::aboutQt);
 
     createActions();
     refreshData();
 }
 
 void MainWindow::refreshData() {
-    ui.projectTree->refresh();
+    _projectTree->refresh();
     onProjectStatusChange();
     onEntrySelectionChange(QItemSelection());
 }
@@ -125,16 +127,19 @@ void MainWindow::resetAllData() {
 }
 
 void MainWindow::onProjectSelectionChange(const Project &current) {
-    ui.actionProjectStart->setEnabled(current.isValid());
-    ui.actionProjectRemove->setEnabled(current.isValid());
+    actionProjectStart->setEnabled(current.isValid());
+    actionProjectRemove->setEnabled(current.isValid());
 }
 
 void MainWindow::onProjectStatusChange() {
-    ui.actionProjectStop->setEnabled(_control->cachedStatus().currentProject().isValid());
+    bool hasActiveProject = _control->cachedStatus().currentProject().isValid();
+
+    actionProjectStop->setEnabled(hasActiveProject);
+    actionProjectSelectActive->setEnabled(hasActiveProject);
 }
 
 void MainWindow::startCurrentProject() {
-    const Project &project = ui.projectTree->getCurrentProject();
+    const Project &project = _projectTree->getCurrentProject();
     if (project.isValid()) {
         _control->startProject(project);
     }
@@ -145,23 +150,41 @@ void MainWindow::stopCurrentProject() {
 }
 
 void MainWindow::deleteSelectedTimeEntries() {
-    ui.frameView->deleteSelectedEntries();
+    _frameView->deleteSelectedEntries();
 }
 
 void MainWindow::deleteCurrentProject() {
-    ActionUtils::removeProject(_control, ui.projectTree->getCurrentProject(), this);
+    ActionUtils::removeProject(_control, _projectTree->getCurrentProject(), this);
 }
 
+void MainWindow::selectCurrentProject() {
+    _projectTree->selectProject(_control->cachedActiveProject());
+}
+
+
 void MainWindow::onEntrySelectionChange(const QItemSelection &selection) {
-    ui.actionTimeEntryRemove->setEnabled(!selection.isEmpty());
+    actionTimeEntryRemove->setEnabled(!selection.isEmpty());
 }
 
 void MainWindow::createReport() {
-//    QStringList &ids = QStringList() << ui.projectTree->getCurrentProject().getID();
-    ProjectReportDialog *dialog = new ProjectReportDialog(QList<Project>(), _control, _statusManager, this);
+    QList<Project> selected;
+
+    const Project &project = _projectTree->getCurrentProject();
+    if (project.isValid()) {
+        selected << project;
+    }
+    ProjectReportDialog *dialog = new ProjectReportDialog(selected, _control, _statusManager, this);
     dialog->show();
 }
 
 void MainWindow::lookupProject() {
     ProjectLookup::show(_control, this, this);
+}
+
+void MainWindow::focusProjectTree() {
+    _projectTree->setFocus();
+}
+
+void MainWindow::focusEntriesList() {
+    _frameView->setFocus();
 }

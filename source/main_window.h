@@ -9,7 +9,7 @@
 #include "data/Project.h"
 #include "gotime/TomControl.h"
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow, private Ui::MainWindow {
 Q_OBJECT
 
 public:
@@ -41,6 +41,8 @@ private slots:
 
     void deleteCurrentProject();
 
+    void selectCurrentProject();
+
     void deleteSelectedTimeEntries();
 
     void createReport();
@@ -53,10 +55,13 @@ private slots:
 
     void lookupProject();
 
+    void focusProjectTree();
+
+    void focusEntriesList();
+
 private:
     void createActions();
 
-    Ui::MainWindow ui;
     TomControl *_control;
     ProjectStatusManager *_statusManager;
 };

@@ -24,7 +24,7 @@
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
-      <widget class="ProjectTreeView" name="projectTree">
+      <widget class="ProjectTreeView" name="_projectTree">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
          <horstretch>0</horstretch>
@@ -44,7 +44,7 @@
         <bool>true</bool>
        </attribute>
       </widget>
-      <widget class="FrameTableView" name="frameView">
+      <widget class="FrameTableView" name="_frameView">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
          <horstretch>0</horstretch>
@@ -150,6 +150,7 @@
     <addaction name="actionProjectLookup"/>
     <addaction name="actionProjectStart"/>
     <addaction name="actionProjectStop"/>
+    <addaction name="actionProjectSelectActive"/>
     <addaction name="separator"/>
     <addaction name="actionCreateProject"/>
     <addaction name="actionProjectRemove"/>
@@ -165,15 +166,23 @@
      <bool>true</bool>
     </property>
     <property name="title">
-     <string>Reports</string>
+     <string>&amp;Reports</string>
     </property>
     <addaction name="actionReportCreate"/>
+   </widget>
+   <widget class="QMenu" name="menuWindow">
+    <property name="title">
+     <string>Win&amp;dow</string>
+    </property>
+    <addaction name="actionWindowFocusProjects"/>
+    <addaction name="actionWindowFocusTimeEntries"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuProject"/>
    <addaction name="menuTracked_Items"/>
    <addaction name="menuReports"/>
    <addaction name="menuImport"/>
+   <addaction name="menuWindow"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
@@ -255,7 +264,7 @@
     <string>Create a new project</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+P</string>
+    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="actionImportMacTimeTracker">
@@ -321,10 +330,16 @@
    <property name="text">
     <string>&amp;Delete project...</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Del</string>
+   </property>
   </action>
   <action name="actionReportCreate">
    <property name="text">
     <string>&amp;Create project report...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="actionAboutQt">
@@ -340,12 +355,45 @@
     <string>Quickly lookup a project by name...</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+N</string>
+    <string>Ctrl+L</string>
    </property>
   </action>
   <action name="actionCreateProjectReport">
    <property name="text">
     <string>Create project report...</string>
+   </property>
+  </action>
+  <action name="actionWindowFocusProjects">
+   <property name="text">
+    <string>Focus projects</string>
+   </property>
+   <property name="toolTip">
+    <string>Focus the list of projects</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+1</string>
+   </property>
+  </action>
+  <action name="actionWindowFocusTimeEntries">
+   <property name="text">
+    <string>Focus time entries</string>
+   </property>
+   <property name="toolTip">
+    <string>Focuses the list of time entries</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+2</string>
+   </property>
+  </action>
+  <action name="actionProjectSelectActive">
+   <property name="text">
+    <string>Select active project</string>
+   </property>
+   <property name="toolTip">
+    <string>Selects the active project in the project tree</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+F1</string>
    </property>
   </action>
  </widget>
@@ -537,7 +585,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>455</x>
-     <y>385</y>
+     <y>366</y>
     </hint>
    </hints>
   </connection>
@@ -589,6 +637,54 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionWindowFocusProjects</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>focusProjectTree()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>366</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionWindowFocusTimeEntries</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>focusEntriesList()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>366</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionProjectSelectActive</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>selectCurrentProject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>366</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshData()</slot>
@@ -604,5 +700,8 @@
   <slot>deleteCurrentProject()</slot>
   <slot>createReport()</slot>
   <slot>lookupProject()</slot>
+  <slot>focusProjectTree()</slot>
+  <slot>focusEntriesList()</slot>
+  <slot>selectCurrentProject()</slot>
  </slots>
 </ui>

@@ -26,6 +26,8 @@ public slots:
 
     void refresh();
 
+    void selectProject(const Project& project);
+
 private slots:
 
     void onCustomContextMenuRequested(const QPoint &pos);

@@ -5,6 +5,7 @@
 #include <dialogs/CommonDialogs.h>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QFileDialog>
+#include <source/projectEditor/ProjectEditorDialog.h>
 
 #include "version.h"
 #include "icons.h"
@@ -31,7 +32,8 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     _projectTree->setup(control, statusManager);
     _frameView->setup(control);
 
-    actionCreateProject->setIcon(Icons::projectNew());
+    actionProjectCreate->setIcon(Icons::projectNew());
+    actionProjectEdit->setIcon(Icons::projectEdit());
 
     actionImportMacTimeTracker->setIcon(Icons::importData());
     actionImportFanurio->setIcon(Icons::importData());
@@ -127,8 +129,11 @@ void MainWindow::resetAllData() {
 }
 
 void MainWindow::onProjectSelectionChange(const Project &current) {
-    actionProjectStart->setEnabled(current.isValid());
-    actionProjectRemove->setEnabled(current.isValid());
+    bool valid = current.isValid();
+
+    actionProjectStart->setEnabled(valid);
+    actionProjectRemove->setEnabled(valid);
+    actionProjectEdit->setEnabled(valid);
 }
 
 void MainWindow::onProjectStatusChange() {
@@ -162,18 +167,25 @@ void MainWindow::selectCurrentProject() {
     _projectTree->selectProject(_control->cachedActiveProject());
 }
 
+void MainWindow::editCurrentProject() {
+    const Project &project = _projectTree->getCurrentProject();
+    if (project.isValid()) {
+        ProjectEditorDialog::show(project, _control, _statusManager, this);
+    }
+}
+
 void MainWindow::onEntrySelectionChange(const QItemSelection &selection) {
     actionTimeEntryRemove->setEnabled(!selection.isEmpty());
 }
 
 void MainWindow::createReport() {
     QList<Project> selected;
-
     const Project &project = _projectTree->getCurrentProject();
     if (project.isValid()) {
         selected << project;
     }
-    ProjectReportDialog *dialog = new ProjectReportDialog(selected, _control, _statusManager, this);
+    
+    auto *dialog = new ProjectReportDialog(selected, _control, _statusManager, this);
     dialog->show();
 }
 
@@ -188,3 +200,4 @@ void MainWindow::focusProjectTree() {
 void MainWindow::focusEntriesList() {
     _frameView->setFocus();
 }
+

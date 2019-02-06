@@ -152,7 +152,8 @@
     <addaction name="actionProjectStop"/>
     <addaction name="actionProjectSelectActive"/>
     <addaction name="separator"/>
-    <addaction name="actionCreateProject"/>
+    <addaction name="actionProjectCreate"/>
+    <addaction name="actionProjectEdit"/>
     <addaction name="actionProjectRemove"/>
    </widget>
    <widget class="QMenu" name="menuTracked_Items">
@@ -201,7 +202,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionCreateProject"/>
+   <addaction name="actionProjectCreate"/>
    <addaction name="actionProjectStart"/>
    <addaction name="actionProjectStop"/>
   </widget>
@@ -252,7 +253,7 @@
     <enum>QAction::AboutRole</enum>
    </property>
   </action>
-  <action name="actionCreateProject">
+  <action name="actionProjectCreate">
    <property name="icon">
     <iconset theme="document-new">
      <normaloff>.</normaloff>.</iconset>
@@ -396,6 +397,11 @@
     <string>Alt+F1</string>
    </property>
   </action>
+  <action name="actionProjectEdit">
+   <property name="text">
+    <string>Ed&amp;it project...</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -462,7 +468,7 @@
    </hints>
   </connection>
   <connection>
-   <sender>actionCreateProject</sender>
+   <sender>actionProjectCreate</sender>
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>createProject()</slot>
@@ -685,6 +691,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionProjectEdit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>editCurrentProject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>366</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshData()</slot>
@@ -703,5 +725,6 @@
   <slot>focusProjectTree()</slot>
   <slot>focusEntriesList()</slot>
   <slot>selectCurrentProject()</slot>
+  <slot>editCurrentProject()</slot>
  </slots>
 </ui>

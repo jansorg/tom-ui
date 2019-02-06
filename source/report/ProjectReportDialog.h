@@ -5,23 +5,27 @@
 #include <QStringListModel>
 
 #ifdef TOM_REPORTS
+
 #include <QtWebEngineWidgets/QWebEngineView>
+
 #endif
 
 #include "ui_reportDialog.h"
 #include "source/data/Project.h"
 #include "source/gotime/TomControl.h"
+#include "source/gotime/ProjectStatusManager.h"
+#include "source/model/ProjectTreeModel.h"
 #include "reportsplitmodel.h"
 
 class ProjectReportDialog : public QDialog, private Ui::ReportDialog {
 public:
-    ProjectReportDialog(QList<Project> projects, TomControl *control, ProjectStatusManager *statusManager, QWidget *parent);
+    ProjectReportDialog(const QList<Project> &projects, TomControl *control, ProjectStatusManager *statusManager, QWidget *parent);
 
 private slots:
 
     void updateReport();
 
-    void projectIndexSelected(const QModelIndex& index);
+    void projectIndexSelected(const QModelIndex &index);
 
 private:
     void moveSplitSelection(int delta);

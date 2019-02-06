@@ -1,15 +1,18 @@
 #include <utility>
 #include <QtGlobal>
-#include <source/model/ProjectTreeModel.h>
-#include <source/view/ProjectTreeView.h>
-#include <source/model/UserRoles.h>
 
 #include "ProjectReportDialog.h"
 
-ProjectReportDialog::ProjectReportDialog(QList<Project> projects, TomControl *control,
-                                         ProjectStatusManager *statusManager, QWidget *parent)
-        : QDialog(parent), _projects(), _control(control), _splitModel(new ReportSplitModel(this)),
-          _tempDir("tom-report") {
+#include "source/model/ProjectTreeModel.h"
+#include "source/view/ProjectTreeView.h"
+#include "source/model/UserRoles.h"
+
+ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomControl *control,
+                                         ProjectStatusManager *statusManager, QWidget *parent) : QDialog(parent),
+                                                                                                 _projects(),
+                                                                                                 _control(control),
+                                                                                                 _splitModel(new ReportSplitModel(this)),
+                                                                                                 _tempDir("tom-report") {
 
     for (const auto &p : projects) {
         if (p.isValid()) {
@@ -32,23 +35,7 @@ ProjectReportDialog::ProjectReportDialog(QList<Project> projects, TomControl *co
         _tempFile = _tempDir.filePath("report.html");
     }
 
-    // project list
-    _projectModel = new ProjectTreeModel(_control, statusManager, true, this, false, false);
-    _projectModel->loadProjects();
-    auto sortModel = new QSortFilterProxyModel(this);
-    sortModel->setSourceModel(_projectModel);
-    sortModel->sort(ProjectTreeItem::COL_NAME, Qt::AscendingOrder);
-    projectsBox->setModelColumn(ProjectTreeItem::COL_NAME);
-    projectsBox->setModel(_projectModel);
-    auto *view = new ProjectTreeView(projectsBox);
-    projectsBox->setup(view);
-    view->hideColumn(ProjectTreeItem::COL_DAY);
-    view->hideColumn(ProjectTreeItem::COL_WEEK);
-    view->hideColumn(ProjectTreeItem::COL_MONTH);
-    view->hideColumn(ProjectTreeItem::COL_TOTAL);
-    view->expandToDepth(1);
-    view->setDragEnabled(false);
-    view->setAcceptDrops(false);
+    projectsBox->setup(control, statusManager);
 
     // split list
     splitMoveUp->setIcon(style()->standardIcon(QStyle::SP_ArrowUp));
@@ -115,7 +102,7 @@ void ProjectReportDialog::updateReport() {
     if (current.isValid()) {
         _projects << current.data(UserRoles::IDRole).toString();
     }
-    
+
     QString html = _control->htmlReport(_tempFile, _projects,
                                         subprojectsCheckbox->isChecked(),
                                         start, end, frameMode, frameRoundingMin,

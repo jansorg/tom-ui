@@ -294,8 +294,7 @@ bool TomControl::updateFrame(const QStringList &ids, const QString &currentProje
     return success;
 }
 
-bool TomControl::updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent,
-                                const QString &parentID) {
+bool TomControl::updateProjects(QStringList ids, bool updateName, const QString &name, bool updateParent, const QString &parentID) {
     if (ids.isEmpty() || (!updateName && !updateParent)) {
         return true;
     }
@@ -381,6 +380,7 @@ const ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool i
 CommandStatus TomControl::run(const QStringList &args, long timeoutMillis) {
     auto start = QDateTime::currentDateTime().toMSecsSinceEpoch();
     if (args.first() != "status") {
+        qDebug() << "running" << _gotimePath;
         qDebug() << "running" << _gotimePath << args;
     }
 

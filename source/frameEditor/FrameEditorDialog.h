@@ -1,0 +1,10 @@
+#ifndef TOM_UI_FRAMEEDITORDIALOG_H
+#define TOM_UI_FRAMEEDITORDIALOG_H
+
+
+class FrameEditorDialog {
+
+};
+
+
+#endif //TOM_UI_FRAMEEDITORDIALOG_H

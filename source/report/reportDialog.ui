@@ -166,7 +166,7 @@
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_5">
             <item>
-             <widget class="CheckboxComboBox" name="projectsBox"/>
+             <widget class="ProjectTreeComboBox" name="projectsBox"/>
             </item>
             <item>
              <widget class="QCheckBox" name="subprojectsCheckbox">
@@ -527,9 +527,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CheckboxComboBox</class>
+   <class>ProjectTreeComboBox</class>
    <extends>QComboBox</extends>
-   <header>report/CheckboxComboBox.h</header>
+   <header>commonWidgets/ProjectTreeComboBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -43,6 +43,8 @@ private slots:
 
     void selectCurrentProject();
 
+    void editCurrentProject();
+
     void deleteSelectedTimeEntries();
 
     void createReport();

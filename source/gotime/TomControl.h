@@ -63,7 +63,7 @@ public:
 
     bool removeFrames(const QList<Frame *> &frames);
 
-    bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID);
+    bool updateProjects(QStringList ids, bool updateName, const QString &name, bool updateParent, const QString &parentID);
 
     bool importMacTimeTracker(const QString &filename);
 

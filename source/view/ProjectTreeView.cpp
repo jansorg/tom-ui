@@ -6,6 +6,7 @@
 #include <model/ProjectTreeSortFilterModel.h>
 #include <ActionUtils.h>
 #include <QtTest/QAbstractItemModelTester>
+#include <source/projectEditor/ProjectEditorDialog.h>
 
 #include "ProjectTreeView.h"
 
@@ -56,7 +57,6 @@ void ProjectTreeView::onCurrentChanged(const QModelIndex &index, const QModelInd
     } else {
         emit projectSelected(_sourceModel->projectAtIndex(sourceIndex));
     }
-
 }
 
 void ProjectTreeView::onCustomContextMenuRequested(const QPoint &pos) {
@@ -82,6 +82,7 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
 
     menu.addSeparator();
     menu.addAction(Icons::projectNew(), "Create new subproject...", [this, project] { createNewProject(project); })->setIconVisibleInMenu(true);
+    menu.addAction(Icons::projectEdit(), "Edit project...", [this, project] { ProjectEditorDialog::show(project, _control, _statusManager, this); })->setIconVisibleInMenu(true);
     menu.addAction(Icons::projectRemove(), "Delete project...", [this, project] { ActionUtils::removeProject(_control, project, this); })->setIconVisibleInMenu(true);
 
     bool started = project.isValid() && _control->isStarted(project);

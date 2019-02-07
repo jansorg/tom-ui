@@ -134,7 +134,9 @@ const Project ProjectTreeView::getCurrentProject() {
 
 void ProjectTreeView::selectProject(const Project &project) {
     if (project.isValid()) {
-        setCurrentIndex(_proxyModel->mapFromSource(_sourceModel->getProjectRow(project.getID())));
+        const QModelIndex &source = _proxyModel->mapFromSource(_sourceModel->getProjectRow(project.getID()));
+        setCurrentIndex(source);
+        scrollTo(source, PositionAtCenter);
     } else {
         clearSelection();
     }

@@ -11,6 +11,7 @@ FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) :
 
     connect(_control, &TomControl::framesRemoved, this, &FrameTableViewModel::onFramesRemoved);
     connect(_control, &TomControl::framesMoved, this, &FrameTableViewModel::onFramesMoved);
+    connect(_control, &TomControl::framesArchived, this, &FrameTableViewModel::onFramesArchived);
     connect(_control, &TomControl::projectUpdated, this, &FrameTableViewModel::onProjectUpdated);
     connect(_control, &TomControl::projectCreated, this, &FrameTableViewModel::onProjectHierarchyChange);
     connect(_control, &TomControl::projectRemoved, this, &FrameTableViewModel::onProjectHierarchyChange);
@@ -32,7 +33,7 @@ void FrameTableViewModel::loadFrames(const Project &project) {
     qDeleteAll(_frames);
 
     if (project.isValid()) {
-        _frames = _control->loadFrames(project.getID(), true);
+        _frames = _control->loadFrames(project.getID(), true, _showArchived);
     } else {
         _frames.clear();
     }
@@ -285,19 +286,31 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
     switch (col) {
         case COL_START: {
             startTime = value.toDateTime();
-            ok = _control->updateFrame(QList<Frame *>() << frame, true, startTime, false, QDateTime(), false, "", false,
-                                       "");
+            ok = _control->updateFrame(QList<Frame *>() << frame,
+                                       true, startTime,
+                                       false, QDateTime(),
+                                       false, "",
+                                       false, "",
+                                       false, false);
             break;
         }
         case COL_END:
             endTime = value.toDateTime();
-            ok = _control->updateFrame(QList<Frame *>() << frame, false, QDateTime(), true, endTime, false, "", false,
-                                       "");
+            ok = _control->updateFrame(QList<Frame *>() << frame,
+                                       false, QDateTime(),
+                                       true, endTime,
+                                       false, "",
+                                       false, "",
+                                       false, false);
             break;
         case COL_NOTES:
             notes = value.toString();
-            ok = _control->updateFrame(QList<Frame *>() << frame, false, QDateTime(), false, QDateTime(), true, notes,
-                                       false, "");
+            ok = _control->updateFrame(QList<Frame *>() << frame,
+                                       false, QDateTime(),
+                                       false, QDateTime(),
+                                       true, notes,
+                                       false, "",
+                                       false, false);
             break;
         default:
             ok = false;
@@ -358,5 +371,18 @@ void FrameTableViewModel::onUpdateActiveFrames() {
         if (frames.at(i)->isActive()) {
             emit dataChanged(createIndex(i, COL_DURATION), createIndex(i, COL_DURATION));
         }
+    }
+}
+
+void FrameTableViewModel::setShowArchived(bool showArchived) {
+    if (showArchived != _showArchived) {
+        _showArchived = showArchived;
+        loadFrames(_currentProject);
+    }
+}
+
+void FrameTableViewModel::onFramesArchived(const QStringList &projectIDs) {
+    if (_currentProject.isValid() && projectIDs.contains(_currentProject.getID())) {
+        loadFrames(_currentProject);
     }
 }

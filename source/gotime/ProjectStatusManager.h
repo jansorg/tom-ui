@@ -12,6 +12,10 @@ public:
     ProjectStatus getStatus(const QString &projectID) const;
     ProjectStatus getOverallStatus() const;
 
+public slots:
+
+    void setIncludeArchived(bool includeArchived);
+
 signals:
 
     void projectsStatusChanged(const QStringList &projectIDs);
@@ -31,6 +35,7 @@ private:
     TomControl *_control;
 
     ProjectsStatus _statusCache;
+    bool _includeArchived = true;
 };
 
 

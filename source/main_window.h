@@ -46,6 +46,7 @@ private slots:
     void editCurrentProject();
 
     void deleteSelectedTimeEntries();
+    void archiveSelectedTimeEntries();
 
     void createReport();
 

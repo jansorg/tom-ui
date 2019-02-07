@@ -26,7 +26,9 @@ public slots:
 
     void refresh();
 
-    void selectProject(const Project& project);
+    void selectProject(const Project &project);
+
+    void setShowArchived(bool showArchived);
 
 private slots:
 

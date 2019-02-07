@@ -64,6 +64,8 @@ public slots:
 
     bool removeRows(int row, int count, const QModelIndex &parent) override;
 
+    void setShowArchived(bool showArchived);
+
 private slots:
 
     void addProject(const Project &project);
@@ -79,6 +81,8 @@ private:
     bool _enableCheckboxes;
 
     QSet<QString> _checkedProjectIDs;
+
+    bool _showArchived = true;
 
     bool handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);
     bool handleDropFrameIDs(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent);

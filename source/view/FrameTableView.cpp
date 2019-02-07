@@ -9,7 +9,7 @@
 #include "FrameTableView.h"
 #include "icons.h"
 
-FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent) {
+FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent), _control(nullptr), _proxyModel(nullptr), _sourceModel(nullptr) {
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     setDragDropMode(QTableView::DragOnly);
@@ -55,12 +55,13 @@ void FrameTableView::onCustomContextMenuRequested(const QPoint &pos) {
 
 void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
     QMenu menu;
-    QAction *stop = menu.addAction(Icons::stopTimer(), "Stop", [this, frame] {
+    auto *stop = menu.addAction(Icons::stopTimer(), "Stop", [this, frame] {
         _control->updateFrame(QList<Frame *>() << frame,
                               false, QDateTime(),
                               true, QDateTime::currentDateTime(),
                               false, "",
-                              false, "");
+                              false, "",
+                              false, false);
     });
     stop->setIconVisibleInMenu(true);
     stop->setEnabled(frame->isActive());
@@ -68,12 +69,16 @@ void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
     menu.addSeparator();
     menu.addAction(Icons::removeFrame(), "Delete", this, &FrameTableView::deleteSelectedEntries)->setIconVisibleInMenu(true);
 
+    auto *archive = menu.addAction(Icons::archiveFrame(), "Archive", this, &FrameTableView::archiveSelectedEntries);
+    archive->setIconVisibleInMenu(true);
+
     menu.exec(globalPos);
 }
 
 void FrameTableView::onProjectSelected(const Project &project) {
     _sourceModel->loadFrames(project);
 }
+
 void FrameTableView::onSubprojectStatusChange(bool available) {
     if (available) {
         showColumn(FrameTableViewModel::COL_SUBPROJECT);
@@ -83,22 +88,16 @@ void FrameTableView::onSubprojectStatusChange(bool available) {
 }
 
 void FrameTableView::deleteSelectedEntries() {
-    const QModelIndexList &rows = selectionModel()->selectedRows(FrameTableViewModel::FIRST_COL);
-    if (rows.isEmpty()) {
-        return;
-    }
-
-    QList<Frame *> frames;
-    for (auto row: rows) {
-        auto sourceRow = _proxyModel->mapToSource(row);
-        Frame *frame = _sourceModel->frameAt(sourceRow);
-        if (frame) {
-            frames << frame;
-        }
-    }
-
+    auto frames = selectedFrames();
     if (!frames.isEmpty()) {
         _control->removeFrames(frames);
+    }
+}
+
+void FrameTableView::archiveSelectedEntries() {
+    auto frames = selectedFrames();
+    if (!frames.isEmpty()) {
+        _control->updateFrame(frames, false, QDateTime(), false, QDateTime(), false, "", false, "", true, true);
     }
 }
 
@@ -127,4 +126,25 @@ int FrameTableView::sizeHintForColumn(int column) const {
     }
 
     return result + padding;
+}
+
+void FrameTableView::setShowArchived(bool showArchived) {
+    _sourceModel->setShowArchived(showArchived);
+}
+
+QList<Frame *> FrameTableView::selectedFrames() {
+    const QModelIndexList &rows = selectionModel()->selectedRows(FrameTableViewModel::FIRST_COL);
+    if (rows.isEmpty()) {
+        return QList<Frame *>();
+    }
+
+    QList<Frame *> frames;
+    for (auto row: rows) {
+        auto sourceRow = _proxyModel->mapToSource(row);
+        Frame *frame = _sourceModel->frameAt(sourceRow);
+        if (frame) {
+            frames << frame;
+        }
+    }
+    return frames;
 }

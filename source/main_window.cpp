@@ -51,6 +51,10 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this,
             &MainWindow::onEntrySelectionChange);
 
+    connect(actionSettingsShowArchived, &QAction::triggered, _frameView, &FrameTableView::setShowArchived);
+    connect(actionSettingsShowArchived, &QAction::triggered, _projectTree, &ProjectTreeView::setShowArchived);
+    connect(actionSettingsShowArchived, &QAction::triggered, _statusManager, &ProjectStatusManager::setIncludeArchived);
+
     connect(_control, &TomControl::projectStarted, this, &MainWindow::onProjectStatusChange);
     connect(_control, &TomControl::projectStopped, this, &MainWindow::onProjectStatusChange);
 
@@ -156,6 +160,10 @@ void MainWindow::stopCurrentProject() {
 
 void MainWindow::deleteSelectedTimeEntries() {
     _frameView->deleteSelectedEntries();
+}
+
+void MainWindow::archiveSelectedTimeEntries() {
+    _frameView->archiveSelectedEntries();
 }
 
 void MainWindow::deleteCurrentProject() {

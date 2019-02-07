@@ -43,11 +43,11 @@ public:
 
     TomStatus cachedStatus();
 
-    const ProjectsStatus projectsStatus(const QString &overallID, bool includeActive);
+    const ProjectsStatus projectsStatus(const QString &overallID, bool includeActive, bool includeArchived);
 
     bool isStarted(const Project &project, bool includeSubprojects = false);
 
-    QList<Frame *> loadFrames(const QString &projectID, bool includeSubprojects);
+    QList<Frame *> loadFrames(const QString &projectID, bool includeSubprojects, bool includeArchived);
 
     bool renameProject(const QString &id, const QString &newName);
 
@@ -56,14 +56,16 @@ public:
     bool renameTag(const QString &id, const QString &newName);
 
     bool updateFrame(const QList<Frame *> &frames, bool updateStart, const QDateTime &start, bool updateEnd,
-                     const QDateTime &end, bool updateNotes, const QString &notes, bool updateProject, const QString &projectID);
+                     const QDateTime &end, bool updateNotes, const QString &notes, bool updateProject, const QString &projectID, bool updateArchived, bool archived);
 
     bool updateFrame(const QStringList &ids, const QString &currentProjectID, bool updateStart, const QDateTime &start, bool updateEnd,
-                     const QDateTime &end, bool updateNotes, const QString &notes, bool updateProject, const QString &projectID);
+                     const QDateTime &end, bool updateNotes, const QString &notes, bool updateProject, const QString &projectID, bool updateArchived, bool archived);
 
     bool removeFrames(const QList<Frame *> &frames);
 
-    bool updateProjects(QStringList ids, bool updateName, const QString &name, bool updateParent, const QString &parentID);
+    void archiveProjectFrames(const Project &project);
+
+    bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID);
 
     bool importMacTimeTracker(const QString &filename);
 
@@ -106,6 +108,8 @@ signals:
     void framesRemoved(const QStringList &ids, const QString &projectID);
 
     void framesMoved(const QStringList &ids, const QString &oldProjectID, const QString &newProjectID);
+
+    void framesArchived(const QStringList& projectIDs);
 
 public slots:
 

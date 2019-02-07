@@ -161,6 +161,7 @@
      <string>Time E&amp;ntries</string>
     </property>
     <addaction name="actionTimeEntryRemove"/>
+    <addaction name="actionTimeEntryArchive"/>
    </widget>
    <widget class="QMenu" name="menuReports">
     <property name="enabled">
@@ -178,11 +179,18 @@
     <addaction name="actionWindowFocusProjects"/>
     <addaction name="actionWindowFocusTimeEntries"/>
    </widget>
+   <widget class="QMenu" name="menuSettings">
+    <property name="title">
+     <string>Settin&amp;gs</string>
+    </property>
+    <addaction name="actionSettingsShowArchived"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuProject"/>
    <addaction name="menuTracked_Items"/>
    <addaction name="menuReports"/>
    <addaction name="menuImport"/>
+   <addaction name="menuSettings"/>
    <addaction name="menuWindow"/>
    <addaction name="menu_Help"/>
   </widget>
@@ -205,6 +213,7 @@
    <addaction name="actionProjectCreate"/>
    <addaction name="actionProjectStart"/>
    <addaction name="actionProjectStop"/>
+   <addaction name="actionSettingsShowArchived"/>
   </widget>
   <action name="actionQuit">
    <property name="icon">
@@ -400,6 +409,22 @@
   <action name="actionProjectEdit">
    <property name="text">
     <string>Ed&amp;it project...</string>
+   </property>
+  </action>
+  <action name="actionTimeEntryArchive">
+   <property name="text">
+    <string>Archive selected entries</string>
+   </property>
+  </action>
+  <action name="actionSettingsShowArchived">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show archive entries</string>
    </property>
   </action>
  </widget>
@@ -707,6 +732,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionTimeEntryArchive</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>archiveSelectedTimeEntries()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>366</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshData()</slot>
@@ -726,5 +767,6 @@
   <slot>focusEntriesList()</slot>
   <slot>selectCurrentProject()</slot>
   <slot>editCurrentProject()</slot>
+  <slot>archiveSelectedTimeEntries()</slot>
  </slots>
 </ui>

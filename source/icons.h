@@ -46,6 +46,10 @@ namespace Icons {
         return icon("edit-delete");
     }
 
+    inline const QIcon archiveFrame() {
+        return icon("archive");
+    }
+
     inline const QIcon importData() {
         return themeIcon("document-import");
     }

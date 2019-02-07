@@ -445,8 +445,12 @@ bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction 
     const QString &parentProjectID = parentItem->getProject().getID();
 
     // don't move data in the model if the data couldn't be changed in tom
-    bool success = _control->updateFrame(ids, sourceProjectID, false, QDateTime(), false, QDateTime(), false, "", true,
-                                         parentProjectID);
+    bool success = _control->updateFrame(ids, sourceProjectID,
+                                         false, QDateTime(),
+                                         false, QDateTime(),
+                                         false, "",
+                                         true, parentProjectID,
+                                         false, false);
     if (!success) {
         qDebug() << "tom update failed for move of frames" << ids << "into" << parentProjectID;
         return false;
@@ -523,4 +527,8 @@ bool ProjectTreeModel::removeRows(int row, int count, const QModelIndex &parent)
     endRemoveRows();
 
     return result;
+}
+
+void ProjectTreeModel::setShowArchived(bool showArchived) {
+    _showArchived = showArchived;
 }

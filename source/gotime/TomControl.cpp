@@ -174,7 +174,7 @@ TomStatus TomControl::status() {
     return result;
 }
 
-QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubprojects) {
+QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubprojects, bool includeArchived) {
     QStringList args = QStringList() << "frames"
                                      << "-o" << "json"
                                      << "-p" << projectID
@@ -183,6 +183,8 @@ QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubp
     if (includeSubprojects) {
         args.append("--subprojects");
     }
+
+    args.append(QString("--archived=%1").arg(includeArchived ? "true" : "false"));
 
     const CommandStatus &resp = run(args);
     if (resp.isFailed()) {
@@ -237,7 +239,8 @@ bool TomControl::updateFrame(const QList<Frame *> &frames,
                              bool updateStart, const QDateTime &start,
                              bool updateEnd, const QDateTime &end,
                              bool updateNotes, const QString &notes,
-                             bool updateProject, const QString &projectID) {
+                             bool updateProject, const QString &projectID,
+                             bool updateArchived, bool archived) {
     // for now we expect that all frames belong to the same project
     if (frames.isEmpty()) {
         return false;
@@ -254,15 +257,18 @@ bool TomControl::updateFrame(const QList<Frame *> &frames,
         frameIDs << frame->id;
     }
 
-    return updateFrame(frameIDs, projectID, updateStart, start, updateEnd, end, updateNotes, notes, updateProject,
-                       projectID);
+    return updateFrame(frameIDs, projectID, updateStart, start, updateEnd, end,
+                       updateNotes, notes,
+                       updateProject, projectID,
+                       updateArchived, archived);
 }
 
 bool TomControl::updateFrame(const QStringList &ids, const QString &currentProjectID,
                              bool updateStart, const QDateTime &start,
                              bool updateEnd, const QDateTime &end,
                              bool updateNotes, const QString &notes,
-                             bool updateProject, const QString &projectID) {
+                             bool updateProject, const QString &projectID,
+                             bool updateArchived, bool archived) {
     QStringList args;
     args << "edit" << "frame";
     if (updateStart) {
@@ -277,6 +283,9 @@ bool TomControl::updateFrame(const QStringList &ids, const QString &currentProje
     if (updateProject) {
         args << "--project" << projectID;
     }
+    if (updateArchived) {
+        args << QString("--archived=%1").arg(archived ? "true" : "false");
+    }
     args << ids;
 
     CommandStatus status = run(args);
@@ -290,11 +299,15 @@ bool TomControl::updateFrame(const QStringList &ids, const QString &currentProje
         } else if (!currentProjectID.isEmpty()) {
             emit framesUpdated(ids, currentProjectID);
         }
+
+        if (updateArchived) {
+            emit framesArchived(QStringList() << currentProjectID);
+        }
     }
     return success;
 }
 
-bool TomControl::updateProjects(QStringList ids, bool updateName, const QString &name, bool updateParent, const QString &parentID) {
+bool TomControl::updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID) {
     if (ids.isEmpty() || (!updateName && !updateParent)) {
         return true;
     }
@@ -325,7 +338,7 @@ bool TomControl::updateProjects(QStringList ids, bool updateName, const QString 
     return success;
 }
 
-const ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool includeActive) {
+const ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool includeActive, bool includeArchived) {
     QString idList = "id,trackedDay,totalTrackedDay,trackedWeek,totalTrackedWeek,trackedMonth,totalTrackedMonth,trackedYear,totalTrackedYear,trackedAll,totalTrackedAll";
     const int expectedColumns = idList.count(',') + 1;
 
@@ -337,6 +350,7 @@ const ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool i
     if (!overallID.isEmpty()) {
         args << "--show-overall" << overallID;
     }
+    args << QString("--archived=%1").arg(includeArchived ? "true" : "false");
 
     CommandStatus cmdStatus = run(args);
     if (cmdStatus.isFailed()) {
@@ -611,10 +625,23 @@ const Project TomControl::cachedActiveProject() const {
 
 bool TomControl::hasSubprojects(const Project &project) {
     const QString &parentID = project.getID();
-    for (auto p : _cachedProjects) {
+    for (const auto &p : _cachedProjects) {
         if (p.getParentID() == parentID) {
             return true;
         }
     }
     return false;
+}
+
+void TomControl::archiveProjectFrames(const Project &project) {
+    if (!project.isValid()) {
+        return;
+    }
+
+    QStringList args;
+    args << "frames" << "archive" << "--project" << project.getID();
+    const CommandStatus &status = run(args);
+    if (status.isSuccessful()) {
+        emit framesArchived(QStringList() << project.getID());
+    }
 }

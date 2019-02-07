@@ -84,6 +84,7 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
     menu.addAction(Icons::projectNew(), "Create new subproject...", [this, project] { createNewProject(project); })->setIconVisibleInMenu(true);
     menu.addAction(Icons::projectEdit(), "Edit project...", [this, project] { ProjectEditorDialog::show(project, _control, _statusManager, this); })->setIconVisibleInMenu(true);
     menu.addAction(Icons::projectRemove(), "Delete project...", [this, project] { ActionUtils::removeProject(_control, project, this); })->setIconVisibleInMenu(true);
+    menu.addAction(Icons::archiveFrame(), "Archive all entries...", [this, project] { _control->archiveProjectFrames(project); })->setIconVisibleInMenu(true);
 
     bool started = project.isValid() && _control->isStarted(project);
     start->setEnabled(project.isValid() && !started);
@@ -140,4 +141,8 @@ void ProjectTreeView::selectProject(const Project &project) {
     } else {
         clearSelection();
     }
+}
+
+void ProjectTreeView::setShowArchived(bool showArchived) {
+    _sourceModel->setShowArchived(showArchived);
 }

@@ -42,6 +42,10 @@ public:
     static const int FIRST_COL = 0;
     static const int COLUMN_COUNT = COL_NOTES + 1;
 
+public slots:
+
+    void setShowArchived(bool showArchived);
+
 signals:
 
     void subprojectStatusChange(bool available);
@@ -51,6 +55,7 @@ private slots:
     void onFramesRemoved(const QStringList &frameIDs, const QString &projectID);
 
     void onFramesMoved(const QStringList &frameIDs, const QString &oldProjectID, const QString &newProjectID);
+    void onFramesArchived(const QStringList &projectIDs);
 
     void onProjectUpdated(const Project &project);
 
@@ -73,6 +78,8 @@ private:
 
     QList<Frame *> _frames;
     Project _currentProject;
+
+    bool _showArchived = true;
 };
 
 

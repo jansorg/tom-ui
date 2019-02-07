@@ -21,6 +21,10 @@ public slots:
 
     void deleteSelectedEntries();
 
+    void archiveSelectedEntries();
+
+    void setShowArchived(bool showArchived);
+
 protected:
     int sizeHintForColumn(int column) const override;
 
@@ -36,6 +40,8 @@ private:
     FrameTableViewModel *_sourceModel;
 
     void showContextMenu(Frame *frame, QPoint globalPos);
+
+    QList<Frame *> selectedFrames();
 };
 
 #endif //TOM_UI_FRAMETABLEVIEW_H

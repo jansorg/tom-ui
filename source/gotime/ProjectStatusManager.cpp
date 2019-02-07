@@ -10,6 +10,11 @@ ProjectStatusManager::ProjectStatusManager(TomControl *control, QObject *parent)
     connect(_control, &TomControl::framesUpdated, this, &ProjectStatusManager::refresh);
     connect(_control, &TomControl::framesRemoved, this, &ProjectStatusManager::refresh);
     connect(_control, &TomControl::framesMoved, this, &ProjectStatusManager::refresh);
+    connect(_control, &TomControl::framesArchived, [this] {
+        if (!_includeArchived) {
+            refresh();
+        }
+    });
 
     _timer = new QTimer(this);
     connect(_timer, &QTimer::timeout, this, &ProjectStatusManager::refresh);
@@ -31,9 +36,16 @@ void ProjectStatusManager::refresh() {
 }
 
 ProjectsStatus ProjectStatusManager::loadStatus() {
-    return _control->projectsStatus(ProjectStatus::OVERALL_ID, true);
+    return _control->projectsStatus(ProjectStatus::OVERALL_ID, true, _includeArchived);
 }
 
 ProjectStatus ProjectStatusManager::getOverallStatus() const {
     return _statusCache.get(ProjectStatus::OVERALL_ID);
+}
+
+void ProjectStatusManager::setIncludeArchived(bool includeArchived) {
+    if (includeArchived != _includeArchived) {
+        _includeArchived = includeArchived;
+        refresh();
+    }
 }

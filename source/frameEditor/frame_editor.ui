@@ -75,14 +75,14 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="4" column="0">
         <widget class="QLabel" name="notesLabel">
          <property name="text">
           <string>Notes:</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="4" column="1">
         <widget class="QPlainTextEdit" name="notesEdit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -92,6 +92,20 @@
          </property>
          <property name="placeholderText">
           <string>Notes about this time entry</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Archived:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QCheckBox" name="archivedCheckBox">
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>

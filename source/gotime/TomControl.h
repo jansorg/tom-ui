@@ -85,6 +85,7 @@ public:
                        bool matrixTables,
                        bool showEmpty,
                        bool showSummary,
+                       bool includeArchived,
                        const QString &title, const QString &description);
 
 signals:

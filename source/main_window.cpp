@@ -183,7 +183,9 @@ void MainWindow::editCurrentProject() {
 }
 
 void MainWindow::onEntrySelectionChange(const QItemSelection &selection) {
-    actionTimeEntryRemove->setEnabled(!selection.isEmpty());
+    bool selectedEntries = !selection.isEmpty();
+    actionTimeEntryRemove->setEnabled(selectedEntries);
+    actionTimeEntryArchive->setEnabled(selectedEntries);
 }
 
 void MainWindow::createReport() {

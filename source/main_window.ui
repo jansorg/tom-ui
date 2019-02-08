@@ -201,6 +201,12 @@
    <property name="movable">
     <bool>false</bool>
    </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonFollowStyle</enum>
+   </property>
    <property name="floatable">
     <bool>false</bool>
    </property>

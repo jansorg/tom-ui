@@ -216,9 +216,10 @@ QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubp
         const QDateTime lastUpdated = QDateTime::fromString(item["lastUpdated"].toString(), Qt::ISODate);
         const QString notes = item["notes"].toString();
         const QStringList tags = QStringList();
+        const bool archived = item["archived"].toBool(false);
 
         // fixme who's deleting the allocated data?
-        result.append(new Frame(id, nestedProjectID, start, end, lastUpdated, notes, tags));
+        result.append(new Frame(id, nestedProjectID, start, end, lastUpdated, notes, tags, archived));
     }
     return result;
 }
@@ -555,6 +556,7 @@ QString TomControl::htmlReport(const QString &outputFile,
                                bool matrixTables,
                                bool showEmpty,
                                bool showSummary,
+                               bool includeArchived,
                                const QString &title, const QString &description) {
     QStringList args;
     args << "report";
@@ -586,6 +588,7 @@ QString TomControl::htmlReport(const QString &outputFile,
     args << QString("--matrix-tables=%1").arg(matrixTables ? "true" : "false");
     args << QString("--show-empty=%1").arg(showEmpty ? "true" : "false");
     args << QString("--show-summary=%1").arg(showSummary ? "true" : "false");
+    args << QString("--include-archived=%1").arg(includeArchived ? "true" : "false");
 
     if (!title.isEmpty()) {
         args << "--title=" + title;

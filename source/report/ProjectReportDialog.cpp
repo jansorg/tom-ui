@@ -55,10 +55,12 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     connect(projectsBox, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
     connect(subprojectsCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
+    connect(includeArchivedCheckBox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(dateFilterCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(dateStart, &QDateEdit::dateChanged, this, &ProjectReportDialog::updateReport);
     connect(dateEnd, &QDateEdit::dateChanged, this, &ProjectReportDialog::updateReport);
 
+    connect(roundEntriesCheckBox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(frameRoundingMode, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
     connect(frameRoundingValue, QOverload<int>::of(&QSpinBox::valueChanged), this, &ProjectReportDialog::updateReport);
 
@@ -82,12 +84,14 @@ void ProjectReportDialog::updateReport() {
 
     const QString &frameModeText = frameRoundingMode->currentText();
     TimeRoundingMode frameMode = NONE;
-    if (frameModeText == "up") {
-        frameMode = UP;
-    } else if (frameModeText == "down") {
-        frameMode = DOWN;
-    } else if (frameModeText == "up or down") {
-        frameMode = NEAREST;
+    if (roundEntriesCheckBox->isChecked()) {
+        if (frameModeText == "up") {
+            frameMode = UP;
+        } else if (frameModeText == "down") {
+            frameMode = DOWN;
+        } else if (frameModeText == "up or down") {
+            frameMode = NEAREST;
+        }
     }
 
     QDate start;
@@ -110,6 +114,7 @@ void ProjectReportDialog::updateReport() {
                                         matrixTablesCheckbox->isChecked(),
                                         showEmptyCheckbox->isChecked(),
                                         showSummaryCheckbox->isChecked(),
+                                        includeArchivedCheckBox->isChecked(),
                                         titleEdit->text(), descriptionEdit->toPlainText());
 
 #ifdef TOM_REPORTS

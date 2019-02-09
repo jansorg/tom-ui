@@ -5,13 +5,13 @@
 #include <dialogs/CommonDialogs.h>
 #include <QtWidgets/QInputDialog>
 #include <QtWidgets/QFileDialog>
-#include <source/projectEditor/ProjectEditorDialog.h>
 
 #include "version.h"
 #include "icons.h"
 #include "main_window.h"
 #include "ActionUtils.h"
 
+#include "source/projectEditor/ProjectEditorDialog.h"
 #include "source/report/ProjectReportDialog.h"
 #include "source/projectlookup/projectlookup.h"
 
@@ -23,19 +23,21 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     setWindowIcon(Icons::LogoLarge());
 //#endif
 
+    setUnifiedTitleAndToolBarOnMac(true);
+
     setupUi(this);
 #ifndef TOM_REPORTS
     menuReports->setEnabled(false);
     menuReports->setVisible(false);
 #endif
 
-#ifdef  Q_OS_MAC
-    QMacToolBar *toolBar = new QMacToolBar(this);
-    QMacToolBarItem *toolBarItem = toolBar->addItem(Icons::startTimer(), QStringLiteral("Start timer"));
-    connect(toolBarItem, SIGNAL(activated()), this, SLOT(startCurrentProject()));
-
-    this->window()->winId();
-    toolBar->attachToWindow(this->window()->windowHandle());
+#ifdef Q_OS_MAC
+//    QMacToolBar *toolBar = new QMacToolBar(this);
+//    QMacToolBarItem *toolBarItem = toolBar->addItem(Icons::startTimer(), QStringLiteral("Start timer"));
+//    connect(toolBarItem, SIGNAL(activated()), this, SLOT(startCurrentProject()));
+//
+//    this->window()->winId();
+//    toolBar->attachToWindow(this->window()->windowHandle());
 #endif
 
     _projectTree->setup(control, statusManager);

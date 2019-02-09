@@ -3,11 +3,16 @@
 
 #include <QtGui>
 #include <QtWidgets/QSystemTrayIcon>
-#include <gotime/ProjectStatusManager.h>
+
+#ifdef Q_OS_MAC
+#include <QMacToolBar>
+#include <QMacToolBarItem>
+#endif
 
 #include "ui_main_window.h"
 #include "data/Project.h"
 #include "gotime/TomControl.h"
+#include "gotime/ProjectStatusManager.h"
 
 class MainWindow : public QMainWindow, private Ui::MainWindow {
 Q_OBJECT
@@ -46,6 +51,7 @@ private slots:
     void editCurrentProject();
 
     void deleteSelectedTimeEntries();
+
     void archiveSelectedTimeEntries();
 
     void createReport();
@@ -67,6 +73,11 @@ private:
 
     TomControl *_control;
     ProjectStatusManager *_statusManager;
+
+#ifdef  Q_OS_MAC
+    QMacToolBarItem *_macStartProject;
+    QMacToolBarItem *_macStopProject;
+#endif
 };
 
 #endif

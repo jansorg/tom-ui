@@ -23,8 +23,6 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     setWindowIcon(Icons::LogoLarge());
 //#endif
 
-    setUnifiedTitleAndToolBarOnMac(true);
-
     setupUi(this);
 #ifndef TOM_REPORTS
     menuReports->setEnabled(false);

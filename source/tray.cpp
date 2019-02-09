@@ -20,6 +20,7 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow) : Q
     _stopTaskAction = new QAction("Stop timer");
     _stopTaskAction->setToolTip("Stop the current project and record data.");
     _stopTaskAction->setIcon(Icons::stopTimer());
+    _stopTaskAction->setIconVisibleInMenu(true);
     connect(_stopTaskAction, SIGNAL(triggered()), control, SLOT(stopActivity()));
     _menu->addAction(_stopTaskAction);
 
@@ -58,8 +59,13 @@ void GotimeTrayIcon::updateProjects() {
     }
     _projectActions.clear();
 
+    bool useCheckmarks = false;
+    #ifdef QT_OS_MAC
+    useCheckmarks = true;
+    #endif
+
     for (const auto &project : _control->loadRecentProjects()) {
-        _projectActions << new StartProjectAction(project, _control, this, true);
+        _projectActions << new StartProjectAction(project, _control, this, useCheckmarks);
     }
     _menu->insertActions(_separatorAction, _projectActions);
 }

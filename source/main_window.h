@@ -4,11 +4,6 @@
 #include <QtGui>
 #include <QtWidgets/QSystemTrayIcon>
 
-#ifdef Q_OS_MAC
-#include <QMacToolBar>
-#include <QMacToolBarItem>
-#endif
-
 #include "ui_main_window.h"
 #include "data/Project.h"
 #include "gotime/TomControl.h"
@@ -73,11 +68,6 @@ private:
 
     TomControl *_control;
     ProjectStatusManager *_statusManager;
-
-#ifdef  Q_OS_MAC
-    QMacToolBarItem *_macStartProject;
-    QMacToolBarItem *_macStopProject;
-#endif
 };
 
 #endif

@@ -29,15 +29,6 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     menuReports->setVisible(false);
 #endif
 
-#ifdef Q_OS_MAC
-//    QMacToolBar *toolBar = new QMacToolBar(this);
-//    QMacToolBarItem *toolBarItem = toolBar->addItem(Icons::startTimer(), QStringLiteral("Start timer"));
-//    connect(toolBarItem, SIGNAL(activated()), this, SLOT(startCurrentProject()));
-//
-//    this->window()->winId();
-//    toolBar->attachToWindow(this->window()->windowHandle());
-#endif
-
     _projectTree->setup(control, statusManager);
     _frameView->setup(control);
 

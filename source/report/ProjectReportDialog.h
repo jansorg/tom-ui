@@ -37,8 +37,6 @@ private:
     QTemporaryDir _tempDir;
     QString _tempFile;
 
-    ProjectTreeModel *_projectModel;
-
 #ifdef TOM_REPORTS
     QWebEngineView *_webView;
 #endif

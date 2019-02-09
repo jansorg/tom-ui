@@ -63,9 +63,9 @@ inline bool operator==(const ProjectStatus &a, const ProjectStatus &b) {
            a.monthTotal == b.monthTotal &&
            a.year == b.year &&
            a.yearTotal == b.yearTotal;
-};
+}
 
-inline bool operator!=(const ProjectStatus &a, const ProjectStatus &b) { return !operator==(a, b); };
+inline bool operator!=(const ProjectStatus &a, const ProjectStatus &b) { return !operator==(a, b); }
 
 
 #endif //TOM_UI_PROJECTSTATUS_H

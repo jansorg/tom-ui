@@ -36,7 +36,7 @@ QVariant ReportSplitModel::data(const QModelIndex &index, int role) const {
     return QStringListModel::data(index, role);
 }
 
-bool ReportSplitModel::moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationRow) {
+bool ReportSplitModel::moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &/*destinationParent*/, int destinationRow) {
     bool ok = hasIndex(sourceRow, 0, sourceParent);
     if (!ok || count != 1 || destinationRow < 0) {
         return false;

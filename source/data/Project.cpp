@@ -8,7 +8,7 @@ Project::Project() : _id(QString()),
                      _parentID(QString()),
                      _names(QStringList()) {
 
-};
+}
 
 Project::Project(QStringList names, QString id, QString parentID) : _id(std::move(id)),
                                                                     _parentID(std::move(parentID)),

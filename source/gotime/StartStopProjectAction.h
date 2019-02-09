@@ -10,7 +10,7 @@ class StartProjectAction : public QAction {
 Q_OBJECT
 
 public:
-    explicit StartProjectAction(const Project &project, TomControl *control, QObject *parent);
+    explicit StartProjectAction(const Project &project, TomControl *control, QObject *parent, bool checkable = false);
 
 private slots:
     void toggleProjectStatus();

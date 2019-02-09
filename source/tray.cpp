@@ -59,7 +59,7 @@ void GotimeTrayIcon::updateProjects() {
     _projectActions.clear();
 
     for (const auto &project : _control->loadRecentProjects()) {
-        _projectActions << new StartProjectAction(project, _control, this);
+        _projectActions << new StartProjectAction(project, _control, this, true);
     }
     _menu->insertActions(_separatorAction, _projectActions);
 }

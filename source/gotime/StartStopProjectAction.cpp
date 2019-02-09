@@ -1,13 +1,20 @@
 #include <icons.h>
 #include "StartStopProjectAction.h"
 
-StartProjectAction::StartProjectAction(const Project &project, TomControl *control, QObject *parent) : QAction(parent),
-                                                                                                          _control(control),
-                                                                                                          _project(project) {
+StartProjectAction::StartProjectAction(const Project &project, TomControl *control, QObject *parent, bool checkable) : QAction(parent),
+                                                                                                                       _control(control),
+                                                                                                                       _project(project) {
+
+    setCheckable(checkable);
 
     setIconVisibleInMenu(true);
     setText(project.getName());
-    setIcon(control->isStarted(project) ? Icons::stopTimer() : Icons::startTimer());
+
+    if (checkable) {
+        setChecked(control->isStarted(project));
+    } else {
+        setIcon(control->isStarted(project) ? Icons::stopTimer() : Icons::startTimer());
+    }
 
     connect(this, SIGNAL(triggered()), this, SLOT(toggleProjectStatus()));
 }

@@ -41,9 +41,7 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow) : Q
     _trayIcon->setIcon(_stoppedIcon);
     _trayIcon->show();
 
-    _statusUpdateTimer = new QTimer(this);
-    connect(_statusUpdateTimer, &QTimer::timeout, this, &GotimeTrayIcon::updateStatus);
-
+    connect(control, &TomControl::statusChanged, this, &GotimeTrayIcon::updateStatus);
     connect(control, &TomControl::projectStarted, this, &GotimeTrayIcon::updateStatus);
     connect(control, &TomControl::projectStopped, this, &GotimeTrayIcon::updateStatus);
     connect(control, &TomControl::projectCancelled, this, &GotimeTrayIcon::updateStatus);
@@ -71,29 +69,26 @@ void GotimeTrayIcon::updateProjects() {
 }
 
 void GotimeTrayIcon::updateStatus() {
-    _lastStatus = _control->cachedStatus();
+    auto lastStatus = _control->cachedStatus();
 
     updateProjects();
 
-    if (_lastStatus.isValid) {
-        const Timespan span = Timespan::of(_lastStatus.startTime(), QDateTime::currentDateTime());
+    if (lastStatus.isValid) {
+        const Timespan span = Timespan::of(lastStatus.startTime(), QDateTime::currentDateTime());
         QString tooltip;
         if (OSEnvInfo::supportsHTMLTooltips()) {
-            tooltip = QString("%1: <b>%2</b>").arg(_lastStatus.currentProject().getName()).arg(span.format());
+            tooltip = QString("%1: <b>%2</b>").arg(lastStatus.currentProject().getName()).arg(span.format());
         } else {
-            tooltip = QString("%1: %2").arg(_lastStatus.currentProject().getName()).arg(span.format());
+            tooltip = QString("%1: %2").arg(lastStatus.currentProject().getName()).arg(span.format());
         }
         _trayIcon->setToolTip(tooltip);
-
         _trayIcon->setIcon(_startedIcon);
 
         _stopTaskAction->setEnabled(true);
-        _statusUpdateTimer->start(5000);
     } else {
         _trayIcon->setToolTip("No active project");
         _trayIcon->setIcon(_stoppedIcon);
         _stopTaskAction->setEnabled(false);
-        _statusUpdateTimer->stop();
     }
 
 }

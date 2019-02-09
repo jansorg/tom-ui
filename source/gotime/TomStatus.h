@@ -21,4 +21,8 @@ private:
     QDateTime _startTime;
 };
 
+inline bool operator==(const TomStatus &a, const TomStatus &b) { return a.currentProject() == b.currentProject() && a.isValid == b.isValid && a.startTime() == b.startTime(); }
+
+inline bool operator!=(const TomStatus &a, const TomStatus &b) { return !operator==(a, b); }
+
 #endif 

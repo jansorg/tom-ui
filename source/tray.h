@@ -22,16 +22,12 @@ private slots:
 private:
     void updateProjects();
 
-    QTimer *_statusUpdateTimer;
-
     QMenu *_menu;
     TomControl *_control;
     QSystemTrayIcon *_trayIcon;
     QList<QAction *> _projectActions;
     QAction *_stopTaskAction;
     QAction *_separatorAction;
-
-    TomStatus _lastStatus;
 
     QIcon _startedIcon;
     QIcon _stoppedIcon;

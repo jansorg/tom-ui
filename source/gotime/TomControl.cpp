@@ -169,8 +169,14 @@ TomStatus TomControl::status() {
         }
     }
 
+    bool changed = _cachedStatus != result;
     _cachedStatus = result;
     _activeProject = _cachedStatus.currentProject();
+
+    if (changed) {
+        emit statusChanged(result);
+    }
+
     return result;
 }
 

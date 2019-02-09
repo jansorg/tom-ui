@@ -56,22 +56,12 @@ void FrameTableView::onCustomContextMenuRequested(const QPoint &pos) {
 void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
     QMenu menu;
     auto *stop = menu.addAction(Icons::stopTimer(), "Stop", [this, frame] {
-        _control->updateFrame(QList<Frame *>() << frame,
-                              false, QDateTime(),
-                              true, QDateTime::currentDateTime(),
-                              false, "",
-                              false, "",
-                              false, false);
+        _control->updateFrame(QList<Frame *>() << frame, false, QDateTime(), true, QDateTime::currentDateTime(), false, "", false, "", false, false);
     });
-    stop->setIconVisibleInMenu(true);
     stop->setEnabled(frame->isActive());
-
     menu.addSeparator();
-    menu.addAction(Icons::removeFrame(), "Delete", this, &FrameTableView::deleteSelectedEntries)->setIconVisibleInMenu(true);
-
-    auto *archive = menu.addAction(Icons::archiveFrame(), "Archive", this, &FrameTableView::archiveSelectedEntries);
-    archive->setIconVisibleInMenu(true);
-
+    menu.addAction(Icons::timeEntryRemove(), "Delete", this, &FrameTableView::deleteSelectedEntries);
+    menu.addAction(Icons::timeEntryArchive(), "Archive", this, &FrameTableView::archiveSelectedEntries);
     menu.exec(globalPos);
 }
 

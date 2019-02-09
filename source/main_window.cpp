@@ -32,18 +32,32 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     _projectTree->setup(control, statusManager);
     _frameView->setup(control);
 
+    actionRefresh->setIcon(Icons::refreshData());
+    actionResetAllData->setIcon(Icons::resetData());
+    actionMinimize->setIcon(Icons::windowHide());
+    actionQuit->setIcon(Icons::exit());
+
+    actionProjectLookup->setIcon(Icons::projectLookup());
+    actionProjectStart->setIcon(Icons::projectStart());
+    actionProjectStop->setIcon(Icons::projectStop());
     actionProjectCreate->setIcon(Icons::projectNew());
     actionProjectEdit->setIcon(Icons::projectEdit());
+    actionProjectRemove->setIcon(Icons::projectRemove());
+    actionProjectSelectActive->setIcon(Icons::projectSelectActive());
 
-    actionImportMacTimeTracker->setIcon(Icons::importData());
+    actionTimeEntryRemove->setIcon(Icons::timeEntryDelete());
+    actionTimeEntryArchive->setIcon(Icons::timeEntryArchive());
+
+    actionReportCreate->setIcon(Icons::report());
+
+    actionWindowFocusProjects->setIcon(Icons::windowProjectsFocus());
+    actionWindowFocusProjects->setIcon(Icons::windowTimeEntriesFocus());
+
+    actionImportMacTimeTracker->setIcon(Icons::importTableData());
     actionImportFanurio->setIcon(Icons::importData());
     actionImportWatson->setIcon(Icons::importData());
 
-    actionProjectStart->setIcon(Icons::projectStart());
-    actionProjectStop->setIcon(Icons::projectStop());
-    actionProjectRemove->setIcon(Icons::projectRemove());
-
-    actionTimeEntryRemove->setIcon(Icons::timeEntryDelete());
+    actionHelpAbout->setIcon(Icons::about());
 
     connect(_projectTree, &ProjectTreeView::projectSelected, _frameView, &FrameTableView::onProjectSelected);
     connect(_projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::onProjectSelectionChange);
@@ -59,7 +73,6 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     connect(_control, &TomControl::projectStopped, this, &MainWindow::onProjectStatusChange);
 
     connect(actionQuit, &QAction::triggered, &QCoreApplication::quit);
-    connect(actionAboutQt, &QAction::triggered, &QApplication::aboutQt);
 
     createActions();
     refreshData();

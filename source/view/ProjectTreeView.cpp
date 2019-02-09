@@ -74,17 +74,13 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
     const Project &project = item->getProject();
 
     QMenu menu;
-    QAction *start = menu.addAction(Icons::startTimer(), "Start", [this, project] { _control->startProject(project); });
-    start->setIconVisibleInMenu(true);
-
-    QAction *stop = menu.addAction(Icons::stopTimer(), "Stop", [this] { _control->stopActivity(); });
-    stop->setIconVisibleInMenu(true);
-
+    QAction *start = menu.addAction(Icons::startTimer(), "Start timer", [this, project] { _control->startProject(project); });
+    QAction *stop = menu.addAction(Icons::stopTimer(), "Stop timer", [this] { _control->stopActivity(); });
     menu.addSeparator();
-    menu.addAction(Icons::projectNew(), "Create new subproject...", [this, project] { createNewProject(project); })->setIconVisibleInMenu(true);
-    menu.addAction(Icons::projectEdit(), "Edit project...", [this, project] { ProjectEditorDialog::show(project, _control, _statusManager, this); })->setIconVisibleInMenu(true);
-    menu.addAction(Icons::projectRemove(), "Delete project...", [this, project] { ActionUtils::removeProject(_control, project, this); })->setIconVisibleInMenu(true);
-    menu.addAction(Icons::archiveFrame(), "Archive all entries...", [this, project] { _control->archiveProjectFrames(project); })->setIconVisibleInMenu(true);
+    menu.addAction(Icons::projectNew(), "Create new subproject...", [this, project] { createNewProject(project); });
+    menu.addAction(Icons::projectEdit(), "Edit project...", [this, project] { ProjectEditorDialog::show(project, _control, _statusManager, this); });
+    menu.addAction(Icons::projectRemove(), "Delete project...", [this, project] { ActionUtils::removeProject(_control, project, this); });
+    menu.addAction(Icons::timeEntryArchive(), "Archive all entries", [this, project] { _control->archiveProjectFrames(project); });
 
     bool started = project.isValid() && _control->isStarted(project);
     start->setEnabled(project.isValid() && !started);

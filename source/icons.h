@@ -30,6 +30,18 @@ namespace Icons {
         return themeIcon("application-exit");
     }
 
+    inline const QIcon refreshData() {
+        return themeIcon("view-refresh");
+    }
+
+    inline const QIcon resetData() {
+        return themeIcon("edit-clear");
+    }
+
+    inline const QIcon windowHide() {
+        return themeIcon("window-close");
+    }
+
     inline const QIcon about() {
         return themeIcon("help-about");
     }
@@ -42,16 +54,28 @@ namespace Icons {
         return icon("timer-stop");
     }
 
-    inline const QIcon removeFrame() {
+    inline const QIcon timeEntryRemove() {
         return icon("edit-delete");
     }
 
-    inline const QIcon archiveFrame() {
-        return icon("archive");
+    inline const QIcon timeEntryArchive() {
+        return icon("drive-tape");
+    }
+
+    inline const QIcon report() {
+        return icon("document-send");
     }
 
     inline const QIcon importData() {
         return themeIcon("document-import");
+    }
+
+    inline const QIcon importTableData() {
+        return themeIcon("x-office-spreadsheet");
+    }
+
+    inline const QIcon projectLookup() {
+        return icon("system-search");
     }
 
     inline const QIcon projectNew() {
@@ -64,6 +88,10 @@ namespace Icons {
 
     inline QIcon projectRemove() {
         return icon("edit-delete");
+    }
+
+    inline QIcon projectSelectActive() {
+        return icon("go-jump");
     }
 
     inline const QIcon projectStart() {
@@ -88,6 +116,14 @@ namespace Icons {
 
     inline const QIcon showMainWindow() {
         return icon("window");
+    }
+
+    inline const QIcon windowProjectsFocus() {
+        return icon("go-first");
+    }
+
+    inline const QIcon windowTimeEntriesFocus() {
+        return icon("go-last");
     }
 
     inline const QIcon LogoSmall() {

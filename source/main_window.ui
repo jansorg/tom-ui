@@ -133,7 +133,6 @@
      <string>&amp;Help</string>
     </property>
     <addaction name="actionHelpAbout"/>
-    <addaction name="actionAboutQt"/>
    </widget>
    <widget class="QMenu" name="menuImport">
     <property name="title">
@@ -219,11 +218,10 @@
    <addaction name="actionProjectCreate"/>
    <addaction name="actionProjectStart"/>
    <addaction name="actionProjectStop"/>
-   <addaction name="actionSettingsShowArchived"/>
   </widget>
   <action name="actionQuit">
    <property name="icon">
-    <iconset theme="application-exit">
+    <iconset>
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
@@ -246,7 +244,7 @@
   </action>
   <action name="actionRefresh">
    <property name="icon">
-    <iconset theme="view-refresh">
+    <iconset>
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
@@ -254,10 +252,6 @@
    </property>
   </action>
   <action name="actionHelpAbout">
-   <property name="icon">
-    <iconset theme="help-about">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
    <property name="text">
     <string>&amp;About Tom</string>
    </property>
@@ -269,12 +263,11 @@
    </property>
   </action>
   <action name="actionProjectCreate">
-   <property name="icon">
-    <iconset theme="document-new">
-     <normaloff>.</normaloff>.</iconset>
-   </property>
    <property name="text">
-    <string>&amp;Create New Project</string>
+    <string>&amp;Create New Project...</string>
+   </property>
+   <property name="iconText">
+    <string>Create New Project</string>
    </property>
    <property name="toolTip">
     <string>Create a new project</string>
@@ -308,10 +301,13 @@
   </action>
   <action name="actionProjectStart">
    <property name="text">
-    <string>&amp;Start selected project</string>
+    <string>&amp;Start timer</string>
+   </property>
+   <property name="iconText">
+    <string>Start Timer</string>
    </property>
    <property name="toolTip">
-    <string>Start the currently selected project</string>
+    <string>Starts a new timer for the currently selected project</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+B</string>
@@ -322,10 +318,13 @@
   </action>
   <action name="actionProjectStop">
    <property name="text">
-    <string>Sto&amp;p active project</string>
+    <string>S&amp;top timer</string>
+   </property>
+   <property name="iconText">
+    <string>Stop Timer</string>
    </property>
    <property name="toolTip">
-    <string>Stop the currently selected project</string>
+    <string>Stops the timer of the currently selected project</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
@@ -358,25 +357,21 @@
     <string>Ctrl+R</string>
    </property>
   </action>
-  <action name="actionAboutQt">
-   <property name="text">
-    <string>About &amp;Qt</string>
-   </property>
-  </action>
   <action name="actionProjectLookup">
    <property name="text">
-    <string>Sta&amp;rt project...</string>
+    <string>&amp;Lookup project...</string>
+   </property>
+   <property name="iconText">
+    <string>Lookup project...</string>
+   </property>
+   <property name="toolTip">
+    <string>Show a dialog to lookup a project by name</string>
    </property>
    <property name="statusTip">
-    <string>Quickly lookup a project by name...</string>
+    <string>Show a dialog to lookup a project by name</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+L</string>
-   </property>
-  </action>
-  <action name="actionCreateProjectReport">
-   <property name="text">
-    <string>Create project report...</string>
    </property>
   </action>
   <action name="actionWindowFocusProjects">
@@ -403,7 +398,7 @@
   </action>
   <action name="actionProjectSelectActive">
    <property name="text">
-    <string>S&amp;elect active project</string>
+    <string>Scroll to active project</string>
    </property>
    <property name="toolTip">
     <string>Selects the active project in the project tree</string>
@@ -419,7 +414,7 @@
   </action>
   <action name="actionTimeEntryArchive">
    <property name="text">
-    <string>Archive selected entries</string>
+    <string>&amp;Archive selected entries</string>
    </property>
   </action>
   <action name="actionSettingsShowArchived">
@@ -430,7 +425,10 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Show archive entries</string>
+    <string>&amp;Show archived entries</string>
+   </property>
+   <property name="iconText">
+    <string>Archived entries</string>
    </property>
   </action>
  </widget>

@@ -52,7 +52,7 @@ namespace Icons {
 
     inline const QIcon stopTimer() {
         #ifdef Q_OS_MAC
-        return icon("trayicon-stopped.svg");
+        return icon("osx/trayicon-started.svg");
         #else
         return icon("timer-stop");
         #endif

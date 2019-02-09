@@ -39,7 +39,7 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 
     actionProjectLookup->setIcon(Icons::projectLookup());
     actionProjectStart->setIcon(Icons::projectStart());
-    actionProjectStop->setIcon(Icons::projectStop());
+    actionProjectStop->setIcon(Icons::stopTimer());
     actionProjectCreate->setIcon(Icons::projectNew());
     actionProjectEdit->setIcon(Icons::projectEdit());
     actionProjectRemove->setIcon(Icons::projectRemove());

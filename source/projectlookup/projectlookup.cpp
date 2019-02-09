@@ -37,7 +37,7 @@ ProjectLookup::ProjectLookup(TomControl *control, QMainWindow *window, QWidget *
     }
 
     // setup status of the active project if there's one
-    stopProjectButton->setIcon(Icons::projectStop());
+    stopProjectButton->setIcon(Icons::stopTimer());
     connect(stopProjectButton, &QPushButton::clicked, [this] {
         _control->stopActivity();
         done(0);

@@ -51,7 +51,11 @@ namespace Icons {
     }
 
     inline const QIcon stopTimer() {
+        #ifdef Q_OS_MAC
+        return icon("trayicon-stopped.svg");
+        #else
         return icon("timer-stop");
+        #endif
     }
 
     inline const QIcon timeEntryRemove() {
@@ -96,10 +100,6 @@ namespace Icons {
 
     inline const QIcon projectStart() {
         return icon("timer-start");
-    }
-
-    inline const QIcon projectStop() {
-        return icon("timer-stop");
     }
 
     inline const QIcon timeEntryDelete() {

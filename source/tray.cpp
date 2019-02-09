@@ -60,7 +60,7 @@ void GotimeTrayIcon::updateProjects() {
     _projectActions.clear();
 
     bool useCheckmarks = false;
-    #ifdef QT_OS_MAC
+    #ifdef Q_OS_MAC
     useCheckmarks = true;
     #endif
 

@@ -60,7 +60,7 @@ endif()
 
 include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 
-add_compile_options(-std=c++14 -Wall -Wextra -pedantic -Werror)
+add_compile_options(-std=c++14 -Wall -Wextra -pedantic)
 if(CMAKE_BUILD_TYPE EQUAL "release")
     add_compile_options(-O3)
 endif()

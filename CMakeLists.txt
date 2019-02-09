@@ -37,7 +37,7 @@ configure_file (
 )
 
 file(GLOB_RECURSE CODE_FILES source/*.cpp source/*.h qxt/qxtglobalshortcut.cpp)
-add_definitions( -DQXT_STATIC )
+add_definitions(-DQXT_STATIC)
 
 find_package(Qt5 COMPONENTS Core Widgets Svg Test REQUIRED)
 find_package(X11)
@@ -52,7 +52,10 @@ elseif (Q_OS_MAC OR APPLE)
 
     FIND_LIBRARY(CARBON_LIBRARY Carbon)
     FIND_LIBRARY(COCOA_LIBRARY Cocoa)
-    LIST( APPEND TOM_LIBS ${CARBON_LIBRARY} ${COCOA_LIBRARY} )
+    LIST(APPEND TOM_LIBS ${CARBON_LIBRARY} ${COCOA_LIBRARY})
+
+    find_package(Qt5MacExtras REQUIRED)
+    LIST(APPEND TOM_LIBS Qt5::MacExtras)
 else()
     message(WARNING "Building on unsupported platfom!")
     set(USE_QXT FALSE)

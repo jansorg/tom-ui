@@ -150,6 +150,13 @@ QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientatio
     return QVariant();
 }
 
+QModelIndex FrameTableViewModel::buddy(const QModelIndex &index) const {
+    if (index.isValid() && index.column() == COL_START_DATE) {
+        return index.siblingAtColumn(COL_START);
+    }
+    return QAbstractItemModel::buddy(index);
+}
+
 Frame *FrameTableViewModel::frameAt(const QModelIndex &index) const {
     if (!index.isValid()) {
         return nullptr;

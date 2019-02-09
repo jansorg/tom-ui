@@ -26,16 +26,18 @@ void FrameTableView::setup(TomControl *control) {
     setModel(_proxyModel);
 
     // new QAbstractItemModelTester(_sourceModel, QAbstractItemModelTester::FailureReportingMode::Warning, this);
+    verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    verticalHeader()->setMinimumSectionSize(0);
+    verticalHeader()->setDefaultSectionSize(verticalHeader()->defaultSectionSize() - 4);
 
     horizontalHeader()->setResizeContentsPrecision(1);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_START_DATE, QHeaderView::ResizeToContents);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_START, QHeaderView::ResizeToContents);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_END, QHeaderView::ResizeToContents);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_DURATION, QHeaderView::ResizeToContents);
-
-    // horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_SUBPROJECT, QHeaderView::ResizeToContents);
     setColumnWidth(FrameTableViewModel::COL_SUBPROJECT, 17 * fontMetrics().averageCharWidth());
 
+    hideColumn(FrameTableViewModel::COL_TAGS);
     sortByColumn(0, Qt::DescendingOrder);
 
     connect(this, &FrameTableView::customContextMenuRequested, this, &FrameTableView::onCustomContextMenuRequested);

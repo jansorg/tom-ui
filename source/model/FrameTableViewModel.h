@@ -74,6 +74,8 @@ private:
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
 
+    QModelIndex buddy(const QModelIndex &index) const override;
+
     TomControl *_control;
 
     QList<Frame *> _frames;

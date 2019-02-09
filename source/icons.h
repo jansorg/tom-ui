@@ -15,7 +15,7 @@ namespace Icons {
     }
 
 #ifdef Q_OS_MAC
-    inline const QIcon themeIcon(const QString& path) {
+    inline const QIcon themeIcon(const QString& /*path*/) {
         return QIcon();
     }
 #else

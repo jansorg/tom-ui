@@ -106,6 +106,6 @@ bool ProjectTreeItem::removeChildAt(int index) {
 }
 
 void ProjectTreeItem::reset() {
-    qDeleteAll(_childItems);
+    qDeleteAll<QList<ProjectTreeItem *>>(_childItems);
     _childItems.clear();
 }

@@ -636,13 +636,17 @@ bool TomControl::hasSubprojects(const Project &project) {
     return false;
 }
 
-void TomControl::archiveProjectFrames(const Project &project) {
+void TomControl::archiveProjectFrames(const Project &project, bool includeSubprojects) {
     if (!project.isValid()) {
         return;
     }
 
     QStringList args;
     args << "frames" << "archive" << "--project" << project.getID();
+    if (includeSubprojects) {
+        args << "--include-subprojects";
+    }
+
     const CommandStatus &status = run(args);
     if (status.isSuccessful()) {
         emit framesArchived(QStringList() << project.getID());

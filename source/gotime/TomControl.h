@@ -63,7 +63,7 @@ public:
 
     bool removeFrames(const QList<Frame *> &frames);
 
-    void archiveProjectFrames(const Project &project);
+    void archiveProjectFrames(const Project &project, bool includeSubprojects);
 
     bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID);
 

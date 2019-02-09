@@ -67,7 +67,7 @@ function uploadAssets() {
             ARGS="$ARGS -a $n"
         done
 
-        hub release create --draft "v$VERSION" -m "Version $VERSION" $ARGS
+        hub release create "v$VERSION" -m "Version $VERSION" $ARGS
     done
 }
 

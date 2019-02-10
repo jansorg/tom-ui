@@ -12,6 +12,8 @@ FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) :
     connect(_control, &TomControl::framesRemoved, this, &FrameTableViewModel::onFramesRemoved);
     connect(_control, &TomControl::framesMoved, this, &FrameTableViewModel::onFramesMoved);
     connect(_control, &TomControl::framesArchived, this, &FrameTableViewModel::onFramesArchived);
+    connect(_control, &TomControl::projectStarted, this, &FrameTableViewModel::onProjectUpdated);
+    connect(_control, &TomControl::projectStopped, this, &FrameTableViewModel::onProjectUpdated);
     connect(_control, &TomControl::projectUpdated, this, &FrameTableViewModel::onProjectUpdated);
     connect(_control, &TomControl::projectCreated, this, &FrameTableViewModel::onProjectHierarchyChange);
     connect(_control, &TomControl::projectRemoved, this, &FrameTableViewModel::onProjectHierarchyChange);

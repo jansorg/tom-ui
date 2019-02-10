@@ -122,6 +122,7 @@ bool TomControl::stopActivity() {
     const TomStatus &current = status();
 
     _activeProject = Project();
+    //fixme handle failed update
     bool success = run(QStringList() << "stop").isSuccessful();
     if (success && current.isValid) {
         status();

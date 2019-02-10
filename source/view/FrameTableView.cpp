@@ -57,8 +57,9 @@ void FrameTableView::onCustomContextMenuRequested(const QPoint &pos) {
 
 void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
     QMenu menu;
-    auto *stop = menu.addAction(Icons::stopTimer(), "Stop", [this, frame] {
-        _control->updateFrame(QList<Frame *>() << frame, false, QDateTime(), true, QDateTime::currentDateTime(), false, "", false, "", false, false);
+    auto *stop = menu.addAction(Icons::stopTimer(), "Stop", [this] {
+        _control->stopActivity();
+//        _control->updateFrame(QList<Frame *>() << frame, false, QDateTime(), true, QDateTime::currentDateTime(), false, "", false, "", false, false);
     });
     stop->setEnabled(frame->isActive());
     menu.addSeparator();

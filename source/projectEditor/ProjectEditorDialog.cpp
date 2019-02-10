@@ -22,11 +22,12 @@ void ProjectEditorDialog::loadProject(const Project &project) {
     _parentBox->setup(_control, _statusManager);
     _parentBox->setSelectedProject(project.getParentID());
 
+    _hourlyRateEdit->setText(project.getHourlyRate());
+
     connect(_buttonBox, &QDialogButtonBox::accepted, this, &ProjectEditorDialog::saveProject);
 }
 
 void ProjectEditorDialog::saveProject() {
     const QString &id = _parentBox->selectedProject().getID();
-    qDebug() << "saving project" << id;
-    _control->updateProjects(QStringList() << _project.getID(), true, _nameEdit->text(), true, id);
+    _control->updateProjects(QStringList() << _project.getID(), true, _nameEdit->text(), true, id, true, _hourlyRateEdit->text());
 }

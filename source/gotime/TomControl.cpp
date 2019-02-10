@@ -39,7 +39,7 @@ QList<Project> TomControl::loadProjects(int max) {
     QStringList args = QStringList() << "projects"
                                      << "--name-delimiter=||"
                                      << "-f"
-                                     << "fullName,id,parentID";
+                                     << "fullName,id,parentID,hourlyRate";
     if (max > 0) {
         args << "--recent" << QString::number(max);
     }
@@ -53,12 +53,13 @@ QList<Project> TomControl::loadProjects(int max) {
     QList<Project> result;
     for (const auto &line : lines) {
         QStringList lineItems = line.split("\t");
-        if (lineItems.size() == 3) {
+        if (lineItems.size() == 4) {
             const auto &names = lineItems.at(0).split("||");
             const auto &id = lineItems.at(1);
             const auto &parent = lineItems.at(2);
+            const auto &hourlyRate = lineItems.at(3);
 
-            result.append(Project(names, id, parent));
+            result.append(Project(names, id, parent, hourlyRate));
         }
     }
 
@@ -164,7 +165,7 @@ TomStatus TomControl::status() {
             const QString &parentID = parts[3];
 
             QDateTime startTime = QDateTime::fromString(parts[4], Qt::ISODate);
-            Project project = Project(projectName, projectID, parentID);
+            Project project = Project(projectName, projectID, parentID, "");
             result = TomStatus(true, project, startTime);
         }
     }
@@ -231,7 +232,7 @@ QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubp
 }
 
 bool TomControl::renameProject(const QString &id, const QString &newName) {
-    return updateProjects(QStringList() << id, true, newName, false, "");
+    return updateProjects(QStringList() << id, true, newName, false, "", false, "");
 }
 
 bool TomControl::renameTag(const QString &id, const QString &newName) {
@@ -314,7 +315,8 @@ bool TomControl::updateFrame(const QStringList &ids, const QString &currentProje
     return success;
 }
 
-bool TomControl::updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID) {
+bool TomControl::updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID, bool updateHourlyRate,
+                                const QString &hourlyRate) {
     if (ids.isEmpty() || (!updateName && !updateParent)) {
         return true;
     }
@@ -326,6 +328,9 @@ bool TomControl::updateProjects(const QStringList &ids, bool updateName, const Q
     }
     if (updateParent) {
         args << "--parent" << parentID;
+    }
+    if (updateHourlyRate) {
+        args << "--hourly-rate" << hourlyRate;
     }
     args << ids;
 
@@ -448,7 +453,7 @@ Project TomControl::createProject(const QString &parentID, const QString &name) 
             names << v.toString();
         }
 
-        const Project &newProject = Project(names, id, parent);
+        const Project &newProject = Project(names, id, parent, "");
         _cachedProjects[id] = newProject;
         emit projectCreated(newProject);
 
@@ -564,7 +569,7 @@ QString TomControl::htmlReport(const QString &outputFile,
                                bool showSummary,
                                bool includeArchived,
                                const QString &title, const QString &description,
-                               const QStringList& properties) {
+                               bool showSales) {
     QStringList args;
     args << "report";
     if (!outputFile.isEmpty()) {
@@ -596,12 +601,8 @@ QString TomControl::htmlReport(const QString &outputFile,
     args << QString("--show-empty=%1").arg(showEmpty ? "true" : "false");
     args << QString("--show-summary=%1").arg(showSummary ? "true" : "false");
     args << QString("--include-archived=%1").arg(includeArchived ? "true" : "false");
+    args << QString("--show-sales=%1").arg(showSales ? "true" : "false");
 
-    if (!properties.isEmpty()) {
-        for (const auto &name : properties) {
-            args << "--property" << name;
-        }
-    }
 
     if (!title.isEmpty()) {
         args << "--title=" + title;

@@ -65,7 +65,7 @@ public:
 
     void archiveProjectFrames(const Project &project, bool includeSubprojects);
 
-    bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID);
+    bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID, bool updateHourlyRate, const QString& hourlyRate);
 
     bool importMacTimeTracker(const QString &filename);
 
@@ -87,7 +87,7 @@ public:
                        bool showSummary,
                        bool includeArchived,
                        const QString &title, const QString &description,
-                       const QStringList& properties);
+                       bool showSales);
 
 signals:
 

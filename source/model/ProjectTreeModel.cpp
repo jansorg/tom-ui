@@ -396,7 +396,7 @@ bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropActio
     const QString &parentID = parentItem->getProject().getID();
 
     // don't move data in the model if the data couldn't be changed in tom
-    bool success = _control->updateProjects(ids, false, "", true, parentID);
+    bool success = _control->updateProjects(ids, false, "", true, parentID, false, "");
     if (!success) {
         qDebug() << "tom update failed for move of projects" << ids << "into" << parentID;
         return false;

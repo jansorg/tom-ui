@@ -73,6 +73,7 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     connect(matrixTablesCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(showEmptyCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(showSummaryCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showSalesCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
     //updateReport();
 }
@@ -116,7 +117,7 @@ void ProjectReportDialog::updateReport() {
                                         showSummaryCheckbox->isChecked(),
                                         includeArchivedCheckBox->isChecked(),
                                         titleEdit->text(), descriptionEdit->toPlainText(),
-                                        propertyEdit->text().split(","));
+                                        showSalesCheckbox->isChecked());
 
 #ifdef TOM_REPORTS
     if (QFile::exists(_tempFile)) {

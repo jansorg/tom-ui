@@ -10,7 +10,7 @@ class Project {
 public:
     Project();
 
-    Project(QStringList names, QString id, QString parentID);
+    Project(QStringList names, QString id, QString parentID, QString hourlyRate);
 
     QString getID() const;
 
@@ -20,12 +20,15 @@ public:
 
     QString getShortName() const;
 
+    QString getHourlyRate() const;
+
     bool isValid() const;
 
 private:
     QString _id;
     QString _parentID;
     QStringList _names;
+    QString _hourlyRate;
 };
 
 inline bool operator==(const Project &a, const Project &b) { return a.getID() == b.getID(); }

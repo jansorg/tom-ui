@@ -48,6 +48,10 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow) : Q
     connect(control, &TomControl::projectUpdated, this, &GotimeTrayIcon::updateStatus);
 
     updateStatus();
+
+    auto *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &GotimeTrayIcon::updateTooltip);
+    timer->start(5000);
 }
 
 void GotimeTrayIcon::updateProjects() {
@@ -69,9 +73,12 @@ void GotimeTrayIcon::updateProjects() {
 }
 
 void GotimeTrayIcon::updateStatus() {
-    auto lastStatus = _control->cachedStatus();
-
     updateProjects();
+    updateTooltip();
+}
+
+void GotimeTrayIcon::updateTooltip() {
+    auto lastStatus = _control->cachedStatus();
 
     if (lastStatus.isValid) {
         const Timespan span = Timespan::of(lastStatus.startTime(), QDateTime::currentDateTime());
@@ -90,7 +97,6 @@ void GotimeTrayIcon::updateStatus() {
         _trayIcon->setIcon(_stoppedIcon);
         _stopTaskAction->setEnabled(false);
     }
-
 }
 
 void GotimeTrayIcon::loadIcons() {

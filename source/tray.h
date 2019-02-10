@@ -19,6 +19,8 @@ private slots:
 
     void updateStatus();
 
+    void updateTooltip();
+
 private:
     void updateProjects();
 
@@ -33,6 +35,7 @@ private:
     QIcon _stoppedIcon;
 
     void loadIcons();
+
 };
 
 #endif

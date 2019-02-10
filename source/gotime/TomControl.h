@@ -93,7 +93,7 @@ signals:
 
     void dataResetNeeded();
 
-    void statusChanged(const TomStatus& status);
+    void statusChanged();
 
     void projectStarted(const Project &);
 

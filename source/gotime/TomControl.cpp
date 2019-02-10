@@ -563,7 +563,8 @@ QString TomControl::htmlReport(const QString &outputFile,
                                bool showEmpty,
                                bool showSummary,
                                bool includeArchived,
-                               const QString &title, const QString &description) {
+                               const QString &title, const QString &description,
+                               const QStringList& properties) {
     QStringList args;
     args << "report";
     if (!outputFile.isEmpty()) {
@@ -595,6 +596,12 @@ QString TomControl::htmlReport(const QString &outputFile,
     args << QString("--show-empty=%1").arg(showEmpty ? "true" : "false");
     args << QString("--show-summary=%1").arg(showSummary ? "true" : "false");
     args << QString("--include-archived=%1").arg(includeArchived ? "true" : "false");
+
+    if (!properties.isEmpty()) {
+        for (const auto &name : properties) {
+            args << "--property" << name;
+        }
+    }
 
     if (!title.isEmpty()) {
         args << "--title=" + title;

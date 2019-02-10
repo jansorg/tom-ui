@@ -115,7 +115,8 @@ void ProjectReportDialog::updateReport() {
                                         showEmptyCheckbox->isChecked(),
                                         showSummaryCheckbox->isChecked(),
                                         includeArchivedCheckBox->isChecked(),
-                                        titleEdit->text(), descriptionEdit->toPlainText());
+                                        titleEdit->text(), descriptionEdit->toPlainText(),
+                                        propertyEdit->text().split(","));
 
 #ifdef TOM_REPORTS
     if (QFile::exists(_tempFile)) {

@@ -57,218 +57,6 @@
          <property name="topMargin">
           <number>0</number>
          </property>
-         <item row="13" column="1">
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="titleEdit">
-           <property name="placeholderText">
-            <string>Title of the report</string>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="1">
-          <widget class="QGroupBox" name="groupBox_4">
-           <property name="title">
-            <string>Splitting</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_8">
-            <item>
-             <layout class="QHBoxLayout" name="splitLayout">
-              <item>
-               <widget class="QListView" name="splitList">
-                <property name="sizePolicy">
-                 <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-                  <horstretch>0</horstretch>
-                  <verstretch>0</verstretch>
-                 </sizepolicy>
-                </property>
-                <property name="maximumSize">
-                 <size>
-                  <width>16777215</width>
-                  <height>200</height>
-                 </size>
-                </property>
-                <property name="editTriggers">
-                 <set>QAbstractItemView::NoEditTriggers</set>
-                </property>
-                <property name="showDropIndicator" stdset="0">
-                 <bool>false</bool>
-                </property>
-                <property name="dragEnabled">
-                 <bool>false</bool>
-                </property>
-                <property name="dragDropMode">
-                 <enum>QAbstractItemView::NoDragDrop</enum>
-                </property>
-                <property name="defaultDropAction">
-                 <enum>Qt::CopyAction</enum>
-                </property>
-                <property name="flow">
-                 <enum>QListView::TopToBottom</enum>
-                </property>
-                <property name="resizeMode">
-                 <enum>QListView::Adjust</enum>
-                </property>
-                <property name="viewMode">
-                 <enum>QListView::ListMode</enum>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <layout class="QVBoxLayout" name="verticalLayout_2">
-                <item>
-                 <widget class="QPushButton" name="splitMoveUp">
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="icon">
-                   <iconset theme="go-up">
-                    <normaloff>../../../../../../../home/jansorg/.designer/backup</normaloff>../../../../../../../home/jansorg/.designer/backup</iconset>
-                  </property>
-                  <property name="shortcut">
-                   <string>Alt+Up</string>
-                  </property>
-                  <property name="autoDefault">
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <widget class="QPushButton" name="splitMoveDown">
-                  <property name="text">
-                   <string/>
-                  </property>
-                  <property name="icon">
-                   <iconset theme="go-down">
-                    <normaloff>../../../../../../../home/jansorg/.designer/backup</normaloff>../../../../../../../home/jansorg/.designer/backup</iconset>
-                  </property>
-                  <property name="shortcut">
-                   <string>Alt+Down</string>
-                  </property>
-                  <property name="autoDefault">
-                   <bool>false</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="verticalSpacer">
-                  <property name="orientation">
-                   <enum>Qt::Vertical</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>20</width>
-                    <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QPlainTextEdit" name="descriptionEdit">
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>80</height>
-            </size>
-           </property>
-           <property name="tabChangesFocus">
-            <bool>true</bool>
-           </property>
-           <property name="placeholderText">
-            <string>Your description to display at the top of the report...</string>
-           </property>
-          </widget>
-         </item>
-         <item row="8" column="1">
-          <widget class="QGroupBox" name="groupBox_5">
-           <property name="title">
-            <string>&amp;Template</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_9">
-            <item>
-             <widget class="QComboBox" name="templateBox">
-              <item>
-               <property name="text">
-                <string>default</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>timelog</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="showEmptyCheckbox">
-              <property name="text">
-               <string>Show empty items in groups</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="showSummaryCheckbox">
-              <property name="text">
-               <string>Show summary</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="matrixTablesCheckbox">
-              <property name="text">
-               <string>Matrix tables</string>
-              </property>
-              <property name="checked">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QGroupBox" name="groupBox">
-           <property name="title">
-            <string>Project</string>
-           </property>
-           <property name="flat">
-            <bool>false</bool>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_5">
-            <item>
-             <widget class="ProjectTreeComboBox" name="projectsBox"/>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="subprojectsCheckbox">
-              <property name="text">
-               <string>Include subprojects</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
          <item row="5" column="1">
           <widget class="QGroupBox" name="groupBox_3">
            <property name="title">
@@ -439,6 +227,228 @@
             </item>
            </layout>
           </widget>
+         </item>
+         <item row="15" column="1">
+          <spacer name="verticalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="1">
+          <widget class="QPlainTextEdit" name="descriptionEdit">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>80</height>
+            </size>
+           </property>
+           <property name="tabChangesFocus">
+            <bool>true</bool>
+           </property>
+           <property name="placeholderText">
+            <string>Your description to display at the top of the report...</string>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <widget class="QGroupBox" name="groupBox_5">
+           <property name="title">
+            <string>&amp;Template</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_9">
+            <item>
+             <widget class="QComboBox" name="templateBox">
+              <item>
+               <property name="text">
+                <string>default</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>timelog</string>
+               </property>
+              </item>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="showEmptyCheckbox">
+              <property name="text">
+               <string>Show empty items in groups</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="showSummaryCheckbox">
+              <property name="text">
+               <string>Show summary</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="matrixTablesCheckbox">
+              <property name="text">
+               <string>Matrix tables</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="titleEdit">
+           <property name="placeholderText">
+            <string>Title of the report</string>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <widget class="QGroupBox" name="groupBox_4">
+           <property name="title">
+            <string>Splitting</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <item>
+             <layout class="QHBoxLayout" name="splitLayout">
+              <item>
+               <widget class="QListView" name="splitList">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>16777215</width>
+                  <height>200</height>
+                 </size>
+                </property>
+                <property name="editTriggers">
+                 <set>QAbstractItemView::NoEditTriggers</set>
+                </property>
+                <property name="showDropIndicator" stdset="0">
+                 <bool>false</bool>
+                </property>
+                <property name="dragEnabled">
+                 <bool>false</bool>
+                </property>
+                <property name="dragDropMode">
+                 <enum>QAbstractItemView::NoDragDrop</enum>
+                </property>
+                <property name="defaultDropAction">
+                 <enum>Qt::CopyAction</enum>
+                </property>
+                <property name="flow">
+                 <enum>QListView::TopToBottom</enum>
+                </property>
+                <property name="resizeMode">
+                 <enum>QListView::Adjust</enum>
+                </property>
+                <property name="viewMode">
+                 <enum>QListView::ListMode</enum>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_2">
+                <item>
+                 <widget class="QPushButton" name="splitMoveUp">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset theme="go-up">
+                    <normaloff>../../../../../../../home/jansorg/.designer/backup</normaloff>../../../../../../../home/jansorg/.designer/backup</iconset>
+                  </property>
+                  <property name="shortcut">
+                   <string>Alt+Up</string>
+                  </property>
+                  <property name="autoDefault">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QPushButton" name="splitMoveDown">
+                  <property name="text">
+                   <string/>
+                  </property>
+                  <property name="icon">
+                   <iconset theme="go-down">
+                    <normaloff>../../../../../../../home/jansorg/.designer/backup</normaloff>../../../../../../../home/jansorg/.designer/backup</iconset>
+                  </property>
+                  <property name="shortcut">
+                   <string>Alt+Down</string>
+                  </property>
+                  <property name="autoDefault">
+                   <bool>false</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="verticalSpacer">
+                  <property name="orientation">
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QGroupBox" name="groupBox">
+           <property name="title">
+            <string>Project</string>
+           </property>
+           <property name="flat">
+            <bool>false</bool>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <item>
+             <widget class="ProjectTreeComboBox" name="projectsBox"/>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="subprojectsCheckbox">
+              <property name="text">
+               <string>Include subprojects</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="13" column="1">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Properties:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="14" column="1">
+          <widget class="QLineEdit" name="propertyEdit"/>
          </item>
         </layout>
        </widget>

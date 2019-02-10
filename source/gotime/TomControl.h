@@ -86,7 +86,8 @@ public:
                        bool showEmpty,
                        bool showSummary,
                        bool includeArchived,
-                       const QString &title, const QString &description);
+                       const QString &title, const QString &description,
+                       const QStringList& properties);
 
 signals:
 

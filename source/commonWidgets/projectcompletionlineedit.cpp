@@ -38,7 +38,7 @@ void ProjectCompletionLineEdit::keyPressEvent(QKeyEvent *event) {
 
     qDebug() << "keyPressEvent custom handler " << event;
     QMenu menu(tr("Recent projects"), this);
-    const QList<Project> &projects = _control->loadRecentProjects();
+    const QList<Project> &projects = _control->cachedRecentProjects();
     if (projects.isEmpty()) {
         menu.addSection(tr("No recent projects available"));
     } else {

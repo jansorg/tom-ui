@@ -41,20 +41,32 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow) : Q
     _trayIcon->setIcon(_stoppedIcon);
     _trayIcon->show();
 
-    connect(control, &TomControl::statusChanged, this, &GotimeTrayIcon::updateStatus);
-    connect(control, &TomControl::projectStarted, this, &GotimeTrayIcon::updateStatus);
-    connect(control, &TomControl::projectStopped, this, &GotimeTrayIcon::updateStatus);
-    connect(control, &TomControl::projectCancelled, this, &GotimeTrayIcon::updateStatus);
-    connect(control, &TomControl::projectUpdated, this, &GotimeTrayIcon::updateStatus);
+    connect(control, &TomControl::projectStarted, this, &GotimeTrayIcon::updateAll);
+    connect(control, &TomControl::projectStopped, this, &GotimeTrayIcon::updateAll);
+    connect(control, &TomControl::projectUpdated, this, &GotimeTrayIcon::updateAll);
+    connect(control, &TomControl::projectCancelled, this, &GotimeTrayIcon::updateAll);
 
-    updateStatus();
+    connect(_trayIcon, &QSystemTrayIcon::activated, [this](QSystemTrayIcon::ActivationReason reason) {
+        if (reason == QSystemTrayIcon::DoubleClick) {
+            _control->stopActivity();
+        }
+    });
 
+
+    updateAll();
+
+    // update tooltip every 30s
     auto *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &GotimeTrayIcon::updateTooltip);
-    timer->start(5000);
+    connect(timer, &QTimer::timeout, this, &GotimeTrayIcon::updateIconAndTooltip);
+    timer->start(30000);
 }
 
-void GotimeTrayIcon::updateProjects() {
+void GotimeTrayIcon::updateAll() {
+    updateContextMenu();
+    updateIconAndTooltip();
+}
+
+void GotimeTrayIcon::updateContextMenu() {
     // remove existing actions
     for (auto action : _projectActions) {
         _menu->removeAction(action);
@@ -62,22 +74,17 @@ void GotimeTrayIcon::updateProjects() {
     _projectActions.clear();
 
     bool useCheckmarks = false;
-    #ifdef Q_OS_MAC
+#ifdef Q_OS_MAC
     useCheckmarks = true;
-    #endif
+#endif
 
-    for (const auto &project : _control->loadRecentProjects()) {
+    for (const auto &project : _control->cachedRecentProjects()) {
         _projectActions << new StartProjectAction(project, _control, this, useCheckmarks);
     }
     _menu->insertActions(_separatorAction, _projectActions);
 }
 
-void GotimeTrayIcon::updateStatus() {
-    updateProjects();
-    updateTooltip();
-}
-
-void GotimeTrayIcon::updateTooltip() {
+void GotimeTrayIcon::updateIconAndTooltip() {
     auto lastStatus = _control->cachedStatus();
 
     if (lastStatus.isValid) {

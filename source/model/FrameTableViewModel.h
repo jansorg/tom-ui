@@ -64,6 +64,9 @@ private slots:
     void onProjectHierarchyChange();
 
 private:
+    void startTimer();
+    void stopTimer();
+
     int rowCount(const QModelIndex &parent) const override;
 
     int columnCount(const QModelIndex &parent) const override;
@@ -82,6 +85,7 @@ private:
     Project _currentProject;
 
     bool _showArchived = true;
+    QTimer *_frameUpdateTimer;
 };
 
 

@@ -29,6 +29,7 @@ private:
     QString _parentID;
     QStringList _names;
     QString _hourlyRate;
+    QDateTime _lastUpdated;
 };
 
 inline bool operator==(const Project &a, const Project &b) { return a.getID() == b.getID(); }

@@ -99,12 +99,10 @@ void ProjectTreeView::refresh() {
 }
 
 void ProjectTreeView::projectUpdated(const Project &project) {
-    qDebug() << "projectUpdated";
     _sourceModel->updateProject(project);
 }
 
 void ProjectTreeView::projectsStatusChanged(const QStringList &projectIDs) {
-    qDebug() << "projectStatusChanged";
     for (const auto &id : projectIDs) {
         _sourceModel->updateProjectStatus(id);
     }

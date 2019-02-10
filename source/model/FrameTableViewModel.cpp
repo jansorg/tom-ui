@@ -17,9 +17,8 @@ FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) :
     connect(_control, &TomControl::projectRemoved, this, &FrameTableViewModel::onProjectHierarchyChange);
     connect(_control, &TomControl::dataResetNeeded, [this] { this->loadFrames(Project()); });
 
-    auto *frameUpdateTimer = new QTimer(this);
-    frameUpdateTimer->start(1000);
-    connect(frameUpdateTimer, &QTimer::timeout, this, &FrameTableViewModel::onUpdateActiveFrames);
+    _frameUpdateTimer = new QTimer(this);
+    connect(_frameUpdateTimer, &QTimer::timeout, this, &FrameTableViewModel::onUpdateActiveFrames);
 }
 
 FrameTableViewModel::~FrameTableViewModel() {
@@ -27,10 +26,13 @@ FrameTableViewModel::~FrameTableViewModel() {
 }
 
 void FrameTableViewModel::loadFrames(const Project &project) {
+    stopTimer();
+
     beginResetModel();
 
     _currentProject = project;
     qDeleteAll(_frames);
+    _frames.clear();
 
     if (project.isValid()) {
         _frames = _control->loadFrames(project.getID(), true, _showArchived);
@@ -41,6 +43,16 @@ void FrameTableViewModel::loadFrames(const Project &project) {
     endResetModel();
 
     emit subprojectStatusChange(_control->hasSubprojects(project));
+
+    if (project.isValid()) {
+        // start the timer only if we're showing active frames
+        for (auto *f : _frames) {
+            if (f->isActive()) {
+                startTimer();
+                break;
+            }
+        }
+    }
 }
 
 void FrameTableViewModel::onProjectHierarchyChange() {
@@ -392,4 +404,14 @@ void FrameTableViewModel::onFramesArchived(const QStringList &projectIDs) {
     if (_currentProject.isValid() && projectIDs.contains(_currentProject.getID())) {
         loadFrames(_currentProject);
     }
+}
+
+void FrameTableViewModel::startTimer() {
+    if (!_frameUpdateTimer->isActive()) {
+        _frameUpdateTimer->start(1000);
+    }
+}
+
+void FrameTableViewModel::stopTimer() {
+    _frameUpdateTimer->stop();
 }

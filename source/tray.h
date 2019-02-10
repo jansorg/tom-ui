@@ -17,12 +17,12 @@ public:
 
 private slots:
 
-    void updateStatus();
+    void updateAll();
 
-    void updateTooltip();
+    void updateIconAndTooltip();
 
 private:
-    void updateProjects();
+    void updateContextMenu();
 
     QMenu *_menu;
     TomControl *_control;

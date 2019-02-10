@@ -5,6 +5,8 @@ ProjectStatusManager::ProjectStatusManager(TomControl *control, QObject *parent)
 
     connect(_control, &TomControl::dataResetNeeded, this, &ProjectStatusManager::refresh);
 
+    connect(_control, &TomControl::projectStarted, this, &ProjectStatusManager::refresh);
+    connect(_control, &TomControl::projectStopped, this, &ProjectStatusManager::refresh);
     connect(_control, &TomControl::projectUpdated, this, &ProjectStatusManager::refresh);
 
     connect(_control, &TomControl::framesUpdated, this, &ProjectStatusManager::refresh);
@@ -16,11 +18,10 @@ ProjectStatusManager::ProjectStatusManager(TomControl *control, QObject *parent)
         }
     });
 
+    // refresh project tree status every 5 minutes (as safety measure)
     _timer = new QTimer(this);
     connect(_timer, &QTimer::timeout, this, &ProjectStatusManager::refresh);
-
-    // refresh every 30s
-    _timer->start(30 * 1000);
+    _timer->start(5 * 60 * 1000);
 }
 
 ProjectStatus ProjectStatusManager::getStatus(const QString &projectID) const {

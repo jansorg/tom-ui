@@ -13,8 +13,6 @@ void ProjectStatusLabel::setup(TomControl *control) {
     connect(timer, &QTimer::timeout, [this] {
         updateStatus();
     });
-
-    updateStatus();
     timer->start(1000);
 }
 

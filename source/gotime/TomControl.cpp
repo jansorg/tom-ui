@@ -11,16 +11,16 @@ TomControl::TomControl(QString gotimePath, bool bashScript, QObject *parent) : Q
     // updates our project cache
     loadProjects();
 
-
     // cache status for the initial value
-    this->status();
+    status();
+    loadRecentProjects();
 
     auto *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, [this] {
-        //cache the current status
-        this->status();
+        status();
+        loadRecentProjects();
     });
-    timer->start(2000);
+    timer->start(30 * 1000);
 }
 
 void TomControl::cacheProjects(const QList<Project> &projects) {
@@ -31,8 +31,8 @@ void TomControl::cacheProjects(const QList<Project> &projects) {
     }
 }
 
-QList<Project> TomControl::loadRecentProjects(int max) {
-    return this->loadProjects(max);
+QList<Project> TomControl::cachedRecentProjects() const {
+    return _cachedRecentProjects;
 }
 
 QList<Project> TomControl::loadProjects(int max) {
@@ -92,19 +92,14 @@ bool TomControl::startProject(const Project &project) {
     auto success = run(QStringList() << "start" << project.getID()).isSuccessful();
     if (success) {
         auto stopped = _activeProject;
-
-        // update cache
         status();
-
-        emit projectStarted(project);
-        emit projectUpdated(project);
+        loadRecentProjects();
 
         if (stopped.isValid()) {
             emit projectStopped(stopped);
-            if (stopped != _activeProject) {
-                emit projectUpdated(stopped);
-            }
         }
+
+        emit projectStarted(project);
     }
     return success;
 }
@@ -114,8 +109,8 @@ bool TomControl::cancelActivity() {
 
     bool success = run(QStringList() << "cancel").isSuccessful();
     if (success && active.isValid) {
-        // update our cache
         status();
+        loadRecentProjects();
 
         emit projectCancelled(active.currentProject());
         emit projectUpdated(active.currentProject());
@@ -129,11 +124,10 @@ bool TomControl::stopActivity() {
     _activeProject = Project();
     bool success = run(QStringList() << "stop").isSuccessful();
     if (success && current.isValid) {
-        // update our cache
         status();
+        loadRecentProjects();
 
         emit projectStopped(current.currentProject());
-        emit projectUpdated(current.currentProject());
     }
     return success;
 }
@@ -143,7 +137,6 @@ TomStatus TomControl::cachedStatus() {
 }
 
 TomStatus TomControl::status() {
-    // frameID, projectName, projectID, ...
     QStringList args = QStringList() << "status"
                                      << "--name-delimiter=||"
                                      << "-f" << "id,projectFullName,projectID,projectParentID,startTime";
@@ -170,13 +163,13 @@ TomStatus TomControl::status() {
         }
     }
 
-    bool changed = _cachedStatus != result;
+//    bool changed = _cachedStatus != result;
     _cachedStatus = result;
     _activeProject = _cachedStatus.currentProject();
 
-    if (changed) {
-        emit statusChanged();
-    }
+//    if (changed) {
+//        emit statusChanged();
+//    }
 
     return result;
 }
@@ -203,7 +196,6 @@ QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubp
 
     QList<Frame *> result;
     if (!json.isArray()) {
-        qDebug() << "output not a JSON array" << json;
         return result;
     }
 
@@ -403,33 +395,6 @@ const ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool i
     return ProjectsStatus(mapping);
 }
 
-CommandStatus TomControl::run(const QStringList &args, long timeoutMillis) {
-    auto start = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    if (args.first() != "status") {
-        qDebug() << "running" << _gotimePath;
-        qDebug() << "running" << _gotimePath << args;
-    }
-
-    QProcess process(this);
-    if (_bashScript) {
-        process.start("/usr/bin/bash", QStringList() << _gotimePath << args);
-    } else {
-        process.start(_gotimePath, args);
-    }
-    process.waitForFinished(timeoutMillis);
-
-    QString output(process.readAllStandardOutput());
-    QString errOutput(process.readAllStandardError());
-
-    if (process.exitCode() != 0) {
-        qDebug() << "exit code:" << process.exitCode() << "stdout:" << output << "stderr" << errOutput;
-    }
-    if (args.first() != "status") {
-        qDebug() << "tom command:" << (QDateTime::currentDateTime().toMSecsSinceEpoch() - start) << "ms";
-    }
-    return CommandStatus(output, errOutput, process.exitCode());
-}
-
 Project TomControl::createProject(const QString &parentID, const QString &name) {
     QStringList args;
     args << "create" << "project"
@@ -559,11 +524,11 @@ bool TomControl::isChildProject(const QString &id, const QString &parentID) {
 }
 
 QString TomControl::htmlReport(const QString &outputFile,
-                               QStringList projectIDs,
+                               const QStringList &projectIDs,
                                bool includeSubprojects,
                                QDate start, QDate end,
                                TimeRoundingMode frameRoundingMode, int frameRoundingMinutes,
-                               QStringList splits, QString templateID,
+                               QStringList splits, const QString &templateID,
                                bool matrixTables,
                                bool showEmpty,
                                bool showSummary,
@@ -665,4 +630,38 @@ void TomControl::archiveProjectFrames(const Project &project, bool includeSubpro
     if (status.isSuccessful()) {
         emit framesArchived(QStringList() << project.getID());
     }
+}
+
+CommandStatus TomControl::run(const QStringList &args, long timeoutMillis) {
+    QMutexLocker lock(&_mutex);
+
+    auto start = QDateTime::currentDateTime().toMSecsSinceEpoch();
+    if (args.first() != "status") {
+        qDebug() << "running" << _gotimePath;
+        qDebug() << "running" << _gotimePath << args;
+    }
+
+    QProcess process(this);
+    if (_bashScript) {
+        process.start("/usr/bin/bash", QStringList() << _gotimePath << args);
+    } else {
+        process.start(_gotimePath, args);
+    }
+    process.waitForFinished(timeoutMillis);
+
+    QString output(process.readAllStandardOutput());
+    QString errOutput(process.readAllStandardError());
+
+    if (process.exitCode() != 0) {
+        qDebug() << "exit code:" << process.exitCode() << "stdout:" << output << "stderr" << errOutput;
+    }
+    if (args.first() != "status") {
+        qDebug() << "tom command:" << (QDateTime::currentDateTime().toMSecsSinceEpoch() - start) << "ms";
+    }
+    return CommandStatus(output, errOutput, process.exitCode());
+}
+
+QList<Project> TomControl::loadRecentProjects() {
+    _cachedRecentProjects = loadProjects(5);
+    return _cachedRecentProjects;
 }

@@ -1,11 +1,14 @@
 #include <utility>
 
+#include <utility>
+
 #include "Project.h"
 
 Project::Project() : _id(QString()),
                      _parentID(QString()),
                      _names(QStringList()),
-                     _hourlyRate("") {
+                     _hourlyRate(""),
+                     _lastUpdated(QDateTime()) {
 
 }
 

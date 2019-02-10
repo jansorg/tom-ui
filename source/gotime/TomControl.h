@@ -29,7 +29,9 @@ public:
 
     QList<Project> loadProjects(int max = -1);
 
-    QList<Project> loadRecentProjects(int max = 6);
+    QList<Project> loadRecentProjects();
+
+    QList<Project> cachedRecentProjects() const;
 
     QList<Project> cachedProjects() const;
 
@@ -65,7 +67,7 @@ public:
 
     void archiveProjectFrames(const Project &project, bool includeSubprojects);
 
-    bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID, bool updateHourlyRate, const QString& hourlyRate);
+    bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID, bool updateHourlyRate, const QString &hourlyRate);
 
     bool importMacTimeTracker(const QString &filename);
 
@@ -78,10 +80,10 @@ public:
     bool isChildProject(const QString &id, const QString &parentID);
 
     QString htmlReport(const QString &outputFile,
-                       QStringList projectIDs,
+                       const QStringList &projectIDs,
                        bool includeSubprojects,
                        QDate start, QDate end,
-                       TimeRoundingMode frameRoundingMode, int frameRoundingMinutes, QStringList splits, QString templateID,
+                       TimeRoundingMode frameRoundingMode, int frameRoundingMinutes, QStringList splits, const QString &templateID,
                        bool matrixTables,
                        bool showEmpty,
                        bool showSummary,
@@ -93,7 +95,7 @@ signals:
 
     void dataResetNeeded();
 
-    void statusChanged();
+//    void statusChanged();
 
     void projectStarted(const Project &);
 
@@ -113,7 +115,7 @@ signals:
 
     void framesMoved(const QStringList &ids, const QString &oldProjectID, const QString &newProjectID);
 
-    void framesArchived(const QStringList& projectIDs);
+    void framesArchived(const QStringList &projectIDs);
 
 public slots:
 
@@ -128,10 +130,12 @@ private:
 
     Project _activeProject;
     QHash<QString, Project> _cachedProjects;
+    QList<Project> _cachedRecentProjects;
     TomStatus _cachedStatus;
 
     QString _gotimePath;
     bool _bashScript;
+    QMutex _mutex;
 
     void cacheProjects(const QList<Project> &projects);
 };

@@ -1,6 +1,7 @@
 #include "projectstatuslabel.h"
 
 ProjectStatusLabel::ProjectStatusLabel(QWidget *parent) : QLabel(parent), _control(nullptr) {
+    setText("");
 }
 
 void ProjectStatusLabel::setup(TomControl *control) {
@@ -8,6 +9,8 @@ void ProjectStatusLabel::setup(TomControl *control) {
     if (!_control) {
         return;
     }
+
+    updateStatus();
 
     auto *timer = new QTimer(this);
     connect(timer, &QTimer::timeout, [this] {

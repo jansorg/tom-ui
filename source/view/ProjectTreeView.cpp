@@ -49,8 +49,6 @@ void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusMan
 }
 
 void ProjectTreeView::onCurrentChanged(const QModelIndex &index, const QModelIndex &) {
-    qDebug() << "current changed";
-
     auto sourceIndex = _proxyModel->mapToSource(index);
     if (!sourceIndex.isValid()) {
         emit projectSelected(Project());
@@ -90,7 +88,6 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
 }
 
 void ProjectTreeView::refresh() {
-    qDebug() << "refresh";
     reset();
     _proxyModel->invalidate();
     _sourceModel->loadProjects();

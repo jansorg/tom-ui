@@ -17,10 +17,10 @@ ProjectStatusManager::ProjectStatusManager(TomControl *control, QObject *parent)
         }
     });
 
-    // refresh project tree status every 5 minutes (as safety measure)
+    // refresh project tree status every minute
     _timer = new QTimer(this);
     connect(_timer, &QTimer::timeout, this, &ProjectStatusManager::refresh);
-    _timer->start(5 * 60 * 1000);
+    _timer->start(60 * 1000);
 }
 
 ProjectStatus ProjectStatusManager::getStatus(const QString &projectID) const {
@@ -32,7 +32,6 @@ void ProjectStatusManager::refresh() {
     //fixme we could diff old vs new state and only update the modified project status info. atm it's quick enough
     _statusCache = loadStatus();
     emit projectsStatusChanged(_statusCache.getMapping().keys());
-
 }
 
 ProjectsStatus ProjectStatusManager::loadStatus() {

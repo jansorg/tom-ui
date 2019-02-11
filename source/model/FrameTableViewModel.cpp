@@ -12,8 +12,7 @@ FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) :
     connect(_control, &TomControl::framesRemoved, this, &FrameTableViewModel::onFramesRemoved);
     connect(_control, &TomControl::framesMoved, this, &FrameTableViewModel::onFramesMoved);
     connect(_control, &TomControl::framesArchived, this, &FrameTableViewModel::onFramesArchived);
-    connect(_control, &TomControl::projectStarted, this, &FrameTableViewModel::onProjectUpdated);
-    connect(_control, &TomControl::projectStopped, this, &FrameTableViewModel::onProjectUpdated);
+    connect(_control, &TomControl::projectStatusChanged, this, &FrameTableViewModel::onProjectStatusChanged);
     connect(_control, &TomControl::projectUpdated, this, &FrameTableViewModel::onProjectUpdated);
     connect(_control, &TomControl::projectCreated, this, &FrameTableViewModel::onProjectHierarchyChange);
     connect(_control, &TomControl::projectRemoved, this, &FrameTableViewModel::onProjectHierarchyChange);
@@ -114,6 +113,14 @@ bool FrameTableViewModel::removeRows(int row, int count, const QModelIndex &pare
     endRemoveRows();
 
     return true;
+}
+
+void FrameTableViewModel::onProjectStatusChanged(const Project &started, const Project &stopped) {
+    if (started.isValid() && _control->isChildProject(started.getID(), _currentProject.getID())) {
+        loadFrames(started);
+    } else if (stopped.isValid() && _control->isChildProject(stopped.getID(), _currentProject.getID())) {
+        loadFrames(stopped);
+    }
 }
 
 void FrameTableViewModel::onProjectUpdated(const Project &project) {

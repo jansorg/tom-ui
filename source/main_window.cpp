@@ -62,15 +62,13 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     connect(_projectTree, &ProjectTreeView::projectSelected, _frameView, &FrameTableView::onProjectSelected);
     connect(_projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::onProjectSelectionChange);
 
-    connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this,
-            &MainWindow::onEntrySelectionChange);
+    connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onEntrySelectionChange);
 
     connect(actionSettingsShowArchived, &QAction::triggered, _frameView, &FrameTableView::setShowArchived);
     connect(actionSettingsShowArchived, &QAction::triggered, _projectTree, &ProjectTreeView::setShowArchived);
     connect(actionSettingsShowArchived, &QAction::triggered, _statusManager, &ProjectStatusManager::setIncludeArchived);
 
-    connect(_control, &TomControl::projectStarted, this, &MainWindow::onProjectStatusChange);
-    connect(_control, &TomControl::projectStopped, this, &MainWindow::onProjectStatusChange);
+    connect(_control, &TomControl::projectStatusChanged, this, &MainWindow::onProjectStatusChange);
 
     connect(actionQuit, &QAction::triggered, &QCoreApplication::quit);
 
@@ -207,7 +205,7 @@ void MainWindow::createReport() {
     if (project.isValid()) {
         selected << project;
     }
-    
+
     auto *dialog = new ProjectReportDialog(selected, _control, _statusManager, this);
     dialog->show();
 }

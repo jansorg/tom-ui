@@ -95,11 +95,7 @@ bool TomControl::startProject(const Project &project) {
         status();
         loadRecentProjects();
 
-        if (stopped.isValid()) {
-            emit projectStopped(stopped);
-        }
-
-        emit projectStarted(project);
+        emit projectStatusChanged(project, stopped);
     }
     return success;
 }
@@ -112,8 +108,7 @@ bool TomControl::cancelActivity() {
         status();
         loadRecentProjects();
 
-        emit projectCancelled(active.currentProject());
-        emit projectUpdated(active.currentProject());
+        emit projectStatusChanged(Project(), active.currentProject());
     }
     return success;
 }
@@ -128,7 +123,7 @@ bool TomControl::stopActivity() {
         status();
         loadRecentProjects();
 
-        emit projectStopped(current.currentProject());
+        emit projectStatusChanged(Project(), current.currentProject());
     }
     return success;
 }

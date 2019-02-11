@@ -55,9 +55,12 @@ private slots:
     void onFramesRemoved(const QStringList &frameIDs, const QString &projectID);
 
     void onFramesMoved(const QStringList &frameIDs, const QString &oldProjectID, const QString &newProjectID);
+
     void onFramesArchived(const QStringList &projectIDs);
 
     void onProjectUpdated(const Project &project);
+
+    void onProjectStatusChanged(const Project &started, const Project &stopped);
 
     void onUpdateActiveFrames();
 
@@ -65,6 +68,7 @@ private slots:
 
 private:
     void startTimer();
+
     void stopTimer();
 
     int rowCount(const QModelIndex &parent) const override;

@@ -36,7 +36,6 @@ void ProjectCompletionLineEdit::keyPressEvent(QKeyEvent *event) {
         return;
     }
 
-    qDebug() << "keyPressEvent custom handler " << event;
     QMenu menu(tr("Recent projects"), this);
     const QList<Project> &projects = _control->cachedRecentProjects();
     if (projects.isEmpty()) {
@@ -48,6 +47,8 @@ void ProjectCompletionLineEdit::keyPressEvent(QKeyEvent *event) {
             connect(action, &QAction::triggered, [this] { emit completionAccepted(); });
             menu.addAction(action);
         }
+        // preselect the first project in the list (the section title is also an action)
+        menu.setActiveAction(menu.actions().at(1));
     }
 
     const QRect &r = rect();
@@ -57,8 +58,6 @@ void ProjectCompletionLineEdit::keyPressEvent(QKeyEvent *event) {
 
 void ProjectCompletionLineEdit::onProjectSelected(const QModelIndex &index) {
     const QString &id = index.data(UserRoles::IDRole).toString();
-    qDebug() << "on project selected" << id;
-
     if (!_control->startProject(_control->cachedProject(id))) {
         //fixme show error
         clear();

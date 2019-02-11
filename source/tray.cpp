@@ -41,17 +41,14 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow) : Q
     _trayIcon->setIcon(_stoppedIcon);
     _trayIcon->show();
 
-    connect(control, &TomControl::projectStarted, this, &GotimeTrayIcon::updateAll);
-    connect(control, &TomControl::projectStopped, this, &GotimeTrayIcon::updateAll);
+    connect(control, &TomControl::projectStatusChanged, this, &GotimeTrayIcon::updateAll);
     connect(control, &TomControl::projectUpdated, this, &GotimeTrayIcon::updateAll);
-    connect(control, &TomControl::projectCancelled, this, &GotimeTrayIcon::updateAll);
 
     connect(_trayIcon, &QSystemTrayIcon::activated, [this](QSystemTrayIcon::ActivationReason reason) {
         if (reason == QSystemTrayIcon::DoubleClick) {
             _control->stopActivity();
         }
     });
-
 
     updateAll();
 

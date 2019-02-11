@@ -23,13 +23,11 @@ fix_project_version()
 set(COMPANY "Joachim Ansorg")
 set(COPYRIGHT "Copyright (c) 2019 Joachim Ansorg. All rights reserved.")
 set(IDENTIFIER "eu.ja-dev.tomui")
-
 set(CPACK_PACKAGE_CONTACT "mail@ja-dev.eu")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
+set(RESOURCE_FILES resources/resources.qrc)
 
 add_project_meta(META_FILES_TO_INCLUDE)
-
-set(RESOURCE_FILES resources/resources.qrc)
 
 configure_file (
         "source/version.h.in"
@@ -74,6 +72,9 @@ if (APPLE)
             MACOSX_BUNDLE_INFO_PLIST ${PROJECT_SOURCE_DIR}/cmake/Info.plist.in
             MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
 endif()
+
+enable_testing(true)
+include_directories( test )
 
 target_include_directories(${PROJECT_NAME} PRIVATE source)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})

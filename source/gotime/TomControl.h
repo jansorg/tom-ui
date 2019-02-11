@@ -3,8 +3,8 @@
 
 #include <QtCore>
 #include <QtCore/QString>
-#include <data/Frame.h>
 
+#include "data/Frame.h"
 #include "data/Project.h"
 #include "CommandStatus.h"
 #include "TomStatus.h"
@@ -95,13 +95,7 @@ signals:
 
     void dataResetNeeded();
 
-//    void statusChanged();
-
-    void projectStarted(const Project &);
-
-    void projectStopped(const Project &);
-
-    void projectCancelled(const Project &);
+    void projectStatusChanged(const Project &started, const Project &stopped);
 
     void projectUpdated(const Project &project);
 

@@ -145,9 +145,6 @@
      <property name="inputMask">
       <string/>
      </property>
-     <property name="placeholderText">
-      <string>Enter a project name...</string>
-     </property>
     </widget>
    </item>
    <item row="1" column="2" alignment="Qt::AlignVCenter">

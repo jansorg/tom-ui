@@ -287,19 +287,16 @@ bool TomControl::updateFrame(const QStringList &ids, const QString &currentProje
     CommandStatus status = run(args);
     bool success = status.isSuccessful();
     if (success) {
-        // fixme handle update of proejct id (remove and updated?)
-        if (!projectID.isEmpty()) {
-            if (!currentProjectID.isEmpty()) {
-                emit framesMoved(ids, currentProjectID, projectID);
-            }
-        } else if (!currentProjectID.isEmpty()) {
-            emit framesUpdated(ids, currentProjectID);
+        if (updateProject) {
+            emit framesMoved(ids, currentProjectID, projectID);
         }
-
         if (updateArchived) {
             emit framesArchived(QStringList() << currentProjectID);
         }
+
+        emit framesUpdated(ids, currentProjectID);
     }
+
     return success;
 }
 

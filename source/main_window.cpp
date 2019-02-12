@@ -15,10 +15,11 @@
 #include "source/report/ProjectReportDialog.h"
 #include "source/projectlookup/projectlookup.h"
 
-MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent) : QMainWindow(parent),
+MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, TomSettings* settings, QMainWindow *parent) : QMainWindow(parent),
                                                                                                         Ui::MainWindow(),
                                                                                                         _control(control),
-                                                                                                        _statusManager(statusManager) {
+                                                                                                        _statusManager(statusManager),
+                                                                                                        _settings(settings){
 //#ifndef Q_OS_MAC
     setWindowIcon(Icons::LogoLarge());
 //#endif
@@ -64,9 +65,11 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 
     connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onEntrySelectionChange);
 
-    connect(actionSettingsShowArchived, &QAction::triggered, _frameView, &FrameTableView::setShowArchived);
-    connect(actionSettingsShowArchived, &QAction::triggered, _projectTree, &ProjectTreeView::setShowArchived);
-    connect(actionSettingsShowArchived, &QAction::triggered, _statusManager, &ProjectStatusManager::setIncludeArchived);
+    connect(actionSettingsShowArchived, &QAction::toggled, _frameView, &FrameTableView::setShowArchived);
+    connect(actionSettingsShowArchived, &QAction::toggled, _projectTree, &ProjectTreeView::setShowArchived);
+    connect(actionSettingsShowArchived, &QAction::toggled, _statusManager, &ProjectStatusManager::setIncludeArchived);
+    // triggered for user interaction only
+    connect(actionSettingsShowArchived, &QAction::triggered, _settings, &TomSettings::setShowArchivedEntries);
 
     connect(_control, &TomControl::projectStatusChanged, this, &MainWindow::onProjectStatusChange);
 
@@ -74,6 +77,25 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 
     createActions();
     refreshData();
+
+    readSettings();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event) {
+    writeSettings();
+    event->accept();
+}
+
+void MainWindow::writeSettings() {
+    _settings->setMainWindowPos(pos());
+    _settings->setMainWindowSize(size());
+}
+
+void MainWindow::readSettings() {
+    resize(_settings->mainWindowSize());
+    move(_settings->mainWindowPos());
+
+    actionSettingsShowArchived->setChecked(_settings->showArchivedEntries());
 }
 
 void MainWindow::refreshData() {

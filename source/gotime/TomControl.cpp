@@ -253,7 +253,7 @@ bool TomControl::updateFrame(const QList<Frame *> &frames,
         frameIDs << frame->id;
     }
 
-    return updateFrame(frameIDs, projectID, updateStart, start, updateEnd, end,
+    return updateFrame(frameIDs, first->projectID, updateStart, start, updateEnd, end,
                        updateNotes, notes,
                        updateProject, projectID,
                        updateArchived, archived);
@@ -291,7 +291,7 @@ bool TomControl::updateFrame(const QStringList &ids, const QString &currentProje
             emit framesMoved(ids, currentProjectID, projectID);
         }
         if (updateArchived) {
-            emit framesArchived(QStringList() << currentProjectID);
+            emit framesArchived(QStringList() << currentProjectID, archived);
         }
 
         emit framesUpdated(ids, currentProjectID);
@@ -621,7 +621,8 @@ void TomControl::archiveProjectFrames(const Project &project, bool includeSubpro
 
     const CommandStatus &status = run(args);
     if (status.isSuccessful()) {
-        emit framesArchived(QStringList() << project.getID());
+        //fixme include sub projects
+        emit framesArchived(QStringList() << project.getID(), true);
     }
 }
 

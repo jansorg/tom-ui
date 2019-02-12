@@ -409,8 +409,9 @@ void FrameTableViewModel::setShowArchived(bool showArchived) {
     }
 }
 
-void FrameTableViewModel::onFramesArchived(const QStringList &projectIDs) {
-    if (_currentProject.isValid() && projectIDs.contains(_currentProject.getID())) {
+void FrameTableViewModel::onFramesArchived(const QStringList &projectIDs, bool nowArchived) {
+    if (_showArchived != nowArchived && _currentProject.isValid() && projectIDs.contains(_currentProject.getID())) {
+        qDebug() << "load";
         loadFrames(_currentProject);
     }
 }

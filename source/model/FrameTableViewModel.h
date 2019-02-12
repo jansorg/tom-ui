@@ -56,7 +56,7 @@ private slots:
 
     void onFramesMoved(const QStringList &frameIDs, const QString &oldProjectID, const QString &newProjectID);
 
-    void onFramesArchived(const QStringList &projectIDs);
+    void onFramesArchived(const QStringList &projectIDs, bool nowArchived);
 
     void onProjectUpdated(const Project &project);
 

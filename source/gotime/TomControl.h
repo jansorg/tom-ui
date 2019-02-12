@@ -109,7 +109,7 @@ signals:
 
     void framesMoved(const QStringList &ids, const QString &oldProjectID, const QString &newProjectID);
 
-    void framesArchived(const QStringList &projectIDs);
+    void framesArchived(const QStringList &projectIDs, bool nowArchived);
 
 public slots:
 

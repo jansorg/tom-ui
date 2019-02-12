@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include <QtWidgets/QSystemTrayIcon>
+#include <source/settings/TomSettings.h>
 
 #include "ui_main_window.h"
 #include "data/Project.h"
@@ -13,7 +14,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow {
 Q_OBJECT
 
 public:
-    explicit MainWindow(TomControl *control, ProjectStatusManager *statusManager, QMainWindow *parent = nullptr);
+    explicit MainWindow(TomControl *control, ProjectStatusManager *statusManager, TomSettings *settings, QMainWindow *parent = nullptr);
 
     ~MainWindow() override;
 
@@ -63,11 +64,20 @@ private slots:
 
     void focusEntriesList();
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private:
-    void createActions();
 
     TomControl *_control;
     ProjectStatusManager *_statusManager;
+    TomSettings *_settings;
+
+    void createActions();
+
+    void readSettings();
+
+    void writeSettings();
 };
 
 #endif

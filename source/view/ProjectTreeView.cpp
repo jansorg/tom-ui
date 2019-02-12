@@ -137,3 +137,11 @@ void ProjectTreeView::selectProject(const Project &project) {
 void ProjectTreeView::setShowArchived(bool showArchived) {
     _sourceModel->setShowArchived(showArchived);
 }
+
+void ProjectTreeView::writeSettings(QSettings &) {
+
+}
+
+void ProjectTreeView::setShowTotalColumn(bool show) {
+    setColumnHidden(ProjectTreeItem::COL_TOTAL, !show);
+}

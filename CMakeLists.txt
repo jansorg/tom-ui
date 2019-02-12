@@ -29,7 +29,10 @@ set(RESOURCE_FILES resources/resources.qrc)
 
 add_project_meta(META_FILES_TO_INCLUDE)
 
-configure_file (
+find_package(Qt5 COMPONENTS Core Widgets Svg LinguistTools Test REQUIRED)
+find_package(X11)
+
+configure_file(
         "source/version.h.in"
         "${PROJECT_BINARY_DIR}/version.h"
 )
@@ -37,12 +40,31 @@ configure_file (
 file(GLOB_RECURSE CODE_FILES source/*.cpp source/*.h qxt/qxtglobalshortcut.cpp)
 add_definitions(-DQXT_STATIC)
 
-find_package(Qt5 COMPONENTS Core Widgets Svg Test REQUIRED)
-find_package(X11)
+set(TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/translations/tom_de.ts)
+file(GLOB_RECURSE TS_SOURCES "source/*.cpp" "source/*.h" "source/*.ui")
+add_custom_target(translations)
+foreach (_ts_file ${TS_FILES})
+    # generate a sensible name for this translation file
+    get_filename_component(_ts_name ${_ts_file} NAME_WE)
+    # call lupdate ourselves
+    add_custom_command(
+            OUTPUT "${_ts_file}"
+            DEPENDS ${TS_SOURCES}
+            COMMAND ${Qt5_LUPDATE_EXECUTABLE} -recursive ${CMAKE_CURRENT_SOURCE_DIR} -ts ${_ts_file}
+    )
+    # create a target that depends on the generated files
+    add_custom_target(translate_${_ts_name} DEPENDS ${_ts_file})
+    # attach the custom target for this ts file to the parent target
+    add_dependencies(translations translate_${_ts_name})
+endforeach ()
+
+# generate qm files
+qt5_add_translation(QM_FILES ${TS_FILES})
+configure_file(translations/translations.qrc ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 if (X11_FOUND)
     file(GLOB CODE_FILES ${CODE_FILES} qxt/qxtglobalshortcut_x11.cpp)
-    list(APPEND TOM_LIBS  ${X11_LIBRARIES})
+    list(APPEND TOM_LIBS ${X11_LIBRARIES})
 elseif (Q_WS_WIN OR WIN32)
     file(GLOB CODE_FILES ${CODE_FILES} qxt/qxtglobalshortcut_win.cpp)
 elseif (Q_OS_MAC OR APPLE)
@@ -51,53 +73,52 @@ elseif (Q_OS_MAC OR APPLE)
     FIND_LIBRARY(CARBON_LIBRARY Carbon)
     FIND_LIBRARY(COCOA_LIBRARY Cocoa)
     LIST(APPEND TOM_LIBS ${CARBON_LIBRARY} ${COCOA_LIBRARY})
-else()
+else ()
     message(WARNING "Building on unsupported platfom!")
     set(USE_QXT FALSE)
-endif()
+endif ()
 
 include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 
 add_compile_options(-std=c++14 -Wall -Wextra -pedantic)
-if(CMAKE_BUILD_TYPE EQUAL "release")
+if (CMAKE_BUILD_TYPE EQUAL "release")
     add_compile_options(-O3)
-endif()
+endif ()
 
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
-    ${CODE_FILES} ${META_FILES_TO_INCLUDE} ${RESOURCE_FILES}
-)
+        ${CODE_FILES} ${META_FILES_TO_INCLUDE} ${RESOURCE_FILES} ${QM_FILES} ${CMAKE_CURRENT_BINARY_DIR}/translations.qrc)
 
 if (APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES
             MACOSX_BUNDLE_INFO_PLIST ${PROJECT_SOURCE_DIR}/cmake/Info.plist.in
             MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
-endif()
+endif ()
 
 enable_testing(true)
-include_directories( test )
+include_directories(test)
 
 target_include_directories(${PROJECT_NAME} PRIVATE source)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg Qt5::Test ${TOM_LIBS} )
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg Qt5::Test ${TOM_LIBS})
 
-if(ENABLE_REPORTS)
-   find_package(Qt5 OPTIONAL_COMPONENTS WebEngineWidgets)
-   target_link_libraries(${PROJECT_NAME} Qt5::WebEngineWidgets)
-   add_compile_definitions(TOM_REPORTS=true)
-endif()
+if (ENABLE_REPORTS)
+    find_package(Qt5 OPTIONAL_COMPONENTS WebEngineWidgets)
+    target_link_libraries(${PROJECT_NAME} Qt5::WebEngineWidgets)
+    add_compile_definitions(TOM_REPORTS=true)
+endif ()
 
 if (UNIX)
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)
     install(FILES $ENV{HOME}/go/bin/tom DESTINATION bin)
-elseif(APPLE)
+elseif (APPLE)
     install(TARGETS ${PROJECT_NAME} DESTINATION .)
     set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
     install(CODE "
         include(BundleUtilities)
         fixup_bundle(${CMAKE_INSTALL_PREFIX}/tom-ui.app \"\" \"\")
     " COMPONENT Runtime)
-elseif(WIN32)
+elseif (WIN32)
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)
-endif()
+endif ()
 
 INCLUDE(CPack)

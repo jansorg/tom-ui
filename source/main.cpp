@@ -41,6 +41,14 @@ int main(int argc, char *argv[]) {
 
     QApplication app(argc, argv);
 
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    app.installTranslator(&qtTranslator);
+
+    QTranslator myappTranslator;
+    myappTranslator.load(":/translations/tom_" + QLocale::system().name());
+    app.installTranslator(&myappTranslator);
+
     auto *control = new TomControl(command, bash, &app);
     const CommandStatus &status = control->version();
     if (status.isFailed()) {

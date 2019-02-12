@@ -182,6 +182,7 @@
     <property name="title">
      <string>Settin&amp;gs</string>
     </property>
+    <addaction name="actionProjectsTotalColumn"/>
     <addaction name="actionSettingsShowArchived"/>
    </widget>
    <addaction name="menuFile"/>
@@ -419,6 +420,25 @@
    </property>
    <property name="iconText">
     <string>Archived entries</string>
+   </property>
+  </action>
+  <action name="actionProjectsTotalColumn">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show column &quot;Total&quot;</string>
+   </property>
+  </action>
+  <action name="actionProjects">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Projects</string>
    </property>
   </action>
  </widget>

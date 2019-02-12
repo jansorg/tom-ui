@@ -77,8 +77,6 @@ private:
     ProjectStatusManager *_statusManager;
     TomSettings *_settings;
 
-    void createActions();
-
     void readSettings();
 
 };

@@ -22,6 +22,10 @@ public:
 
     const Project getCurrentProject();
 
+    void writeSettings(QSettings& settings);
+
+    void setShowTotalColumn(bool show);
+
 public slots:
 
     void refresh();
@@ -52,6 +56,8 @@ private:
 
     ProjectTreeModel *_sourceModel{};
     QSortFilterProxyModel *_proxyModel{};
+
+    bool _showTotalColumn;
 };
 
 

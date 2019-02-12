@@ -1,5 +1,7 @@
 #include "ProjectTreeRootItem.h"
 
+#include <QApplication>
+
 ProjectTreeRootItem::ProjectTreeRootItem(const ProjectStatusManager *statusManager, ProjectTreeItem *parent) : ProjectTreeItem(Project(), statusManager, parent) {}
 
 ProjectTreeRootItem::~ProjectTreeRootItem() = default;
@@ -7,7 +9,7 @@ ProjectTreeRootItem::~ProjectTreeRootItem() = default;
 QVariant ProjectTreeRootItem::data(int column) const {
     switch (column) {
         case COL_NAME:
-            return "All projects";
+            return QApplication::tr("All projects");
         case COL_DAY:
             return _statusManager->getOverallStatus().dayTotal.formatShort();
         case COL_WEEK:

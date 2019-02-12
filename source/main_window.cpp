@@ -15,11 +15,11 @@
 #include "source/report/ProjectReportDialog.h"
 #include "source/projectlookup/projectlookup.h"
 
-MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, TomSettings* settings, QMainWindow *parent) : QMainWindow(parent),
-                                                                                                        Ui::MainWindow(),
-                                                                                                        _control(control),
-                                                                                                        _statusManager(statusManager),
-                                                                                                        _settings(settings){
+MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, TomSettings *settings, QMainWindow *parent) : QMainWindow(parent),
+                                                                                                                               Ui::MainWindow(),
+                                                                                                                               _control(control),
+                                                                                                                               _statusManager(statusManager),
+                                                                                                                               _settings(settings) {
 //#ifndef Q_OS_MAC
     setWindowIcon(Icons::LogoLarge());
 //#endif
@@ -65,9 +65,13 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 
     connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onEntrySelectionChange);
 
-    connect(actionSettingsShowArchived, &QAction::toggled, _frameView, &FrameTableView::setShowArchived);
     connect(actionSettingsShowArchived, &QAction::toggled, _projectTree, &ProjectTreeView::setShowArchived);
+    connect(actionProjectsTotalColumn, &QAction::toggled, _projectTree, &ProjectTreeView::setShowTotalColumn);
+
+    connect(actionSettingsShowArchived, &QAction::toggled, _frameView, &FrameTableView::setShowArchived);
+
     connect(actionSettingsShowArchived, &QAction::toggled, _statusManager, &ProjectStatusManager::setIncludeArchived);
+
     // triggered for user interaction only
     connect(actionSettingsShowArchived, &QAction::triggered, _settings, &TomSettings::setShowArchivedEntries);
 
@@ -77,10 +81,13 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 
     connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, this, &MainWindow::writeSettings);
 
-    createActions();
-    refreshData();
+    //fix up mens
+    menuSettings->insertSection(actionSettingsShowArchived, tr("Time Entries"));
+    menuSettings->insertSection(actionProjectsTotalColumn, tr("Projects"));
 
     readSettings();
+
+    refreshData();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
@@ -91,6 +98,7 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 void MainWindow::writeSettings() {
     QSettings settings;
     settings.setValue("mainwindow/geometry", saveGeometry());
+    settings.setValue("mainwindow/showTotalColumn", actionProjectsTotalColumn->isChecked());
 }
 
 void MainWindow::readSettings() {
@@ -99,6 +107,8 @@ void MainWindow::readSettings() {
     if (geometry.isValid()) {
         restoreGeometry(geometry.toByteArray());
     }
+
+    actionProjectsTotalColumn->setChecked(settings.value("mainwindow/showTotalColumn", true).toBool());
 
     actionSettingsShowArchived->setChecked(_settings->showArchivedEntries());
 }
@@ -111,9 +121,6 @@ void MainWindow::refreshData() {
 
 MainWindow::~MainWindow() = default;
 
-
-void MainWindow::createActions() {
-}
 
 void MainWindow::helpAbout() {
     QString about = QString(

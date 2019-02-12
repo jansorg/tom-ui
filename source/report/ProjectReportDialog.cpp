@@ -81,7 +81,7 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     connect(showSummaryCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(showSalesCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
-    //updateReport();
+    QTimer::singleShot(500, this, &ProjectReportDialog::updateReport);
 }
 
 void ProjectReportDialog::updateReport() {

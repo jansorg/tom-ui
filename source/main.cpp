@@ -31,6 +31,15 @@ int main(int argc, char *argv[]) {
 
     QApplication app(argc, argv);
 
+    auto *control = new TomControl(command, bash, &app);
+    const CommandStatus &status = control->version();
+    if (status.isFailed()) {
+        const QString &message = QString("The tom command line application was not found or is not working as expected.<br>Path: <i>%1</i><br>Terminating.").arg(command);
+        QMessageBox::critical(nullptr, "Configuration error", message);
+        QApplication::exit(-1);
+        return -1;
+    }
+    
 #ifdef Q_OS_MAC
     // locate binary next to our binary in the app bundle
     command = QFileInfo(QCoreApplication::applicationFilePath()).dir().filePath("tom");
@@ -42,7 +51,6 @@ int main(int argc, char *argv[]) {
     QCoreApplication::setApplicationVersion(PROJECT_VERSION);
 
     auto config = new TomSettings(&app);
-    auto *control = new TomControl(command, bash, &app);
     auto *statusManager = new ProjectStatusManager(control, &app);
 
     MainWindow mainWindow(control, statusManager, config);

@@ -20,6 +20,7 @@ Q_OBJECT
 public:
     explicit TomControl(QString gotimePath, bool bashScript, QObject *parent);
 
+    CommandStatus version();
     /**
      * Create a new project.
      * @param project

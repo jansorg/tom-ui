@@ -659,3 +659,7 @@ QList<Project> TomControl::loadRecentProjects() {
     _cachedRecentProjects = loadProjects(5);
     return _cachedRecentProjects;
 }
+
+CommandStatus TomControl::version() {
+    return run(QStringList() << "--version");
+}

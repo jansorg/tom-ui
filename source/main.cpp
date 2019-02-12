@@ -1,9 +1,9 @@
 #include <QApplication>
 #include <QtWidgets/QMessageBox>
-#include <source/projectlookup/projectlookup.h>
 
 #include "qxt/qxtglobalshortcut.h"
 
+#include "source/projectlookup/projectlookup.h"
 #include "settings/TomSettings.h"
 #include "gotime/ProjectStatusManager.h"
 #include "main_window.h"
@@ -22,12 +22,22 @@ int main(int argc, char *argv[]) {
         bash = QString(argv[2]) == "true";
     }
 
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
-    QApplication::setQuitOnLastWindowClosed(false);
+    QString appName = "Tom";
+    if (argc == 4) {
+        appName = argv[3];
+    }
 
 #ifdef Q_OS_MAC
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
 #endif
+
+    QSettings::setDefaultFormat(QSettings::IniFormat);
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    QCoreApplication::setOrganizationName("Tom");
+    QCoreApplication::setOrganizationDomain("Tom");
+    QCoreApplication::setApplicationName(appName);
+    QCoreApplication::setApplicationVersion(PROJECT_VERSION);
+    QApplication::setQuitOnLastWindowClosed(false);
 
     QApplication app(argc, argv);
 
@@ -44,16 +54,12 @@ int main(int argc, char *argv[]) {
     // locate binary next to our binary in the app bundle
     command = QFileInfo(QCoreApplication::applicationFilePath()).dir().filePath("tom");
 #endif
-    QSettings::setDefaultFormat(QSettings::IniFormat);
-    QCoreApplication::setOrganizationName("Tom");
-    QCoreApplication::setOrganizationDomain("Tom");
-    QCoreApplication::setApplicationName("Tom");
-    QCoreApplication::setApplicationVersion(PROJECT_VERSION);
 
     auto config = new TomSettings(&app);
     auto *statusManager = new ProjectStatusManager(control, &app);
 
     MainWindow mainWindow(control, statusManager, config);
+    mainWindow.show();
 
     new GotimeTrayIcon(control, &mainWindow);
 
@@ -72,6 +78,5 @@ int main(int argc, char *argv[]) {
         qWarning() << "failed to install global shortcut";
     }
 
-    mainWindow.show();
     return QApplication::exec();
 }

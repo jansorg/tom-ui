@@ -1,5 +1,6 @@
 #include <utility>
 #include <QtGlobal>
+#include <source/main_window.h>
 
 #include "ProjectReportDialog.h"
 
@@ -13,6 +14,8 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
                                                                                                  _control(control),
                                                                                                  _splitModel(new ReportSplitModel(this)),
                                                                                                  _tempDir("tom-report") {
+
+    setAttribute(Qt::WA_DeleteOnClose);
 
     for (const auto &p : projects) {
         if (p.isValid()) {
@@ -49,6 +52,9 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
 
     dateStart->setDate(QDateTime::currentDateTime().date());
     dateEnd->setDate(QDateTime::currentDateTime().date());
+
+    // read before the signals are connected to avoid updates on state changes
+    readSettings();
 
     connect(updateButton, &QPushButton::pressed, this, &ProjectReportDialog::updateReport);
 
@@ -103,9 +109,9 @@ void ProjectReportDialog::updateReport() {
     }
 
     _projects.clear();
-    const QModelIndex &current = projectsBox->view()->currentIndex();
-    if (current.isValid()) {
-        _projects << current.data(UserRoles::IDRole).toString();
+    Project project = projectsBox->selectedProject();
+    if (project.isValid()) {
+        _projects << project.getID();
     }
 
     QString html = _control->htmlReport(_tempFile, _projects,
@@ -142,8 +148,105 @@ void ProjectReportDialog::moveSplitSelection(int delta) {
 
 void ProjectReportDialog::projectIndexSelected(const QModelIndex &index) {
     auto id = index.data(UserRoles::IDRole).toString();
-    qDebug() << "project selected" << index << id;
 
     _projects = QStringList() << id;
     updateReport();
 }
+
+void ProjectReportDialog::done(int i) {
+    writeSettings();
+    QDialog::done(i);
+}
+
+void ProjectReportDialog::readSettings() {
+    QSettings settings;
+
+    const QVariant &geometry = settings.value("reportDialog/geometry");
+    if (geometry.isValid()) {
+        restoreGeometry(geometry.toByteArray());
+    }
+
+    const QVariant &split = settings.value("reportDialog/splitValues");
+    if (split.isValid()) {
+        _splitModel->setCheckedItems(split.toStringList());
+    }
+    
+    readSettings(settings, this);
+}
+
+void ProjectReportDialog::readSettings(QSettings &settings, QObject *child) {
+    bool stop = false;
+    if (child->isWidgetType() && !child->objectName().isEmpty()) {
+        const QString &key = QString("reportDialog/state/%1").arg(child->objectName());
+
+        const QVariant &value = settings.value(key);
+        if (value.isValid()) {
+            stop = true;
+            if (auto *box = qobject_cast<QCheckBox *>(child)) {
+                box->setChecked(value.toBool());
+            } else if (auto *lineEdit = qobject_cast<QLineEdit *>(child)) {
+                lineEdit->setText(value.toString());
+            } else if (auto *textInput = qobject_cast<QPlainTextEdit *>(child)) {
+                textInput->setPlainText(value.toString());
+            } else if (auto *projects = qobject_cast<ProjectTreeComboBox *>(child)) {
+                projects->setSelectedProject(value.toString());
+            } else if (auto *combo = qobject_cast<QComboBox *>(child)) {
+                combo->setCurrentText(value.toString());
+            } else if (auto *spinBox = qobject_cast<QSpinBox *>(child)) {
+                spinBox->setValue(value.toInt());
+            } else if (auto *dateEdit = qobject_cast<QDateEdit *>(child)) {
+                dateEdit->setDate(value.toDate());
+            } else {
+                stop = false;
+            }
+        }
+    }
+
+    if (!stop) {
+        for (auto *c : child->children()) {
+            readSettings(settings, c);
+        }
+    }
+}
+
+void ProjectReportDialog::writeSettings() {
+    QSettings settings;
+
+    settings.setValue("reportDialog/geometry", saveGeometry());
+    settings.setValue("reportDialog/splitValues", _splitModel->checkedItems());
+
+    writeSettings(settings, this);
+}
+
+void ProjectReportDialog::writeSettings(QSettings &settings, QObject *child) {
+    bool stop = false;
+
+    if (child->isWidgetType() && !child->objectName().isEmpty()) {
+        stop = true;
+        const QString &key = QString("reportDialog/state/%1").arg(child->objectName());
+        if (auto *box = qobject_cast<QCheckBox *>(child)) {
+            settings.setValue(key, box->isChecked());
+        } else if (auto *lineEdit = qobject_cast<QLineEdit *>(child)) {
+            settings.setValue(key, lineEdit->text());
+        } else if (auto *textInput = qobject_cast<QPlainTextEdit *>(child)) {
+            settings.setValue(key, textInput->toPlainText());
+        } else if (auto *projects = qobject_cast<ProjectTreeComboBox *>(child)) {
+            settings.setValue(key, projects->selectedProject().getID());
+        } else if (auto *combo = qobject_cast<QComboBox *>(child)) {
+            settings.setValue(key, combo->currentText());
+        } else if (auto *spinBox = qobject_cast<QSpinBox *>(child)) {
+            settings.setValue(key, spinBox->value());
+        } else if (auto *dateEdit = qobject_cast<QDateEdit *>(child)) {
+            settings.setValue(key, dateEdit->date());
+        } else {
+            stop = false;
+        }
+    }
+
+    if (!stop) {
+        for (auto *c : child->children()) {
+            writeSettings(settings, c);
+        }
+    }
+}
+

@@ -21,6 +21,8 @@ class ProjectReportDialog : public QDialog, private Ui::ReportDialog {
 public:
     ProjectReportDialog(const QList<Project> &projects, TomControl *control, ProjectStatusManager *statusManager, QWidget *parent);
 
+    void done(int i) override;
+
 private slots:
 
     void updateReport();
@@ -29,6 +31,17 @@ private slots:
 
 private:
     void moveSplitSelection(int delta);
+
+protected:
+    void readSettings();
+
+    static void readSettings(QSettings &settings, QObject *child);
+
+    void writeSettings();
+
+    static void writeSettings(QSettings &settings, QObject *child);
+
+private:
 
     QStringList _projects;
     TomControl *_control;

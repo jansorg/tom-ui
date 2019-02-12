@@ -19,23 +19,3 @@ bool TomSettings::showArchivedEntries() {
     QSettings settings;
     return settings.value("entries/showArchived", true).toBool();
 }
-
-QPoint TomSettings::mainWindowPos() {
-    QSettings settings;
-    return settings.value("mainwindow/pos", QPoint(200, 200)).toPoint();
-}
-
-QSize TomSettings::mainWindowSize() {
-    QSettings settings;
-    return settings.value("mainwindow/size", QSize(640, 480)).toSize();
-}
-
-void TomSettings::setMainWindowSize(const QSize &size) {
-    QSettings settings;
-    settings.setValue("mainwindow/size", size);
-}
-
-void TomSettings::setMainWindowPos(const QPoint &pos) {
-    QSettings settings;
-    settings.setValue("mainwindow/pos", pos);
-}

@@ -13,6 +13,11 @@
 #include "source/model/UserRoles.h"
 #include "source/main_window.h"
 
+void ProjectLookup::show(TomControl *control, QMainWindow *window, QWidget *parent) {
+    auto *dialog = new ProjectLookup(control, window, parent);
+    dialog->exec();
+}
+
 ProjectLookup::ProjectLookup(TomControl *control, QMainWindow *window, QWidget *parent) : QDialog(parent),
                                                                                           _control(control) {
     setWindowFlags(Qt::Tool);
@@ -28,7 +33,7 @@ ProjectLookup::ProjectLookup(TomControl *control, QMainWindow *window, QWidget *
 
     if (window) {
         showMainWindowButton->setIcon(Icons::showMainWindow());
-        connect(showMainWindowButton, &QPushButton::clicked, [this, window]{
+        connect(showMainWindowButton, &QPushButton::clicked, [this, window] {
             window->show();
             done(0);
         });
@@ -47,9 +52,24 @@ ProjectLookup::ProjectLookup(TomControl *control, QMainWindow *window, QWidget *
     if (!active.isValid) {
         activeProjectStatus->setEnabled(false);
     }
+
+    readSettings();
 }
 
-void ProjectLookup::show(TomControl *control, QMainWindow *window, QWidget *parent) {
-    auto *dialog = new ProjectLookup(control, window, parent);
-    dialog->showNormal();
+void ProjectLookup::done(int i) {
+    writeSettings();
+    QDialog::done(i);
+}
+
+void ProjectLookup::readSettings() {
+    QSettings settings;
+    const QVariant &geometry = settings.value("projectLookup/geometry");
+    if (geometry.isValid()) {
+        restoreGeometry(geometry.toByteArray());
+    }
+}
+
+void ProjectLookup::writeSettings() {
+    QSettings settings;
+    settings.setValue("projectLookup/geomtry", saveGeometry());
 }

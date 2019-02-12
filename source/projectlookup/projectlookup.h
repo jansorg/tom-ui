@@ -12,10 +12,16 @@ class ProjectLookup : public QDialog, private Ui::ProjectLookupDialog {
 Q_OBJECT
 
 public:
-    static void show(TomControl *control, QMainWindow* window, QWidget *parent);
+    static void show(TomControl *control, QMainWindow *window, QWidget *parent);
+
+    void done(int i) override;
 
 protected:
-    explicit ProjectLookup(TomControl *control, QMainWindow* window, QWidget *parent);
+    explicit ProjectLookup(TomControl *control, QMainWindow *window, QWidget *parent);
+
+    void readSettings();
+
+    void writeSettings();
 
 private:
     TomControl *_control;

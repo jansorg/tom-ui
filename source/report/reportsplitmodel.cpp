@@ -43,7 +43,7 @@ bool ReportSplitModel::moveRows(const QModelIndex &sourceParent, int sourceRow, 
     }
 
     auto list = stringList();
-    const auto& rowData = list.at(sourceRow);
+    const auto &rowData = list.at(sourceRow);
     list.removeAt(sourceRow);
     list.insert(destinationRow, rowData);
     setStringList(list);
@@ -83,6 +83,10 @@ QStringList ReportSplitModel::checkedItems() {
 }
 
 void ReportSplitModel::setCheckedItems(const QStringList &items) {
+    beginResetModel();
+    _checked.clear();
+    endResetModel();
+
     const QStringList &source = stringList();
     for (const auto &item :items) {
         int row = source.indexOf(item);

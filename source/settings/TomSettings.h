@@ -12,14 +12,6 @@ public:
 
     bool showArchivedEntries();
 
-    QSize mainWindowSize();
-
-    QPoint mainWindowPos();
-
-    void setMainWindowSize(const QSize &size);
-
-    void setMainWindowPos(const QPoint &pos);
-
     void triggerUpdate();
 
 signals:

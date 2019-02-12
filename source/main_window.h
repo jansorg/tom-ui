@@ -67,6 +67,10 @@ private slots:
 protected:
     void closeEvent(QCloseEvent *event) override;
 
+private slots:
+
+    void writeSettings();
+
 private:
 
     TomControl *_control;
@@ -77,7 +81,6 @@ private:
 
     void readSettings();
 
-    void writeSettings();
 };
 
 #endif

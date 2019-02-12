@@ -75,6 +75,8 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 
     connect(actionQuit, &QAction::triggered, &QCoreApplication::quit);
 
+    connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, this, &MainWindow::writeSettings);
+
     createActions();
     refreshData();
 
@@ -83,17 +85,20 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 
 void MainWindow::closeEvent(QCloseEvent *event) {
     writeSettings();
-    event->accept();
+    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::writeSettings() {
-    _settings->setMainWindowPos(pos());
-    _settings->setMainWindowSize(size());
+    QSettings settings;
+    settings.setValue("mainwindow/geometry", saveGeometry());
 }
 
 void MainWindow::readSettings() {
-    resize(_settings->mainWindowSize());
-    move(_settings->mainWindowPos());
+    QSettings settings;
+    QVariant geometry = settings.value("mainwindow/geometry");
+    if (geometry.isValid()) {
+        restoreGeometry(geometry.toByteArray());
+    }
 
     actionSettingsShowArchived->setChecked(_settings->showArchivedEntries());
 }
@@ -229,7 +234,7 @@ void MainWindow::createReport() {
     }
 
     auto *dialog = new ProjectReportDialog(selected, _control, _statusManager, this);
-    dialog->show();
+    dialog->exec();
 }
 
 void MainWindow::lookupProject() {

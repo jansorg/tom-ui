@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="de_DE">
+<TS version="2.1" language="de_DE">
 <context>
     <name>Dialog</name>
     <message>
@@ -47,9 +47,39 @@
 <context>
     <name>GotimeTrayIcon</name>
     <message>
+        <location filename="../source/tray.cpp" line="20"/>
+        <source>Stop timer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/tray.cpp" line="21"/>
+        <source>Stop the current project and record data.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../source/tray.cpp" line="27"/>
         <source>Projects</source>
         <translation>Projekte</translation>
+    </message>
+    <message>
+        <location filename="../source/tray.cpp" line="32"/>
+        <source>&amp;Show window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/tray.cpp" line="36"/>
+        <source>&amp;Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/tray.cpp" line="91"/>
+        <source>%1: &lt;b&gt;%2&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/tray.cpp" line="93"/>
+        <source>%1: %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

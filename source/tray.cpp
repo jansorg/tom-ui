@@ -17,8 +17,8 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow) : Q
 
     _menu = new QMenu();
 
-    _stopTaskAction = new QAction("Stop timer");
-    _stopTaskAction->setToolTip("Stop the current project and record data.");
+    _stopTaskAction = new QAction(tr("Stop timer"));
+    _stopTaskAction->setToolTip(tr("Stop the current project and record data."));
     _stopTaskAction->setIcon(Icons::stopTimer());
     _stopTaskAction->setIconVisibleInMenu(true);
     connect(_stopTaskAction, SIGNAL(triggered()), control, SLOT(stopActivity()));
@@ -29,11 +29,11 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow) : Q
     _separatorAction = _menu->addSeparator();
     _separatorAction->setText("Actions");
 
-    QAction *showWindowAction = new QAction(Icons::showMainWindow(), "&Show window", this);
+    QAction *showWindowAction = new QAction(Icons::showMainWindow(), tr("&Show window"), this);
     connect(showWindowAction, &QAction::triggered, mainWindow, &QMainWindow::show);
     _menu->addAction(showWindowAction);
 
-    QAction *quitAction = new QAction(Icons::exit(), "&Quit", this);
+    QAction *quitAction = new QAction(Icons::exit(), tr("&Quit"), this);
     connect(quitAction, &QAction::triggered, &QCoreApplication::quit);
     _menu->addAction(quitAction);
 
@@ -88,9 +88,9 @@ void GotimeTrayIcon::updateIconAndTooltip() {
         const Timespan span = Timespan::of(lastStatus.startTime(), QDateTime::currentDateTime());
         QString tooltip;
         if (OSEnvInfo::supportsHTMLTooltips()) {
-            tooltip = QString("%1: <b>%2</b>").arg(lastStatus.currentProject().getName()).arg(span.format());
+            tooltip = QString(tr("%1: <b>%2</b>")).arg(lastStatus.currentProject().getName()).arg(span.format());
         } else {
-            tooltip = QString("%1: %2").arg(lastStatus.currentProject().getName()).arg(span.format());
+            tooltip = QString(tr("%1: %2")).arg(lastStatus.currentProject().getName()).arg(span.format());
         }
         _trayIcon->setToolTip(tooltip);
         _trayIcon->setIcon(_startedIcon);

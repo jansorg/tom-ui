@@ -87,6 +87,8 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     connect(showEmptyCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(showSummaryCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(showSalesCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showTrackedCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showUntrackedCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
     QTimer::singleShot(500, this, &ProjectReportDialog::updateReport);
 }
@@ -130,7 +132,9 @@ void ProjectReportDialog::updateReport() {
                                         showSummaryCheckbox->isChecked(),
                                         includeArchivedCheckBox->isChecked(),
                                         titleEdit->text(), descriptionEdit->toPlainText(),
-                                        showSalesCheckbox->isChecked());
+                                        showSalesCheckbox->isChecked(),
+                                        showTrackedCheckbox->isChecked(),
+                                        showUntrackedCheckbox->isChecked());
 
 #ifdef TOM_REPORTS
     if (QFile::exists(_tempFile)) {

@@ -18,6 +18,7 @@
 #include "reportsplitmodel.h"
 
 class ProjectReportDialog : public QDialog, private Ui::ReportDialog {
+    Q_OBJECT
 public:
     ProjectReportDialog(const QList<Project> &projects, TomControl *control, ProjectStatusManager *statusManager, QWidget *parent);
 

@@ -527,7 +527,8 @@ QString TomControl::htmlReport(const QString &outputFile,
                                bool showSummary,
                                bool includeArchived,
                                const QString &title, const QString &description,
-                               bool showSales) {
+                               bool showSales,
+                               bool showTracked, bool showUntracked) {
     QStringList args;
     args << "report";
     if (!outputFile.isEmpty()) {
@@ -560,6 +561,8 @@ QString TomControl::htmlReport(const QString &outputFile,
     args << QString("--show-summary=%1").arg(showSummary ? "true" : "false");
     args << QString("--include-archived=%1").arg(includeArchived ? "true" : "false");
     args << QString("--show-sales=%1").arg(showSales ? "true" : "false");
+    args << QString("--show-tracked=%1").arg(showTracked ? "true" : "false");
+    args << QString("--show-untracked=%1").arg(showUntracked ? "true" : "false");
 
 
     if (!title.isEmpty()) {

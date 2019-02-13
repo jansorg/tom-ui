@@ -90,7 +90,8 @@ public:
                        bool showSummary,
                        bool includeArchived,
                        const QString &title, const QString &description,
-                       bool showSales);
+                       bool showSales,
+                       bool showTracked, bool showUntracked);
 
 signals:
 

@@ -447,6 +447,20 @@
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QCheckBox" name="showTrackedCheckbox">
+               <property name="text">
+                <string>Show tracked averages</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="showUntrackedCheckbox">
+               <property name="text">
+                <string>Show untracked averages</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </item>

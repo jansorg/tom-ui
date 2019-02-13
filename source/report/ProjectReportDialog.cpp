@@ -1,6 +1,7 @@
 #include <utility>
 #include <QtGlobal>
 #include <source/main_window.h>
+#include <source/commonModels/TranslatedStringlistModel.h>
 
 #include "ProjectReportDialog.h"
 
@@ -53,6 +54,12 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     dateStart->setDate(QDateTime::currentDateTime().date());
     dateEnd->setDate(QDateTime::currentDateTime().date());
 
+    frameRoundingMode->setModel(new TranslatedStringlistModel(
+            QStringList() << "up" << "up or down",
+            QStringList() << tr("up") << tr("up or down"),
+            this
+    ));
+
     // read before the signals are connected to avoid updates on state changes
     readSettings();
 
@@ -89,7 +96,7 @@ void ProjectReportDialog::updateReport() {
 
     int frameRoundingMin = frameRoundingValue->value();
 
-    const QString &frameModeText = frameRoundingMode->currentText();
+    const QString &frameModeText = frameRoundingMode->currentData(Qt::EditRole).toString();
     TimeRoundingMode frameMode = NONE;
     if (roundEntriesCheckBox->isChecked()) {
         if (frameModeText == "up") {

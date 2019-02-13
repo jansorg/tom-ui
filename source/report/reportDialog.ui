@@ -166,18 +166,7 @@
                    <number>0</number>
                   </property>
                   <item>
-                   <widget class="QComboBox" name="frameRoundingMode">
-                    <item>
-                     <property name="text">
-                      <string>up</string>
-                     </property>
-                    </item>
-                    <item>
-                     <property name="text">
-                      <string>up or down</string>
-                     </property>
-                    </item>
-                   </widget>
+                   <widget class="QComboBox" name="frameRoundingMode"/>
                   </item>
                   <item>
                    <widget class="QLabel" name="label_2">
@@ -617,6 +606,38 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dateFilterCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>dateFilterGroup</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>380</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>423</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>roundEntriesCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>frameRoundingValueGroup</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>304</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>141</x>
+     <y>342</y>
     </hint>
    </hints>
   </connection>

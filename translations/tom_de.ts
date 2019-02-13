@@ -855,18 +855,28 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../source/main.cpp" line="48"/>
+        <location filename="../source/main.cpp" line="32"/>
         <source>Path to the tom executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/main.cpp" line="49"/>
+        <location filename="../source/main.cpp" line="33"/>
         <source>Defines if the tom executable is to be treated as a Bash file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/main.cpp" line="50"/>
+        <location filename="../source/main.cpp" line="34"/>
         <source>Defines the configuration name, useful to test Tom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/main.cpp" line="58"/>
+        <source>The tom command line application was not found or is not working as expected.&lt;br&gt;Path: &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;Terminating.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/main.cpp" line="60"/>
+        <source>Configuration error</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

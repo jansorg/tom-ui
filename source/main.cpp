@@ -11,22 +11,6 @@
 #include "version.h"
 
 int main(int argc, char *argv[]) {
-//    QString command = "tom";
-//    bool bash = false;
-//
-//    if (argc >= 2) {
-//        command = QString(argv[1]);
-//    }
-//
-//    if (argc == 3) {
-//        bash = QString(argv[2]) == "true";
-//    }
-//
-//    QString appName = "Tom";
-//    if (argc == 4) {
-//        appName = argv[3];
-//    }
-
 #ifdef Q_OS_MAC
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
 #endif
@@ -71,8 +55,9 @@ int main(int argc, char *argv[]) {
     auto *control = new TomControl(command, bash, &app);
     const CommandStatus &status = control->version();
     if (status.isFailed()) {
-        const QString &message = QString("The tom command line application was not found or is not working as expected.<br>Path: <i>%1</i><br>Terminating.").arg(command);
-        QMessageBox::critical(nullptr, "Configuration error", message);
+        const QString &message = QCoreApplication::translate("main", "The tom command line application was not found or is not working as expected."
+                                                                     "<br>Path: <i>%1</i><br>Terminating.").arg(command);
+        QMessageBox::critical(nullptr, QCoreApplication::translate("main", "Configuration error"), message);
         QApplication::exit(-1);
         return -1;
     }

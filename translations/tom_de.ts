@@ -669,157 +669,157 @@
     <name>ReportDialog</name>
     <message>
         <location filename="../source/report/reportDialog.ui" line="21"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="449"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="431"/>
         <source>Project Report</source>
         <translation>Projektbericht</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="82"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="451"/>
+        <location filename="../source/report/reportDialog.ui" line="306"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="448"/>
         <source>Splitting</source>
         <translation>Gruppierung</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="139"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="454"/>
+        <location filename="../source/report/reportDialog.ui" line="363"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="451"/>
         <source>Alt+Up</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="156"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="458"/>
+        <location filename="../source/report/reportDialog.ui" line="380"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="455"/>
         <source>Alt+Down</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="186"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="460"/>
+        <location filename="../source/report/reportDialog.ui" line="110"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="434"/>
         <source>Project</source>
         <translation>Projekt</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="198"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="461"/>
+        <location filename="../source/report/reportDialog.ui" line="122"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="435"/>
         <source>Include subprojects</source>
         <translation>Unterprojekte anzeigen</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="217"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="462"/>
+        <location filename="../source/report/reportDialog.ui" line="103"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="433"/>
         <source>Your description to display at the top of the report...</source>
         <translation>Die Beschreibung, die am Kopf des Berichts gezeigt wird...</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="224"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="463"/>
+        <location filename="../source/report/reportDialog.ui" line="132"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="436"/>
         <source>Time Entries</source>
         <translation>Zeiteinträge</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="230"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="464"/>
+        <location filename="../source/report/reportDialog.ui" line="138"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="437"/>
         <source>Round entries</source>
         <translation>Runden von Einträgen</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="261"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="465"/>
+        <location filename="../source/report/reportDialog.ui" line="172"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="438"/>
         <source>up</source>
         <translation>auf</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="266"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="466"/>
+        <location filename="../source/report/reportDialog.ui" line="177"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="439"/>
         <source>up or down</source>
         <translation>auf oder ab</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="280"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="468"/>
+        <location filename="../source/report/reportDialog.ui" line="191"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="441"/>
         <source>to</source>
         <translation>ab</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="300"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="470"/>
+        <location filename="../source/report/reportDialog.ui" line="211"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="443"/>
         <source>minute(s)</source>
         <translation>Minute(n)</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="325"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="471"/>
+        <location filename="../source/report/reportDialog.ui" line="236"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="444"/>
         <source>Filter by date</source>
         <translation>Nach Datum filtern</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="338"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="472"/>
+        <location filename="../source/report/reportDialog.ui" line="249"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="445"/>
         <source>Start:</source>
         <translation>Beginn:</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="352"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="473"/>
+        <location filename="../source/report/reportDialog.ui" line="263"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="446"/>
         <source>End:</source>
         <translation>Ende:</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="382"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="474"/>
+        <location filename="../source/report/reportDialog.ui" line="293"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="447"/>
         <source>Include archived entries</source>
         <translation>Archivierte Einträge einbeziehen</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="395"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="475"/>
+        <location filename="../source/report/reportDialog.ui" line="410"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="457"/>
         <source>&amp;Template</source>
         <translation>&amp;Vorlage</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="402"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="476"/>
+        <location filename="../source/report/reportDialog.ui" line="417"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="458"/>
         <source>default</source>
         <translation>default</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="407"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="477"/>
+        <location filename="../source/report/reportDialog.ui" line="422"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="459"/>
         <source>timelog</source>
         <translation>timelog</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="415"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="479"/>
+        <location filename="../source/report/reportDialog.ui" line="430"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="461"/>
         <source>Show empty items in groups</source>
         <translation>Leere Einträge in Gruppen zeigen</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="422"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="480"/>
+        <location filename="../source/report/reportDialog.ui" line="437"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="462"/>
         <source>Show summary</source>
         <translation>Zusammenfassung zeigen</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="432"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="481"/>
+        <location filename="../source/report/reportDialog.ui" line="447"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="463"/>
         <source>Matrix tables</source>
         <translation>Matrixtabellen</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="442"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="482"/>
+        <location filename="../source/report/reportDialog.ui" line="457"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="464"/>
         <source>Show sales</source>
         <translation>Umsatz zeigen</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="452"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="483"/>
+        <location filename="../source/report/reportDialog.ui" line="87"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="432"/>
         <source>Title of the report</source>
         <translation>Titel des Berichts</translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="516"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="484"/>
+        <location filename="../source/report/reportDialog.ui" line="538"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="465"/>
         <source>Update report</source>
         <translation>Aktualisieren</translation>
     </message>

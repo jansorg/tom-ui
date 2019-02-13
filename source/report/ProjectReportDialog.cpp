@@ -166,11 +166,16 @@ void ProjectReportDialog::readSettings() {
         restoreGeometry(geometry.toByteArray());
     }
 
-    const QVariant &split = settings.value("reportDialog/splitValues");
-    if (split.isValid()) {
-        _splitModel->setCheckedItems(split.toStringList());
+    const QVariant &splitData = settings.value("reportDialog/splitValues/data");
+    if (splitData.isValid()) {
+        _splitModel->setStringList(splitData.toStringList());
     }
-    
+
+    const QVariant &splitChecked = settings.value("reportDialog/splitValues/checked");
+    if (splitChecked.isValid()) {
+        _splitModel->setCheckedItems(splitChecked.toStringList());
+    }
+
     readSettings(settings, this);
 }
 
@@ -213,7 +218,8 @@ void ProjectReportDialog::writeSettings() {
     QSettings settings;
 
     settings.setValue("reportDialog/geometry", saveGeometry());
-    settings.setValue("reportDialog/splitValues", _splitModel->checkedItems());
+    settings.setValue("reportDialog/splitValues/data", _splitModel->stringList());
+    settings.setValue("reportDialog/splitValues/checked", _splitModel->checkedItems());
 
     writeSettings(settings, this);
 }

@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="tom-ui" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="$USER_HOME$/bin/tom.build false tom-testing" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tom-ui" TARGET_NAME="tom-ui" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tom-ui" RUN_TARGET_NAME="tom-ui">
+  <configuration default="false" name="tom-ui" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="--tom $USER_HOME$/bin/tom.build --configName tomTesting" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tom-ui" TARGET_NAME="tom-ui" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tom-ui" RUN_TARGET_NAME="tom-ui">
     <envs>
       <env name="QTWEBENGINE_CHROMIUM_FLAGS" value="--enable-logging --no-sandbox --remote-debugging-port=7000" />
     </envs>

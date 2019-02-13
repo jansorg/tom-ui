@@ -11,21 +11,21 @@
 #include "version.h"
 
 int main(int argc, char *argv[]) {
-    QString command = "tom";
-    bool bash = false;
-
-    if (argc >= 2) {
-        command = QString(argv[1]);
-    }
-
-    if (argc == 3) {
-        bash = QString(argv[2]) == "true";
-    }
-
-    QString appName = "Tom";
-    if (argc == 4) {
-        appName = argv[3];
-    }
+//    QString command = "tom";
+//    bool bash = false;
+//
+//    if (argc >= 2) {
+//        command = QString(argv[1]);
+//    }
+//
+//    if (argc == 3) {
+//        bash = QString(argv[2]) == "true";
+//    }
+//
+//    QString appName = "Tom";
+//    if (argc == 4) {
+//        appName = argv[3];
+//    }
 
 #ifdef Q_OS_MAC
     QApplication::setAttribute(Qt::AA_DontShowIconsInMenus);
@@ -35,19 +35,38 @@ int main(int argc, char *argv[]) {
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QCoreApplication::setOrganizationName("Tom");
     QCoreApplication::setOrganizationDomain("Tom");
-    QCoreApplication::setApplicationName(appName);
     QCoreApplication::setApplicationVersion(PROJECT_VERSION);
     QApplication::setQuitOnLastWindowClosed(false);
 
     QApplication app(argc, argv);
 
+    QCommandLineParser parser;
+    parser.setApplicationDescription(PROJECT_DESCRIPTION);
+    parser.addHelpOption();
+    parser.addVersionOption();
+    parser.addOptions({
+                              {"tom",        QCoreApplication::translate("main", "Path to the tom executable"),                         "tomPath",    "tom"},
+                              {"bash",       QCoreApplication::translate("main", "Defines if the tom executable is to be treated as a Bash file")},
+                              {"configName", QCoreApplication::translate("main", "Defines the configuration name, useful to test Tom"), "configName", "Tom"}
+                      });
+
+    // Process the actual command line arguments given by the user
+    parser.process(app);
+
+    const QString &command = parser.value("tom");
+    const bool bash = parser.isSet("bash");
+    const QString &configName = parser.value("configName");
+    if (!configName.isEmpty()) {
+        QCoreApplication::setApplicationName(configName);
+    }
+
     QTranslator qtTranslator;
     qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    app.installTranslator(&qtTranslator);
+    QApplication::installTranslator(&qtTranslator);
 
     QTranslator myappTranslator;
     myappTranslator.load(":/translations/tom_" + QLocale::system().name());
-    app.installTranslator(&myappTranslator);
+    QApplication::installTranslator(&myappTranslator);
 
     auto *control = new TomControl(command, bash, &app);
     const CommandStatus &status = control->version();
@@ -57,7 +76,7 @@ int main(int argc, char *argv[]) {
         QApplication::exit(-1);
         return -1;
     }
-    
+
 #ifdef Q_OS_MAC
     // locate binary next to our binary in the app bundle
     command = QFileInfo(QCoreApplication::applicationFilePath()).dir().filePath("tom");

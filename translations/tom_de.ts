@@ -36,7 +36,7 @@
     <message>
         <location filename="../source/frameEditor/frame_editor.ui" line="94"/>
         <source>Notes about this time entry</source>
-        <translation>Anmerkungen über den Zeiteintrag</translation>
+        <translation>Anmerkungen über diesen Zeiteintrag</translation>
     </message>
     <message>
         <location filename="../source/frameEditor/frame_editor.ui" line="101"/>
@@ -49,12 +49,12 @@
     <message>
         <location filename="../source/tray.cpp" line="20"/>
         <source>Stop timer</source>
-        <translation type="unfinished"></translation>
+        <translation>Timer stoppen</translation>
     </message>
     <message>
         <location filename="../source/tray.cpp" line="21"/>
         <source>Stop the current project and record data.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stoppt das aktuelle Projekt and zeichnet die Daten auf</translation>
     </message>
     <message>
         <location filename="../source/tray.cpp" line="27"/>
@@ -64,22 +64,22 @@
     <message>
         <location filename="../source/tray.cpp" line="32"/>
         <source>&amp;Show window</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Fenster zeigen</translation>
     </message>
     <message>
         <location filename="../source/tray.cpp" line="36"/>
         <source>&amp;Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Beenden</translation>
     </message>
     <message>
         <location filename="../source/tray.cpp" line="91"/>
         <source>%1: &lt;b&gt;%2&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../source/tray.cpp" line="93"/>
         <source>%1: %2</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -393,7 +393,7 @@
         <location filename="../source/main_window.ui" line="395"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="348"/>
         <source>Selects the active project in the project tree</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählt das aktive Projekt in der Projekthierarchie aus</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="398"/>
@@ -447,7 +447,7 @@
     <message>
         <location filename="../source/main_window.cpp" line="139"/>
         <source>Select Mac Time Tracker CSV export</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählen Sie den CSV Export von Mac Time Tracker</translation>
     </message>
     <message>
         <location filename="../source/main_window.cpp" line="141"/>
@@ -458,17 +458,17 @@
     <message>
         <location filename="../source/main_window.cpp" line="150"/>
         <source>Select Fanurio CSV export</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählen Sie einen Fanurio CSV Export</translation>
     </message>
     <message>
         <location filename="../source/main_window.cpp" line="161"/>
         <source>Select Watson frames file</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählen Sie die Watson frames Datei</translation>
     </message>
     <message>
         <location filename="../source/main_window.cpp" line="163"/>
         <source>Watson frames files (frames)</source>
-        <translation type="unfinished"></translation>
+        <translation>Watson Frames Dateien (frames)</translation>
     </message>
     <message>
         <location filename="../source/main_window.cpp" line="172"/>
@@ -478,7 +478,7 @@
     <message>
         <location filename="../source/main_window.cpp" line="173"/>
         <source>Do you want to remove all projects, tags and frames?</source>
-        <translation type="unfinished"></translation>
+        <translation>Möchten Sie alle Projekte, Tags und Einträge löschen?</translation>
     </message>
 </context>
 <context>
@@ -486,7 +486,7 @@
     <message>
         <location filename="../source/commonWidgets/projectcompletionlineedit.cpp" line="13"/>
         <source>Enter project name or press %1 for recent projects</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie einen Projektnamen ein, %1 für kürzliche verwendete</translation>
     </message>
     <message>
         <location filename="../source/commonWidgets/projectcompletionlineedit.cpp" line="13"/>
@@ -497,12 +497,12 @@
         <location filename="../source/commonWidgets/projectcompletionlineedit.cpp" line="39"/>
         <location filename="../source/commonWidgets/projectcompletionlineedit.cpp" line="44"/>
         <source>Recent projects</source>
-        <translation>Zuletzt verwedete Projekte</translation>
+        <translation>Kürzlich verwedete Projekte</translation>
     </message>
     <message>
         <location filename="../source/commonWidgets/projectcompletionlineedit.cpp" line="42"/>
         <source>No recent projects available</source>
-        <translation>Keine zuletzt verwendeten Projekte verfügbar</translation>
+        <translation>Keine kürzlich verwendeten Projekte verfügbar</translation>
     </message>
 </context>
 <context>
@@ -850,6 +850,24 @@
         <location filename="../source/report/reportsplitmodel.cpp" line="28"/>
         <source>Project</source>
         <translation>Projekt</translation>
+    </message>
+</context>
+<context>
+    <name>main</name>
+    <message>
+        <location filename="../source/main.cpp" line="48"/>
+        <source>Path to the tom executable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/main.cpp" line="49"/>
+        <source>Defines if the tom executable is to be treated as a Bash file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/main.cpp" line="50"/>
+        <source>Defines the configuration name, useful to test Tom</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

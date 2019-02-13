@@ -627,6 +627,10 @@ void TomControl::archiveProjectFrames(const Project &project, bool includeSubpro
 }
 
 CommandStatus TomControl::run(const QStringList &args, long timeoutMillis) {
+    if (_gotimePath.isEmpty()) {
+        return CommandStatus("", "executable name is empty", -1);
+    }
+
     QMutexLocker lock(&_mutex);
 
     auto start = QDateTime::currentDateTime().toMSecsSinceEpoch();

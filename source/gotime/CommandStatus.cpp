@@ -1,6 +1,6 @@
 #include "CommandStatus.h"
 
-CommandStatus::CommandStatus(QString &stdout, QString &stderr, int exitCode) : stdoutContent(stdout),
+CommandStatus::CommandStatus(const QString &stdout, const QString &stderr, int exitCode) : stdoutContent(stdout),
                                                                                stderrContent(stderr),
                                                                                exitCode(exitCode) {
 

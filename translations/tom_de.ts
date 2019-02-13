@@ -600,12 +600,13 @@
     <message>
         <location filename="../source/report/ProjectReportDialog.cpp" line="59"/>
         <source>up</source>
-        <translation>auf</translation>
+        <translation>aufrunden</translation>
     </message>
     <message>
         <location filename="../source/report/ProjectReportDialog.cpp" line="59"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="62"/>
         <source>up or down</source>
-        <translation>auf oder ab</translation>
+        <translation>auf- oder abrunden</translation>
     </message>
 </context>
 <context>
@@ -733,14 +734,6 @@
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="437"/>
         <source>Round entries</source>
         <translation>Runden von Einträgen</translation>
-    </message>
-    <message>
-        <source>up</source>
-        <translation type="vanished">auf</translation>
-    </message>
-    <message>
-        <source>up or down</source>
-        <translation type="vanished">auf oder ab</translation>
     </message>
     <message>
         <location filename="../source/report/reportDialog.ui" line="180"/>

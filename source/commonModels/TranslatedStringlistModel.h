@@ -16,7 +16,7 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
 
 private:
-    QStringList _translations;
+    const QStringList _translations;
 };
 
 

@@ -24,12 +24,21 @@ int main(int argc, char *argv[]) {
 
     QApplication app(argc, argv);
 
+
+#ifdef Q_OS_MAC
+    // locate binary next to our binary in the app bundle
+    const QString& defaultCommand = QFileInfo(QCoreApplication::applicationFilePath()).dir().filePath("tom");
+#else
+    const QString &defaultCommand = "tom";
+#endif
+
+
     QCommandLineParser parser;
     parser.setApplicationDescription(PROJECT_DESCRIPTION);
     parser.addHelpOption();
     parser.addVersionOption();
     parser.addOptions({
-                              {"tom",        QCoreApplication::translate("main", "Path to the tom executable"),                         "tomPath",    "tom"},
+                              {"tom",        QCoreApplication::translate("main", "Path to the tom executable"),                         "tomPath",    defaultCommand},
                               {"bash",       QCoreApplication::translate("main", "Defines if the tom executable is to be treated as a Bash file")},
                               {"configName", QCoreApplication::translate("main", "Defines the configuration name, useful to test Tom"), "configName", "Tom"}
                       });
@@ -61,11 +70,6 @@ int main(int argc, char *argv[]) {
         QApplication::exit(-1);
         return -1;
     }
-
-#ifdef Q_OS_MAC
-    // locate binary next to our binary in the app bundle
-    command = QFileInfo(QCoreApplication::applicationFilePath()).dir().filePath("tom");
-#endif
 
     auto config = new TomSettings(&app);
     auto *statusManager = new ProjectStatusManager(control, &app);

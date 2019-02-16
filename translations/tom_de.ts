@@ -822,13 +822,13 @@
         <location filename="../source/report/reportDialog.ui" line="453"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="474"/>
         <source>Show tracked averages</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige erfasste Durschnittszeiten</translation>
     </message>
     <message>
         <location filename="../source/report/reportDialog.ui" line="460"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="475"/>
         <source>Show untracked averages</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeige unerfasste Durchschnittzeiten</translation>
     </message>
     <message>
         <location filename="../source/report/reportDialog.ui" line="541"/>
@@ -880,12 +880,12 @@
     <message>
         <location filename="../source/main.cpp" line="34"/>
         <source>Defines the configuration name, useful to test Tom</source>
-        <translation type="unfinished"></translation>
+        <translation>Definiert den Konfigurationsnamen, nützlich zum Testen von Tom</translation>
     </message>
     <message>
         <location filename="../source/main.cpp" line="58"/>
         <source>The tom command line application was not found or is not working as expected.&lt;br&gt;Path: &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;Terminating.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das tom Kommandozeilenprogramm konnte nicht gefunden werden. &lt;br&gt;Pfad:  &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;Programmende.</translation>
     </message>
     <message>
         <location filename="../source/main.cpp" line="60"/>

@@ -105,11 +105,11 @@ Finally, if you notice you can't find the right project with the quickstart wind
 
 You can take over time-tracking data from various other applications into `tom-ui` using the "Import" menu. Choose:
 
-* "Mac Time Tracker CSV" to import a CSV file exported by Max Time Tracker. [TODO: link]
+* **"Mac Time Tracker CSV"** to import a CSV file exported by Max Time Tracker. [TODO: link]
 
-* "Fanurio CSV" to import a CSV file exported from the time-tracking and billing software [Fanurio](https://www.fanuriotimetracking.com/).
+* **"Fanurio CSV"** to import a CSV file exported from the time-tracking and billing software [Fanurio](https://www.fanuriotimetracking.com/).
 
-* "Watson frames.json" to import the `frames.json` file of the command-line time-tracker [Watson](https://tailordev.github.io/Watson/). Under Linux, that file is typically found at `~/.config/watson/frames`.
+* **"Watson frames.json"** to import the `frames.json` file of the command-line time-tracker [Watson](https://tailordev.github.io/Watson/). Under Linux, that file is typically found at `~/.config/watson/frames`.
 
 
 ### 3.7. Command line interface

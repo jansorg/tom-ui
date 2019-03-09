@@ -8,17 +8,20 @@ Project::Project() : _id(QString()),
                      _parentID(QString()),
                      _names(QStringList()),
                      _hourlyRate(""),
-                     _lastUpdated(QDateTime()) {
-
-}
+                     _lastUpdated(QDateTime()),
+                     _fullName(""),
+                     _isValid(false) {}
 
 Project::Project(QStringList names, QString id, QString parentID, QString hourlyRate) : _id(std::move(id)),
                                                                                         _parentID(std::move(parentID)),
                                                                                         _names(std::move(names)),
-                                                                                        _hourlyRate(std::move(hourlyRate)) {}
+                                                                                        _hourlyRate(std::move(hourlyRate)) {
+    _fullName = _names.join("/");
+    _isValid = !_id.isEmpty() && !_names.isEmpty();
+}
 
 QString Project::getName() const {
-    return this->_names.join("/");
+    return _fullName;
 }
 
 QString Project::getShortName() const {
@@ -37,7 +40,7 @@ QString Project::getParentID() const {
 }
 
 bool Project::isValid() const {
-    return !this->_id.isEmpty() && !_names.isEmpty();
+    return _isValid;
 }
 
 QString Project::getHourlyRate() const {

@@ -212,10 +212,16 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
                 //remove prefix of current project?
                 const QString &parentName = _currentProject.getName();
                 QString name = _control->cachedProject(frame->projectID).getName();
+
+                if (parentName == "") {
+                    return name;
+                }
+
                 if (parentName == name) {
                     return "";
                 }
-                return name.remove(parentName + "/");
+
+                return name.remove(0, 1 + parentName.length());
             }
             case COL_NOTES:
                 return frame->notes;

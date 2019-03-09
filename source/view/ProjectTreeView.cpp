@@ -7,6 +7,7 @@
 #include <ActionUtils.h>
 #include <QtTest/QAbstractItemModelTester>
 #include <source/projectEditor/ProjectEditorDialog.h>
+#include <source/model/UserRoles.h>
 
 #include "ProjectTreeView.h"
 
@@ -143,8 +144,29 @@ void ProjectTreeView::setShowArchived(bool showArchived) {
     _sourceModel->setShowArchived(showArchived);
 }
 
-void ProjectTreeView::writeSettings(QSettings &) {
+void ProjectTreeView::readSettings() {
+    QSettings settings;
+    const QString &id = settings.value("projectTree/selected").toString();
+    if (!id.isEmpty()) {
+        const QModelIndex &row = _sourceModel->getProjectRow(id);
+        if (row.isValid()) {
+            auto proxyRow = _proxyModel->mapFromSource(row);
+            setCurrentIndex(proxyRow);
+            scrollTo(proxyRow, PositionAtCenter);
+        }
+    }
+}
 
+void ProjectTreeView::writeSettings() {
+    QStringList ids;
+    for (auto row : selectionModel()->selectedRows()) {
+        if (row.isValid()) {
+            ids << row.data(UserRoles::IDRole).toString();
+        }
+    }
+
+    QSettings settings;
+    settings.setValue("projectTree/selected", ids);
 }
 
 void ProjectTreeView::setShowTotalColumn(bool show) {

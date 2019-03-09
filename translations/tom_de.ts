@@ -424,38 +424,38 @@
         <translation>Zeiteinträge</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="145"/>
+        <location filename="../source/main_window.cpp" line="151"/>
         <source>Select Mac Time Tracker CSV export</source>
         <translation>Wählen Sie den CSV Export von Mac Time Tracker</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="147"/>
-        <location filename="../source/main_window.cpp" line="158"/>
+        <location filename="../source/main_window.cpp" line="153"/>
+        <location filename="../source/main_window.cpp" line="164"/>
         <source>CSV Files (*.csv)</source>
         <translation>CSV Dateien (*.csv)</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="156"/>
+        <location filename="../source/main_window.cpp" line="162"/>
         <source>Select Fanurio CSV export</source>
         <translation>Wählen Sie einen Fanurio CSV Export</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="167"/>
+        <location filename="../source/main_window.cpp" line="173"/>
         <source>Select Watson frames file</source>
         <translation>Wählen Sie die Watson frames Datei</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="169"/>
+        <location filename="../source/main_window.cpp" line="175"/>
         <source>Watson frames files (frames)</source>
         <translation>Watson Frames Dateien (frames)</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="178"/>
+        <location filename="../source/main_window.cpp" line="184"/>
         <source>Reset data</source>
         <translation>Daten zürucksetzen</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="179"/>
+        <location filename="../source/main_window.cpp" line="185"/>
         <source>Do you want to remove all projects, tags and frames?</source>
         <translation>Möchten Sie alle Projekte, Tags und Einträge löschen?</translation>
     </message>
@@ -631,7 +631,7 @@
 <context>
     <name>ProjectTreeView</name>
     <message>
-        <location filename="../source/view/ProjectTreeView.cpp" line="24"/>
+        <location filename="../source/view/ProjectTreeView.cpp" line="25"/>
         <source>Delete project...</source>
         <translation type="unfinished"></translation>
     </message>

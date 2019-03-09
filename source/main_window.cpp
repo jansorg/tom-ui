@@ -90,9 +90,9 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     menuProject->addAction(_projectTree->getDeleteAction());
     menuEntries->addAction(_frameView->getDeleteAction());
 
-    readSettings();
-
     refreshData();
+
+    readSettings();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event) {
@@ -101,12 +101,18 @@ void MainWindow::closeEvent(QCloseEvent *event) {
 }
 
 void MainWindow::writeSettings() {
+    _projectTree->writeSettings();
+    _frameView->writeSettings();
+
     QSettings settings;
     settings.setValue("mainwindow/geometry", saveGeometry());
     settings.setValue("mainwindow/showTotalColumn", actionProjectsTotalColumn->isChecked());
 }
 
 void MainWindow::readSettings() {
+    _projectTree->readSettings();
+    _frameView->readSettings();
+
     QSettings settings;
     QVariant geometry = settings.value("mainwindow/geometry");
     if (geometry.isValid()) {

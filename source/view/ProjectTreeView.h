@@ -22,7 +22,9 @@ public:
 
     const Project getCurrentProject();
 
-    void writeSettings(QSettings& settings);
+    void writeSettings();
+
+    void readSettings();
 
     void setShowTotalColumn(bool show);
 

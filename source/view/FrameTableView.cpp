@@ -2,6 +2,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtTest/QAbstractItemModelTester>
 #include <QtWidgets/QLabel>
+#include <source/model/UserRoles.h>
 
 #include "model/FrameTableViewModel.h"
 #include "model/ProjectTreeItem.h"
@@ -149,4 +150,10 @@ QList<Frame *> FrameTableView::selectedFrames() {
 
 QAction *FrameTableView::getDeleteAction() {
     return _deleteSelectedAction;
+}
+
+void FrameTableView::readSettings() {
+}
+
+void FrameTableView::writeSettings() {
 }

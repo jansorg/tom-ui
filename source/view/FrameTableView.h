@@ -18,6 +18,10 @@ public:
 
     QAction *getDeleteAction();
 
+    void readSettings();
+
+    void writeSettings();
+
 public slots:
 
     void onProjectSelected(const Project &project);

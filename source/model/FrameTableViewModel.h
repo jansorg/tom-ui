@@ -31,6 +31,8 @@ public:
 
     QMimeData *mimeData(const QModelIndexList &indexes) const override;
 
+    int findRow(const QString &frameID);
+
     static const int COL_START_DATE = 0;
     static const int COL_START = 1;
     static const int COL_END = 2;
@@ -74,8 +76,6 @@ private:
     int rowCount(const QModelIndex &parent) const override;
 
     int columnCount(const QModelIndex &parent) const override;
-
-    int findRow(const QString &frameID);
 
     QVariant data(const QModelIndex &index, int role) const override;
 

@@ -287,7 +287,7 @@
   </action>
   <action name="actionImportWatson">
    <property name="text">
-    <string>&amp;Watson frames.json</string>
+    <string>&amp;Watson frames</string>
    </property>
   </action>
   <action name="actionProjectStart">

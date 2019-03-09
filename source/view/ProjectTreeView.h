@@ -26,6 +26,8 @@ public:
 
     void setShowTotalColumn(bool show);
 
+    QAction *getDeleteAction() const;
+
 public slots:
 
     void refresh();
@@ -44,6 +46,8 @@ private slots:
 
     void projectsStatusChanged(const QStringList &projectIDs);
 
+    void deleteSelectedProject();
+
 private:
     void createNewProject(const Project &parentProject);
 
@@ -57,7 +61,7 @@ private:
     ProjectTreeModel *_sourceModel{};
     QSortFilterProxyModel *_proxyModel{};
 
-    bool _showTotalColumn;
+    QAction * _deleteSelectedAction;
 };
 
 

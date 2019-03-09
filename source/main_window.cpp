@@ -33,6 +33,7 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     _projectTree->setup(control, statusManager);
     _frameView->setup(control);
 
+    // fix icons
     actionRefresh->setIcon(Icons::refreshData());
     actionResetAllData->setIcon(Icons::resetData());
     actionMinimize->setIcon(Icons::windowHide());
@@ -43,11 +44,7 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     actionProjectStop->setIcon(Icons::stopTimer());
     actionProjectCreate->setIcon(Icons::projectNew());
     actionProjectEdit->setIcon(Icons::projectEdit());
-    actionProjectRemove->setIcon(Icons::projectRemove());
     actionProjectSelectActive->setIcon(Icons::projectSelectActive());
-
-    actionTimeEntryRemove->setIcon(Icons::timeEntryDelete());
-    actionTimeEntryArchive->setIcon(Icons::timeEntryArchive());
 
     actionReportCreate->setIcon(Icons::report());
 
@@ -60,6 +57,9 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 
     actionHelpAbout->setIcon(Icons::about());
 
+    // fix shortcut context to be only active when the parent widget contains focus
+
+    // add missing connections
     connect(_projectTree, &ProjectTreeView::projectSelected, _frameView, &FrameTableView::onProjectSelected);
     connect(_projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::onProjectSelectionChange);
 
@@ -69,10 +69,8 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     connect(actionProjectsTotalColumn, &QAction::toggled, _projectTree, &ProjectTreeView::setShowTotalColumn);
 
     connect(actionSettingsShowArchived, &QAction::toggled, _frameView, &FrameTableView::setShowArchived);
-
     connect(actionSettingsShowArchived, &QAction::toggled, _statusManager, &ProjectStatusManager::setIncludeArchived);
-
-    // triggered for user interaction only
+    // triggered() is for user interaction only
     connect(actionSettingsShowArchived, &QAction::triggered, _settings, &TomSettings::setShowArchivedEntries);
 
     connect(_control, &TomControl::projectStatusChanged, this, &MainWindow::onProjectStatusChange);
@@ -81,9 +79,16 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 
     connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, this, &MainWindow::writeSettings);
 
+    // listen to focus events
+    connect(qApp, &QApplication::focusChanged, this, &MainWindow::focusChanged);
+
     //fix up mens
     menuSettings->insertSection(actionSettingsShowArchived, tr("Time Entries"));
     menuSettings->insertSection(actionProjectsTotalColumn, tr("Projects"));
+
+    // setup our custom actions
+    menuProject->addAction(_projectTree->getDeleteAction());
+    menuEntries->addAction(_frameView->getDeleteAction());
 
     readSettings();
 
@@ -116,6 +121,7 @@ void MainWindow::readSettings() {
 void MainWindow::refreshData() {
     _projectTree->refresh();
     onProjectStatusChange();
+    onProjectSelectionChange(Project());
     onEntrySelectionChange(QItemSelection());
 }
 
@@ -181,7 +187,6 @@ void MainWindow::onProjectSelectionChange(const Project &current) {
     bool valid = current.isValid();
 
     actionProjectStart->setEnabled(valid);
-    actionProjectRemove->setEnabled(valid);
     actionProjectEdit->setEnabled(valid);
 }
 
@@ -233,7 +238,6 @@ void MainWindow::editCurrentProject() {
 
 void MainWindow::onEntrySelectionChange(const QItemSelection &selection) {
     bool selectedEntries = !selection.isEmpty();
-    actionTimeEntryRemove->setEnabled(selectedEntries);
     actionTimeEntryArchive->setEnabled(selectedEntries);
 }
 
@@ -258,5 +262,21 @@ void MainWindow::focusProjectTree() {
 
 void MainWindow::focusEntriesList() {
     _frameView->setFocus();
+}
+
+void MainWindow::focusChanged(QWidget *, QWidget *now) {
+    if (now == _projectTree) {
+        _projectTree->getDeleteAction()->setEnabled(true);
+        _frameView->getDeleteAction()->setEnabled(false);
+
+        actionProjectEdit->setEnabled(_projectTree->getCurrentProject().isValid());
+        actionTimeEntryArchive->setEnabled(false);
+    } else if (now == _frameView) {
+        _projectTree->getDeleteAction()->setEnabled(false);
+        _frameView->getDeleteAction()->setEnabled(true);
+
+        actionProjectEdit->setEnabled(false);
+        actionTimeEntryArchive->setEnabled(_frameView->selectionModel()->hasSelection());
+    }
 }
 

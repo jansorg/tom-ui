@@ -153,13 +153,11 @@
     <addaction name="separator"/>
     <addaction name="actionProjectCreate"/>
     <addaction name="actionProjectEdit"/>
-    <addaction name="actionProjectRemove"/>
    </widget>
-   <widget class="QMenu" name="menuTracked_Items">
+   <widget class="QMenu" name="menuEntries">
     <property name="title">
      <string>Time E&amp;ntries</string>
     </property>
-    <addaction name="actionTimeEntryRemove"/>
     <addaction name="actionTimeEntryArchive"/>
    </widget>
    <widget class="QMenu" name="menuReports">
@@ -187,7 +185,7 @@
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuProject"/>
-   <addaction name="menuTracked_Items"/>
+   <addaction name="menuEntries"/>
    <addaction name="menuReports"/>
    <addaction name="menuImport"/>
    <addaction name="menuSettings"/>
@@ -321,25 +319,6 @@
     <string>Ctrl+E</string>
    </property>
   </action>
-  <action name="actionTimeEntryRemove">
-   <property name="text">
-    <string>&amp;Delete selected entries</string>
-   </property>
-   <property name="toolTip">
-    <string>Delete the currently selected time entries</string>
-   </property>
-   <property name="shortcut">
-    <string comment="Remove the currently selected time entries">Ctrl+Del</string>
-   </property>
-  </action>
-  <action name="actionProjectRemove">
-   <property name="text">
-    <string>&amp;Delete project...</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+Del</string>
-   </property>
-  </action>
   <action name="actionReportCreate">
    <property name="text">
     <string>&amp;Create project report...</string>
@@ -431,14 +410,6 @@
    </property>
    <property name="text">
     <string>Show column &quot;Total&quot;</string>
-   </property>
-  </action>
-  <action name="actionProjects">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Projects</string>
    </property>
   </action>
  </widget>
@@ -607,38 +578,6 @@
    <signal>triggered()</signal>
    <receiver>MainWindow</receiver>
    <slot>stopCurrentProject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>455</x>
-     <y>385</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionTimeEntryRemove</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>deleteSelectedTimeEntries()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>-1</x>
-     <y>-1</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>455</x>
-     <y>366</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>actionProjectRemove</sender>
-   <signal>triggered()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>deleteCurrentProject()</slot>
    <hints>
     <hint type="sourcelabel">
      <x>-1</x>

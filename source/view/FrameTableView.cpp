@@ -15,6 +15,11 @@ FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent), _control(n
     setDragDropMode(QTableView::DragOnly);
     setDragEnabled(true);
     setAcceptDrops(false);
+
+    _deleteSelectedAction = new QAction(Icons::timeEntryDelete(), "Delete selected", this);
+    _deleteSelectedAction->setShortcutContext(Qt::WindowShortcut);
+    _deleteSelectedAction->setShortcuts(QKeySequence::Delete);
+    connect(_deleteSelectedAction, &QAction::triggered, this, &FrameTableView::deleteSelectedEntries);
 }
 
 void FrameTableView::setup(TomControl *control) {
@@ -63,7 +68,7 @@ void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
     });
     stop->setEnabled(frame->isActive());
     menu.addSeparator();
-    menu.addAction(Icons::timeEntryRemove(), "Delete", this, &FrameTableView::deleteSelectedEntries);
+    menu.addAction(_deleteSelectedAction);
     menu.addAction(Icons::timeEntryArchive(), "Archive", this, &FrameTableView::archiveSelectedEntries);
     menu.exec(globalPos);
 }
@@ -140,4 +145,8 @@ QList<Frame *> FrameTableView::selectedFrames() {
         }
     }
     return frames;
+}
+
+QAction *FrameTableView::getDeleteAction() {
+    return _deleteSelectedAction;
 }

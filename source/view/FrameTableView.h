@@ -10,10 +10,13 @@
 
 class FrameTableView : public QTableView {
 Q_OBJECT
+
 public:
     explicit FrameTableView(QWidget *parent);
 
     void setup(TomControl *control);
+
+    QAction *getDeleteAction();
 
 public slots:
 
@@ -42,6 +45,8 @@ private:
     void showContextMenu(Frame *frame, QPoint globalPos);
 
     QList<Frame *> selectedFrames();
+
+    QAction *_deleteSelectedAction;
 };
 
 #endif //TOM_UI_FRAMETABLEVIEW_H

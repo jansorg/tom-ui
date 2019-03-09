@@ -64,6 +64,8 @@ private slots:
 
     void focusEntriesList();
 
+    void focusChanged(QWidget * old, QWidget * now);
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 
@@ -78,7 +80,6 @@ private:
     TomSettings *_settings;
 
     void readSettings();
-
 };
 
 #endif

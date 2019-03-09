@@ -20,6 +20,11 @@ ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {
     setDropIndicatorShown(true);
 
     connect(this, &ProjectTreeView::customContextMenuRequested, this, &ProjectTreeView::onCustomContextMenuRequested);
+
+    _deleteSelectedAction = new QAction(Icons::projectRemove(), tr("Delete project..."), this);
+    _deleteSelectedAction->setShortcutContext(Qt::WindowShortcut);
+    _deleteSelectedAction->setShortcuts(QKeySequence::Delete);
+    connect(_deleteSelectedAction, &QAction::triggered, this, &ProjectTreeView::deleteSelectedProject);
 }
 
 void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusManager) {
@@ -37,7 +42,7 @@ void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusMan
 
     _sourceModel->loadProjects();
 
-    new QAbstractItemModelTester(_proxyModel, QAbstractItemModelTester::FailureReportingMode::Fatal, this);
+//    new QAbstractItemModelTester(_proxyModel, QAbstractItemModelTester::FailureReportingMode::Fatal, this);
 
     header()->setStretchLastSection(false);
     header()->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -77,7 +82,7 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
     menu.addSeparator();
     menu.addAction(Icons::projectNew(), "Create new subproject...", [this, project] { createNewProject(project); });
     menu.addAction(Icons::projectEdit(), "Edit project...", [this, project] { ProjectEditorDialog::show(project, _control, _statusManager, this); });
-    menu.addAction(Icons::projectRemove(), "Delete project...", [this, project] { ActionUtils::removeProject(_control, project, this); });
+    menu.addAction(_deleteSelectedAction);
     menu.addAction(Icons::timeEntryArchive(), "Archive all entries", [this, project] { _control->archiveProjectFrames(project, true); });
 
     bool started = project.isValid() && _control->isStarted(project);
@@ -144,4 +149,21 @@ void ProjectTreeView::writeSettings(QSettings &) {
 
 void ProjectTreeView::setShowTotalColumn(bool show) {
     setColumnHidden(ProjectTreeItem::COL_TOTAL, !show);
+}
+
+void ProjectTreeView::deleteSelectedProject() {
+    const QModelIndexList &rows = selectionModel()->selectedRows(ProjectTreeItem::COL_NAME);
+    if (rows.isEmpty()) {
+        return;
+    }
+
+    const QModelIndex &sourceSelection = _proxyModel->mapToSource(rows.first());
+    const Project &project = _sourceModel->projectAtIndex(sourceSelection);
+    if (project.isValid()) {
+        ActionUtils::removeProject(_control, project, this);
+    }
+}
+
+QAction *ProjectTreeView::getDeleteAction() const {
+    return _deleteSelectedAction;
 }

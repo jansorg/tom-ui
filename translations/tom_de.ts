@@ -86,397 +86,376 @@
     <name>MainWindow</name>
     <message>
         <location filename="../source/main_window.ui" line="15"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="267"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="253"/>
         <source>Tom - Time tracker</source>
         <translation>Tom - Zeiterfassung</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="41"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="360"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="334"/>
         <source>List of projects</source>
         <translation>List der Projekte</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="67"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="363"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="337"/>
         <source>List of tracked time</source>
         <translation>Liste der erfassten Zeit</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="124"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="365"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="339"/>
         <source>Fi&amp;le</source>
         <translation>&amp;Datei</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="133"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="366"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="340"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="139"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="367"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="341"/>
         <source>I&amp;mport</source>
         <translation>I&amp;mportieren</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="147"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="368"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="342"/>
         <source>Pro&amp;ject</source>
         <translation>Pro&amp;jekt</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="160"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="369"/>
+        <location filename="../source/main_window.ui" line="159"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="343"/>
         <source>Time E&amp;ntries</source>
         <translation>&amp;Zeiteinträge</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="170"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="370"/>
+        <location filename="../source/main_window.ui" line="168"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="344"/>
         <source>&amp;Reports</source>
         <translation>&amp;Berichte</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="176"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="371"/>
+        <location filename="../source/main_window.ui" line="174"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="345"/>
         <source>Win&amp;dow</source>
         <translation>&amp;Fenster</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="183"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="372"/>
+        <location filename="../source/main_window.ui" line="181"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="346"/>
         <source>Settin&amp;gs</source>
         <translation>&amp;Einstellungen</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="219"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="268"/>
+        <location filename="../source/main_window.ui" line="217"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="254"/>
         <source>E&amp;xit</source>
         <translation>B&amp;eenden</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="222"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="270"/>
+        <location filename="../source/main_window.ui" line="220"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="256"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="230"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="272"/>
+        <location filename="../source/main_window.ui" line="228"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="258"/>
         <source>&amp;Hide Window</source>
         <translation>&amp;Fester verstecken</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="242"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="273"/>
+        <location filename="../source/main_window.ui" line="240"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="259"/>
         <source>&amp;Refresh</source>
         <translation>&amp;Neu laden</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="247"/>
-        <location filename="../source/main_window.ui" line="250"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="274"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="276"/>
+        <location filename="../source/main_window.ui" line="245"/>
+        <location filename="../source/main_window.ui" line="248"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="260"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="262"/>
         <source>&amp;About Tom</source>
         <translation>&amp;Über Tom</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="258"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="278"/>
+        <location filename="../source/main_window.ui" line="256"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="264"/>
         <source>&amp;Create New Project...</source>
         <translation>Neues Projekt anlegen...</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="261"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="279"/>
+        <location filename="../source/main_window.ui" line="259"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="265"/>
         <source>Create New Project...</source>
         <translation>Neues Projekt anlegen...</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="264"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="281"/>
+        <location filename="../source/main_window.ui" line="262"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="267"/>
         <source>Create a new project</source>
         <translation>Neues Projekt anlegen</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="267"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="284"/>
+        <location filename="../source/main_window.ui" line="265"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="270"/>
         <source>Ctrl+N</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="272"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="286"/>
+        <location filename="../source/main_window.ui" line="270"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="272"/>
         <source>&amp;Mac Time Tracker CSV</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="277"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="287"/>
+        <location filename="../source/main_window.ui" line="275"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="273"/>
         <source>&amp;Fanurio CSV</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="282"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="288"/>
+        <location filename="../source/main_window.ui" line="280"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="274"/>
         <source>Reset all &amp;data...</source>
         <translation>Alle Daten zurücksetzen</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="290"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="289"/>
+        <location filename="../source/main_window.ui" line="288"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="275"/>
         <source>&amp;Watson frames</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="295"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="290"/>
+        <location filename="../source/main_window.ui" line="293"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="276"/>
         <source>&amp;Start timer</source>
         <translation>Timer starten</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="298"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="291"/>
+        <location filename="../source/main_window.ui" line="296"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="277"/>
         <source>Start Timer</source>
         <translation>Start Timer</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="301"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="293"/>
+        <location filename="../source/main_window.ui" line="299"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="279"/>
         <source>Starts a new timer for the currently selected project</source>
         <translation>Startet einen neuen TImer für das aktuell ausgewählte Projekt</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="304"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="296"/>
+        <location filename="../source/main_window.ui" line="302"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="282"/>
         <source>Ctrl+B</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="312"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="298"/>
+        <location filename="../source/main_window.ui" line="310"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="284"/>
         <source>S&amp;top timer</source>
         <translation>Stoppe Timer</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="315"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="299"/>
+        <location filename="../source/main_window.ui" line="313"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="285"/>
         <source>Stop Timer</source>
         <translation>Stoppe Timer</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="318"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="301"/>
+        <location filename="../source/main_window.ui" line="316"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="287"/>
         <source>Stops the timer of the currently selected project</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="321"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="304"/>
+        <location filename="../source/main_window.ui" line="319"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="290"/>
         <source>Ctrl+E</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="326"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="306"/>
         <source>&amp;Delete selected entries</source>
-        <translation>Gewählte Einträge löschen</translation>
+        <translation type="vanished">Gewählte Einträge löschen</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="329"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="308"/>
         <source>Delete the currently selected time entries</source>
-        <translation>Lösche die aktuell gewählten Zeiteinträge</translation>
+        <translation type="vanished">Lösche die aktuell gewählten Zeiteinträge</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="332"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="311"/>
-        <source>Ctrl+Del</source>
-        <comment>Remove the currently selected time entries</comment>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../source/main_window.ui" line="337"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="313"/>
         <source>&amp;Delete project...</source>
-        <translation>&amp;Projekt löschen...</translation>
+        <translation type="vanished">&amp;Projekt löschen...</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="340"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="315"/>
-        <source>Ctrl+Shift+Del</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../source/main_window.ui" line="345"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="317"/>
+        <location filename="../source/main_window.ui" line="324"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="292"/>
         <source>&amp;Create project report...</source>
         <translation>Projektbericht erstellen...</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="348"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="319"/>
+        <location filename="../source/main_window.ui" line="327"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="294"/>
         <source>Ctrl+R</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="353"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="321"/>
+        <location filename="../source/main_window.ui" line="332"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="296"/>
         <source>&amp;Lookup project...</source>
         <translation>Projekt nachschlagen</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="356"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="322"/>
+        <location filename="../source/main_window.ui" line="335"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="297"/>
         <source>Lookup project...</source>
         <translation>Projekt nachschlagen...</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="359"/>
-        <location filename="../source/main_window.ui" line="362"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="324"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="327"/>
+        <location filename="../source/main_window.ui" line="338"/>
+        <location filename="../source/main_window.ui" line="341"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="299"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="302"/>
         <source>Show a dialog to lookup a project by name</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="365"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="330"/>
+        <location filename="../source/main_window.ui" line="344"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="305"/>
         <source>Ctrl+L</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="370"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="332"/>
+        <location filename="../source/main_window.ui" line="349"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="307"/>
         <source>&amp;Focus projects</source>
         <translation>&amp;Fokus auf Projekte </translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="373"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="334"/>
+        <location filename="../source/main_window.ui" line="352"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="309"/>
         <source>Focus the list of projects</source>
         <translation>Fokussisert die Projektliste</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="376"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="337"/>
+        <location filename="../source/main_window.ui" line="355"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="312"/>
         <source>Alt+1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="381"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="339"/>
+        <location filename="../source/main_window.ui" line="360"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="314"/>
         <source>Focus time &amp;entries</source>
         <translation>Fokus auf Zeiteinträge</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="384"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="341"/>
+        <location filename="../source/main_window.ui" line="363"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="316"/>
         <source>Focuses the list of time entries</source>
         <translation>Fokussiert die Liste der Zeiteinträge</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="387"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="344"/>
+        <location filename="../source/main_window.ui" line="366"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="319"/>
         <source>Alt+2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="392"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="346"/>
+        <location filename="../source/main_window.ui" line="371"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="321"/>
         <source>Scroll to active &amp;project</source>
         <translation>Zum aktuellen &amp;Projekte springen</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="395"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="348"/>
+        <location filename="../source/main_window.ui" line="374"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="323"/>
         <source>Selects the active project in the project tree</source>
         <translation>Wählt das aktive Projekt in der Projekthierarchie aus</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="398"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="351"/>
+        <location filename="../source/main_window.ui" line="377"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="326"/>
         <source>Alt+F1</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="403"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="353"/>
+        <location filename="../source/main_window.ui" line="382"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="328"/>
         <source>Ed&amp;it project...</source>
         <translation>Projekt b&amp;earbeiten...</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="408"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="354"/>
+        <location filename="../source/main_window.ui" line="387"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="329"/>
         <source>&amp;Archive selected entries</source>
         <translation>&amp;Archiviere ausgewählte Einträge</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="419"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="355"/>
+        <location filename="../source/main_window.ui" line="398"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="330"/>
         <source>&amp;Show archived entries</source>
         <translation>&amp;Zeige archivierte Einträge</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="422"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="356"/>
+        <location filename="../source/main_window.ui" line="401"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="331"/>
         <source>Archived entries</source>
         <translation>Archivierte Einträge</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="433"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="357"/>
+        <location filename="../source/main_window.ui" line="412"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="332"/>
         <source>Show column &quot;Total&quot;</source>
         <translation>Spalte &quot;Gesamt&quot; zeigen</translation>
     </message>
     <message>
-        <location filename="../source/main_window.ui" line="441"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="358"/>
-        <location filename="../source/main_window.cpp" line="86"/>
+        <location filename="../source/main_window.cpp" line="87"/>
         <source>Projects</source>
         <translatorcomment>Projekte</translatorcomment>
         <translation>Projekte</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="85"/>
+        <location filename="../source/main_window.cpp" line="86"/>
         <source>Time Entries</source>
         <translation>Zeiteinträge</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="139"/>
+        <location filename="../source/main_window.cpp" line="145"/>
         <source>Select Mac Time Tracker CSV export</source>
         <translation>Wählen Sie den CSV Export von Mac Time Tracker</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="141"/>
-        <location filename="../source/main_window.cpp" line="152"/>
+        <location filename="../source/main_window.cpp" line="147"/>
+        <location filename="../source/main_window.cpp" line="158"/>
         <source>CSV Files (*.csv)</source>
         <translation>CSV Dateien (*.csv)</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="150"/>
+        <location filename="../source/main_window.cpp" line="156"/>
         <source>Select Fanurio CSV export</source>
         <translation>Wählen Sie einen Fanurio CSV Export</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="161"/>
+        <location filename="../source/main_window.cpp" line="167"/>
         <source>Select Watson frames file</source>
         <translation>Wählen Sie die Watson frames Datei</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="163"/>
+        <location filename="../source/main_window.cpp" line="169"/>
         <source>Watson frames files (frames)</source>
         <translation>Watson Frames Dateien (frames)</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="172"/>
+        <location filename="../source/main_window.cpp" line="178"/>
         <source>Reset data</source>
         <translation>Daten zürucksetzen</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="173"/>
+        <location filename="../source/main_window.cpp" line="179"/>
         <source>Do you want to remove all projects, tags and frames?</source>
         <translation>Möchten Sie alle Projekte, Tags und Einträge löschen?</translation>
     </message>
@@ -647,6 +626,14 @@
         <location filename="../source/model/ProjectTreeModel.cpp" line="22"/>
         <source>Total</source>
         <translation>Gesamt</translation>
+    </message>
+</context>
+<context>
+    <name>ProjectTreeView</name>
+    <message>
+        <location filename="../source/view/ProjectTreeView.cpp" line="24"/>
+        <source>Delete project...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

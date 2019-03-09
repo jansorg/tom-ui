@@ -37,11 +37,7 @@ void FrameTableViewModel::loadFrames(const Project &project) {
     qDeleteAll(_frames);
     _frames.clear();
 
-    if (project.isValid()) {
-        _frames = _control->loadFrames(project.getID(), true, _showArchived);
-    } else {
-        _frames.clear();
-    }
+    _frames = _control->loadFrames(project.getID(), true, _showArchived);
 
     endResetModel();
 

@@ -106,6 +106,7 @@ void MainWindow::writeSettings() {
 
     QSettings settings;
     settings.setValue("mainwindow/geometry", saveGeometry());
+    settings.setValue("mainwindow/splitterState", splitter->saveState());
     settings.setValue("mainwindow/showTotalColumn", actionProjectsTotalColumn->isChecked());
 }
 
@@ -119,8 +120,12 @@ void MainWindow::readSettings() {
         restoreGeometry(geometry.toByteArray());
     }
 
-    actionProjectsTotalColumn->setChecked(settings.value("mainwindow/showTotalColumn", true).toBool());
+    QVariant splitterState = settings.value("mainwindow/splitterState");
+    if (splitterState.isValid()) {
+        splitter->restoreState(splitterState.toByteArray());
+    }
 
+    actionProjectsTotalColumn->setChecked(settings.value("mainwindow/showTotalColumn", true).toBool());
     actionSettingsShowArchived->setChecked(_settings->showArchivedEntries());
 }
 

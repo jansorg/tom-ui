@@ -51,15 +51,19 @@ namespace Icons {
     }
 
     inline const QIcon stopTimer() {
-        #ifdef Q_OS_MAC
+#ifdef Q_OS_MAC
         return icon("osx/trayicon-started.svg");
-        #else
+#else
         return icon("timer-stop");
-        #endif
+#endif
     }
 
     inline const QIcon timeEntryArchive() {
+#ifdef Q_OS_MAC
+        return icon("document-save");
+#else
         return themeIcon("document-save");
+#endif
     }
 
     inline const QIcon report() {

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -e
+
 FLAGS="$1"
 
 git pull

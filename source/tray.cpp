@@ -8,8 +8,9 @@
 #include "tray.h"
 #include "icons.h"
 #include "osenvinfo.h"
+#include "main_window.h"
 
-GotimeTrayIcon::GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow) : QObject(),
+GotimeTrayIcon::GotimeTrayIcon(TomControl *control, MainWindow *mainWindow) : QObject(),
                                                                                _control(control),
                                                                                _trayIcon(new QSystemTrayIcon(this)) {
 
@@ -30,7 +31,9 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow) : Q
     _separatorAction->setText("Actions");
 
     QAction *showWindowAction = new QAction(Icons::showMainWindow(), tr("&Show window"), this);
-    connect(showWindowAction, &QAction::triggered, mainWindow, &QMainWindow::show);
+    connect(showWindowAction, &QAction::triggered, mainWindow, [mainWindow]{
+        mainWindow->selectCurrentProject(true);
+    });
     _menu->addAction(showWindowAction);
 
     QAction *quitAction = new QAction(Icons::exit(), tr("&Quit"), this);

@@ -24,6 +24,8 @@ public slots:
 
     void resetAllData();
 
+    void selectCurrentProject(bool showWindow = false);
+
 private slots:
 
     void refreshData();
@@ -41,8 +43,6 @@ private slots:
     void stopCurrentProject();
 
     void deleteCurrentProject();
-
-    void selectCurrentProject();
 
     void editCurrentProject();
 

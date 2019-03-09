@@ -8,12 +8,13 @@
 
 #include "gotime/TomControl.h"
 #include "gotime/StartStopProjectAction.h"
+#include "main_window.h"
 
 class GotimeTrayIcon : public QObject {
 Q_OBJECT
 
 public:
-    GotimeTrayIcon(TomControl *control, QMainWindow *mainWindow);
+    GotimeTrayIcon(TomControl *control, MainWindow *mainWindow);
 
 private slots:
 

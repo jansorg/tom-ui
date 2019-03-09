@@ -215,9 +215,13 @@ void MainWindow::deleteCurrentProject() {
     ActionUtils::removeProject(_control, _projectTree->getCurrentProject(), this);
 }
 
-void MainWindow::selectCurrentProject() {
+void MainWindow::selectCurrentProject(bool showWindow) {
     _projectTree->setFocus();
     _projectTree->selectProject(_control->cachedActiveProject());
+
+    if (showWindow) {
+        show();
+    }
 }
 
 void MainWindow::editCurrentProject() {

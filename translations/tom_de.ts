@@ -47,37 +47,37 @@
 <context>
     <name>GotimeTrayIcon</name>
     <message>
-        <location filename="../source/tray.cpp" line="20"/>
+        <location filename="../source/tray.cpp" line="21"/>
         <source>Stop timer</source>
         <translation>Timer stoppen</translation>
     </message>
     <message>
-        <location filename="../source/tray.cpp" line="21"/>
+        <location filename="../source/tray.cpp" line="22"/>
         <source>Stop the current project and record data.</source>
         <translation>Stoppt das aktuelle Projekt and zeichnet die Daten auf</translation>
     </message>
     <message>
-        <location filename="../source/tray.cpp" line="27"/>
+        <location filename="../source/tray.cpp" line="28"/>
         <source>Projects</source>
         <translation>Projekte</translation>
     </message>
     <message>
-        <location filename="../source/tray.cpp" line="32"/>
+        <location filename="../source/tray.cpp" line="33"/>
         <source>&amp;Show window</source>
         <translation>&amp;Fenster zeigen</translation>
     </message>
     <message>
-        <location filename="../source/tray.cpp" line="36"/>
+        <location filename="../source/tray.cpp" line="39"/>
         <source>&amp;Quit</source>
         <translation>&amp;Beenden</translation>
     </message>
     <message>
-        <location filename="../source/tray.cpp" line="91"/>
+        <location filename="../source/tray.cpp" line="94"/>
         <source>%1: &lt;b&gt;%2&lt;/b&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/tray.cpp" line="93"/>
+        <location filename="../source/tray.cpp" line="96"/>
         <source>%1: %2</source>
         <translation></translation>
     </message>
@@ -227,8 +227,8 @@
     <message>
         <location filename="../source/main_window.ui" line="290"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="289"/>
-        <source>&amp;Watson frames.json</source>
-        <translation></translation>
+        <source>&amp;Watson frames</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="295"/>
@@ -868,27 +868,27 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../source/main.cpp" line="32"/>
+        <location filename="../source/main.cpp" line="41"/>
         <source>Path to the tom executable</source>
         <translation>Pfad zur ausführbaren tom Datei</translation>
     </message>
     <message>
-        <location filename="../source/main.cpp" line="33"/>
+        <location filename="../source/main.cpp" line="42"/>
         <source>Defines if the tom executable is to be treated as a Bash file</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main.cpp" line="34"/>
+        <location filename="../source/main.cpp" line="43"/>
         <source>Defines the configuration name, useful to test Tom</source>
         <translation>Definiert den Konfigurationsnamen, nützlich zum Testen von Tom</translation>
     </message>
     <message>
-        <location filename="../source/main.cpp" line="58"/>
+        <location filename="../source/main.cpp" line="67"/>
         <source>The tom command line application was not found or is not working as expected.&lt;br&gt;Path: &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;Terminating.</source>
         <translation>Das tom Kommandozeilenprogramm konnte nicht gefunden werden. &lt;br&gt;Pfad:  &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;Programmende.</translation>
     </message>
     <message>
-        <location filename="../source/main.cpp" line="60"/>
+        <location filename="../source/main.cpp" line="69"/>
         <source>Configuration error</source>
         <translation>Konfigurationsfehler</translation>
     </message>

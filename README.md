@@ -143,3 +143,4 @@ Software and assets included from third parties:
     * `images/icons/document-new.svg`
     * `images/icons/edit-delete.svg`
     * `images/icons/window.svg`
+    * `images/icons/document-save.svg`

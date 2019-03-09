@@ -58,12 +58,8 @@ namespace Icons {
         #endif
     }
 
-    inline const QIcon timeEntryRemove() {
-        return icon("edit-delete");
-    }
-
     inline const QIcon timeEntryArchive() {
-        return icon("drive-tape");
+        return themeIcon("document-save");
     }
 
     inline const QIcon report() {

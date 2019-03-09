@@ -2,6 +2,8 @@
 #define GOTIME_UI_FRAMETABLEVIEWMODEL_H
 
 #include <QtCore/QAbstractTableModel>
+#include <QIcon>
+
 #include <gotime/TomControl.h>
 
 #include "data/Frame.h"
@@ -33,13 +35,14 @@ public:
 
     int findRow(const QString &frameID);
 
-    static const int COL_START_DATE = 0;
-    static const int COL_START = 1;
-    static const int COL_END = 2;
-    static const int COL_DURATION = 3;
-    static const int COL_TAGS = 4;
-    static const int COL_SUBPROJECT = 5;
-    static const int COL_NOTES = 6;
+    static const int COL_ARCHIVED = 0;
+    static const int COL_START_DATE = 1;
+    static const int COL_START = 2;
+    static const int COL_END = 3;
+    static const int COL_DURATION = 4;
+    static const int COL_TAGS = 5;
+    static const int COL_SUBPROJECT = 6;
+    static const int COL_NOTES = 7;
 
     static const int FIRST_COL = 0;
     static const int COLUMN_COUNT = COL_NOTES + 1;
@@ -90,6 +93,8 @@ private:
 
     bool _showArchived = true;
     QTimer *_frameUpdateTimer;
+
+    QPixmap _archiveIcon;
 };
 
 

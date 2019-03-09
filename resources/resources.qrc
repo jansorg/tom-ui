@@ -1,6 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
 <file>./icons/document-new.svg</file>
+<file>./icons/document-save.svg</file>
 <file>./icons/edit-delete.svg</file>
 <file>./icons/logo.svg</file>
 <file>./icons/logo32.png</file>

@@ -1,4 +1,5 @@
 #include <QColor>
+#include <source/icons.h>
 
 #include "FrameTableViewModel.h"
 #include "UserRoles.h"
@@ -7,7 +8,8 @@ const auto redColorValue = QVariant(QColor(Qt::darkRed));
 const auto alignedRightVCenter = QVariant(Qt::AlignRight + Qt::AlignVCenter);
 
 FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) : QAbstractTableModel(parent),
-                                                                                 _control(control) {
+                                                                                 _control(control),
+                                                                                 _archiveIcon(Icons::timeEntryArchive().pixmap(16, 16, QIcon::Disabled)) {
 
     connect(_control, &TomControl::framesRemoved, this, &FrameTableViewModel::onFramesRemoved);
     connect(_control, &TomControl::framesMoved, this, &FrameTableViewModel::onFramesMoved);
@@ -152,6 +154,8 @@ QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientatio
                 return "Tags";
             case COL_SUBPROJECT:
                 return "Subproject";
+            case COL_ARCHIVED:
+                return "";
             case COL_NOTES:
                 return "Notes";
             default:
@@ -219,6 +223,8 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
             }
             case COL_NOTES:
                 return frame->notes;
+            case COL_ARCHIVED:
+                return frame->archived ? _archiveIcon : QVariant();
             default:
                 break;
         }
@@ -234,10 +240,19 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
                 return frame->stopTime;
             case COL_TAGS:
                 return frame->tags;
+            case COL_ARCHIVED:
+                return frame->archived;
             case COL_NOTES:
                 return frame->notes;
             default:
                 break;
+        }
+    }
+
+    if (role == Qt::CheckStateRole) {
+        if (index.column() == COL_ARCHIVED) {
+            Frame *frame = _frames.at(index.row());
+            return frame->archived ? Qt::Checked : Qt::Unchecked;
         }
     }
 
@@ -272,6 +287,9 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
         if (index.column() == COL_DURATION) {
             return frame->durationMillis(true);
         }
+        if (index.column() == COL_ARCHIVED) {
+            return frame->archived;
+        }
     }
 
     if (role == IDRole) {
@@ -287,8 +305,11 @@ Qt::ItemFlags FrameTableViewModel::flags(const QModelIndex &index) const {
         return Qt::NoItemFlags;
     }
 
-    if (index.isValid() &&
-        (index.column() != COL_DURATION && index.column() != COL_TAGS && index.column() != COL_SUBPROJECT)) {
+    if (index.column() == COL_ARCHIVED) {
+        return QAbstractTableModel::flags(index) | Qt::ItemIsUserCheckable | Qt::ItemIsDragEnabled;
+    }
+
+    if (index.column() != COL_DURATION && index.column() != COL_TAGS && index.column() != COL_SUBPROJECT) {
         return QAbstractTableModel::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDragEnabled;
     }
 
@@ -306,12 +327,23 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
     }
 
     Frame *frame = _frames.at(index.row());
+    bool isArchived = frame->archived;
     QDateTime startTime = frame->startTime;
     QDateTime endTime = frame->stopTime;
     QString notes = frame->notes;
 
     bool ok;
     switch (col) {
+        case COL_ARCHIVED: {
+            isArchived = value.toBool();
+            ok = _control->updateFrame(QList<Frame *>() << frame,
+                                       false, QDateTime(),
+                                       false, QDateTime(),
+                                       false, "",
+                                       false, "",
+                                       true, isArchived);
+            break;
+        }
         case COL_START: {
             startTime = value.toDateTime();
             ok = _control->updateFrame(QList<Frame *>() << frame,
@@ -385,7 +417,6 @@ QMimeData *FrameTableViewModel::mimeData(const QModelIndexList &indexes) const {
         }
     }
 
-    qDebug() << "prepared drag of " << ids;
     auto *mime = new QMimeData();
     mime->setData(FRAMES_MIME_TYPE, ids.join("||").toUtf8());
     return mime;
@@ -411,7 +442,6 @@ void FrameTableViewModel::setShowArchived(bool showArchived) {
 
 void FrameTableViewModel::onFramesArchived(const QStringList &projectIDs, bool nowArchived) {
     if (_showArchived != nowArchived && _currentProject.isValid() && projectIDs.contains(_currentProject.getID())) {
-        qDebug() << "load";
         loadFrames(_currentProject);
     }
 }

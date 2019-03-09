@@ -174,7 +174,7 @@ QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubp
     QStringList args = QStringList() << "frames"
                                      << "-o" << "json"
                                      << "-p" << projectID
-                                     << "-f" << "id,projectID,startTime,stopTime,lastUpdated,notes";
+                                     << "-f" << "id,projectID,startTime,stopTime,lastUpdated,archived,notes";
 
     if (includeSubprojects) {
         args.append("--subprojects");

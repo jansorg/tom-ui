@@ -99,7 +99,8 @@ include_directories(test)
 
 target_include_directories(${PROJECT_NAME} PRIVATE source)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg Qt5::Test ${TOM_LIBS})
+# add Qt5::Test to use model tester
+target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg ${TOM_LIBS})
 
 if (ENABLE_REPORTS)
     find_package(Qt5 OPTIONAL_COMPONENTS WebEngineWidgets)

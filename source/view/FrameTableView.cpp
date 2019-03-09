@@ -3,12 +3,14 @@
 #include <QtTest/QAbstractItemModelTester>
 #include <QtWidgets/QLabel>
 #include <source/model/UserRoles.h>
+#include <QtWidgets/QStyledItemDelegate>
 
 #include "model/FrameTableViewModel.h"
 #include "model/ProjectTreeItem.h"
 #include "model/FrameTableSortFilterModel.h"
 #include "FrameTableView.h"
 #include "icons.h"
+#include "IconItemDelegate.h"
 
 FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent), _control(nullptr), _proxyModel(nullptr), _sourceModel(nullptr) {
     setContextMenuPolicy(Qt::CustomContextMenu);
@@ -20,7 +22,10 @@ FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent), _control(n
     _deleteSelectedAction = new QAction(Icons::timeEntryDelete(), "Delete selected", this);
     _deleteSelectedAction->setShortcutContext(Qt::WindowShortcut);
     _deleteSelectedAction->setShortcuts(QKeySequence::Delete);
+    _deleteSelectedAction->setIcon(Icons::timeEntryDelete());
     connect(_deleteSelectedAction, &QAction::triggered, this, &FrameTableView::deleteSelectedEntries);
+
+    setItemDelegateForColumn(FrameTableViewModel::COL_ARCHIVED, new IconItemDelegate(Icons::timeEntryArchive(), this));
 }
 
 void FrameTableView::setup(TomControl *control) {
@@ -32,11 +37,13 @@ void FrameTableView::setup(TomControl *control) {
     setModel(_proxyModel);
 
     // new QAbstractItemModelTester(_sourceModel, QAbstractItemModelTester::FailureReportingMode::Warning, this);
+
     verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
     verticalHeader()->setMinimumSectionSize(0);
     verticalHeader()->setDefaultSectionSize(verticalHeader()->defaultSectionSize() - 4);
 
     horizontalHeader()->setResizeContentsPrecision(1);
+    horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_ARCHIVED, QHeaderView::ResizeToContents);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_START_DATE, QHeaderView::ResizeToContents);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_START, QHeaderView::ResizeToContents);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_END, QHeaderView::ResizeToContents);
@@ -44,7 +51,7 @@ void FrameTableView::setup(TomControl *control) {
     setColumnWidth(FrameTableViewModel::COL_SUBPROJECT, 17 * fontMetrics().averageCharWidth());
 
     hideColumn(FrameTableViewModel::COL_TAGS);
-    sortByColumn(0, Qt::DescendingOrder);
+    sortByColumn(FrameTableViewModel::COL_START, Qt::DescendingOrder);
 
     connect(this, &FrameTableView::customContextMenuRequested, this, &FrameTableView::onCustomContextMenuRequested);
     connect(_sourceModel, &FrameTableViewModel::subprojectStatusChange, this, &FrameTableView::onSubprojectStatusChange);
@@ -65,7 +72,6 @@ void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
     QMenu menu;
     auto *stop = menu.addAction(Icons::stopTimer(), "Stop", [this] {
         _control->stopActivity();
-//        _control->updateFrame(QList<Frame *>() << frame, false, QDateTime(), true, QDateTime::currentDateTime(), false, "", false, "", false, false);
     });
     stop->setEnabled(frame->isActive());
     menu.addSeparator();
@@ -120,6 +126,8 @@ int FrameTableView::sizeHintForColumn(int column) const {
         result = metrics.width(sample);
     } else if (column == FrameTableViewModel::COL_SUBPROJECT) {
         result = metrics.averageCharWidth() * 20;
+    } else if (column == FrameTableViewModel::COL_ARCHIVED) {
+        result = 20;
     } else {
         result = QTableView::sizeHintForColumn(column);
     }
@@ -128,6 +136,11 @@ int FrameTableView::sizeHintForColumn(int column) const {
 }
 
 void FrameTableView::setShowArchived(bool showArchived) {
+    if (showArchived) {
+        showColumn(FrameTableViewModel::COL_ARCHIVED);
+    } else {
+        hideColumn(FrameTableViewModel::COL_ARCHIVED);
+    }
     _sourceModel->setShowArchived(showArchived);
 }
 

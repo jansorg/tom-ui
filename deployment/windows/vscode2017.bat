@@ -2,7 +2,7 @@
 @call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
 
 set "QT5_DIR=C:\Qt\5.12.2\msvc2017_64"
-set "PATH=%QT5_DIR%\bin:%PATH%"
+set "PATH=%PATH%;%QT5_DIR%\bin"
 
 rem Configure the application in the current directory
 cmake ^

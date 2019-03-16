@@ -26,12 +26,12 @@ windeployqt ^
     --no-opengl-sw ^
     out\bin\tom-ui.exe || exit /b
 
-echo "building installer..."
+echo "-- Building installer..."
 
 rem Find the path to InnoSetup from the registry
 set rkey="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup 5_is1"
 for /f "skip=2 tokens=1,2*" %%i in ('reg query %rkey% /v InstallLocation /reg:32') DO (
-    set iscc="%%kiscc.exe"
+    set "iscc=%%kiscc.exe"
 )
 
 rem Make sure that the ISCC compiler exists
@@ -41,6 +41,7 @@ if not exist %iscc% (
 )
 
 rem Build the installer
+echo "-- Calling %iscc% ..."
 %iscc% ^
     /Q ^
     /DPREFIX="%cd%\out" ^

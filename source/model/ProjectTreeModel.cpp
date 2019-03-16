@@ -445,7 +445,8 @@ bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction 
     const QString &parentProjectID = parentItem->getProject().getID();
 
     // don't move data in the model if the data couldn't be changed in tom
-    bool success = _control->updateFrame(ids, sourceProjectID,
+    // fixme support more than one source project id!
+    bool success = _control->updateFrame(ids, QStringList() << sourceProjectID,
                                          false, QDateTime(),
                                          false, QDateTime(),
                                          false, "",

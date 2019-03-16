@@ -237,29 +237,25 @@ bool TomControl::updateFrame(const QList<Frame *> &frames,
                              bool updateNotes, const QString &notes,
                              bool updateProject, const QString &projectID,
                              bool updateArchived, bool archived) {
-    // for now we expect that all frames belong to the same project
     if (frames.isEmpty()) {
         return false;
     }
 
     QStringList frameIDs;
+    QStringList projectIDs;
 
-    const Frame *first = frames.constFirst();
     for (const auto *frame : frames) {
-        if (frame->projectID != first->projectID) {
-            qDebug() << "more than one project used in frame list";
-            return false;
-        }
         frameIDs << frame->id;
+        projectIDs << frame->projectID;
     }
 
-    return updateFrame(frameIDs, first->projectID, updateStart, start, updateEnd, end,
+    return updateFrame(frameIDs, projectIDs, updateStart, start, updateEnd, end,
                        updateNotes, notes,
                        updateProject, projectID,
                        updateArchived, archived);
 }
 
-bool TomControl::updateFrame(const QStringList &ids, const QString &currentProjectID,
+bool TomControl::updateFrame(const QStringList &ids, const QStringList &projectIDs,
                              bool updateStart, const QDateTime &start,
                              bool updateEnd, const QDateTime &end,
                              bool updateNotes, const QString &notes,
@@ -288,13 +284,13 @@ bool TomControl::updateFrame(const QStringList &ids, const QString &currentProje
     bool success = status.isSuccessful();
     if (success) {
         if (updateProject) {
-            emit framesMoved(ids, currentProjectID, projectID);
+            emit framesMoved(ids, projectIDs, projectID);
         }
         if (updateArchived) {
-            emit framesArchived(QStringList() << currentProjectID, archived);
+            emit framesArchived(ids, projectIDs, archived);
         }
 
-        emit framesUpdated(ids, currentProjectID);
+        emit framesUpdated(ids, projectIDs);
     }
 
     return success;
@@ -446,8 +442,7 @@ bool TomControl::removeFrames(const QList<Frame *> &frames) {
 
     const CommandStatus &status = run(args);
     if (status.isSuccessful()) {
-        //fixme allow more than one project
-        emit framesRemoved(ids, projectIDs.first());
+        emit framesRemoved(ids, projectIDs);
     }
     return status.isSuccessful();
 }
@@ -503,7 +498,7 @@ const Project TomControl::cachedProject(const QString &id) const {
     return _cachedProjects.value(id);
 }
 
-bool TomControl::isChildProject(const QString &id, const QString &parentID) {
+bool TomControl::isChildProject(const QString &id, const QString &parentID) const {
     if (id.isEmpty() || parentID.isEmpty()) {
         return false;
     }
@@ -514,6 +509,49 @@ bool TomControl::isChildProject(const QString &id, const QString &parentID) {
         }
     }
     return false;
+}
+
+bool TomControl::isAnyChildProject(const QStringList &ids, const QString &parentID) const {
+    if (ids.isEmpty() || parentID.isEmpty()) {
+        return false;
+    }
+
+    for (const auto &id : ids){
+        for (auto p = cachedProject(id); p.isValid(); p = cachedProject(p.getParentID())) {
+            if (p.getID() == parentID) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool TomControl::isAnyParentProject(const QString &id, const QStringList &parents) const {
+    for (const auto &parentID : parents) {
+        if (isChildProject(id, parentID)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+QStringList TomControl::projectIDs(const QString &projectID, bool includeSubprojects) const {
+    if (!_cachedProjects.contains(projectID)) {
+        return QStringList();
+    }
+
+    QStringList ids;
+    ids << projectID;
+
+    if (includeSubprojects) {
+        for (const auto &childID : _cachedProjects.keys()) {
+            if (isChildProject(childID, projectID)) {
+                ids << childID;
+            }
+        }
+    }
+
+    return ids;
 }
 
 QString TomControl::htmlReport(const QString &outputFile,
@@ -624,8 +662,8 @@ void TomControl::archiveProjectFrames(const Project &project, bool includeSubpro
 
     const CommandStatus &status = run(args);
     if (status.isSuccessful()) {
-        //fixme include sub projects
-        emit framesArchived(QStringList() << project.getID(), true);
+        auto ids = projectIDs(project.getID(), includeSubprojects);
+        emit projectFramesArchived(ids);
     }
 }
 

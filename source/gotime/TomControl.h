@@ -21,6 +21,7 @@ public:
     explicit TomControl(QString gotimePath, bool bashScript, QObject *parent);
 
     CommandStatus version();
+
     /**
      * Create a new project.
      * @param project
@@ -58,11 +59,19 @@ public:
 
     bool renameTag(const QString &id, const QString &newName);
 
-    bool updateFrame(const QList<Frame *> &frames, bool updateStart, const QDateTime &start, bool updateEnd,
-                     const QDateTime &end, bool updateNotes, const QString &notes, bool updateProject, const QString &projectID, bool updateArchived, bool archived);
+    bool updateFrame(const QList<Frame *> &frames,
+                     bool updateStart, const QDateTime &start,
+                     bool updateEnd, const QDateTime &end,
+                     bool updateNotes, const QString &notes,
+                     bool updateProject, const QString &projectID,
+                     bool updateArchived, bool archived);
 
-    bool updateFrame(const QStringList &ids, const QString &currentProjectID, bool updateStart, const QDateTime &start, bool updateEnd,
-                     const QDateTime &end, bool updateNotes, const QString &notes, bool updateProject, const QString &projectID, bool updateArchived, bool archived);
+    bool updateFrame(const QStringList &ids, const QStringList &projectIDs,
+                     bool updateStart, const QDateTime &start,
+                     bool updateEnd, const QDateTime &end,
+                     bool updateNotes, const QString &notes,
+                     bool updateProject, const QString &projectID,
+                     bool updateArchived, bool archived);
 
     bool removeFrames(const QList<Frame *> &frames);
 
@@ -78,7 +87,9 @@ public:
 
     void resetAll();
 
-    bool isChildProject(const QString &id, const QString &parentID);
+    bool isChildProject(const QString &id, const QString &parentID) const;
+    bool isAnyChildProject(const QStringList &ids, const QString &parentID) const;
+    bool isAnyParentProject(const QString &id, const QStringList &parents) const;
 
     QString htmlReport(const QString &outputFile,
                        const QStringList &projectIDs,
@@ -93,6 +104,8 @@ public:
                        bool showSales,
                        bool showTracked, bool showUntracked);
 
+    QStringList projectIDs(const QString &projectID, bool includeSubprojects) const;
+
 signals:
 
     void dataResetNeeded();
@@ -105,13 +118,14 @@ signals:
 
     void projectRemoved(const Project &project);
 
-    void framesUpdated(const QStringList &id, const QString &projectID);
+    void framesUpdated(const QStringList &id, const QStringList &projectIDs);
 
-    void framesRemoved(const QStringList &ids, const QString &projectID);
+    void framesRemoved(const QStringList &ids, const QStringList &projectIDs);
 
-    void framesMoved(const QStringList &ids, const QString &oldProjectID, const QString &newProjectID);
+    void framesMoved(const QStringList &ids, const QStringList &oldProjectIDs, const QString &newProjectID);
 
-    void framesArchived(const QStringList &projectIDs, bool nowArchived);
+    void framesArchived(const QStringList& frameIDs, const QStringList &projectIDs, bool nowArchived);
+    void projectFramesArchived(const QStringList &projectIDs);
 
 public slots:
 

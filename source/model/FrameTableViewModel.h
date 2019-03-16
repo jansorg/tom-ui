@@ -57,11 +57,13 @@ signals:
 
 private slots:
 
-    void onFramesRemoved(const QStringList &frameIDs, const QString &projectID);
+    void onFramesRemoved(const QStringList &frameIDs, const QStringList &projectIDs);
 
-    void onFramesMoved(const QStringList &frameIDs, const QString &oldProjectID, const QString &newProjectID);
+    void onFramesMoved(const QStringList &frameIDs, const QStringList &oldProjectIDs, const QString &newProjectID);
 
-    void onFramesArchived(const QStringList &projectIDs, bool nowArchived);
+    void onFramesArchived(const QStringList& frameIDs, const QStringList &projectIDs, bool nowArchived);
+
+    void onProjectFramesArchived(const QStringList &projectIDs);
 
     void onProjectUpdated(const Project &project);
 
@@ -95,6 +97,8 @@ private:
     QTimer *_frameUpdateTimer;
 
     QPixmap _archiveIcon;
+
+    void removeFrameRows(const QStringList &ids);
 };
 
 

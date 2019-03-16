@@ -14,6 +14,8 @@ FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) :
     connect(_control, &TomControl::framesRemoved, this, &FrameTableViewModel::onFramesRemoved);
     connect(_control, &TomControl::framesMoved, this, &FrameTableViewModel::onFramesMoved);
     connect(_control, &TomControl::framesArchived, this, &FrameTableViewModel::onFramesArchived);
+    connect(_control, &TomControl::projectFramesArchived, this, &FrameTableViewModel::onProjectFramesArchived);
+
     connect(_control, &TomControl::projectStatusChanged, this, &FrameTableViewModel::onProjectStatusChanged);
     connect(_control, &TomControl::projectUpdated, this, &FrameTableViewModel::onProjectUpdated);
     connect(_control, &TomControl::projectCreated, this, &FrameTableViewModel::onProjectHierarchyChange);
@@ -58,29 +60,80 @@ void FrameTableViewModel::onProjectHierarchyChange() {
     emit subprojectStatusChange(_control->hasSubprojects(_currentProject));
 }
 
-void FrameTableViewModel::onFramesRemoved(const QStringList &frameIDs, const QString &projectID) {
-    qDebug() << "frames removed of" << projectID << "if matching" << _currentProject.getID();
-    if (!_control->isChildProject(projectID, _currentProject.getID())) {
+void FrameTableViewModel::onFramesRemoved(const QStringList &frameIDs, const QStringList &projectIDs) {
+    qDebug() << "frames removed of" << projectIDs << "if matching" << _currentProject.getID();
+
+    // don't continue if none of the source proejct IDs is matching the current view
+    if (!_control->isAnyChildProject(projectIDs, _currentProject.getID())) {
         return;
     }
 
-    // fixme this loop is possible to optimize to do less view updates
-    for (const auto &id : frameIDs) {
-        int row = findRow(id);
-        if (row >= 0) {
-            removeRow(row);
+    removeFrameRows(frameIDs);
+}
+
+void FrameTableViewModel::onFramesArchived(const QStringList &frameIDs, const QStringList &projectIDs, bool nowArchived) {
+    if (!_currentProject.isValid()) {
+        return;
+    }
+
+    // return if we're not displaying any of the modified projects
+    const QString &currentID = _currentProject.getID();
+    if (!projectIDs.contains(currentID) && !_control->isAnyChildProject(projectIDs, currentID)) {
+        return;
+    }
+
+    if (_showArchived) {
+        // update the archived status column
+        for (auto frameID: frameIDs) {
+            int row = findRow(frameID);
+            if (row >= 0) {
+                _frames.at(row)->archived = nowArchived;
+                emit dataChanged(createIndex(row, COL_ARCHIVED), createIndex(row, COL_ARCHIVED));
+            }
         }
+    } else if (nowArchived) {
+        // remove all archived frames from the list
+        removeFrameRows(frameIDs);
+    } else {
+        // show all affected frames (which are not archived anymore)
+        loadFrames(_currentProject);
     }
 }
 
-void FrameTableViewModel::onFramesMoved(const QStringList &frameIDs, const QString &oldProjectID,
-                                        const QString &newProjectID) {
-    qDebug() << "frames moved from" << oldProjectID << "to" << newProjectID;
+void FrameTableViewModel::onProjectFramesArchived(const QStringList &projectIDs) {
+    if (!_currentProject.isValid()) {
+        return;
+    }
+
+    // return if we're not displaying any of the modified projects
+    const QString &currentID = _currentProject.getID();
+    if (!projectIDs.contains(currentID) && !_control->isAnyChildProject(projectIDs, currentID)) {
+        return;
+    }
+
+    if (_showArchived) {
+        loadFrames(_currentProject);
+    } else {
+        // remove all frames which belong to any of the archived projects
+        // we make a copy of all affected frames because removeRow will change the list of frames
+        QStringList frameIDs;
+        for (auto frame : _frames) {
+            if (projectIDs.contains(frame->projectID)) {
+                frameIDs << frame->id;
+            }
+        }
+
+        // remove all affected frames
+        removeFrameRows(frameIDs);
+    }
+}
+
+void FrameTableViewModel::onFramesMoved(const QStringList &frameIDs, const QStringList &oldProjectIDs, const QString &newProjectID) {
+    qDebug() << "frames moved from" << oldProjectIDs << "to" << newProjectID;
 
     // don't remove from list if old and new project are in the hierarchy of the currently shown project
     // we have to update the project column, though
-    if (_control->isChildProject(oldProjectID, _currentProject.getID()) &&
-        _control->isChildProject(newProjectID, _currentProject.getID())) {
+    if (_control->isAnyChildProject(oldProjectIDs, _currentProject.getID()) && _control->isChildProject(newProjectID, _currentProject.getID())) {
         for (const auto &id : frameIDs) {
             int row = findRow(id);
             if (row >= 0) {
@@ -329,7 +382,6 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
     }
 
     Frame *frame = _frames.at(index.row());
-    bool isArchived = frame->archived;
     QDateTime startTime = frame->startTime;
     QDateTime endTime = frame->stopTime;
     QString notes = frame->notes;
@@ -337,7 +389,7 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
     bool ok;
     switch (col) {
         case COL_ARCHIVED: {
-            isArchived = value.toBool();
+            bool isArchived = value.toBool();
             ok = _control->updateFrame(QList<Frame *>() << frame,
                                        false, QDateTime(),
                                        false, QDateTime(),
@@ -442,12 +494,6 @@ void FrameTableViewModel::setShowArchived(bool showArchived) {
     }
 }
 
-void FrameTableViewModel::onFramesArchived(const QStringList &projectIDs, bool nowArchived) {
-    if (_showArchived != nowArchived && _currentProject.isValid() && projectIDs.contains(_currentProject.getID())) {
-        loadFrames(_currentProject);
-    }
-}
-
 void FrameTableViewModel::startTimer() {
     if (!_frameUpdateTimer->isActive()) {
         _frameUpdateTimer->start(1000);
@@ -456,4 +502,14 @@ void FrameTableViewModel::startTimer() {
 
 void FrameTableViewModel::stopTimer() {
     _frameUpdateTimer->stop();
+}
+
+void FrameTableViewModel::removeFrameRows(const QStringList &ids) {
+// fixme this loop is possible to optimize to do less view updates
+    for (const auto &id : ids) {
+        int row = findRow(id);
+        if (row >= 0) {
+            removeRow(row);
+        }
+    }
 }

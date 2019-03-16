@@ -147,6 +147,7 @@
      <string>Pro&amp;ject</string>
     </property>
     <addaction name="actionProjectLookup"/>
+    <addaction name="separator"/>
     <addaction name="actionProjectStart"/>
     <addaction name="actionProjectStop"/>
     <addaction name="actionProjectSelectActive"/>
@@ -299,7 +300,7 @@
     <string>Starts a new timer for the currently selected project</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+B</string>
+    <string>Space</string>
    </property>
    <property name="shortcutContext">
     <enum>Qt::WindowShortcut</enum>
@@ -316,7 +317,7 @@
     <string>Stops the timer of the currently selected project</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+E</string>
+    <string>Shift+Space</string>
    </property>
   </action>
   <action name="actionReportCreate">
@@ -368,10 +369,13 @@
   </action>
   <action name="actionProjectSelectActive">
    <property name="text">
-    <string>Scroll to active &amp;project</string>
+    <string>Scroll to active &amp;timer</string>
+   </property>
+   <property name="iconText">
+    <string>Scroll to active timer</string>
    </property>
    <property name="toolTip">
-    <string>Selects the active project in the project tree</string>
+    <string>Selects the project which contains the currently active timer</string>
    </property>
    <property name="shortcut">
     <string>Alt+F1</string>

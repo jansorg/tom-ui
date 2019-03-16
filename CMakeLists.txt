@@ -82,7 +82,7 @@ endif ()
 include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 
 if (WIN32)
-    add_compile_options(-std=c++14)
+    add_compile_options(-Wall)
 else()
     add_compile_options(-std=c++14 -Wall -Wextra -pedantic)
 endif()

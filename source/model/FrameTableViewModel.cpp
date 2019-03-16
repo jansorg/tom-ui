@@ -84,7 +84,7 @@ void FrameTableViewModel::onFramesArchived(const QStringList &frameIDs, const QS
 
     if (_showArchived) {
         // update the archived status column
-        for (auto frameID: frameIDs) {
+        for (const auto &frameID: frameIDs) {
             int row = findRow(frameID);
             if (row >= 0) {
                 _frames.at(row)->archived = nowArchived;
@@ -389,13 +389,17 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
     bool ok;
     switch (col) {
         case COL_ARCHIVED: {
-            bool isArchived = value.toBool();
-            ok = _control->updateFrame(QList<Frame *>() << frame,
-                                       false, QDateTime(),
-                                       false, QDateTime(),
-                                       false, "",
-                                       false, "",
-                                       true, isArchived);
+            if (value.canConvert(QVariant::Bool)) {
+                bool isArchived = value.toBool();
+                if (frame->archived != isArchived) {
+                    ok = _control->updateFrame(QList<Frame *>() << frame,
+                                               false, QDateTime(),
+                                               false, QDateTime(),
+                                               false, "",
+                                               false, "",
+                                               true, isArchived);
+                }
+            }
             break;
         }
         case COL_START: {
@@ -463,11 +467,15 @@ QMimeData *FrameTableViewModel::mimeData(const QModelIndexList &indexes) const {
         return nullptr;
     }
 
+    // indexes contains every column of each dragged row, we must send a row only once
     QStringList ids;
     ids << _currentProject.getID();
     for (auto index : indexes) {
         if (index.isValid()) {
-            ids << index.data(IDRole).toString();
+            const QString &id = index.data(IDRole).toString();
+            if (!ids.contains(id)) {
+                ids << id;
+            }
         }
     }
 

@@ -1,6 +1,8 @@
+#include <QDateTimeEdit>
+#include <QPushButton>
+
 #include "FrameEditorDialog.h"
 
-#include <QDateTimeEdit>
 
 FrameEditorDialog::FrameEditorDialog(const Frame &frame, TomControl *control, ProjectStatusManager* statusManager, QWidget *parent) : QDialog(parent), Ui::FrameDialog(),
                                                                                                  _frame(frame),
@@ -11,6 +13,7 @@ FrameEditorDialog::FrameEditorDialog(const Frame &frame, TomControl *control, Pr
     loadFrame(frame);
 
     connect(_buttonBox, &QDialogButtonBox::accepted, this, &FrameEditorDialog::saveFrame);
+    connect(_buttonBox->button(QDialogButtonBox::Reset), &QPushButton::clicked, [this] { loadFrame(_frame); });
 }
 
 void FrameEditorDialog::show(const Frame &frame, TomControl *control, ProjectStatusManager* statusManager, QWidget *parent) {

@@ -18,14 +18,16 @@ namespace Icons {
     inline const QIcon themeIcon(const QString& /*path*/) {
         return QIcon();
     }
-#elif Q_OS_WIN
-    inline const QIcon themeIcon(const QString& path) {
-        return icon(path);
-    }
 #else
-    inline const QIcon themeIcon(const QString &path) {
-        return QIcon::fromTheme(path);
-    }
+    #ifdef Q_OS_WIN
+        inline const QIcon themeIcon(const QString& path) {
+            return icon(path);
+        }
+    #else
+        inline const QIcon themeIcon(const QString &path) {
+            return QIcon::fromTheme(path);
+        }
+    #endif
 #endif
 
     inline const QIcon exit() {

@@ -4,6 +4,5 @@
 /build
 /deployment/ubuntu18.10
 /local-release.bash
-/release-*
 /git-build-debug
 /update-build.bash

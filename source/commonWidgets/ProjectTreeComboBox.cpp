@@ -10,10 +10,13 @@
 ProjectTreeComboBox::ProjectTreeComboBox(QWidget *parent) : QComboBox(parent), _skipNextHide(false) {
 }
 
-void ProjectTreeComboBox::setup(TomControl *control, ProjectStatusManager *statusManager) {
+void ProjectTreeComboBox::setup(TomControl *control, ProjectStatusManager *statusManager, const QList<Project> &hiddenProjects) {
     _control = control;
     _sourceModel = new ProjectTreeModel(control, statusManager, true, this, false, false);
     _sourceModel->loadProjects();
+    for (const auto &p: hiddenProjects) {
+        _sourceModel->removeProject(p);
+    }
 
     _sortModel = new QSortFilterProxyModel(this);
     _sortModel->setSourceModel(_sourceModel);

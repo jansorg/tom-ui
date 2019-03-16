@@ -1,4 +1,5 @@
 #include <QtWidgets/QDialogButtonBox>
+#include <QtWidgets/QPushButton>
 
 #include "ProjectEditorDialog.h"
 #include "source/gotime/ProjectStatusManager.h"
@@ -12,6 +13,7 @@ ProjectEditorDialog::ProjectEditorDialog(const Project &project, TomControl *con
     loadProject(project);
 
     connect(_buttonBox, &QDialogButtonBox::accepted, this, &ProjectEditorDialog::saveProject);
+    connect(_buttonBox->button(QDialogButtonBox::Reset), &QPushButton::clicked, [this] { loadProject(_project); });
 }
 
 void ProjectEditorDialog::show(const Project &project, TomControl *control, ProjectStatusManager *statusManager, QWidget *parent) {
@@ -22,7 +24,9 @@ void ProjectEditorDialog::show(const Project &project, TomControl *control, Proj
 void ProjectEditorDialog::loadProject(const Project &project) {
     _nameEdit->setText(project.getShortName());
 
-    _parentBox->setup(_control, _statusManager);
+    // hide the edited project and all child projects in the tree
+    // this selection is invalid
+    _parentBox->setup(_control, _statusManager, QList<Project>() << project);
     _parentBox->setSelectedProject(project.getParentID());
 
     _hourlyRateEdit->setText(project.getHourlyRate());

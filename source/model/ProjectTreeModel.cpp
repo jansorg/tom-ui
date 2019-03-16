@@ -33,6 +33,7 @@ ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *st
     if (enableUpdates) {
         connect(_control, &TomControl::projectCreated, this, &ProjectTreeModel::addProject);
         connect(_control, &TomControl::projectRemoved, this, &ProjectTreeModel::removeProject);
+        connect(_control, &TomControl::projectHierarchyChanged, this, &ProjectTreeModel::onProjectHierarchyChange);
         connect(_control, &TomControl::dataResetNeeded, this, &ProjectTreeModel::loadProjects);
     }
 }
@@ -338,6 +339,26 @@ void ProjectTreeModel::removeProject(const Project &project) {
     removeRow(row.row(), row.parent());
 }
 
+/**
+ * The parents of the projects may have changed. Apply the updates where we detect a difference.
+ * @param projects
+ */
+void ProjectTreeModel::onProjectHierarchyChange(const QList<Project> &projects) {
+    qDebug() << "onProjectHierarchyChange";
+    for (const auto &updated: projects) {
+        const QModelIndex &row = getProjectRow(updated.getID());
+        const Project &stored = projectAtIndex(row);
+
+        qDebug() << "new parent" << updated.getParentID();
+        qDebug() << "old parent" << stored.getParentID();
+        if (updated.getParentID() != stored.getParentID()) {
+           // move the row
+            removeProject(stored);
+            addProject(updated);
+        }
+    }
+}
+
 Qt::DropActions ProjectTreeModel::supportedDropActions() const {
     return Qt::MoveAction;
 }
@@ -396,7 +417,8 @@ bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropActio
     const QString &parentID = parentItem->getProject().getID();
 
     // don't move data in the model if the data couldn't be changed in tom
-    bool success = _control->updateProjects(ids, false, "", true, parentID, false, "");
+    // passing signalHierarchyChange = false because we're handling the change on our own here
+    bool success = _control->updateProjects(ids, false, "", true, parentID, false, "", false);
     if (!success) {
         qDebug() << "tom update failed for move of projects" << ids << "into" << parentID;
         return false;
@@ -533,3 +555,4 @@ bool ProjectTreeModel::removeRows(int row, int count, const QModelIndex &parent)
 void ProjectTreeModel::setShowArchived(bool showArchived) {
     _showArchived = showArchived;
 }
+

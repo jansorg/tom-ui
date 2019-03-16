@@ -297,7 +297,7 @@ bool TomControl::updateFrame(const QStringList &ids, const QStringList &projectI
 }
 
 bool TomControl::updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID, bool updateHourlyRate,
-                                const QString &hourlyRate) {
+                                const QString &hourlyRate, bool signalHierarchyChange) {
     if (ids.isEmpty() || (!updateName && !updateParent)) {
         return true;
     }
@@ -321,11 +321,21 @@ bool TomControl::updateProjects(const QStringList &ids, bool updateName, const Q
         // fixme find smarter way to update a single project? needs to handle hierarchy changes
         loadProjects();
 
+        QList<Project> updatedProjects;
         for (const auto &id : ids) {
             const Project &p = cachedProject(id);
             if (p.isValid()) {
-                emit projectUpdated(p);
+                updatedProjects << p;
             }
+        }
+
+        if (signalHierarchyChange) {
+            emit projectHierarchyChanged(updatedProjects);
+        }
+
+        // signal changes to project after the hierarchy change as the receivers need this order
+        for (const auto &p: updatedProjects) {
+            emit projectUpdated(p);
         }
     }
     return success;
@@ -516,7 +526,7 @@ bool TomControl::isAnyChildProject(const QStringList &ids, const QString &parent
         return false;
     }
 
-    for (const auto &id : ids){
+    for (const auto &id : ids) {
         for (auto p = cachedProject(id); p.isValid(); p = cachedProject(p.getParentID())) {
             if (p.getID() == parentID) {
                 return true;

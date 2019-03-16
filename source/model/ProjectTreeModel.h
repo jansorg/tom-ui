@@ -50,6 +50,10 @@ public slots:
 
     void loadProjects();
 
+    void addProject(const Project &project);
+
+    void removeProject(const Project &project);
+
     Qt::DropActions supportedDropActions() const override;
 
     QMimeData *mimeData(const QModelIndexList &indexes) const override;
@@ -68,8 +72,7 @@ public slots:
 
 private slots:
 
-    void addProject(const Project &project);
-    void removeProject(const Project &project);
+    void onProjectHierarchyChange(const QList<Project> &projects);
 
 private:
     TomControl *_control;

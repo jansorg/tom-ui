@@ -9,7 +9,7 @@ Q_OBJECT
 public:
     explicit ProjectTreeComboBox(QWidget *parent);
 
-    void setup(TomControl *control, ProjectStatusManager *statusManager);
+    void setup(TomControl *control, ProjectStatusManager *statusManager, const QList<Project> &hiddenProjects = QList<Project>());
 
     bool eventFilter(QObject *watched, QEvent *event) override;
 

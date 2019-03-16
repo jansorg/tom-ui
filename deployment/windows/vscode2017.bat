@@ -45,4 +45,4 @@ echo "-- Calling %iscc%..."
 %iscc% ^
     /Q ^
     /DPREFIX="%cd%\out" ^
-    deployment\setup.iss || exit /b
+    setup.iss || exit /b

@@ -18,12 +18,15 @@ nmake || exit /b
 nmake install || exit /b
 
 rem Run windeployqt on tom-ui
+echo "running windeployqt..."
 windeployqt ^
     --verbose 0 ^
     --no-compiler-runtime ^
     --no-angle ^
     --no-opengl-sw ^
     out\bin\tom-ui.exe || exit /b
+
+echo "building installer..."
 
 rem Find the path to InnoSetup from the registry
 set rkey="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup 5_is1"

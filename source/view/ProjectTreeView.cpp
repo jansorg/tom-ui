@@ -84,6 +84,7 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
     menu.addAction(Icons::projectNew(), "Create new subproject...", [this, project] { createNewProject(project); });
     menu.addAction(Icons::projectEdit(), "Edit project...", [this, project] { ProjectEditorDialog::show(project, _control, _statusManager, this); });
     menu.addAction(_deleteSelectedAction);
+    menu.addSeparator();
     menu.addAction(Icons::timeEntryArchive(), "Archive all entries", [this, project] { _control->archiveProjectFrames(project, true); });
 
     bool started = project.isValid() && _control->isStarted(project);

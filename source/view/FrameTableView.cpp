@@ -79,6 +79,7 @@ void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
     menu.addSeparator();
     menu.addAction(Icons::frameEdit(), "Edit frame...", [this, frame] { FrameEditorDialog::show(*frame, _control, _statusManager, this); });
     menu.addAction(_deleteSelectedAction);
+    menu.addSeparator();
     menu.addAction(Icons::timeEntryArchive(), "Archive", this, &FrameTableView::archiveSelectedEntries);
     menu.exec(globalPos);
 }

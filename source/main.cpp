@@ -28,6 +28,9 @@ int main(int argc, char *argv[]) {
 #ifdef Q_OS_MAC
     // locate binary next to our binary in the app bundle
     const QString& defaultCommand = QFileInfo(QCoreApplication::applicationFilePath()).dir().filePath("tom");
+#elif Q_OS_WIN
+    // locate binary next to our binary in the installation dir
+    const QString& defaultCommand = QFileInfo(QCoreApplication::applicationFilePath()).dir().filePath("tom");
 #else
     const QString &defaultCommand = "tom";
 #endif

@@ -4,9 +4,6 @@
 set "QT5_DIR=C:\Qt\5.12.2\msvc2017_64"
 set "PATH=%QT5_DIR%\bin:%PATH%"
 
-mkdir build
-cd build
-
 rem Configure the application in the current directory
 cmake ^
     -G"NMake Makefiles" ^

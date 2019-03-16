@@ -6,27 +6,24 @@ set QT5_DIR="C:\Qt\5.12.2\msvc2017_64"
 mkdir build
 cd build
 
-rem cmake -G "Visual Studio 15" -DCMAKE_BUILD_TYPE=Release ..
-rem cmake --build . --config Release
-
 rem Configure the application in the current directory
 cmake ^
     -G"NMake Makefiles" ^
     -DCMAKE_BUILD_TYPE=Release ^
     -DCMAKE_INSTALL_PREFIX=out ^
-    %~dp0\.. || exit /b
+    %~dp0\..\.. || exit /b
 
 rem Build and install the application
 nmake || exit /b
 nmake install || exit /b
 
-rem Run windeployqt on nitroshare-ui
+rem Run windeployqt on tom-ui
 windeployqt ^
     --verbose 0 ^
     --no-compiler-runtime ^
     --no-angle ^
     --no-opengl-sw ^
-    out/bin/nitroshare-ui.exe || exit /b
+    out/tom-ui.exe || exit /b
 
 rem Find the path to InnoSetup from the registry
 set rkey="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup 5_is1"

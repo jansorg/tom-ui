@@ -9,12 +9,18 @@ IconItemDelegate::IconItemDelegate(const QIcon &icon, FrameTableView *parent) : 
 }
 
 void IconItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto opt = option;
-    initStyleOption(&opt, index);
     if (!index.isValid()) {
-        QStyledItemDelegate::paint(painter, option, index);
         return;
     }
+
+    // paint the defaults, e.g. the selection background
+    QStyledItemDelegate::paint(painter, option, QModelIndex());
+
+    painter->save();
+    painter->setRenderHint(QPainter::Antialiasing);
+
+    auto opt = option;
+    QStyledItemDelegate::initStyleOption(&opt, index);
 
     if (_view->isPersistentEditorOpen(index)) {
         painter->fillRect(option.rect, Qt::GlobalColor::white);
@@ -30,4 +36,6 @@ void IconItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 
         _icon.paint(painter, r, Qt::AlignCenter, QIcon::Disabled);
     }
+
+    painter->restore();
 }

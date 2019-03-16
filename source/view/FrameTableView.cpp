@@ -111,9 +111,12 @@ void FrameTableView::archiveSelectedEntries() {
 }
 
 int FrameTableView::sizeHintForColumn(int column) const {
-    const QFontMetrics &metrics = fontMetrics();
+    if (column == FrameTableViewModel::COL_ARCHIVED) {
+        // smaller padding
+        return 16 + 10;
+    }
 
-    int padding = 25;
+    const QFontMetrics &metrics = fontMetrics();
     int result = 0;
 
     if (column == FrameTableViewModel::COL_START_DATE) {
@@ -130,12 +133,11 @@ int FrameTableView::sizeHintForColumn(int column) const {
         result = metrics.width(sample);
     } else if (column == FrameTableViewModel::COL_SUBPROJECT) {
         result = metrics.averageCharWidth() * 20;
-    } else if (column == FrameTableViewModel::COL_ARCHIVED) {
-        result = 20;
     } else {
         result = QTableView::sizeHintForColumn(column);
     }
 
+    int padding = 16;
     return result + padding;
 }
 

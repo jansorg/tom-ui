@@ -263,6 +263,8 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
         Frame *frame = _frames.at(index.row());
 
         switch (index.column()) {
+            case COL_ARCHIVED:
+                return frame->archived ? _archiveIcon : QVariant();
             case COL_START_DATE:
                 return frame->startTime.date().toString(Qt::SystemLocaleShortDate);
             case COL_START:
@@ -296,8 +298,6 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
             }
             case COL_NOTES:
                 return frame->notes;
-            case COL_ARCHIVED:
-                return frame->archived ? _archiveIcon : QVariant();
             default:
                 break;
         }
@@ -319,13 +319,6 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
                 return frame->notes;
             default:
                 break;
-        }
-    }
-
-    if (role == Qt::CheckStateRole) {
-        if (index.column() == COL_ARCHIVED) {
-            Frame *frame = _frames.at(index.row());
-            return frame->archived ? Qt::Checked : Qt::Unchecked;
         }
     }
 

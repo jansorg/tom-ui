@@ -44,4 +44,4 @@ rem Build the installer
 %iscc% ^
     /Q ^
     /DPREFIX="%cd%\out" ^
-    dist/setup.iss || exit /b
+    deployment/setup.iss || exit /b

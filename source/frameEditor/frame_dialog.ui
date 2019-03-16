@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Dialog</class>
- <widget class="QDialog" name="Dialog">
+ <class>FrameDialog</class>
+ <widget class="QDialog" name="FrameDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>419</width>
-    <height>448</height>
+    <width>570</width>
+    <height>616</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,7 +32,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QComboBox" name="projectBox">
+        <widget class="ProjectTreeComboBox" name="_projectBox">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -49,12 +49,18 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QDateTimeEdit" name="beginEdit">
+        <widget class="QDateTimeEdit" name="_beginEdit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="currentSection">
+          <enum>QDateTimeEdit::HourSection</enum>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -66,12 +72,18 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QDateTimeEdit" name="endEdit">
+        <widget class="QDateTimeEdit" name="_endEdit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
+         </property>
+         <property name="currentSection">
+          <enum>QDateTimeEdit::HourSection</enum>
+         </property>
+         <property name="calendarPopup">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -83,7 +95,7 @@
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QPlainTextEdit" name="notesEdit">
+        <widget class="QPlainTextEdit" name="_notesEdit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -103,7 +115,7 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QCheckBox" name="archivedCheckBox">
+        <widget class="QCheckBox" name="_archivedCheckBox">
          <property name="text">
           <string/>
          </property>
@@ -114,7 +126,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QDialogButtonBox" name="buttonBox">
+    <widget class="QDialogButtonBox" name="_buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -125,12 +137,19 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>ProjectTreeComboBox</class>
+   <extends>QComboBox</extends>
+   <header>commonWidgets/ProjectTreeComboBox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>
-   <sender>buttonBox</sender>
+   <sender>_buttonBox</sender>
    <signal>accepted()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>FrameDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
@@ -144,9 +163,9 @@
    </hints>
   </connection>
   <connection>
-   <sender>buttonBox</sender>
+   <sender>_buttonBox</sender>
    <signal>rejected()</signal>
-   <receiver>Dialog</receiver>
+   <receiver>FrameDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">

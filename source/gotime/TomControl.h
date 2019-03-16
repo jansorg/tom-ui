@@ -118,7 +118,7 @@ signals:
 
     void projectRemoved(const Project &project);
 
-    void framesUpdated(const QStringList &id, const QStringList &projectIDs);
+    void framesUpdated(const QStringList &ids, const QStringList &projectIDs);
 
     void framesRemoved(const QStringList &ids, const QStringList &projectIDs);
 

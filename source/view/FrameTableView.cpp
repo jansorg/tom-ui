@@ -4,6 +4,7 @@
 #include <QtWidgets/QLabel>
 #include <source/model/UserRoles.h>
 #include <QtWidgets/QStyledItemDelegate>
+#include <source/frameEditor/FrameEditorDialog.h>
 
 #include "model/FrameTableViewModel.h"
 #include "model/ProjectTreeItem.h"
@@ -12,7 +13,7 @@
 #include "icons.h"
 #include "IconItemDelegate.h"
 
-FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent), _control(nullptr), _proxyModel(nullptr), _sourceModel(nullptr) {
+FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent), _control(nullptr), _proxyModel(nullptr), _sourceModel(nullptr), _statusManager(nullptr) {
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     setDragDropMode(QTableView::DragOnly);
@@ -28,8 +29,9 @@ FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent), _control(n
     setItemDelegateForColumn(FrameTableViewModel::COL_ARCHIVED, new IconItemDelegate(Icons::timeEntryArchive(), this));
 }
 
-void FrameTableView::setup(TomControl *control) {
+void FrameTableView::setup(TomControl *control, ProjectStatusManager *statusManager) {
     _control = control;
+    _statusManager = statusManager;
 
     _sourceModel = new FrameTableViewModel(_control, this);
     _proxyModel = new FrameTableSortFilterModel(this);
@@ -75,6 +77,7 @@ void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
     });
     stop->setEnabled(frame->isActive());
     menu.addSeparator();
+    menu.addAction(Icons::frameEdit(), "Edit frame...", [this, frame] { FrameEditorDialog::show(*frame, _control, _statusManager, this); });
     menu.addAction(_deleteSelectedAction);
     menu.addAction(Icons::timeEntryArchive(), "Archive", this, &FrameTableView::archiveSelectedEntries);
     menu.exec(globalPos);

@@ -31,7 +31,7 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 #endif
 
     _projectTree->setup(control, statusManager);
-    _frameView->setup(control);
+    _frameView->setup(control, statusManager);
 
     // fix icons
     actionRefresh->setIcon(Icons::refreshData());

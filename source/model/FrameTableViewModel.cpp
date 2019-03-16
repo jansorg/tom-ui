@@ -11,6 +11,7 @@ FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) :
                                                                                  _control(control),
                                                                                  _archiveIcon(Icons::timeEntryArchive().pixmap(16, 16, QIcon::Disabled)) {
 
+    connect(_control, &TomControl::framesUpdated, this, &FrameTableViewModel::onFramesUpdates);
     connect(_control, &TomControl::framesRemoved, this, &FrameTableViewModel::onFramesRemoved);
     connect(_control, &TomControl::framesMoved, this, &FrameTableViewModel::onFramesMoved);
     connect(_control, &TomControl::framesArchived, this, &FrameTableViewModel::onFramesArchived);
@@ -58,6 +59,23 @@ void FrameTableViewModel::loadFrames(const Project &project) {
 
 void FrameTableViewModel::onProjectHierarchyChange() {
     emit subprojectStatusChange(_control->hasSubprojects(_currentProject));
+}
+
+
+void FrameTableViewModel::onFramesUpdates(const QStringList &frameIDs, const QStringList &projectIDs) {
+    qDebug() << "frames updated of projects" << projectIDs;
+
+    if (!_currentProject.isValid()) {
+        return;
+    }
+
+    const QString &projectID = _currentProject.getID();
+    if (!projectIDs.contains(projectID) && !_control->isAnyChildProject(projectIDs, projectID)) {
+        return;
+    }
+
+    // fixme this can be optimize, we could track the source of the event (it could be us)
+    updateFrames(frameIDs);
 }
 
 void FrameTableViewModel::onFramesRemoved(const QStringList &frameIDs, const QStringList &projectIDs) {
@@ -520,4 +538,27 @@ void FrameTableViewModel::removeFrameRows(const QStringList &ids) {
             removeRow(row);
         }
     }
+}
+
+void FrameTableViewModel::updateFrames(const QStringList &ids) {
+    //fixme optimize by only loading necessary frames
+    const QList<Frame *> &allFrames = _control->loadFrames(_currentProject.getID(), true, _showArchived);
+
+    for (const auto &id: ids) {
+        int row = findRow(id);
+        if (row >= 0) {
+            // locate frame data and update the underlying data
+            // fixme this is slow, esp. for a larger list of ids
+            Frame* current = _frames[row];
+            for (auto frame : allFrames) {
+                if (id == frame->id) {
+                    *current = *frame;
+                    emit dataChanged(createIndex(row, FIRST_COL), createIndex(row, LAST_COL));
+                }
+            }
+        }
+    }
+
+    //delete the frames created by loadFrames()!
+    qDeleteAll(allFrames);
 }

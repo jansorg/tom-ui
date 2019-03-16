@@ -264,10 +264,10 @@ bool TomControl::updateFrame(const QStringList &ids, const QStringList &projectI
     QStringList args;
     args << "edit" << "frame";
     if (updateStart) {
-        args << "--start" << start.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+        args << "--start" << start.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODateWithMs);
     }
     if (updateEnd) {
-        args << "--end" << end.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+        args << "--end" << end.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODateWithMs);
     }
     if (updateNotes) {
         args << "--notes" << notes;

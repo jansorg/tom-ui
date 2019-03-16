@@ -46,6 +46,7 @@ public:
 
     static const int FIRST_COL = 0;
     static const int COLUMN_COUNT = COL_NOTES + 1;
+    static const int LAST_COL = COL_NOTES;
 
 public slots:
 
@@ -56,6 +57,8 @@ signals:
     void subprojectStatusChange(bool available);
 
 private slots:
+
+    void onFramesUpdates(const QStringList &frameIDs, const QStringList &projectIDs);
 
     void onFramesRemoved(const QStringList &frameIDs, const QStringList &projectIDs);
 
@@ -99,6 +102,8 @@ private:
     QPixmap _archiveIcon;
 
     void removeFrameRows(const QStringList &ids);
+
+    void updateFrames(const QStringList &ids);
 };
 
 

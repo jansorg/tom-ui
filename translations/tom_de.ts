@@ -4,44 +4,87 @@
 <context>
     <name>Dialog</name>
     <message>
-        <location filename="../source/frameEditor/frame_editor.ui" line="14"/>
         <source>Dialog</source>
-        <translation>Dialog</translation>
+        <translation type="vanished">Dialog</translation>
     </message>
     <message>
-        <location filename="../source/frameEditor/frame_editor.ui" line="24"/>
         <source>Properties</source>
-        <translation>Eigenschaften</translation>
+        <translation type="vanished">Eigenschaften</translation>
     </message>
     <message>
-        <location filename="../source/frameEditor/frame_editor.ui" line="30"/>
         <source>Project:</source>
-        <translation>Projekt:</translation>
+        <translation type="vanished">Projekt:</translation>
     </message>
     <message>
-        <location filename="../source/frameEditor/frame_editor.ui" line="47"/>
         <source>Begin:</source>
-        <translation>Beginn:</translation>
+        <translation type="vanished">Beginn:</translation>
     </message>
     <message>
-        <location filename="../source/frameEditor/frame_editor.ui" line="64"/>
         <source>End:</source>
-        <translation>Ende:</translation>
+        <translation type="vanished">Ende:</translation>
     </message>
     <message>
-        <location filename="../source/frameEditor/frame_editor.ui" line="81"/>
         <source>Notes:</source>
-        <translation>Anmerkungen:</translation>
+        <translation type="vanished">Anmerkungen:</translation>
     </message>
     <message>
-        <location filename="../source/frameEditor/frame_editor.ui" line="94"/>
         <source>Notes about this time entry</source>
-        <translation>Anmerkungen über diesen Zeiteintrag</translation>
+        <translation type="vanished">Anmerkungen über diesen Zeiteintrag</translation>
     </message>
     <message>
-        <location filename="../source/frameEditor/frame_editor.ui" line="101"/>
         <source>Archived:</source>
-        <translation>Archiviert:</translation>
+        <translation type="vanished">Archiviert:</translation>
+    </message>
+</context>
+<context>
+    <name>FrameDialog</name>
+    <message>
+        <location filename="../source/frameEditor/frame_dialog.ui" line="14"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="152"/>
+        <source>Dialog</source>
+        <translation type="unfinished">Dialog</translation>
+    </message>
+    <message>
+        <location filename="../source/frameEditor/frame_dialog.ui" line="24"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="160"/>
+        <source>Properties</source>
+        <translation type="unfinished">Eigenschaften</translation>
+    </message>
+    <message>
+        <location filename="../source/frameEditor/frame_dialog.ui" line="30"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="153"/>
+        <source>Project:</source>
+        <translation type="unfinished">Projekt:</translation>
+    </message>
+    <message>
+        <location filename="../source/frameEditor/frame_dialog.ui" line="47"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="154"/>
+        <source>Begin:</source>
+        <translation type="unfinished">Beginn:</translation>
+    </message>
+    <message>
+        <location filename="../source/frameEditor/frame_dialog.ui" line="70"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="155"/>
+        <source>End:</source>
+        <translation type="unfinished">Ende:</translation>
+    </message>
+    <message>
+        <location filename="../source/frameEditor/frame_dialog.ui" line="93"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="156"/>
+        <source>Notes:</source>
+        <translation type="unfinished">Anmerkungen:</translation>
+    </message>
+    <message>
+        <location filename="../source/frameEditor/frame_dialog.ui" line="106"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="157"/>
+        <source>Notes about this time entry</source>
+        <translation type="unfinished">Anmerkungen über diesen Zeiteintrag</translation>
+    </message>
+    <message>
+        <location filename="../source/frameEditor/frame_dialog.ui" line="113"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="158"/>
+        <source>Archived:</source>
+        <translation type="unfinished">Archiviert:</translation>
     </message>
 </context>
 <context>

@@ -90,6 +90,10 @@ namespace Icons {
         return icon("document-properties");
     }
 
+    inline QIcon frameEdit() {
+        return icon("document-properties");
+    }
+
     inline QIcon projectRemove() {
         return icon("edit-delete");
     }

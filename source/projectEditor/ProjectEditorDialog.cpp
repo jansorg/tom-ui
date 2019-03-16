@@ -8,7 +8,10 @@ ProjectEditorDialog::ProjectEditorDialog(const Project &project, TomControl *con
                                                                                                                                               _statusManager(statusManager),
                                                                                                                                               _project(project) {
     setupUi(this);
+
     loadProject(project);
+
+    connect(_buttonBox, &QDialogButtonBox::accepted, this, &ProjectEditorDialog::saveProject);
 }
 
 void ProjectEditorDialog::show(const Project &project, TomControl *control, ProjectStatusManager *statusManager, QWidget *parent) {
@@ -23,8 +26,6 @@ void ProjectEditorDialog::loadProject(const Project &project) {
     _parentBox->setSelectedProject(project.getParentID());
 
     _hourlyRateEdit->setText(project.getHourlyRate());
-
-    connect(_buttonBox, &QDialogButtonBox::accepted, this, &ProjectEditorDialog::saveProject);
 }
 
 void ProjectEditorDialog::saveProject() {

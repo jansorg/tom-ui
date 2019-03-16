@@ -4,8 +4,9 @@
 #include <QtCore/QArgument>
 #include <QtWidgets/QTableView>
 
-#include "gotime/TomControl.h"
 #include "data/Project.h"
+#include "gotime/TomControl.h"
+#include "gotime/ProjectStatusManager.h"
 #include "model/FrameTableViewModel.h"
 
 class FrameTableView : public QTableView {
@@ -14,7 +15,7 @@ Q_OBJECT
 public:
     explicit FrameTableView(QWidget *parent);
 
-    void setup(TomControl *control);
+    void setup(TomControl *control, ProjectStatusManager* statusManager);
 
     QAction *getDeleteAction();
 
@@ -45,6 +46,7 @@ private:
     TomControl *_control;
     QSortFilterProxyModel *_proxyModel;
     FrameTableViewModel *_sourceModel;
+    ProjectStatusManager *_statusManager;
 
     void showContextMenu(Frame *frame, QPoint globalPos);
 

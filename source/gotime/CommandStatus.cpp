@@ -1,7 +1,11 @@
+#include <utility>
+
+#include <utility>
+
 #include "CommandStatus.h"
 
-CommandStatus::CommandStatus(const QString &stdout, const QString &stderr, int exitCode) : stdoutContent(stdout),
-                                                                               stderrContent(stderr),
+CommandStatus::CommandStatus(QString _stdout, QString _stderr, int exitCode) : stdoutContent(std::move(_stdout)),
+                                                                               stderrContent(std::move(_stderr)),
                                                                                exitCode(exitCode) {
 
 }

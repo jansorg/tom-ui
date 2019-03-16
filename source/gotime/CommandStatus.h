@@ -9,7 +9,7 @@
 
 class CommandStatus {
 public:
-    explicit CommandStatus(const QString &stdout, const QString &stderr, int exitCode);
+    explicit CommandStatus(QString _stdout, QString _stderr, int exitCode);
 
     const QString stdoutContent;
     const QString stderrContent;

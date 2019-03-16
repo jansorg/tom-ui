@@ -26,6 +26,10 @@ windeployqt ^
     --no-opengl-sw ^
     out\bin\tom-ui.exe || exit /b
 
+echo "-- Building tom..."
+go get -u github.com/jansorg/tom
+go build -o out\bin\tom.exe github.com/jansorg/tom
+
 echo "-- Building installer..."
 
 rem Find the path to InnoSetup from the registry

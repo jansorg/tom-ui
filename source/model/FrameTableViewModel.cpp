@@ -297,7 +297,7 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
                 return name.remove(0, 1 + parentName.length());
             }
             case COL_NOTES:
-                return frame->notes;
+                return QString(frame->notes).replace(QRegularExpression("\r\n|\r|\n"), " ");
             default:
                 break;
         }
@@ -397,7 +397,7 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
     QDateTime endTime = frame->stopTime;
     QString notes = frame->notes;
 
-    bool ok;
+    bool ok = false;
     switch (col) {
         case COL_ARCHIVED: {
             if (value.canConvert(QVariant::Bool)) {

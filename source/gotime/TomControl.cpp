@@ -188,7 +188,12 @@ QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubp
         return QList<Frame *>();
     }
 
-    QJsonDocument json(QJsonDocument::fromJson(resp.stdoutContent.toUtf8()));
+    QJsonParseError err = QJsonParseError();
+    QJsonDocument json = QJsonDocument::fromJson(resp.stdoutContent.toUtf8(), &err);
+    if (err.error != QJsonParseError::NoError) {
+        qWarning() << "json parse error" << err.errorString();
+        return QList<Frame*>();
+    }
 
     QList<Frame *> result;
     if (!json.isArray()) {
@@ -209,8 +214,8 @@ QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubp
         const QDateTime start = QDateTime::fromString(item["startTime"].toString(), Qt::ISODate);
         const QDateTime end = QDateTime::fromString(item["stopTime"].toString(), Qt::ISODate);
         const QDateTime lastUpdated = QDateTime::fromString(item["lastUpdated"].toString(), Qt::ISODate);
-        const QString notes = item["notes"].toString();
-        const QStringList tags = QStringList();
+        const QString notes = item["notes"].toString("");
+        const QStringList tags = QStringList(); // fixme
         const bool archived = item["archived"].toBool(false);
 
         // fixme who's deleting the allocated data?

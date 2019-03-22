@@ -41,6 +41,8 @@ void FrameEditorDialog::loadFrame(const Frame &frame) {
     _endEdit->setDisplayFormat(dateTimeFormat);
 
     _archivedCheckBox->setChecked(frame.archived);
+
+    _notesEdit->setPlainText(frame.notes);
 }
 
 void FrameEditorDialog::saveFrame() {

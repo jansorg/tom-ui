@@ -40,6 +40,12 @@
        <property name="accessibleDescription">
         <string>List of projects</string>
        </property>
+       <property name="uniformRowHeights">
+        <bool>true</bool>
+       </property>
+       <property name="animated">
+        <bool>false</bool>
+       </property>
        <attribute name="headerShowSortIndicator" stdset="0">
         <bool>true</bool>
        </attribute>
@@ -55,12 +61,6 @@
         <size>
          <width>0</width>
          <height>200</height>
-        </size>
-       </property>
-       <property name="sizeIncrement">
-        <size>
-         <width>0</width>
-         <height>0</height>
         </size>
        </property>
        <property name="accessibleDescription">
@@ -92,9 +92,6 @@
        </property>
        <property name="wordWrap">
         <bool>false</bool>
-       </property>
-       <property name="cornerButtonEnabled">
-        <bool>true</bool>
        </property>
        <attribute name="horizontalHeaderDefaultSectionSize">
         <number>70</number>

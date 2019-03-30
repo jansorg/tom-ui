@@ -3,8 +3,6 @@ set -e
 
 cd $HOME
 
-go get github.com/jansorg/tom
-
 git clone https://github.com/jansorg/tom-ui
 cd tom-ui
 [[ -n "$TOM_VERSION" ]] && git checkout "v${TOM_VERSION}"

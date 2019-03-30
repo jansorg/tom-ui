@@ -606,7 +606,9 @@ QString TomControl::htmlReport(const QString &outputFile,
     }
 
     if (end.isValid() && !end.isNull()) {
-        args << "--to=" + QDateTime(end).toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+        QDateTime endDate = QDateTime(end);
+        endDate.setTime(QTime(23, 59, 50, 999));
+        args << "--to=" + endDate.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
     }
 
     args << QString("--matrix-tables=%1").arg(matrixTables ? "true" : "false");

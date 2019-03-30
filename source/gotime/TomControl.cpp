@@ -602,7 +602,9 @@ QString TomControl::htmlReport(const QString &outputFile,
     }
 
     if (start.isValid() && !start.isNull()) {
-        args << "--from=" + QDateTime(start).toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+        QDateTime startDate = QDateTime(start);
+        startDate.setTime(QTime(0, 0, 0, 0));
+        args << "--from=" + startDate.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
     }
 
     if (end.isValid() && !end.isNull()) {

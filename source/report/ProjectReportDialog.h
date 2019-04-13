@@ -28,10 +28,14 @@ private slots:
 
     void updateReport();
 
+    void saveReportHTML();
+
     void projectIndexSelected(const QModelIndex &index);
 
 private:
     void moveSplitSelection(int delta);
+
+    QString reportHTML(const QString& filename) const;
 
 protected:
     void readSettings();

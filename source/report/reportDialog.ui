@@ -536,15 +536,15 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
-      <widget class="QPushButton" name="updateButton">
+      <widget class="QToolButton" name="actionsButton">
        <property name="text">
-        <string>Update report</string>
+        <string>&amp;Update Report</string>
        </property>
-       <property name="autoDefault">
-        <bool>false</bool>
+       <property name="popupMode">
+        <enum>QToolButton::MenuButtonPopup</enum>
        </property>
-       <property name="default">
-        <bool>true</bool>
+       <property name="arrowType">
+        <enum>Qt::NoArrow</enum>
        </property>
       </widget>
      </item>
@@ -586,7 +586,6 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>updateButton</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>

@@ -2,6 +2,7 @@
 #include <QtGlobal>
 #include <source/main_window.h>
 #include <source/commonModels/TranslatedStringlistModel.h>
+#include <QtWidgets/QFileDialog>
 
 #include "ProjectReportDialog.h"
 
@@ -27,6 +28,7 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     setupUi(this);
 #ifdef TOM_REPORTS
     _webView = new QWebEngineView(this);
+    _webView->setContextMenuPolicy(Qt::NoContextMenu);
 //    _webView->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, false);
 //    _webView->settings()->setAttribute(QWebEngineSettings::XSSAuditingEnabled, false);
     previewFrame->layout()->addWidget(_webView);
@@ -63,8 +65,23 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     // read before the signals are connected to avoid updates on state changes
     readSettings();
 
-    connect(updateButton, &QPushButton::pressed, this, &ProjectReportDialog::updateReport);
+    // setup actions buttons
+    QAction *updateAction = new QAction("&Update report", this);
+    connect(updateAction, &QAction::triggered, this, &ProjectReportDialog::updateReport);
+    updateAction->setShortcuts(QKeySequence::Refresh);
 
+    QAction *saveHTMLAction = new QAction("&Save report as HTML", this);
+    connect(saveHTMLAction, &QAction::triggered, this, &ProjectReportDialog::saveReportHTML);
+    saveHTMLAction->setShortcuts(QKeySequence::Save);
+
+    QMenu *actionsMenu = new QMenu("Actions", this);
+    actionsMenu->addAction(updateAction);
+    actionsMenu->addAction(saveHTMLAction);
+
+    actionsButton->setDefaultAction(updateAction);
+    actionsButton->setMenu(actionsMenu);
+
+    // connections
     connect(projectsBox, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
     connect(subprojectsCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
@@ -94,47 +111,13 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
 }
 
 void ProjectReportDialog::updateReport() {
-    QStringList splits = _splitModel->checkedItems();
-
-    int frameRoundingMin = frameRoundingValue->value();
-
-    const QString &frameModeText = frameRoundingMode->currentData(Qt::EditRole).toString();
-    TimeRoundingMode frameMode = NONE;
-    if (roundEntriesCheckBox->isChecked()) {
-        if (frameModeText == "up") {
-            frameMode = UP;
-        } else if (frameModeText == "down") {
-            frameMode = DOWN;
-        } else if (frameModeText == "up or down") {
-            frameMode = NEAREST;
-        }
-    }
-
-    QDate start;
-    QDate end;
-    if (dateFilterCheckbox->isChecked()) {
-        start = dateStart->date();
-        end = dateEnd->date();
-    }
-
     _projects.clear();
     Project project = projectsBox->selectedProject();
     if (project.isValid()) {
         _projects << project.getID();
     }
 
-    QString html = _control->htmlReport(_tempFile, _projects,
-                                        subprojectsCheckbox->isChecked(),
-                                        start, end, frameMode, frameRoundingMin,
-                                        splits, templateBox->currentText(),
-                                        matrixTablesCheckbox->isChecked(),
-                                        showEmptyCheckbox->isChecked(),
-                                        showSummaryCheckbox->isChecked(),
-                                        includeArchivedCheckBox->isChecked(),
-                                        titleEdit->text(), descriptionEdit->toPlainText(),
-                                        showSalesCheckbox->isChecked(),
-                                        showTrackedCheckbox->isChecked(),
-                                        showUntrackedCheckbox->isChecked());
+    QString html = reportHTML(_tempFile);
 
 #ifdef TOM_REPORTS
     if (QFile::exists(_tempFile)) {
@@ -143,6 +126,22 @@ void ProjectReportDialog::updateReport() {
         _webView->setHtml(html);
     }
 #endif
+}
+
+void ProjectReportDialog::saveReportHTML() {
+    _projects.clear();
+    Project project = projectsBox->selectedProject();
+    if (project.isValid()) {
+        _projects << project.getID();
+    }
+
+    QDateTime current (QDateTime::currentDateTime());
+    QString defaultFile = QString("tom-report.%1.html").arg(current.toString(Qt::ISODate));
+
+    const QString &fileName = QFileDialog::getSaveFileName(this, tr("Save Report as HTML"), defaultFile, tr("HTML files (*.html *.htm);;All files (*)"));
+    if (fileName != "") {
+        reportHTML(fileName);
+    }
 }
 
 void ProjectReportDialog::moveSplitSelection(int delta) {
@@ -265,5 +264,43 @@ void ProjectReportDialog::writeSettings(QSettings &settings, QObject *child) {
             writeSettings(settings, c);
         }
     }
+}
+
+QString ProjectReportDialog::reportHTML(const QString &filename) const {
+    QStringList splits = _splitModel->checkedItems();
+
+    int frameRoundingMin = frameRoundingValue->value();
+
+    const QString &frameModeText = frameRoundingMode->currentData(Qt::EditRole).toString();
+    TimeRoundingMode frameMode = NONE;
+    if (roundEntriesCheckBox->isChecked()) {
+        if (frameModeText == "up") {
+            frameMode = UP;
+        } else if (frameModeText == "down") {
+            frameMode = DOWN;
+        } else if (frameModeText == "up or down") {
+            frameMode = NEAREST;
+        }
+    }
+
+    QDate start;
+    QDate end;
+    if (dateFilterCheckbox->isChecked()) {
+        start = dateStart->date();
+        end = dateEnd->date();
+    }
+
+    return _control->htmlReport(filename, _projects,
+                                subprojectsCheckbox->isChecked(),
+                                start, end, frameMode, frameRoundingMin,
+                                splits, templateBox->currentText(),
+                                matrixTablesCheckbox->isChecked(),
+                                showEmptyCheckbox->isChecked(),
+                                showSummaryCheckbox->isChecked(),
+                                includeArchivedCheckBox->isChecked(),
+                                titleEdit->text(), descriptionEdit->toPlainText(),
+                                showSalesCheckbox->isChecked(),
+                                showTrackedCheckbox->isChecked(),
+                                showUntrackedCheckbox->isChecked());
 }
 

@@ -31,8 +31,10 @@ int ProjectTreeItem::childCount() const {
     return _childItems.count();
 }
 
-qint64 ProjectTreeItem::sortData(int column) const {
+QVariant ProjectTreeItem::sortData(int column) const {
     switch (column) {
+        case COL_NAME:
+            return _projectName.toLower();
         case COL_DAY:
             return _statusManager->getStatus(_project.getID()).dayTotal.asMillis();
         case COL_WEEK:

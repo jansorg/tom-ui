@@ -112,9 +112,6 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         return projectItem(index)->getProject().getID();
     }
 
-    if (role == SortValueRole && index.column() < ProjectTreeItem::FIRST_STATUS_COL_INDEX) {
-        return projectItem(index)->data(index.column());
-    }
     if (role == SortValueRole) {
         return projectItem(index)->sortData(index.column());
     }

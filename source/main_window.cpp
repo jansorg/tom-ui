@@ -141,7 +141,10 @@ void MainWindow::readSettings() {
     for (const auto child: children()) {
         if (auto *action = qobject_cast<QAction *>(child)) {
             if (action->isCheckable() && !action->objectName().isEmpty()) {
-                action->setChecked(settings.value(QString("mainwindow/%1").arg(action->objectName())).toBool());
+                const QVariant &value = settings.value(QString("mainwindow/%1").arg(action->objectName()));
+                if (value.isValid()) {
+                    action->setChecked(value.toBool());
+                }
             }
         }
     }

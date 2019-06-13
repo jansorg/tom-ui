@@ -28,7 +28,7 @@ void ProjectTreeComboBox::setup(TomControl *control, ProjectStatusManager *statu
     _view = new ProjectTreeView(this);
     setView(_view);
 
-    _view->hideColumn(ProjectTreeItem::COL_DAY);
+    _view->hideColumn(ProjectTreeItem::COL_TODAY);
     _view->hideColumn(ProjectTreeItem::COL_WEEK);
     _view->hideColumn(ProjectTreeItem::COL_MONTH);
     _view->hideColumn(ProjectTreeItem::COL_TOTAL);

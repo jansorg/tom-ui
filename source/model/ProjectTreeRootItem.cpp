@@ -10,7 +10,7 @@ QVariant ProjectTreeRootItem::data(int column) const {
     switch (column) {
         case COL_NAME:
             return QApplication::tr("All projects");
-        case COL_DAY:
+        case COL_TODAY:
             return _statusManager->getOverallStatus().dayTotal.formatShort();
         case COL_WEEK:
             return _statusManager->getOverallStatus().weekTotal.formatShort();

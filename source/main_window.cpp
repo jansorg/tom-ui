@@ -66,6 +66,12 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onEntrySelectionChange);
 
     connect(actionSettingsShowArchived, &QAction::toggled, _projectTree, &ProjectTreeView::setShowArchived);
+
+    connect(actionProjectsTodayColumn, &QAction::toggled, _projectTree, &ProjectTreeView::setShowTodayColumn);
+    connect(actionProjectsYesterdayColumn, &QAction::toggled, _projectTree, &ProjectTreeView::setShowYesterdayColumn);
+    connect(actionProjectsWeekColumn, &QAction::toggled, _projectTree, &ProjectTreeView::setShowWeekColumn);
+    connect(actionProjectsMonthColumn, &QAction::toggled, _projectTree, &ProjectTreeView::setShowMonthColumn);
+    connect(actionProjectsYearColumn, &QAction::toggled, _projectTree, &ProjectTreeView::setShowYearColumn);
     connect(actionProjectsTotalColumn, &QAction::toggled, _projectTree, &ProjectTreeView::setShowTotalColumn);
 
     connect(actionSettingsShowArchived, &QAction::toggled, _frameView, &FrameTableView::setShowArchived);
@@ -83,8 +89,8 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     connect(qApp, &QApplication::focusChanged, this, &MainWindow::focusChanged);
 
     //fix up mens
+    menuSettings->insertSection(actionProjectsTodayColumn, tr("Projects"));
     menuSettings->insertSection(actionSettingsShowArchived, tr("Time Entries"));
-    menuSettings->insertSection(actionProjectsTotalColumn, tr("Projects"));
 
     // setup our custom actions
     menuProject->addAction(_projectTree->getDeleteAction());
@@ -107,7 +113,14 @@ void MainWindow::writeSettings() {
     QSettings settings;
     settings.setValue("mainwindow/geometry", saveGeometry());
     settings.setValue("mainwindow/splitterState", splitter->saveState());
-    settings.setValue("mainwindow/showTotalColumn", actionProjectsTotalColumn->isChecked());
+
+    for (const auto child : children()) {
+        if (auto *action = qobject_cast<QAction *>(child)) {
+            if (action->isCheckable() && !action->objectName().isEmpty()) {
+                settings.setValue(QString("mainwindow/%1").arg(action->objectName()), action->isChecked());
+            }
+        }
+    }
 }
 
 void MainWindow::readSettings() {
@@ -125,8 +138,13 @@ void MainWindow::readSettings() {
         splitter->restoreState(splitterState.toByteArray());
     }
 
-    actionProjectsTotalColumn->setChecked(settings.value("mainwindow/showTotalColumn", true).toBool());
-    actionSettingsShowArchived->setChecked(_settings->showArchivedEntries());
+    for (const auto child: children()) {
+        if (auto *action = qobject_cast<QAction *>(child)) {
+            if (action->isCheckable() && !action->objectName().isEmpty()) {
+                action->setChecked(settings.value(QString("mainwindow/%1").arg(action->objectName())).toBool());
+            }
+        }
+    }
 }
 
 void MainWindow::refreshData() {

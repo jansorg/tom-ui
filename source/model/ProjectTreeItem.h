@@ -14,8 +14,11 @@ public:
     ~ProjectTreeItem();
 
     void appendChild(ProjectTreeItem *child);
+
     void insertChild(ProjectTreeItem *child, int atIndex);
+
     void removeChild(ProjectTreeItem *child);
+
     bool removeChildAt(int index);
 
     void reset();
@@ -40,12 +43,14 @@ public:
 
 public:
     static const int COL_NAME = 0;
-    static const int COL_DAY = 1;
-    static const int COL_WEEK = 2;
-    static const int COL_MONTH = 3;
-    static const int COL_TOTAL = 4;
+    static const int COL_TODAY = 1;
+    static const int COL_YESTERDAY = 2;
+    static const int COL_WEEK = 3;
+    static const int COL_MONTH = 4;
+    static const int COL_YEAR = 5;
+    static const int COL_TOTAL = 6;
 
-    static const int FIRST_STATUS_COL_INDEX = COL_DAY;
+    static const int FIRST_STATUS_COL_INDEX = COL_TODAY;
     static const int LAST_COL_INDEX = COL_TOTAL;
     static const int COL_COUNT = LAST_COL_INDEX + 1;
 

@@ -19,7 +19,7 @@ ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *st
           _statusManager(statusManager),
           _rootItem(nullptr),
           _visibleRootItem(nullptr),
-          _headers(QStringList() << tr("Name") << tr("Today") << tr("This week") << tr("This month") << tr("Total")),
+          _headers(QStringList() << tr("Name") << tr("Today") << tr("Yesterday") << tr("This week") << tr("This month") << tr("This year") << tr("Total")),
           _enableCheckboxes(enableCheckboxes) {
 
     _rootItem = new ProjectTreeRootItem(_statusManager);
@@ -71,18 +71,18 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         return QVariant();
     }
 
-    if (role == Qt::TextAlignmentRole && index.column() >= ProjectTreeItem::COL_DAY) {
+    if (role == Qt::TextAlignmentRole && index.column() >= ProjectTreeItem::FIRST_STATUS_COL_INDEX) {
         return Qt::AlignTrailing + Qt::AlignVCenter;
     }
 
     if (role == Qt::ForegroundRole) {
         auto *item = projectItem(index);
 
-        if (index.column() == ProjectTreeItem::COL_DAY && _control->isStarted(item->getProject(), false)) {
+        if (index.column() == ProjectTreeItem::COL_TODAY && _control->isStarted(item->getProject(), false)) {
             return QVariant(QColor(Qt::darkRed));
         }
 
-        if (index.column() >= ProjectTreeItem::COL_DAY && item->data(index.column()).toString() == QString("0:00h")) {
+        if (index.column() >= ProjectTreeItem::COL_TODAY && item->data(index.column()).toString() == QString("0:00h")) {
             return QVariant(QColor(Qt::gray));
         }
     }
@@ -91,7 +91,7 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         return projectItem(index)->data(index.column());
     }
 
-    if (role == Qt::DecorationRole && index.column() == ProjectTreeItem::COL_DAY) {
+    if (role == Qt::DecorationRole && index.column() == ProjectTreeItem::COL_TODAY) {
         if (_control->isStarted(projectItem(index)->getProject())) {
             return Icons::activeProject();
         }
@@ -349,7 +349,7 @@ void ProjectTreeModel::onProjectHierarchyChange(const QList<Project> &projects) 
         qDebug() << "new parent" << updated.getParentID();
         qDebug() << "old parent" << stored.getParentID();
         if (updated.getParentID() != stored.getParentID()) {
-           // move the row
+            // move the row
             removeProject(stored);
             addProject(updated);
         }

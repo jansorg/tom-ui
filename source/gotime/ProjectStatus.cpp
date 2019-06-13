@@ -9,12 +9,14 @@ ProjectStatus::ProjectStatus(QString &id,
                              Timespan year, Timespan yearTotal,
                              Timespan month, Timespan monthTotal,
                              Timespan week, Timespan weekTotal,
+                             Timespan yesterday, Timespan yesterdayTotal,
                              Timespan day, Timespan dayTotal) : id(id),
                                                                 all(all), allTotal(allTotal),
                                                                 year(year), yearTotal(yearTotal),
                                                                 month(month),
                                                                 monthTotal(monthTotal),
                                                                 week(week), weekTotal(weekTotal),
+                                                                yesterday(yesterday), yesterdayTotal(yesterdayTotal),
                                                                 day(day), dayTotal(dayTotal) {
 }
 

@@ -26,6 +26,11 @@ public:
 
     void readSettings();
 
+    void setShowYesterdayColumn(bool show);
+    void setShowTodayColumn(bool show);
+    void setShowWeekColumn(bool show);
+    void setShowMonthColumn(bool show);
+    void setShowYearColumn(bool show);
     void setShowTotalColumn(bool show);
 
     QAction *getDeleteAction() const;

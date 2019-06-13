@@ -192,7 +192,7 @@ QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubp
     QJsonDocument json = QJsonDocument::fromJson(resp.stdoutContent.toUtf8(), &err);
     if (err.error != QJsonParseError::NoError) {
         qWarning() << "json parse error" << err.errorString();
-        return QList<Frame*>();
+        return QList<Frame *>();
     }
 
     QList<Frame *> result;
@@ -347,7 +347,7 @@ bool TomControl::updateProjects(const QStringList &ids, bool updateName, const Q
 }
 
 const ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool includeActive, bool includeArchived) {
-    QString idList = "id,trackedDay,totalTrackedDay,trackedWeek,totalTrackedWeek,trackedMonth,totalTrackedMonth,trackedYear,totalTrackedYear,trackedAll,totalTrackedAll";
+    QString idList = "id,trackedDay,totalTrackedDay,trackedYesterday,totalTrackedYesterday,trackedWeek,totalTrackedWeek,trackedMonth,totalTrackedMonth,trackedYear,totalTrackedYear,trackedAll,totalTrackedAll";
     const int expectedColumns = idList.count(',') + 1;
 
     QStringList args;
@@ -380,6 +380,9 @@ const ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool i
         Timespan day = Timespan(parts.takeFirst().toLongLong());
         Timespan dayTotal = Timespan(parts.takeFirst().toLongLong());
 
+        Timespan yesterday = Timespan(parts.takeFirst().toLongLong());
+        Timespan yesterdayTotal = Timespan(parts.takeFirst().toLongLong());
+
         Timespan week = Timespan(parts.takeFirst().toLongLong());
         Timespan weekTotal = Timespan(parts.takeFirst().toLongLong());
 
@@ -392,8 +395,12 @@ const ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool i
         Timespan all = Timespan(parts.takeFirst().toLongLong());
         Timespan allTotal = Timespan(parts.takeFirst().toLongLong());
 
-        mapping.insert(id, ProjectStatus(id, all, allTotal, year, yearTotal, month, monthTotal, week, weekTotal, day,
-                                         dayTotal));
+        mapping.insert(id, ProjectStatus(id, all, allTotal,
+                                         year, yearTotal,
+                                         month, monthTotal,
+                                         week, weekTotal,
+                                         yesterday, yesterdayTotal,
+                                         day, dayTotal));
     }
 
     return ProjectsStatus(mapping);

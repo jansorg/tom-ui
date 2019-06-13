@@ -17,6 +17,7 @@ public:
             Timespan year, Timespan yearTotal,
             Timespan month, Timespan monthTotal,
             Timespan week, Timespan weekTotal,
+            Timespan yesterday, Timespan yesterdayTotal,
             Timespan day, Timespan dayTotal);
 
     QString id;
@@ -28,6 +29,8 @@ public:
     Timespan monthTotal;
     Timespan week;
     Timespan weekTotal;
+    Timespan yesterday;
+    Timespan yesterdayTotal;
     Timespan day;
     Timespan dayTotal;
 
@@ -57,6 +60,8 @@ private:
 
 inline bool operator==(const ProjectStatus &a, const ProjectStatus &b) {
     return a.id == b.id &&
+           a.yesterday == b.yesterday &&
+           a.yesterdayTotal == b.yesterdayTotal &&
            a.week == b.week &&
            a.weekTotal == b.weekTotal &&
            a.month == b.month &&

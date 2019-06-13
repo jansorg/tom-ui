@@ -170,6 +170,26 @@ void ProjectTreeView::writeSettings() {
     settings.setValue("projectTree/selected", ids);
 }
 
+void ProjectTreeView::setShowYesterdayColumn(bool show) {
+    setColumnHidden(ProjectTreeItem::COL_YESTERDAY, !show);
+}
+
+void ProjectTreeView::setShowTodayColumn(bool show) {
+    setColumnHidden(ProjectTreeItem::COL_TODAY, !show);
+}
+
+void ProjectTreeView::setShowWeekColumn(bool show) {
+    setColumnHidden(ProjectTreeItem::COL_WEEK, !show);
+}
+
+void ProjectTreeView::setShowMonthColumn(bool show) {
+    setColumnHidden(ProjectTreeItem::COL_MONTH, !show);
+}
+
+void ProjectTreeView::setShowYearColumn(bool show) {
+    setColumnHidden(ProjectTreeItem::COL_YEAR, !show);
+}
+
 void ProjectTreeView::setShowTotalColumn(bool show) {
     setColumnHidden(ProjectTreeItem::COL_TOTAL, !show);
 }

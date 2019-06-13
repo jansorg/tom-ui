@@ -35,16 +35,20 @@ QVariant ProjectTreeItem::sortData(int column) const {
     switch (column) {
         case COL_NAME:
             return _projectName.toLower();
-        case COL_DAY:
+        case COL_TODAY:
             return _statusManager->getStatus(_project.getID()).dayTotal.asMillis();
+        case COL_YESTERDAY:
+            return _statusManager->getStatus(_project.getID()).yesterdayTotal.asMillis();
         case COL_WEEK:
             return _statusManager->getStatus(_project.getID()).weekTotal.asMillis();
         case COL_MONTH:
             return _statusManager->getStatus(_project.getID()).monthTotal.asMillis();
+        case COL_YEAR:
+            return _statusManager->getStatus(_project.getID()).yearTotal.asMillis();
         case COL_TOTAL:
             return _statusManager->getStatus(_project.getID()).allTotal.asMillis();
         default:
-            return 0;
+            return QVariant();
     }
 }
 
@@ -52,12 +56,16 @@ QVariant ProjectTreeItem::data(int column) const {
     switch (column) {
         case COL_NAME:
             return _projectName;
-        case COL_DAY:
+        case COL_TODAY:
             return _statusManager->getStatus(_project.getID()).dayTotal.formatShort();
+        case COL_YESTERDAY:
+            return _statusManager->getStatus(_project.getID()).yesterdayTotal.formatShort();
         case COL_WEEK:
             return _statusManager->getStatus(_project.getID()).weekTotal.formatShort();
         case COL_MONTH:
             return _statusManager->getStatus(_project.getID()).monthTotal.formatShort();
+        case COL_YEAR:
+            return _statusManager->getStatus(_project.getID()).yearTotal.formatShort();
         case COL_TOTAL:
             return _statusManager->getStatus(_project.getID()).allTotal.formatShort();
         default:

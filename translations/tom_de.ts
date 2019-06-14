@@ -743,7 +743,7 @@
 <context>
     <name>ProjectTreeView</name>
     <message>
-        <location filename="../source/view/ProjectTreeView.cpp" line="25"/>
+        <location filename="../source/view/ProjectTreeView.cpp" line="26"/>
         <source>Delete project...</source>
         <translation type="unfinished"></translation>
     </message>

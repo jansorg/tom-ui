@@ -19,6 +19,7 @@ ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {
     setDragEnabled(true);
     setAcceptDrops(true);
     setDropIndicatorShown(true);
+    setRootIsDecorated(false);
 
     connect(this, &ProjectTreeView::customContextMenuRequested, this, &ProjectTreeView::onCustomContextMenuRequested);
 

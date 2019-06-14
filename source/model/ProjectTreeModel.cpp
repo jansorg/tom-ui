@@ -43,8 +43,6 @@ ProjectTreeModel::~ProjectTreeModel() {
 }
 
 void ProjectTreeModel::loadProjects() {
-//    qDebug() << "loadProject (reset)";
-
     beginResetModel();
 
     _visibleRootItem->reset();

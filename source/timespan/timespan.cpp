@@ -43,7 +43,7 @@ const QString Timespan::formatOptional() const {
 }
 
 const QString Timespan::formatDecimal() const {
-    return QString("%L1h").arg(asHours(), 0, 'g', 2);
+    return QString("%L1h").arg(asHours(), 0, 'f', 2);
 }
 
 double Timespan::asHours() const {

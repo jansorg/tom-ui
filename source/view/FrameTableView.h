@@ -19,6 +19,8 @@ public:
 
     QAction *getDeleteAction();
 
+    QList<Frame *> selectedFrames() const;
+
     void readSettings();
 
     void writeSettings();
@@ -49,8 +51,6 @@ private:
     ProjectStatusManager *_statusManager;
 
     void showContextMenu(Frame *frame, QPoint globalPos);
-
-    QList<Frame *> selectedFrames();
 
     QAction *_deleteSelectedAction;
 };

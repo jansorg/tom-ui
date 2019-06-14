@@ -19,7 +19,8 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
                                                                                                                                Ui::MainWindow(),
                                                                                                                                _control(control),
                                                                                                                                _statusManager(statusManager),
-                                                                                                                               _settings(settings) {
+                                                                                                                               _settings(settings),
+                                                                                                                               _frameStatusLabel(new QLabel(this)){
 //#ifndef Q_OS_MAC
     setWindowIcon(Icons::LogoLarge());
 //#endif
@@ -32,6 +33,13 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 
     _projectTree->setup(control, statusManager);
     _frameView->setup(control, statusManager);
+
+   // setup the statusbar
+    mainStatusBar->addPermanentWidget(_frameStatusLabel, 1);
+    _frameStatusLabel->setAlignment(Qt::AlignRight);
+
+    connect(_projectTree->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::frameSelectionChanged);
+    connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::frameSelectionChanged);
 
     // fix icons
     actionRefresh->setIcon(Icons::refreshData());
@@ -312,3 +320,16 @@ void MainWindow::focusChanged(QWidget *, QWidget *now) {
     }
 }
 
+void MainWindow::frameSelectionChanged(){
+    auto selected = _frameView->selectedFrames();
+    if (selected.isEmpty()) {
+        _frameStatusLabel->setText("");
+    } else if (selected.size() > 1){
+        qlonglong millis = 0;
+        for (auto f : selected){
+            millis += f->durationMillis(true);
+        }
+        Timespan span(millis);
+        _frameStatusLabel->setText(tr("Total: %1 / %2").arg(span.format()).arg(span.formatDecimal()));
+    }
+}

@@ -150,7 +150,7 @@ void FrameTableView::setShowArchived(bool showArchived) {
     _sourceModel->setShowArchived(showArchived);
 }
 
-QList<Frame *> FrameTableView::selectedFrames() {
+QList<Frame *> FrameTableView::selectedFrames() const {
     const QModelIndexList &rows = selectionModel()->selectedRows(FrameTableViewModel::FIRST_COL);
     if (rows.isEmpty()) {
         return QList<Frame *>();
@@ -159,8 +159,7 @@ QList<Frame *> FrameTableView::selectedFrames() {
     QList<Frame *> frames;
     for (auto row: rows) {
         auto sourceRow = _proxyModel->mapToSource(row);
-        Frame *frame = _sourceModel->frameAt(sourceRow);
-        if (frame) {
+        if (Frame *frame = _sourceModel->frameAt(sourceRow)) {
             frames << frame;
         }
     }

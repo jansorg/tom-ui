@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include <QtWidgets/QSystemTrayIcon>
+#include <QtWidgets/QLabel>
 #include <source/settings/TomSettings.h>
 
 #include "ui_main_window.h"
@@ -66,6 +67,8 @@ private slots:
 
     void focusChanged(QWidget * old, QWidget * now);
 
+    void frameSelectionChanged();
+
 protected:
     void closeEvent(QCloseEvent *event) override;
 
@@ -78,6 +81,7 @@ private:
     TomControl *_control;
     ProjectStatusManager *_statusManager;
     TomSettings *_settings;
+    QLabel *_frameStatusLabel;
 
     void readSettings();
 };

@@ -390,8 +390,7 @@ bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     return false;
 }
 
-bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/,
-                                            const QModelIndex &parent) {
+bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/, const QModelIndex &parent) {
     if (action != Qt::MoveAction) {
         return false;
     }
@@ -407,7 +406,7 @@ bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropActio
     }
 
     ProjectTreeItem *parentItem = projectItem(parent);
-    if (!parentItem) {
+    if (!parent.isValid() || !parentItem) {
         return false;
     }
 

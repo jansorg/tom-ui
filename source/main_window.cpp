@@ -38,8 +38,10 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     mainStatusBar->addPermanentWidget(_frameStatusLabel, 1);
     _frameStatusLabel->setAlignment(Qt::AlignRight);
 
-    connect(_projectTree->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::frameSelectionChanged);
-    connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::frameSelectionChanged);
+    connect(_projectTree->selectionModel(), &QItemSelectionModel::currentChanged, this, &MainWindow::updateStatusBar);
+    connect(_projectTree->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::updateStatusBar);
+    connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::updateStatusBar);
+    connect(_frameView->selectionModel(), &QItemSelectionModel::currentChanged, this, &MainWindow::updateStatusBar);
 
     // fix icons
     actionRefresh->setIcon(Icons::refreshData());
@@ -320,16 +322,16 @@ void MainWindow::focusChanged(QWidget *, QWidget *now) {
     }
 }
 
-void MainWindow::frameSelectionChanged(){
+void MainWindow::updateStatusBar(){
     auto selected = _frameView->selectedFrames();
-    if (selected.isEmpty()) {
-        _frameStatusLabel->setText("");
-    } else if (selected.size() > 1){
+    if (selected.size() > 1){
         qlonglong millis = 0;
         for (auto f : selected){
             millis += f->durationMillis(true);
         }
         Timespan span(millis);
         _frameStatusLabel->setText(tr("Total: %1 / %2").arg(span.format()).arg(span.formatDecimal()));
+    } else{
+        _frameStatusLabel->setText("");
     }
 }

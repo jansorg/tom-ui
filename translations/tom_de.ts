@@ -500,49 +500,49 @@
         <translation>Spalte &quot;Gesamt&quot; zeigen</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="100"/>
+        <location filename="../source/main_window.cpp" line="102"/>
         <source>Projects</source>
         <translatorcomment>Projekte</translatorcomment>
         <translation>Projekte</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="101"/>
+        <location filename="../source/main_window.cpp" line="103"/>
         <source>Time Entries</source>
         <translation>Zeiteinträge</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="185"/>
+        <location filename="../source/main_window.cpp" line="187"/>
         <source>Select Mac Time Tracker CSV export</source>
         <translation>Wählen Sie den CSV Export von Mac Time Tracker</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="187"/>
-        <location filename="../source/main_window.cpp" line="198"/>
+        <location filename="../source/main_window.cpp" line="189"/>
+        <location filename="../source/main_window.cpp" line="200"/>
         <source>CSV Files (*.csv)</source>
         <translation>CSV Dateien (*.csv)</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="196"/>
+        <location filename="../source/main_window.cpp" line="198"/>
         <source>Select Fanurio CSV export</source>
         <translation>Wählen Sie einen Fanurio CSV Export</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="207"/>
+        <location filename="../source/main_window.cpp" line="209"/>
         <source>Select Watson frames file</source>
         <translation>Wählen Sie die Watson frames Datei</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="209"/>
+        <location filename="../source/main_window.cpp" line="211"/>
         <source>Watson frames files (frames)</source>
         <translation>Watson Frames Dateien (frames)</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="218"/>
+        <location filename="../source/main_window.cpp" line="220"/>
         <source>Reset data</source>
         <translation>Daten zürucksetzen</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="219"/>
+        <location filename="../source/main_window.cpp" line="221"/>
         <source>Do you want to remove all projects, tags and frames?</source>
         <translation>Möchten Sie alle Projekte, Tags und Einträge löschen?</translation>
     </message>

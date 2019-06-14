@@ -67,7 +67,7 @@ private slots:
 
     void focusChanged(QWidget * old, QWidget * now);
 
-    void frameSelectionChanged();
+    void updateStatusBar();
 
 protected:
     void closeEvent(QCloseEvent *event) override;

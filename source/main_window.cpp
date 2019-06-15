@@ -179,7 +179,10 @@ void MainWindow::helpAbout() {
 }
 
 void MainWindow::createProject() {
-    CommonDialogs::createProject(Project(), _control, this);
+    Project newProject = CommonDialogs::createProject(Project(), _control, this);
+    if (newProject.isValid()) {
+        _projectTree->selectProject(newProject);
+    }
 }
 
 void MainWindow::importMacTimeTracker() {

@@ -5,12 +5,12 @@ set -e
 cd "$(dirname "$(readlink -f "$0")")"
 . ./release-shared.bash
 
-[[ -z "$GITHUB_USER" ]] && echo "No GITHUB_USER defined" && exit -1
-[[ -z "$GITHUB_TOKEN" ]] && echo "No GITHUB_TOKEN defined" && exit -1
+[[ -z "$GITHUB_USER" ]] && echo "No GITHUB_USER defined" && exit 1
+[[ -z "$GITHUB_TOKEN" ]] && echo "No GITHUB_TOKEN defined" && exit 1
 
 SOURCE="$PWD"
 VERSION="$1"
-[[ -z "$VERSION" ]] && echo "No version given" && exit -1
+[[ -z "$VERSION" ]] && echo "No version given" && exit 1
 
 echo "Building release $VERSION"
 echo -n "$VERSION" > ./version.txt

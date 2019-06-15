@@ -159,19 +159,25 @@ Qt::ItemFlags ProjectTreeModel::flags(const QModelIndex &index) const {
 
     ProjectTreeItem *item = projectItem(index);
 
-    auto base = _enableCheckboxes ? Qt::ItemIsUserCheckable : Qt::NoItemFlags;
+    Qt::ItemFlags base = _enableCheckboxes ? Qt::ItemIsUserCheckable : Qt::NoItemFlags;
 
     // the visible root is not draggable, but accepts drops
     if (item == _visibleRootItem) {
         return base | Qt::ItemIsDropEnabled | QAbstractItemModel::flags(index);
     }
 
-    if (item && item->getProject().isValid() && index.column() == ProjectTreeItem::COL_NAME) {
+    if (item && item->getProject().isValid()) {
+        // drag is only allowed to start with the name column
+        if (index.column() == ProjectTreeItem::COL_NAME) {
+            base |= Qt::ItemIsDragEnabled;
+        }
+
         return base
-               | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled
+               | Qt::ItemIsDropEnabled
                | Qt::ItemIsSelectable
                | Qt::ItemIsEnabled
-               | Qt::ItemIsEditable;
+               | Qt::ItemIsEditable
+               | QAbstractItemModel::flags(index);
     }
 
     return QAbstractItemModel::flags(index);

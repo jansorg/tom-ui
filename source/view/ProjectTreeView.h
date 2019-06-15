@@ -60,6 +60,9 @@ private:
 
     void showContextMenu(ProjectTreeItem *item, const QPoint &globalPos);
 
+protected:
+    void dragMoveEvent(QDragMoveEvent *event) override;
+
 private:
 
     TomControl *_control{};

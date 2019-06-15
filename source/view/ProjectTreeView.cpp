@@ -208,6 +208,15 @@ void ProjectTreeView::deleteSelectedProject() {
     }
 }
 
+void ProjectTreeView::dragMoveEvent(QDragMoveEvent *event) {
+    QTreeView::dragMoveEvent(event);
+    if (!event->isAccepted()) {
+        return;
+    }
+
+    event->setAccepted(dropIndicatorPosition() == OnItem);
+}
+
 QAction *ProjectTreeView::getDeleteAction() const {
     return _deleteSelectedAction;
 }

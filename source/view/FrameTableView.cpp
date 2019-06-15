@@ -20,7 +20,7 @@ FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent), _control(n
     setDragEnabled(true);
     setAcceptDrops(false);
 
-    _deleteSelectedAction = new QAction(Icons::timeEntryDelete(), "Delete selected", this);
+    _deleteSelectedAction = new QAction(Icons::timeEntryDelete(), tr("Delete selected"), this);
     _deleteSelectedAction->setShortcutContext(Qt::WindowShortcut);
     _deleteSelectedAction->setShortcuts(QKeySequence::Delete);
     _deleteSelectedAction->setIcon(Icons::timeEntryDelete());

@@ -210,21 +210,21 @@ QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientatio
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
             case COL_START_DATE:
-                return "Day";
+                return tr("Day");
             case COL_START:
-                return "Start";
+                return tr("Start");
             case COL_END:
-                return "End";
+                return tr("End");
             case COL_DURATION:
-                return "Duration";
+                return tr("Duration");
             case COL_TAGS:
-                return "Tags";
+                return tr("Tags");
             case COL_SUBPROJECT:
-                return "Subproject";
+                return tr("Subproject");
             case COL_ARCHIVED:
                 return "";
             case COL_NOTES:
-                return "Notes";
+                return tr("Notes");
             default:
                 break;
         }

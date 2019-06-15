@@ -187,16 +187,16 @@ bool FrameTableViewModel::removeRows(int row, int count, const QModelIndex &pare
 }
 
 void FrameTableViewModel::onProjectStatusChanged(const Project &started, const Project &stopped) {
-    if (started.isValid() && _control->isChildProject(started.getID(), _currentProject.getID())) {
-        loadFrames(started);
-    } else if (stopped.isValid() && _control->isChildProject(stopped.getID(), _currentProject.getID())) {
-        loadFrames(stopped);
+    if (started.isValid() && (_currentProject.isRootProject() || _control->isChildProject(started.getID(), _currentProject.getID()))) {
+        loadFrames(_currentProject);
+    } else if (stopped.isValid() && (_currentProject.isRootProject() || _control->isChildProject(stopped.getID(), _currentProject.getID()))) {
+        loadFrames(_currentProject);
     }
 }
 
 void FrameTableViewModel::onProjectUpdated(const Project &project) {
-    if (_control->isChildProject(project.getID(), _currentProject.getID())) {
-        loadFrames(project);
+    if (_currentProject.isRootProject() || _control->isChildProject(project.getID(), _currentProject.getID())) {
+        loadFrames(_currentProject);
     }
 }
 

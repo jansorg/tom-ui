@@ -42,49 +42,49 @@
         <location filename="../source/frameEditor/frame_dialog.ui" line="14"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="152"/>
         <source>Dialog</source>
-        <translation type="unfinished">Dialog</translation>
+        <translation>Dialog</translation>
     </message>
     <message>
         <location filename="../source/frameEditor/frame_dialog.ui" line="24"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="160"/>
         <source>Properties</source>
-        <translation type="unfinished">Eigenschaften</translation>
+        <translation>Eigenschaften</translation>
     </message>
     <message>
         <location filename="../source/frameEditor/frame_dialog.ui" line="30"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="153"/>
         <source>Project:</source>
-        <translation type="unfinished">Projekt:</translation>
+        <translation>Projekt:</translation>
     </message>
     <message>
         <location filename="../source/frameEditor/frame_dialog.ui" line="47"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="154"/>
         <source>Begin:</source>
-        <translation type="unfinished">Beginn:</translation>
+        <translation>Beginn:</translation>
     </message>
     <message>
         <location filename="../source/frameEditor/frame_dialog.ui" line="70"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="155"/>
         <source>End:</source>
-        <translation type="unfinished">Ende:</translation>
+        <translation>Ende:</translation>
     </message>
     <message>
         <location filename="../source/frameEditor/frame_dialog.ui" line="93"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="156"/>
         <source>Notes:</source>
-        <translation type="unfinished">Anmerkungen:</translation>
+        <translation>Anmerkungen:</translation>
     </message>
     <message>
         <location filename="../source/frameEditor/frame_dialog.ui" line="106"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="157"/>
         <source>Notes about this time entry</source>
-        <translation type="unfinished">Anmerkungen über diesen Zeiteintrag</translation>
+        <translation>Anmerkungen über diesen Zeiteintrag</translation>
     </message>
     <message>
         <location filename="../source/frameEditor/frame_dialog.ui" line="113"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="158"/>
         <source>Archived:</source>
-        <translation type="unfinished">Archiviert:</translation>
+        <translation>Archiviert:</translation>
     </message>
 </context>
 <context>
@@ -92,7 +92,7 @@
     <message>
         <location filename="../source/view/FrameTableView.cpp" line="24"/>
         <source>Delete selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Gewählte löschen</translation>
     </message>
 </context>
 <context>
@@ -100,37 +100,37 @@
     <message>
         <location filename="../source/model/FrameTableViewModel.cpp" line="215"/>
         <source>Day</source>
-        <translation type="unfinished">Tag</translation>
+        <translation>Tag</translation>
     </message>
     <message>
         <location filename="../source/model/FrameTableViewModel.cpp" line="217"/>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Beginn</translation>
     </message>
     <message>
         <location filename="../source/model/FrameTableViewModel.cpp" line="219"/>
         <source>End</source>
-        <translation type="unfinished"></translation>
+        <translation>Ende</translation>
     </message>
     <message>
         <location filename="../source/model/FrameTableViewModel.cpp" line="221"/>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Dauer</translation>
     </message>
     <message>
         <location filename="../source/model/FrameTableViewModel.cpp" line="223"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation>Tags</translation>
     </message>
     <message>
         <location filename="../source/model/FrameTableViewModel.cpp" line="225"/>
         <source>Subproject</source>
-        <translation type="unfinished"></translation>
+        <translation>Unterprojekt</translation>
     </message>
     <message>
         <location filename="../source/model/FrameTableViewModel.cpp" line="229"/>
         <source>Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Anmerkungen</translation>
     </message>
 </context>
 <context>
@@ -143,7 +143,7 @@
     <message>
         <location filename="../source/tray.cpp" line="22"/>
         <source>Stop the current project and record data.</source>
-        <translation>Stoppt das aktuelle Projekt and zeichnet die Daten auf</translation>
+        <translation>Stoppt das aktuelle Projekt and zeichnet die Daten auf.</translation>
     </message>
     <message>
         <location filename="../source/tray.cpp" line="28"/>
@@ -275,7 +275,7 @@
         <location filename="../source/main_window.ui" line="269"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="303"/>
         <source>&amp;Create New Project...</source>
-        <translation>Neues Projekt anlegen...</translation>
+        <translation>&amp;Neues Projekt anlegen...</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="272"/>
@@ -311,19 +311,19 @@
         <location filename="../source/main_window.ui" line="293"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="313"/>
         <source>Reset all &amp;data...</source>
-        <translation>Alle Daten zurücksetzen</translation>
+        <translation>Alle &amp;Daten zurücksetzen...</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="301"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="314"/>
         <source>&amp;Watson frames</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Watson Frames</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="306"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="315"/>
         <source>&amp;Start timer</source>
-        <translation>Timer starten</translation>
+        <translation>Timer &amp;starten</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="309"/>
@@ -341,13 +341,13 @@
         <location filename="../source/main_window.ui" line="315"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="321"/>
         <source>Space</source>
-        <translation type="unfinished"></translation>
+        <translation>Space</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="323"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="323"/>
         <source>S&amp;top timer</source>
-        <translation>Stoppe Timer</translation>
+        <translation>S&amp;toppe Timer</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="326"/>
@@ -365,55 +365,55 @@
         <location filename="../source/main_window.ui" line="332"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="329"/>
         <source>Shift+Space</source>
-        <translation type="unfinished"></translation>
+        <translation>Shift+Space</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="384"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="360"/>
         <source>Scroll to active &amp;timer</source>
-        <translation type="unfinished"></translation>
+        <translation>Scrolle zum aktiven &amp;Timer</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="387"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="361"/>
         <source>Scroll to active timer</source>
-        <translation type="unfinished"></translation>
+        <translation>Scrolle zum aktiven Timer</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="390"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="363"/>
         <source>Selects the project which contains the currently active timer</source>
-        <translation type="unfinished"></translation>
+        <translation>Selektiert das Projekt, das den aktiven Zeiteintrag enthält</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="439"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="373"/>
         <source>Show column &quot;Yesterday&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Spalte &quot;Gestern&quot; zeigen</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="450"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="374"/>
         <source>Show column &quot;Today&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Spalte &quot;Heute&quot; zeigen</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="461"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="375"/>
         <source>Show column &quot;This week&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Spalte &quot;Diese Woche&quot; zeigen</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="472"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="376"/>
         <source>Show column &quot;This month&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Spalte &quot;Dieser Monat&quot; zeigen</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="483"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="377"/>
         <source>Show column &quot;This year&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Spalte &quot;Dieses Jahr&quot; zeigen</translation>
     </message>
     <message>
         <source>&amp;Delete selected entries</source>
@@ -431,7 +431,7 @@
         <location filename="../source/main_window.ui" line="337"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="331"/>
         <source>&amp;Create project report...</source>
-        <translation>Projektbericht erstellen...</translation>
+        <translation>&amp;Projektbericht erstellen...</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="340"/>
@@ -443,7 +443,7 @@
         <location filename="../source/main_window.ui" line="345"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="335"/>
         <source>&amp;Lookup project...</source>
-        <translation>Projekt nachschlagen</translation>
+        <translation>Projekt nachsch&amp;lagen...</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="348"/>
@@ -469,7 +469,7 @@
         <location filename="../source/main_window.ui" line="362"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="346"/>
         <source>&amp;Focus projects</source>
-        <translation>&amp;Fokus auf Projekte </translation>
+        <translation>&amp;Fokus auf Projekte</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="365"/>
@@ -487,7 +487,7 @@
         <location filename="../source/main_window.ui" line="373"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="353"/>
         <source>Focus time &amp;entries</source>
-        <translation>Fokus auf Zeiteinträge</translation>
+        <translation>Fokus auf Z&amp;eiteinträge</translation>
     </message>
     <message>
         <location filename="../source/main_window.ui" line="376"/>
@@ -595,7 +595,7 @@
     <message>
         <location filename="../source/main_window.cpp" line="333"/>
         <source>Total: %1 / %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Gesamt: %1 / %2</translation>
     </message>
 </context>
 <context>
@@ -727,12 +727,12 @@
     <message>
         <location filename="../source/report/ProjectReportDialog.cpp" line="141"/>
         <source>Save Report as HTML</source>
-        <translation type="unfinished"></translation>
+        <translation>Bericht als HTML speichern</translation>
     </message>
     <message>
         <location filename="../source/report/ProjectReportDialog.cpp" line="141"/>
         <source>HTML files (*.html *.htm);;All files (*)</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML Dateien (*.html *.htm);;Alle Dateien (*)</translation>
     </message>
 </context>
 <context>
@@ -778,12 +778,12 @@
     <message>
         <location filename="../source/model/ProjectTreeModel.cpp" line="22"/>
         <source>Yesterday</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestern</translation>
     </message>
     <message>
         <location filename="../source/model/ProjectTreeModel.cpp" line="22"/>
         <source>This year</source>
-        <translation type="unfinished"></translation>
+        <translation>Jahr</translation>
     </message>
 </context>
 <context>
@@ -791,7 +791,7 @@
     <message>
         <location filename="../source/view/ProjectTreeView.cpp" line="26"/>
         <source>Delete project...</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekt löschen...</translation>
     </message>
 </context>
 <context>
@@ -961,7 +961,7 @@
         <location filename="../source/report/reportDialog.ui" line="541"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="474"/>
         <source>&amp;Update Report</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bericht aktualisieren</translation>
     </message>
     <message>
         <location filename="../source/report/reportDialog.ui" line="87"/>

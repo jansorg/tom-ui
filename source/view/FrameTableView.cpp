@@ -2,8 +2,11 @@
 #include <QtWidgets/QHeaderView>
 #include <QtTest/QAbstractItemModelTester>
 #include <QtWidgets/QLabel>
-#include <source/model/UserRoles.h>
 #include <QtWidgets/QStyledItemDelegate>
+#include <QDrag>
+#include <QPixmap>
+#include <QPainter>
+#include <source/model/UserRoles.h>
 #include <source/frameEditor/FrameEditorDialog.h>
 
 #include "model/FrameTableViewModel.h"
@@ -166,6 +169,29 @@ QList<Frame *> FrameTableView::selectedFrames() const {
         }
     }
     return frames;
+}
+
+void FrameTableView::startDrag(Qt::DropActions supportedActions) {
+    QModelIndexList indexes = selectedIndexes();
+    if (indexes.count() > 0) {
+        QMimeData *data = model()->mimeData(indexes);
+        if (!data)
+            return;
+
+        QPixmap pixmap = Icons::LogoSmall().pixmap(48, 48, QIcon::Normal);
+
+        QPixmap target = QPixmap(pixmap.width(), pixmap.height());
+        QPainter p;
+        p.begin(&target);
+        p.setOpacity(0.9);
+        p.drawPixmap(0, 0, pixmap);
+        p.end();
+
+        auto *drag = new QDrag(this);
+        drag->setMimeData(data);
+        drag->setPixmap(target);
+        drag->exec(supportedActions, Qt::MoveAction);
+    }
 }
 
 QAction *FrameTableView::getDeleteAction() {

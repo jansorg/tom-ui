@@ -90,7 +90,7 @@
 <context>
     <name>FrameTableView</name>
     <message>
-        <location filename="../source/view/FrameTableView.cpp" line="21"/>
+        <location filename="../source/view/FrameTableView.cpp" line="24"/>
         <source>Delete selected</source>
         <translation type="unfinished"></translation>
     </message>

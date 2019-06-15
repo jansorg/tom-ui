@@ -38,6 +38,8 @@ public slots:
 protected:
     int sizeHintForColumn(int column) const override;
 
+    void startDrag(Qt::DropActions supportedActions) override;
+
 private slots:
 
     void onCustomContextMenuRequested(const QPoint &pos);

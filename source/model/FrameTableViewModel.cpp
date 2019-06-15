@@ -84,7 +84,7 @@ void FrameTableViewModel::onFramesRemoved(const QStringList &frameIDs, const QSt
     // qDebug() << "frames removed of" << projectIDs << "if matching" << _currentProject.getID();
 
     // don't continue if none of the source proejct IDs is matching the current view
-    if (!_control->isAnyChildProject(projectIDs, _currentProject.getID())) {
+    if (!_currentProject.isRootProject() && !_control->isAnyChildProject(projectIDs, _currentProject.getID())) {
         return;
     }
 

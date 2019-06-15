@@ -16,8 +16,6 @@
 FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent), _control(nullptr), _proxyModel(nullptr), _sourceModel(nullptr), _statusManager(nullptr) {
     setContextMenuPolicy(Qt::CustomContextMenu);
 
-    setDragDropMode(QTableView::DragOnly);
-    setDragEnabled(true);
     setAcceptDrops(false);
 
     _deleteSelectedAction = new QAction(Icons::timeEntryDelete(), tr("Delete selected"), this);
@@ -99,7 +97,11 @@ void FrameTableView::onSubprojectStatusChange(bool available) {
 void FrameTableView::deleteSelectedEntries() {
     auto frames = selectedFrames();
     if (!frames.isEmpty()) {
+        // delete selected items
         _control->removeFrames(frames);
+
+        const QModelIndex &current = selectionModel()->currentIndex();
+        selectionModel()->select(current, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
     }
 }
 

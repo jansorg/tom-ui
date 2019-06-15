@@ -11,7 +11,7 @@ Project CommonDialogs::createProject(const Project &parentProject, TomControl *c
     bool ok;
     QString projectName = QInputDialog::getText(parent, QObject::tr("Create Project"), QObject::tr("Project name:"), QLineEdit::Normal, "", &ok);
     if (ok && !projectName.isEmpty()) {
-        return control->createProject(parentProject.getID(), projectName);
+        return control->createProject(parentProject.getID(), projectName.simplified());
     }
     return Project();
 }

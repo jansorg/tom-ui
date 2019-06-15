@@ -143,7 +143,8 @@ bool ProjectTreeModel::setData(const QModelIndex &index, const QVariant &value, 
         return false;
     }
 
-    QString newName = value.toString();
+    // make sure that we're not allowing linefeeds in the name
+    QString newName = value.toString().simplified();
     bool ok = _control->renameProject(item->getProject().getID(), newName);
     if (ok && item->setData(index.column(), newName)) {
         emit dataChanged(index, index);

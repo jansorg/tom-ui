@@ -34,5 +34,5 @@ void ProjectEditorDialog::loadProject(const Project &project) {
 
 void ProjectEditorDialog::saveProject() {
     const QString &id = _parentBox->selectedProject().getID();
-    _control->updateProjects(QStringList() << _project.getID(), true, _nameEdit->text(), true, id, true, _hourlyRateEdit->text());
+    _control->updateProjects(QStringList() << _project.getID(), true, _nameEdit->text().simplified(), true, id, true, _hourlyRateEdit->text());
 }

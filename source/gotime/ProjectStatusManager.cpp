@@ -7,6 +7,7 @@ ProjectStatusManager::ProjectStatusManager(TomControl *control, QObject *parent)
 
     connect(_control, &TomControl::projectStatusChanged, this, &ProjectStatusManager::refresh);
     connect(_control, &TomControl::projectUpdated, this, &ProjectStatusManager::refresh);
+    connect(_control, &TomControl::projectFramesArchived, this, &ProjectStatusManager::refresh);
 
     connect(_control, &TomControl::framesUpdated, this, &ProjectStatusManager::refresh);
     connect(_control, &TomControl::framesRemoved, this, &ProjectStatusManager::refresh);

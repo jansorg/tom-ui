@@ -254,18 +254,18 @@ bool TomControl::updateFrame(const QList<Frame *> &frames,
         projectIDs << frame->projectID;
     }
 
-    return updateFrame(frameIDs, projectIDs, updateStart, start, updateEnd, end,
-                       updateNotes, notes,
-                       updateProject, projectID,
-                       updateArchived, archived);
+    return updateFrames(frameIDs, projectIDs, updateStart, start, updateEnd, end,
+                        updateNotes, notes,
+                        updateProject, projectID,
+                        updateArchived, archived);
 }
 
-bool TomControl::updateFrame(const QStringList &ids, const QStringList &projectIDs,
-                             bool updateStart, const QDateTime &start,
-                             bool updateEnd, const QDateTime &end,
-                             bool updateNotes, const QString &notes,
-                             bool updateProject, const QString &projectID,
-                             bool updateArchived, bool archived) {
+bool TomControl::updateFrames(const QStringList &ids, const QStringList &projectIDs,
+                              bool updateStart, const QDateTime &start,
+                              bool updateEnd, const QDateTime &end,
+                              bool updateNotes, const QString &notes,
+                              bool updateProject, const QString &projectID,
+                              bool updateArchived, bool archived) {
     QStringList args;
     args << "edit" << "frame";
     if (updateStart) {
@@ -666,6 +666,10 @@ const Project TomControl::cachedActiveProject() const {
 }
 
 bool TomControl::hasSubprojects(const Project &project) {
+    if (project.isRootProject()) {
+        return !_cachedProjects.isEmpty();
+    }
+
     const QString &parentID = project.getID();
     for (const auto &p : _cachedProjects) {
         if (p.getParentID() == parentID) {

@@ -88,6 +88,52 @@
     </message>
 </context>
 <context>
+    <name>FrameTableView</name>
+    <message>
+        <location filename="../source/view/FrameTableView.cpp" line="23"/>
+        <source>Delete selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FrameTableViewModel</name>
+    <message>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="215"/>
+        <source>Day</source>
+        <translation type="unfinished">Tag</translation>
+    </message>
+    <message>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="217"/>
+        <source>Start</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="219"/>
+        <source>End</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="221"/>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="223"/>
+        <source>Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="225"/>
+        <source>Subproject</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="229"/>
+        <source>Notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GotimeTrayIcon</name>
     <message>
         <location filename="../source/tray.cpp" line="21"/>

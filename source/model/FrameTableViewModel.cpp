@@ -32,6 +32,8 @@ FrameTableViewModel::~FrameTableViewModel() {
 }
 
 void FrameTableViewModel::loadFrames(const Project &project) {
+    qDebug() << "loading frames" << project.getID();
+
     stopTimer();
 
     beginResetModel();
@@ -46,7 +48,7 @@ void FrameTableViewModel::loadFrames(const Project &project) {
 
     emit subprojectStatusChange(_control->hasSubprojects(project));
 
-    if (project.isValid()) {
+    if (project.isValidOrRootProject()) {
         // start the timer only if we're showing active frames
         for (auto *f : _frames) {
             if (f->isActive()) {
@@ -65,12 +67,12 @@ void FrameTableViewModel::onProjectHierarchyChange() {
 void FrameTableViewModel::onFramesUpdates(const QStringList &frameIDs, const QStringList &projectIDs) {
     qDebug() << "frames updated of projects" << projectIDs;
 
-    if (!_currentProject.isValid()) {
+    if (!_currentProject.isValidOrRootProject()) {
         return;
     }
 
     const QString &projectID = _currentProject.getID();
-    if (!projectIDs.contains(projectID) && !_control->isAnyChildProject(projectIDs, projectID)) {
+    if (!_currentProject.isRootProject() && !projectIDs.contains(projectID) && !_control->isAnyChildProject(projectIDs, projectID)) {
         return;
     }
 
@@ -90,13 +92,13 @@ void FrameTableViewModel::onFramesRemoved(const QStringList &frameIDs, const QSt
 }
 
 void FrameTableViewModel::onFramesArchived(const QStringList &frameIDs, const QStringList &projectIDs, bool nowArchived) {
-    if (!_currentProject.isValid()) {
+    if (!_currentProject.isValidOrRootProject()) {
         return;
     }
 
     // return if we're not displaying any of the modified projects
     const QString &currentID = _currentProject.getID();
-    if (!projectIDs.contains(currentID) && !_control->isAnyChildProject(projectIDs, currentID)) {
+    if (!_currentProject.isRootProject() && !projectIDs.contains(currentID) && !_control->isAnyChildProject(projectIDs, currentID)) {
         return;
     }
 
@@ -119,13 +121,13 @@ void FrameTableViewModel::onFramesArchived(const QStringList &frameIDs, const QS
 }
 
 void FrameTableViewModel::onProjectFramesArchived(const QStringList &projectIDs) {
-    if (!_currentProject.isValid()) {
+    if (!_currentProject.isValidOrRootProject()) {
         return;
     }
 
     // return if we're not displaying any of the modified projects
     const QString &currentID = _currentProject.getID();
-    if (!projectIDs.contains(currentID) && !_control->isAnyChildProject(projectIDs, currentID)) {
+    if (!_currentProject.isRootProject() && !projectIDs.contains(currentID) && !_control->isAnyChildProject(projectIDs, currentID)) {
         return;
     }
 
@@ -151,7 +153,7 @@ void FrameTableViewModel::onFramesMoved(const QStringList &frameIDs, const QStri
 
     // don't remove from list if old and new project are in the hierarchy of the currently shown project
     // we have to update the project column, though
-    if (_control->isAnyChildProject(oldProjectIDs, _currentProject.getID()) && _control->isChildProject(newProjectID, _currentProject.getID())) {
+    if (_currentProject.isRootProject() || (_control->isAnyChildProject(oldProjectIDs, _currentProject.getID()) && _control->isChildProject(newProjectID, _currentProject.getID()))) {
         for (const auto &id : frameIDs) {
             int row = findRow(id);
             if (row >= 0) {
@@ -474,24 +476,27 @@ QStringList FrameTableViewModel::mimeTypes() const {
 }
 
 QMimeData *FrameTableViewModel::mimeData(const QModelIndexList &indexes) const {
-    if (!_currentProject.isValid()) {
-        return nullptr;
-    }
-
     // indexes contains every column of each dragged row, we must send a row only once
-    QStringList ids;
-    ids << _currentProject.getID();
+    QSet<QString> frameIDs;
+    QSet<QString> projectIDs;
+
     for (auto index : indexes) {
         if (index.isValid()) {
-            const QString &id = index.data(IDRole).toString();
-            if (!ids.contains(id)) {
-                ids << id;
+            if (Frame *frame = frameAt(index)){
+                projectIDs << frame->projectID;
+                frameIDs << frame->id;
             }
         }
     }
 
+    // the format is:
+    // list of strings
+    // 1st item: comma-seperated list of project IDs
+    // all other items are ids of the dragged frames
+
     auto *mime = new QMimeData();
-    mime->setData(FRAMES_MIME_TYPE, ids.join("||").toUtf8());
+    QStringList items = QStringList() << projectIDs.toList().join(',') << frameIDs.toList();
+    mime->setData(FRAMES_MIME_TYPE, items.join("||").toUtf8());
     return mime;
 }
 

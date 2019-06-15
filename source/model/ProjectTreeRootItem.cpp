@@ -2,7 +2,7 @@
 
 #include <QApplication>
 
-ProjectTreeRootItem::ProjectTreeRootItem(const ProjectStatusManager *statusManager, ProjectTreeItem *parent) : ProjectTreeItem(Project(), statusManager, parent) {}
+ProjectTreeRootItem::ProjectTreeRootItem(const ProjectStatusManager *statusManager, ProjectTreeItem *parent) : ProjectTreeItem(Project::rootProject(), statusManager, parent) {}
 
 ProjectTreeRootItem::~ProjectTreeRootItem() = default;
 

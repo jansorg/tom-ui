@@ -24,6 +24,16 @@ public:
 
     bool isValid() const;
 
+    bool isRootProject() const;
+
+    bool isValidOrRootProject() const;
+
+    static Project rootProject() {
+        Project root = Project();
+        root._isRootProject = true;
+        return root;
+    }
+
 private:
     QString _id;
     QString _parentID;
@@ -32,6 +42,7 @@ private:
     QDateTime _lastUpdated;
     QString _fullName;
     bool _isValid;
+    bool _isRootProject;
 };
 
 inline bool operator==(const Project &a, const Project &b) { return a.getID() == b.getID(); }

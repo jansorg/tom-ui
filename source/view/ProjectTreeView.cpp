@@ -58,7 +58,7 @@ void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusMan
 void ProjectTreeView::onCurrentChanged(const QModelIndex &index, const QModelIndex &) {
     auto sourceIndex = _proxyModel->mapToSource(index);
     if (!sourceIndex.isValid()) {
-        emit projectSelected(Project());
+        emit projectSelected(Project::rootProject());
     } else {
         emit projectSelected(_sourceModel->projectAtIndex(sourceIndex));
     }

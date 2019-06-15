@@ -48,10 +48,10 @@ void FrameEditorDialog::loadFrame(const Frame &frame) {
 void FrameEditorDialog::saveFrame() {
     const QString &projectID = _projectBox->selectedProject().getID();
 
-    _control->updateFrame(QStringList() << _frame.id, QStringList() << projectID,
-            true, _beginEdit->dateTime(),
-            true, _endEdit->dateTime(),
-            true, _notesEdit->toPlainText(),
-            true, projectID,
-            true, _archivedCheckBox->isChecked());
+    _control->updateFrames(QStringList() << _frame.id, QStringList() << projectID,
+                           true, _beginEdit->dateTime(),
+                           true, _endEdit->dateTime(),
+                           true, _notesEdit->toPlainText(),
+                           true, projectID,
+                           true, _archivedCheckBox->isChecked());
 }

@@ -446,6 +446,11 @@ bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction 
         return false;
     }
 
+    ProjectTreeItem *parentItem = projectItem(parent);
+    if (!parentItem || parentItem == _visibleRootItem || !parentItem->getProject().isValid()) {
+        return false;
+    }
+
     const QByteArray &bytes = data->data(FRAMES_MIME_TYPE);
     if (bytes.isEmpty()) {
         return false;
@@ -456,24 +461,19 @@ bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction 
         return false;
     }
 
-    // first item is the id of the source project
-    const QString &sourceProjectID = ids.takeFirst();
-
-    ProjectTreeItem *parentItem = projectItem(parent);
-    if (!parentItem || parentItem == _visibleRootItem || !parentItem->getProject().isValid()) {
-        return false;
-    }
-
+    // first item is a comma-seperated list of strings
+    const QStringList &sourceProjectIDs = ids.takeFirst().split(',');
     const QString &parentProjectID = parentItem->getProject().getID();
 
+    qDebug() << "moving frames, projects" << sourceProjectIDs << "ids" << ids;
+
     // don't move data in the model if the data couldn't be changed in tom
-    // fixme support more than one source project id!
-    bool success = _control->updateFrame(ids, QStringList() << sourceProjectID,
-                                         false, QDateTime(),
-                                         false, QDateTime(),
-                                         false, "",
-                                         true, parentProjectID,
-                                         false, false);
+    bool success = _control->updateFrames(ids, sourceProjectIDs,
+                                          false, QDateTime(),
+                                          false, QDateTime(),
+                                          false, "",
+                                          true, parentProjectID,
+                                          false, false);
     if (!success) {
         qDebug() << "tom update failed for move of frames" << ids << "into" << parentProjectID;
         return false;

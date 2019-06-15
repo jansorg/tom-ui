@@ -66,12 +66,12 @@ public:
                      bool updateProject, const QString &projectID,
                      bool updateArchived, bool archived);
 
-    bool updateFrame(const QStringList &ids, const QStringList &projectIDs,
-                     bool updateStart, const QDateTime &start,
-                     bool updateEnd, const QDateTime &end,
-                     bool updateNotes, const QString &notes,
-                     bool updateProject, const QString &projectID,
-                     bool updateArchived, bool archived);
+    bool updateFrames(const QStringList &ids, const QStringList &projectIDs,
+                      bool updateStart, const QDateTime &start,
+                      bool updateEnd, const QDateTime &end,
+                      bool updateNotes, const QString &notes,
+                      bool updateProject, const QString &projectID,
+                      bool updateArchived, bool archived);
 
     bool removeFrames(const QList<Frame *> &frames);
 

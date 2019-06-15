@@ -32,7 +32,7 @@ FrameTableViewModel::~FrameTableViewModel() {
 }
 
 void FrameTableViewModel::loadFrames(const Project &project) {
-    qDebug() << "loading frames" << project.getID();
+    // qDebug() << "loading frames" << project.getID();
 
     stopTimer();
 
@@ -65,7 +65,7 @@ void FrameTableViewModel::onProjectHierarchyChange() {
 
 
 void FrameTableViewModel::onFramesUpdates(const QStringList &frameIDs, const QStringList &projectIDs) {
-    qDebug() << "frames updated of projects" << projectIDs;
+    //  qDebug() << "frames updated of projects" << projectIDs;
 
     if (!_currentProject.isValidOrRootProject()) {
         return;
@@ -81,7 +81,7 @@ void FrameTableViewModel::onFramesUpdates(const QStringList &frameIDs, const QSt
 }
 
 void FrameTableViewModel::onFramesRemoved(const QStringList &frameIDs, const QStringList &projectIDs) {
-    qDebug() << "frames removed of" << projectIDs << "if matching" << _currentProject.getID();
+    // qDebug() << "frames removed of" << projectIDs << "if matching" << _currentProject.getID();
 
     // don't continue if none of the source proejct IDs is matching the current view
     if (!_control->isAnyChildProject(projectIDs, _currentProject.getID())) {
@@ -149,7 +149,7 @@ void FrameTableViewModel::onProjectFramesArchived(const QStringList &projectIDs)
 }
 
 void FrameTableViewModel::onFramesMoved(const QStringList &frameIDs, const QStringList &oldProjectIDs, const QString &newProjectID) {
-    qDebug() << "frames moved from" << oldProjectIDs << "to" << newProjectID;
+    // qDebug() << "frames moved from" << oldProjectIDs << "to" << newProjectID;
 
     // don't remove from list if old and new project are in the hierarchy of the currently shown project
     // we have to update the project column, though

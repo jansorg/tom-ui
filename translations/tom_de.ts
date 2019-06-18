@@ -161,12 +161,12 @@
         <translation>&amp;Beenden</translation>
     </message>
     <message>
-        <location filename="../source/tray.cpp" line="94"/>
+        <location filename="../source/tray.cpp" line="96"/>
         <source>%1: &lt;b&gt;%2&lt;/b&gt;</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/tray.cpp" line="96"/>
+        <location filename="../source/tray.cpp" line="98"/>
         <source>%1: %2</source>
         <translation></translation>
     </message>

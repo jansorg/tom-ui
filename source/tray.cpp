@@ -11,8 +11,8 @@
 #include "main_window.h"
 
 GotimeTrayIcon::GotimeTrayIcon(TomControl *control, MainWindow *mainWindow) : QObject(),
-                                                                               _control(control),
-                                                                               _trayIcon(new QSystemTrayIcon(this)) {
+                                                                              _control(control),
+                                                                              _trayIcon(new QSystemTrayIcon(this)) {
 
     loadIcons();
 
@@ -31,7 +31,7 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, MainWindow *mainWindow) : QO
     _separatorAction->setText("Actions");
 
     QAction *showWindowAction = new QAction(Icons::showMainWindow(), tr("&Show window"), this);
-    connect(showWindowAction, &QAction::triggered, mainWindow, [mainWindow]{
+    connect(showWindowAction, &QAction::triggered, mainWindow, [mainWindow] {
         mainWindow->selectCurrentProject(true);
     });
     _menu->addAction(showWindowAction);
@@ -47,9 +47,11 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, MainWindow *mainWindow) : QO
     connect(control, &TomControl::projectStatusChanged, this, &GotimeTrayIcon::updateAll);
     connect(control, &TomControl::projectUpdated, this, &GotimeTrayIcon::updateAll);
 
-    connect(_trayIcon, &QSystemTrayIcon::activated, [this](QSystemTrayIcon::ActivationReason reason) {
-        if (reason == QSystemTrayIcon::DoubleClick) {
+    connect(_trayIcon, &QSystemTrayIcon::activated, [this, mainWindow](QSystemTrayIcon::ActivationReason reason) {
+        if (reason == QSystemTrayIcon::DoubleClick || reason == QSystemTrayIcon::MiddleClick) {
             _control->stopActivity();
+        } else if (reason == QSystemTrayIcon::Trigger) {
+            mainWindow->selectCurrentProject(true);
         }
     });
 

@@ -203,3 +203,10 @@ void FrameTableView::readSettings() {
 
 void FrameTableView::writeSettings() {
 }
+
+void FrameTableView::selectFirstFrame() {
+    const QModelIndex &first = _proxyModel->index(0, 0);
+    if (first.isValid()) {
+        selectionModel()->select(first, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+    }
+}

@@ -317,6 +317,9 @@ void MainWindow::focusEntriesList() {
     qDebug() << "focusEntriesList";
 
     _frameView->setFocus();
+    if (_frameView->selectedFrames().isEmpty()) {
+        _frameView->selectFirstFrame();
+    }
 }
 
 void MainWindow::focusChanged(QWidget *old, QWidget *now) {
@@ -333,6 +336,10 @@ void MainWindow::focusChanged(QWidget *old, QWidget *now) {
 
         actionProjectEdit->setEnabled(false);
         actionTimeEntryArchive->setEnabled(_frameView->selectionModel()->hasSelection());
+
+        if (_frameView->selectedFrames().isEmpty()) {
+            _frameView->selectFirstFrame();
+        }
     }
 }
 

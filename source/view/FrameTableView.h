@@ -15,7 +15,7 @@ Q_OBJECT
 public:
     explicit FrameTableView(QWidget *parent);
 
-    void setup(TomControl *control, ProjectStatusManager* statusManager);
+    void setup(TomControl *control, ProjectStatusManager *statusManager);
 
     QAction *getDeleteAction();
 
@@ -24,6 +24,8 @@ public:
     void readSettings();
 
     void writeSettings();
+
+    void selectFirstFrame();
 
 public slots:
 

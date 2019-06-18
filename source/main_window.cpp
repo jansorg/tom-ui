@@ -270,10 +270,12 @@ void MainWindow::selectCurrentProject(bool showWindow) {
 
     if (showWindow) {
         if (!isVisible()) {
+            ensurePolished();
+            setWindowState(windowState() & ~Qt::WindowMinimized);
             show();
         }
-        activateWindow();
         raise();
+        activateWindow();
     }
 
     _projectTree->setFocus();

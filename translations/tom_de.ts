@@ -593,7 +593,7 @@
         <translation>Möchten Sie alle Projekte, Tags und Einträge löschen?</translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="336"/>
+        <location filename="../source/main_window.cpp" line="357"/>
         <source>Total: %1 / %2</source>
         <translation>Gesamt: %1 / %2</translation>
     </message>

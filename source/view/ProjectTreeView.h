@@ -27,13 +27,24 @@ public:
     void readSettings();
 
     void setShowYesterdayColumn(bool show);
+
     void setShowTodayColumn(bool show);
+
     void setShowWeekColumn(bool show);
+
     void setShowMonthColumn(bool show);
+
     void setShowYearColumn(bool show);
+
     void setShowTotalColumn(bool show);
 
     QAction *getDeleteAction() const;
+
+    bool hasSelectedProject() const;
+
+    Project getSelectedProject() const;
+
+    void selectFirstRow();
 
 public slots:
 
@@ -71,7 +82,7 @@ private:
     ProjectTreeModel *_sourceModel{};
     QSortFilterProxyModel *_proxyModel{};
 
-    QAction * _deleteSelectedAction;
+    QAction *_deleteSelectedAction;
 };
 
 

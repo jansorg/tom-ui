@@ -317,9 +317,6 @@ void MainWindow::focusEntriesList() {
     qDebug() << "focusEntriesList";
 
     _frameView->setFocus();
-    if (_frameView->selectedFrames().isEmpty()) {
-        _frameView->selectFirstFrame();
-    }
 }
 
 void MainWindow::focusChanged(QWidget *old, QWidget *now) {
@@ -330,6 +327,10 @@ void MainWindow::focusChanged(QWidget *old, QWidget *now) {
 
         actionProjectEdit->setEnabled(_projectTree->getCurrentProject().isValid());
         actionTimeEntryArchive->setEnabled(false);
+
+        if (!_projectTree->hasSelectedProject()){
+            _projectTree->selectFirstRow();
+        }
     } else if (now == _frameView) {
         _projectTree->getDeleteAction()->setEnabled(false);
         _frameView->getDeleteAction()->setEnabled(true);
@@ -337,7 +338,7 @@ void MainWindow::focusChanged(QWidget *old, QWidget *now) {
         actionProjectEdit->setEnabled(false);
         actionTimeEntryArchive->setEnabled(_frameView->selectionModel()->hasSelection());
 
-        if (_frameView->selectedFrames().isEmpty()) {
+        if (!_frameView->hasSelectedFrames()) {
             _frameView->selectFirstFrame();
         }
     }

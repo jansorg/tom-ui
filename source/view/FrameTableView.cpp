@@ -155,6 +155,10 @@ void FrameTableView::setShowArchived(bool showArchived) {
     _sourceModel->setShowArchived(showArchived);
 }
 
+bool FrameTableView::hasSelectedFrames() const {
+    return !selectionModel()->selectedRows(FrameTableViewModel::FIRST_COL).isEmpty();
+}
+
 QList<Frame *> FrameTableView::selectedFrames() const {
     const QModelIndexList &rows = selectionModel()->selectedRows(FrameTableViewModel::FIRST_COL);
     if (rows.isEmpty()) {

@@ -19,6 +19,8 @@ public:
 
     QAction *getDeleteAction();
 
+    bool hasSelectedFrames() const;
+
     QList<Frame *> selectedFrames() const;
 
     void readSettings();

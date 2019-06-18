@@ -201,13 +201,7 @@ void ProjectTreeView::setShowTotalColumn(bool show) {
 }
 
 void ProjectTreeView::deleteSelectedProject() {
-    const QModelIndexList &rows = selectionModel()->selectedRows(ProjectTreeItem::COL_NAME);
-    if (rows.isEmpty()) {
-        return;
-    }
-
-    const QModelIndex &sourceSelection = _proxyModel->mapToSource(rows.first());
-    const Project &project = _sourceModel->projectAtIndex(sourceSelection);
+    const Project &project = getSelectedProject();
     if (project.isValid()) {
         ActionUtils::removeProject(_control, project, this);
     }
@@ -224,4 +218,25 @@ void ProjectTreeView::dragMoveEvent(QDragMoveEvent *event) {
 
 QAction *ProjectTreeView::getDeleteAction() const {
     return _deleteSelectedAction;
+}
+
+bool ProjectTreeView::hasSelectedProject() const {
+    return !selectionModel()->selectedIndexes().isEmpty();
+}
+
+Project ProjectTreeView::getSelectedProject() const {
+    const QModelIndexList &rows = selectionModel()->selectedRows(ProjectTreeItem::COL_NAME);
+    if (rows.isEmpty()) {
+        return Project();
+    }
+
+    const QModelIndex &sourceSelection = _proxyModel->mapToSource(rows.first());
+    return _sourceModel->projectAtIndex(sourceSelection);
+}
+
+void ProjectTreeView::selectFirstRow() {
+    const QModelIndex &first = _proxyModel->index(0, 0);
+    if (first.isValid()) {
+        selectionModel()->select(first, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Rows);
+    }
 }

@@ -114,7 +114,10 @@ void ProjectTreeView::projectsStatusChanged(const QStringList &projectIDs) {
 }
 
 void ProjectTreeView::createNewProject(const Project &parentProject) {
-    CommonDialogs::createProject(parentProject, _control, this);
+    const Project project = CommonDialogs::createProject(parentProject, _control, this);
+    if (project.isValid()) {
+        selectProject(project);
+    }
 }
 
 const Project ProjectTreeView::getCurrentProject() {
@@ -135,8 +138,10 @@ const Project ProjectTreeView::getCurrentProject() {
 void ProjectTreeView::selectProject(const Project &project) {
     if (project.isValid()) {
         const QModelIndex &source = _proxyModel->mapFromSource(_sourceModel->getProjectRow(project.getID()));
-        setCurrentIndex(source);
-        scrollTo(source, PositionAtCenter);
+        if (source.isValid()) {
+            setCurrentIndex(source);
+            scrollTo(source, PositionAtCenter);
+        }
     } else {
         clearSelection();
     }

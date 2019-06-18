@@ -93,12 +93,12 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
 
     connect(actionQuit, &QAction::triggered, &QCoreApplication::quit);
 
-    connect(QCoreApplication::instance(), &QCoreApplication::aboutToQuit, this, &MainWindow::writeSettings);
+    connect(QGuiApplication::instance(), &QCoreApplication::aboutToQuit, this, &MainWindow::writeSettings);
 
     // listen to focus events
-    connect(qApp, &QApplication::focusChanged, this, &MainWindow::focusChanged);
+    connect(dynamic_cast<QApplication*>(QCoreApplication::instance()), &QApplication::focusChanged, this, &MainWindow::focusChanged);
 
-    //fix up mens
+    //fix up menus
     menuSettings->insertSection(actionProjectsTodayColumn, tr("Projects"));
     menuSettings->insertSection(actionSettingsShowArchived, tr("Time Entries"));
 

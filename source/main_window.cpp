@@ -15,12 +15,12 @@
 #include "source/report/ProjectReportDialog.h"
 #include "source/projectlookup/projectlookup.h"
 
-MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, TomSettings *settings, QMainWindow *parent) : QMainWindow(parent),
-                                                                                                                               Ui::MainWindow(),
-                                                                                                                               _control(control),
-                                                                                                                               _statusManager(statusManager),
-                                                                                                                               _settings(settings),
-                                                                                                                               _frameStatusLabel(new QLabel(this)){
+MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, TomSettings *settings, QWidget *parent) : QMainWindow(parent),
+                                                                                                                           Ui::MainWindow(),
+                                                                                                                           _control(control),
+                                                                                                                           _statusManager(statusManager),
+                                                                                                                           _settings(settings),
+                                                                                                                           _frameStatusLabel(new QLabel(this)) {
 //#ifndef Q_OS_MAC
     setWindowIcon(Icons::LogoLarge());
 //#endif
@@ -34,7 +34,7 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     _projectTree->setup(control, statusManager);
     _frameView->setup(control, statusManager);
 
-   // setup the statusbar
+    // setup the statusbar
     mainStatusBar->addPermanentWidget(_frameStatusLabel, 1);
     _frameStatusLabel->setAlignment(Qt::AlignRight);
 
@@ -96,7 +96,7 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     connect(QGuiApplication::instance(), &QCoreApplication::aboutToQuit, this, &MainWindow::writeSettings);
 
     // listen to focus events
-    connect(dynamic_cast<QApplication*>(QCoreApplication::instance()), &QApplication::focusChanged, this, &MainWindow::focusChanged);
+    connect(dynamic_cast<QApplication *>(QCoreApplication::instance()), &QApplication::focusChanged, this, &MainWindow::focusChanged);
 
     //fix up menus
     menuSettings->insertSection(actionProjectsTodayColumn, tr("Projects"));
@@ -266,12 +266,18 @@ void MainWindow::deleteCurrentProject() {
 }
 
 void MainWindow::selectCurrentProject(bool showWindow) {
-    _projectTree->setFocus();
-    _projectTree->selectProject(_control->cachedActiveProject());
+    qDebug() << "selectCurrentProject";
 
     if (showWindow) {
-        show();
+        if (!isVisible()) {
+            show();
+        }
+        activateWindow();
+        raise();
     }
+
+    _projectTree->setFocus();
+    _projectTree->selectProject(_control->cachedActiveProject());
 }
 
 void MainWindow::editCurrentProject() {
@@ -302,14 +308,19 @@ void MainWindow::lookupProject() {
 }
 
 void MainWindow::focusProjectTree() {
+    qDebug() << "focusProjectTree";
+
     _projectTree->setFocus();
 }
 
 void MainWindow::focusEntriesList() {
+    qDebug() << "focusEntriesList";
+
     _frameView->setFocus();
 }
 
-void MainWindow::focusChanged(QWidget *, QWidget *now) {
+void MainWindow::focusChanged(QWidget *old, QWidget *now) {
+    qDebug() << "focusChanged" << old << now;
     if (now == _projectTree) {
         _projectTree->getDeleteAction()->setEnabled(true);
         _frameView->getDeleteAction()->setEnabled(false);
@@ -325,16 +336,18 @@ void MainWindow::focusChanged(QWidget *, QWidget *now) {
     }
 }
 
-void MainWindow::updateStatusBar(){
+void MainWindow::updateStatusBar() {
+    qDebug() << "updateStatusBar";
+
     auto selected = _frameView->selectedFrames();
-    if (selected.size() > 1){
+    if (selected.size() > 1) {
         qlonglong millis = 0;
-        for (auto f : selected){
+        for (auto f : selected) {
             millis += f->durationMillis(true);
         }
         Timespan span(millis);
         _frameStatusLabel->setText(tr("Total: %1 / %2").arg(span.format()).arg(span.formatDecimal()));
-    } else{
+    } else {
         _frameStatusLabel->setText("");
     }
 }

@@ -15,7 +15,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow {
 Q_OBJECT
 
 public:
-    explicit MainWindow(TomControl *control, ProjectStatusManager *statusManager, TomSettings *settings, QMainWindow *parent = nullptr);
+    explicit MainWindow(TomControl *control, ProjectStatusManager *statusManager, TomSettings *settings, QWidget *parent = nullptr);
 
     ~MainWindow() override;
 

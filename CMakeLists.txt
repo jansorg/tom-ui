@@ -91,7 +91,7 @@ endif()
 if (CMAKE_BUILD_TYPE EQUAL "release")
     add_compile_options(-O3)
 else()
-    add_compile_options(-g)
+    add_compile_options(-g3 -O0)
 endif ()
 
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS

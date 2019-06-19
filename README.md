@@ -11,6 +11,10 @@
 
 **[2. Installation](#2-installation)**
 
+* [2.1. Mac OS X](#21-mac-os-x)
+* [2.2. Ubuntu Linux 18.10](#22-ubuntu-linux-1810)
+* [2.3. Any platform](#23-any-platform)
+
 **[3. Features](#3-features)**
 
 * [3.1. Tray icon](#31-tray-icon)
@@ -18,8 +22,8 @@
 * [3.3. Timeframe list](#33-timeframe-list)
 * [3.4. Project quickstart window](#34-project-quickstart-window)
 * [3.5. Reports](#35-reports)
-* [3.6. Data import](#35-data-import)
-* [3.7. Command line interface](#35-command-line-interface)
+* [3.6. Data import](#36-data-import)
+* [3.7. Command line interface](#37-command-line-interface)
 
 **[4. Useful resources](4-useful-resources)**
 
@@ -37,18 +41,32 @@
 
 ## 2. Installation
 
-1. Install [`tom`](https://github.com/jansorg/tom) according to [its installation instructions](https://github.com/jansorg/tom#get-tom):
+### 2.1. Mac OS X
 
-       go get github.com/jansorg/tom
+Download and install the latest `.dmg` files of `tom` and `tom-ui`, provided under:
 
-2. Install `tom-ui` in one of the following ways:
+* [`tom` Releases](https://github.com/jansorg/tom/releases)
+* [`tom-ui` Releases](https://github.com/jansorg/tom-ui/releases)
 
-   * For Mac OS X, download and install a `.dmg` file provided under [Releases](https://github.com/jansorg/tom-ui/releases).
-   * For Ubuntu Linux 18.10, download and install a `.deb` package provided under [Releases](https://github.com/jansorg/tom-ui/releases). This may also work for other Linux distributions based on Debian. You can install the file incl. all dependencies like this:
-   
-       sudo apt install ./tom-0.6.0-ubuntu-18.10.deb
+
+### 2.2. Ubuntu Linux 18.10
+
+This may also work for other versions of Ubuntu, and for other Linux distributions based on Debian.
+
+1. Download the latest `.deb` package of `tom` provided under [`tom` Releases](https://github.com/jansorg/tom/releases).
+
+2. Download the latest `.deb` package of `tom-ui` provided under [`tom-ui` Releases](https://github.com/jansorg/tom/releases).
+
+3. Install the packages of both `tom`, `tom-ui` and all their dependencies with a command like this:
+  
+       sudo apt install ./tom_0.9.0_Linux-amd64.deb ./tom-ui_0.9.0-ubuntu-18.10_amd64.deb
        
-   * For any platform, you can always build `tom-ui` from source using `cmake`. See [DEVELOPMENT.md](https://github.com/jansorg/tom-ui/blob/master/DEVELOPMENT.md) for details.
+    It is important to reference the `.deb` files with their paths (and if only `./`) as otherwise `apt` will interpret the arguments as package names and try to find them in online repositories.
+
+
+### 2.3. Any platform
+
+For any supported platform, you can always build `tom-ui` from source using `cmake`. See [DEVELOPMENT.md](https://github.com/jansorg/tom-ui/blob/master/DEVELOPMENT.md) for details.
 
 
 ## 3. Features

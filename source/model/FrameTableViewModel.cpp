@@ -4,9 +4,6 @@
 #include "FrameTableViewModel.h"
 #include "UserRoles.h"
 
-const auto redColorValue = QVariant(QColor(Qt::darkRed));
-const auto alignedRightVCenter = QVariant(Qt::AlignRight + Qt::AlignVCenter);
-
 FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) : QAbstractTableModel(parent),
                                                                                  _control(control),
                                                                                  _archiveIcon(Icons::timeEntryArchive().pixmap(16, 16, QIcon::Disabled)) {
@@ -328,7 +325,7 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
         if (index.column() == COL_DURATION) {
             Frame *frame = _frames.at(index.row());
             if (!frame->stopTime.isValid()) {
-                return redColorValue;
+                return QVariant(QColor(Qt::red));
             }
         }
     }
@@ -336,11 +333,11 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::TextAlignmentRole) {
         // right align the end column
         if (index.column() == COL_END) {
-            return alignedRightVCenter;
+            return QVariant(Qt::AlignRight + Qt::AlignVCenter);
         }
         // right align the duration
         if (index.column() == COL_DURATION) {
-            return alignedRightVCenter;
+            return QVariant(Qt::AlignRight + Qt::AlignVCenter);
         }
     }
 

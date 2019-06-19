@@ -77,11 +77,11 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         auto *item = projectItem(index);
 
         if (index.column() == ProjectTreeItem::COL_TODAY && _control->isStarted(item->getProject(), false)) {
-            return QVariant(QColor(Qt::darkRed));
+            return QColor(Qt::red);
         }
 
-        if (index.column() >= ProjectTreeItem::COL_TODAY && item->data(index.column()).toString() == QString("0:00h")) {
-            return QVariant(QColor(Qt::gray));
+        if (index.column() >= ProjectTreeItem::COL_TODAY && item->data(index.column()).toString() == "0:00h"){
+            return QColor(Qt::lightGray);
         }
     }
 

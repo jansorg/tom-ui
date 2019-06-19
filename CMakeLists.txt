@@ -90,6 +90,8 @@ endif()
 
 if (CMAKE_BUILD_TYPE EQUAL "release")
     add_compile_options(-O3)
+else()
+    add_compile_options(-g)
 endif ()
 
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
@@ -101,8 +103,8 @@ if (APPLE)
             MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
 endif ()
 
-enable_testing(true)
-include_directories(test)
+#enable_testing(true)
+#include_directories(test)
 
 target_include_directories(${PROJECT_NAME} PRIVATE source)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})

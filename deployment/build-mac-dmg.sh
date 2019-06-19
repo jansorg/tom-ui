@@ -9,7 +9,7 @@ git pull
 go get github.com/jansorg/tom
 (cd $HOME/go/src/github.com/jansorg/tom/ && git pull)
 
-QTDIR="$HOME/Qt/5.12.3/clang_64"
+QTDIR="$HOME/Qt/5.12.4/clang_64"
 
 rm -rf build
 mkdir build

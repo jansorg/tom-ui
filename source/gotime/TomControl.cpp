@@ -188,8 +188,13 @@ QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubp
         return QList<Frame *>();
     }
 
+    const QByteArray &stdout = resp.stdoutContent.toUtf8();
+    if (stdout.isEmpty()) {
+        return QList<Frame *>();
+    }
+
     QJsonParseError err = QJsonParseError();
-    QJsonDocument json = QJsonDocument::fromJson(resp.stdoutContent.toUtf8(), &err);
+    QJsonDocument json = QJsonDocument::fromJson(stdout, &err);
     if (err.error != QJsonParseError::NoError) {
         qWarning() << "json parse error" << err.errorString();
         return QList<Frame *>();

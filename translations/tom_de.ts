@@ -974,8 +974,14 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/report/reportDialog.ui" line="558"/>
+        <location filename="../source/report/reportDialog.ui" line="479"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="496"/>
+        <source>Optional path to a CSS file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/report/reportDialog.ui" line="562"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="497"/>
         <source>&amp;Update Report</source>
         <translation>&amp;Bericht aktualisieren</translation>
     </message>

@@ -3,12 +3,15 @@
 #include <source/main_window.h>
 #include <source/commonModels/TranslatedStringlistModel.h>
 #include <QtWidgets/QFileDialog>
+#include <QtWidgets/QFileSystemModel>
+#include <QCompleter>
 
 #include "ProjectReportDialog.h"
 
 #include "source/model/ProjectTreeModel.h"
 #include "source/view/ProjectTreeView.h"
 #include "source/model/UserRoles.h"
+#include "source/commonModels/FileSystemModel.h"
 
 ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomControl *control,
                                          ProjectStatusManager *statusManager, QWidget *parent) : QDialog(parent),
@@ -36,6 +39,14 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
 #else
     previewFrame->hide();
 #endif
+
+    // fix up widgets
+    auto *completer = new QCompleter(this);
+    completer->setCompletionMode(QCompleter::PopupCompletion);
+    auto *fsModel = new FileSystemModel(completer);
+    fsModel->setRootPath("");
+    completer->setModel(fsModel);
+    cssFileEdit->setCompleter(completer);
 
     if (_tempDir.isValid()) {
         _tempFile = _tempDir.filePath("report.html");
@@ -66,15 +77,15 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     readSettings();
 
     // setup actions buttons
-    QAction *updateAction = new QAction("&Update report", this);
+    auto *updateAction = new QAction("&Update report", this);
     connect(updateAction, &QAction::triggered, this, &ProjectReportDialog::updateReport);
     updateAction->setShortcuts(QKeySequence::Refresh);
 
-    QAction *saveHTMLAction = new QAction("&Save report as HTML", this);
+    auto saveHTMLAction = new QAction("&Save report as HTML", this);
     connect(saveHTMLAction, &QAction::triggered, this, &ProjectReportDialog::saveReportHTML);
     saveHTMLAction->setShortcuts(QKeySequence::Save);
 
-    QMenu *actionsMenu = new QMenu("Actions", this);
+    auto actionsMenu = new QMenu("Actions", this);
     actionsMenu->addAction(updateAction);
     actionsMenu->addAction(saveHTMLAction);
 
@@ -301,6 +312,7 @@ QString ProjectReportDialog::reportHTML(const QString &filename) const {
                                 titleEdit->text(), descriptionEdit->toPlainText(),
                                 showSalesCheckbox->isChecked(),
                                 showTrackedCheckbox->isChecked(),
-                                showUntrackedCheckbox->isChecked());
+                                showUntrackedCheckbox->isChecked(),
+                                cssFileEdit->text());
 }
 

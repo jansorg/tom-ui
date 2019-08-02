@@ -3,7 +3,6 @@
 #include <QtWidgets/QMessageBox>
 #include <QtWidgets/QMainWindow>
 #include <dialogs/CommonDialogs.h>
-#include <QtWidgets/QInputDialog>
 #include <QtWidgets/QFileDialog>
 
 #include "version.h"

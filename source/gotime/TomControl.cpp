@@ -586,14 +586,16 @@ QString TomControl::htmlReport(const QString &outputFile,
                                bool includeSubprojects,
                                QDate start, QDate end,
                                TimeRoundingMode frameRoundingMode, int frameRoundingMinutes,
-                               QStringList splits, const QString &templateID,
+                               const QStringList splits,
+                               const QString &templateID,
                                bool matrixTables,
                                bool showEmpty,
                                bool showSummary,
                                bool includeArchived,
                                const QString &title, const QString &description,
                                bool showSales,
-                               bool showTracked, bool showUntracked) {
+                               bool showTracked, bool showUntracked,
+                               const QString &cssFile) {
     QStringList args;
     args << "report";
     if (!outputFile.isEmpty()) {
@@ -659,6 +661,10 @@ QString TomControl::htmlReport(const QString &outputFile,
         args << "--round-frames-to" << "0m";
     } else {
         args << "--round-frames-to" << QString("%1m").arg(frameRoundingMinutes);
+    }
+
+    if (!cssFile.isEmpty()) {
+        args << "--css-file=" + cssFile;
     }
 
     const auto &status = run(args, 5000);

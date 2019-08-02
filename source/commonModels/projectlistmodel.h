@@ -6,6 +6,8 @@
 #include "source/gotime/TomControl.h"
 
 class ProjectListModel : public QAbstractListModel {
+Q_OBJECT
+
 public:
     ProjectListModel(TomControl *control, QObject *parent);
 

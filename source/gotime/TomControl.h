@@ -77,7 +77,8 @@ public:
 
     void archiveProjectFrames(const Project &project, bool includeSubprojects);
 
-    bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID, bool updateHourlyRate, const QString &hourlyRate, bool signalHierarchyChange = true);
+    bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID, bool updateHourlyRate, const QString &hourlyRate,
+                        bool signalHierarchyChange = true);
 
     bool importMacTimeTracker(const QString &filename);
 
@@ -88,21 +89,26 @@ public:
     void resetAll();
 
     bool isChildProject(const QString &id, const QString &parentID) const;
+
     bool isAnyChildProject(const QStringList &ids, const QString &parentID) const;
+
     bool isAnyParentProject(const QString &id, const QStringList &parents) const;
 
     QString htmlReport(const QString &outputFile,
                        const QStringList &projectIDs,
                        bool includeSubprojects,
                        QDate start, QDate end,
-                       TimeRoundingMode frameRoundingMode, int frameRoundingMinutes, QStringList splits, const QString &templateID,
+                       TimeRoundingMode frameRoundingMode, int frameRoundingMinutes,
+                       const QStringList splits,
+                       const QString &templateID,
                        bool matrixTables,
                        bool showEmpty,
                        bool showSummary,
                        bool includeArchived,
                        const QString &title, const QString &description,
                        bool showSales,
-                       bool showTracked, bool showUntracked);
+                       bool showTracked, bool showUntracked,
+                       const QString &cssFile);
 
     QStringList projectIDs(const QString &projectID, bool includeSubprojects) const;
 
@@ -118,7 +124,7 @@ signals:
 
     void projectRemoved(const Project &project);
 
-    void projectHierarchyChanged(const QList<Project>& projects);
+    void projectHierarchyChanged(const QList<Project> &projects);
 
     void projectFramesArchived(const QStringList &projectIDs);
 
@@ -128,7 +134,7 @@ signals:
 
     void framesMoved(const QStringList &ids, const QStringList &oldProjectIDs, const QString &newProjectID);
 
-    void framesArchived(const QStringList& frameIDs, const QStringList &projectIDs, bool nowArchived);
+    void framesArchived(const QStringList &frameIDs, const QStringList &projectIDs, bool nowArchived);
 
 public slots:
 

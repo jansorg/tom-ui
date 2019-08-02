@@ -100,7 +100,7 @@
              <bool>true</bool>
             </property>
             <property name="placeholderText">
-             <string>Your description to display at the top of the report...</string>
+             <string>Your description to display at the top of the report. HTML content is allowed.</string>
             </property>
            </widget>
           </item>
@@ -460,6 +460,23 @@
                 <string>Show untracked averages</string>
                </property>
               </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="cssFileLayout">
+               <item>
+                <widget class="QLabel" name="cssFileLabel">
+                 <property name="toolTip">
+                  <string>Optional path to a file with CSS. The file will be inlined into the generated report.</string>
+                 </property>
+                 <property name="text">
+                  <string>CSS file:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="cssFileEdit"/>
+               </item>
+              </layout>
              </item>
             </layout>
            </widget>

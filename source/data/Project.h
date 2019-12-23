@@ -5,12 +5,13 @@
 #include <QtCore/QString>
 
 #include "timespan/timespan.h"
+#include "TriState.h"
 
 class Project {
 public:
     Project();
 
-    Project(QStringList names, QString id, QString parentID, QString hourlyRate);
+    Project(QStringList names, QString id, QString parentID, QString hourlyRate, TriState noteRequired, bool noteRequiredInherited);
 
     QString getID() const;
 
@@ -21,6 +22,10 @@ public:
     QString getShortName() const;
 
     QString getHourlyRate() const;
+
+    TriState isNoteRequired() const;
+
+    bool appliedIsNoteRequired() const;
 
     bool isValid() const;
 
@@ -39,6 +44,8 @@ private:
     QString _parentID;
     QStringList _names;
     QString _hourlyRate;
+    TriState _noteRequired;
+    bool _noteRequiredApplied;
     QDateTime _lastUpdated;
     QString _fullName;
     bool _isValid;

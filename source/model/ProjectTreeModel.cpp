@@ -18,7 +18,8 @@ ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *st
           _statusManager(statusManager),
           _rootItem(nullptr),
           _visibleRootItem(nullptr),
-          _headers(QStringList() << tr("Name") << tr("Today") << tr("Yesterday") << tr("This week") << tr("This month") << tr("This year") << tr("Total")),
+          _headers(QStringList() << tr("Name") << tr("Today") << tr("Yesterday") << tr("This week") << tr("This month")
+                                 << tr("This year") << tr("Total")),
           _enableCheckboxes(enableCheckboxes) {
 
     _rootItem = new ProjectTreeRootItem(_statusManager);
@@ -79,7 +80,7 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
             return QColor(Qt::red);
         }
 
-        if (index.column() >= ProjectTreeItem::COL_TODAY && item->data(index.column()).toString() == "0:00h"){
+        if (index.column() >= ProjectTreeItem::COL_TODAY && item->data(index.column()).toString() == "0:00h") {
             return QColor(Qt::lightGray);
         }
     }
@@ -394,7 +395,8 @@ bool ProjectTreeModel::dropMimeData(const QMimeData *data, Qt::DropAction action
     return false;
 }
 
-bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/, const QModelIndex &parent) {
+bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropAction action, int /*row*/, int /*column*/,
+                                            const QModelIndex &parent) {
     if (action != Qt::MoveAction) {
         return false;
     }
@@ -418,7 +420,11 @@ bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropActio
 
     // don't move data in the model if the data couldn't be changed in tom
     // passing signalHierarchyChange = false because we're handling the change on our own here
-    bool success = _control->updateProjects(ids, false, "", true, parentID, false, "", false);
+    bool success = _control->updateProjects(ids,
+                                            false, "",
+                                            true, parentID, false,
+                                            "", false, UNDEFINED,
+                                            false);
     if (!success) {
         qDebug() << "tom update failed for move of projects" << ids << "into" << parentID;
         return false;

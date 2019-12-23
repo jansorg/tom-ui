@@ -8,16 +8,19 @@ Project::Project() : _id(QString()),
                      _parentID(QString()),
                      _names(QStringList()),
                      _hourlyRate(""),
+                     _noteRequired(UNDEFINED),
+                     _noteRequiredApplied(false),
                      _lastUpdated(QDateTime()),
                      _fullName(""),
                      _isValid(false),
                      _isRootProject(false) {}
 
-Project::Project(QStringList names, QString id, QString parentID, QString hourlyRate) : _id(std::move(id)),
-                                                                                        _parentID(std::move(parentID)),
-                                                                                        _names(std::move(names)),
-                                                                                        _hourlyRate(std::move(hourlyRate)),
-                                                                                        _isRootProject(false) {
+Project::Project(QStringList names, QString id, QString parentID, QString hourlyRate, TriState noteRequired, bool noteRequiredInherited)
+        : _id(std::move(id)), _parentID(std::move(parentID)), _names(std::move(names)),
+          _hourlyRate(std::move(hourlyRate)),
+          _noteRequired(noteRequired), _noteRequiredApplied(noteRequiredInherited),
+          _isRootProject(false) {
+
     _fullName = _names.join("/");
     _isValid = !_id.isEmpty() && !_names.isEmpty();
 }
@@ -55,4 +58,12 @@ bool Project::isValidOrRootProject() const {
 
 QString Project::getHourlyRate() const {
     return _hourlyRate;
+}
+
+TriState Project::isNoteRequired() const {
+    return _noteRequired;
+}
+
+bool Project::appliedIsNoteRequired() const {
+    return _noteRequiredApplied;
 }

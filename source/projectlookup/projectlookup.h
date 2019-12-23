@@ -3,6 +3,7 @@
 
 #include <QtWidgets/QDialog>
 #include <QtWidgets/QMainWindow>
+#include <source/main_window.h>
 
 #include "source/gotime/TomControl.h"
 #include "source/gotime/ProjectStatusManager.h"
@@ -12,12 +13,12 @@ class ProjectLookup : public QDialog, private Ui::ProjectLookupDialog {
 Q_OBJECT
 
 public:
-    static void show(TomControl *control, QMainWindow *window, QWidget *parent);
+    static void show(TomControl *control, MainWindow *window, QWidget *parent);
 
     void done(int i) override;
 
 protected:
-    explicit ProjectLookup(TomControl *control, QMainWindow *window, QWidget *parent);
+    explicit ProjectLookup(TomControl *control, MainWindow *window, QWidget *parent);
 
     void readSettings();
 

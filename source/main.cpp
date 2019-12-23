@@ -3,7 +3,7 @@
 
 #include "qxt/qxtglobalshortcut.h"
 
-#include "source/projectlookup/projectlookup.h"
+#include "projectlookup/projectlookup.h"
 #include "settings/TomSettings.h"
 #include "gotime/ProjectStatusManager.h"
 #include "main_window.h"
@@ -87,13 +87,25 @@ int main(int argc, char *argv[]) {
     // update the UI with the current settings
     config->triggerUpdate();
 
-    const QKeySequence shortcut(Qt::ShiftModifier + Qt::ControlModifier + Qt::Key_P);
-    const QxtGlobalShortcut globalShortcut(shortcut);
-    if (globalShortcut.isValid()) {
+    const QxtGlobalShortcut projectLookupShortcut(Qt::ShiftModifier + Qt::ControlModifier + Qt::Key_P);
+    if (projectLookupShortcut.isValid()) {
         QObject::connect(
-                &globalShortcut, &QxtGlobalShortcut::activated, &globalShortcut,
+                &projectLookupShortcut, &QxtGlobalShortcut::activated, &projectLookupShortcut,
                 [&] {
                     ProjectLookup::show(control, &mainWindow, nullptr);
+                });
+    } else {
+        qWarning() << "failed to install global shortcut";
+    }
+
+    // fixme configure shortcuts
+
+    const QxtGlobalShortcut restartProjectShortcut(Qt::ShiftModifier + Qt::ControlModifier + Qt::Key_T);
+    if (restartProjectShortcut.isValid()) {
+        QObject::connect(
+                &restartProjectShortcut, &QxtGlobalShortcut::activated, &restartProjectShortcut,
+                [&] {
+                    mainWindow.stopCurrentProject(true);
                 });
     } else {
         qWarning() << "failed to install global shortcut";

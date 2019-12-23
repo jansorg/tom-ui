@@ -37,9 +37,9 @@ public:
 
     QList<Project> cachedProjects() const;
 
-    const Project cachedProject(const QString &id) const;
+    Project cachedProject(const QString &id) const;
 
-    const Project cachedActiveProject() const;
+    Project cachedActiveProject() const;
 
     bool hasSubprojects(const Project &project);
 
@@ -47,7 +47,7 @@ public:
 
     TomStatus cachedStatus();
 
-    const ProjectsStatus projectsStatus(const QString &overallID, bool includeActive, bool includeArchived);
+    ProjectsStatus projectsStatus(const QString &overallID, bool includeActive, bool includeArchived);
 
     bool isStarted(const Project &project, bool includeSubprojects = false);
 
@@ -77,7 +77,10 @@ public:
 
     void archiveProjectFrames(const Project &project, bool includeSubprojects);
 
-    bool updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID, bool updateHourlyRate, const QString &hourlyRate,
+    bool updateProjects(const QStringList &ids, bool updateName, const QString &name,
+                        bool updateParent, const QString &parentID,
+                        bool updateHourlyRate, const QString &hourlyRate,
+                        bool updateNoteRequired, TriState noteRequired,
                         bool signalHierarchyChange = true);
 
     bool importMacTimeTracker(const QString &filename);
@@ -99,7 +102,7 @@ public:
                        bool includeSubprojects,
                        QDate start, QDate end,
                        TimeRoundingMode frameRoundingMode, int frameRoundingMinutes,
-                       const QStringList splits,
+                       const QStringList &splits,
                        const QString &templateID,
                        bool matrixTables,
                        bool showEmpty,
@@ -140,7 +143,7 @@ public slots:
 
     bool startProject(const Project &project);
 
-    bool stopActivity();
+    bool stopActivity(const QString& notes = QString());
 
     bool cancelActivity();
 

@@ -4,11 +4,19 @@
 #include "ProjectEditorDialog.h"
 #include "source/gotime/ProjectStatusManager.h"
 
-ProjectEditorDialog::ProjectEditorDialog(const Project &project, TomControl *control, ProjectStatusManager *statusManager, QWidget *parent) : QDialog(parent), Ui::ProjectDialog(),
-                                                                                                                                              _control(control),
-                                                                                                                                              _statusManager(statusManager),
-                                                                                                                                              _project(project) {
+ProjectEditorDialog::ProjectEditorDialog(const Project &project, TomControl *control,
+                                         ProjectStatusManager *statusManager, QWidget *parent)
+        : QDialog(parent), Ui::ProjectDialog(), _control(control), _statusManager(statusManager), _project(project) {
+
     setupUi(this);
+
+    _noteRequired->initItems(tr("Inherit from parent"), tr("Required"), tr("Not required"));
+
+    // fixme handle root project
+    Project parentProject = _control->cachedProject(project.getParentID());
+    if (parentProject.isValid()) {
+        _noteRequired->setInheritedValue(parentProject.appliedIsNoteRequired() ? tr("Required") : tr("Not required"));
+    }
 
     loadProject(project);
 
@@ -16,7 +24,8 @@ ProjectEditorDialog::ProjectEditorDialog(const Project &project, TomControl *con
     connect(_buttonBox->button(QDialogButtonBox::Reset), &QPushButton::clicked, [this] { loadProject(_project); });
 }
 
-void ProjectEditorDialog::show(const Project &project, TomControl *control, ProjectStatusManager *statusManager, QWidget *parent) {
+void ProjectEditorDialog::show(const Project &project, TomControl *control,
+                               ProjectStatusManager *statusManager, QWidget *parent) {
     auto *dialog = new ProjectEditorDialog(project, control, statusManager, parent);
     dialog->showNormal();
 }
@@ -30,9 +39,15 @@ void ProjectEditorDialog::loadProject(const Project &project) {
     _parentBox->setSelectedProject(project.getParentID());
 
     _hourlyRateEdit->setText(project.getHourlyRate());
+
+    _noteRequired->setState(project.isNoteRequired());
 }
 
 void ProjectEditorDialog::saveProject() {
-    const QString &id = _parentBox->selectedProject().getID();
-    _control->updateProjects(QStringList() << _project.getID(), true, _nameEdit->text().simplified(), true, id, true, _hourlyRateEdit->text());
+    const QString &parentId = _parentBox->selectedProject().getID();
+    _control->updateProjects(QStringList() << _project.getID(),
+                             true, _nameEdit->text().simplified(),
+                             true, parentId,
+                             true, _hourlyRateEdit->text(),
+                             true, _noteRequired->getState());
 }

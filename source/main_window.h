@@ -27,6 +27,8 @@ public slots:
 
     void selectCurrentProject(bool showWindow = false);
 
+    void stopCurrentProject(bool restart = false);
+
 private slots:
 
     void refreshData();
@@ -40,8 +42,6 @@ private slots:
     void importWatson();
 
     void startCurrentProject();
-
-    void stopCurrentProject();
 
     void deleteCurrentProject();
 

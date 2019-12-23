@@ -3,9 +3,9 @@
 
 #include <QtWidgets/QDialog>
 
+#include "gotime/ProjectStatusManager.h"
+#include "gotime/TomControl.h"
 #include "ui_project_dialog.h"
-#include "source/gotime/ProjectStatusManager.h"
-#include "source/gotime/TomControl.h"
 
 class ProjectEditorDialog : public QDialog, private Ui::ProjectDialog {
 Q_OBJECT

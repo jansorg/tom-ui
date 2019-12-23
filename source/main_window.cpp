@@ -4,6 +4,7 @@
 #include <QtWidgets/QMainWindow>
 #include <dialogs/CommonDialogs.h>
 #include <QtWidgets/QFileDialog>
+#include <QtWidgets/QInputDialog>
 
 #include "version.h"
 #include "icons.h"
@@ -14,12 +15,13 @@
 #include "source/report/ProjectReportDialog.h"
 #include "source/projectlookup/projectlookup.h"
 
-MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, TomSettings *settings, QWidget *parent) : QMainWindow(parent),
-                                                                                                                           Ui::MainWindow(),
-                                                                                                                           _control(control),
-                                                                                                                           _statusManager(statusManager),
-                                                                                                                           _settings(settings),
-                                                                                                                           _frameStatusLabel(new QLabel(this)) {
+MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, TomSettings *settings, QWidget *parent)
+        : QMainWindow(parent),
+          Ui::MainWindow(),
+          _control(control),
+          _statusManager(statusManager),
+          _settings(settings),
+          _frameStatusLabel(new QLabel(this)) {
 //#ifndef Q_OS_MAC
     setWindowIcon(Icons::LogoLarge());
 //#endif
@@ -72,7 +74,8 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     connect(_projectTree, &ProjectTreeView::projectSelected, _frameView, &FrameTableView::onProjectSelected);
     connect(_projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::onProjectSelectionChange);
 
-    connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this, &MainWindow::onEntrySelectionChange);
+    connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this,
+            &MainWindow::onEntrySelectionChange);
 
     connect(actionSettingsShowArchived, &QAction::toggled, _projectTree, &ProjectTreeView::setShowArchived);
 
@@ -95,7 +98,8 @@ MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager,
     connect(QGuiApplication::instance(), &QCoreApplication::aboutToQuit, this, &MainWindow::writeSettings);
 
     // listen to focus events
-    connect(dynamic_cast<QApplication *>(QCoreApplication::instance()), &QApplication::focusChanged, this, &MainWindow::focusChanged);
+    connect(dynamic_cast<QApplication *>(QCoreApplication::instance()), &QApplication::focusChanged, this,
+            &MainWindow::focusChanged);
 
     //fix up menus
     menuSettings->insertSection(actionProjectsTodayColumn, tr("Projects"));
@@ -244,12 +248,35 @@ void MainWindow::onProjectStatusChange() {
 void MainWindow::startCurrentProject() {
     const Project &project = _projectTree->getCurrentProject();
     if (project.isValid()) {
+        // fixme notes for currently active time entry
         _control->startProject(project);
     }
 }
 
-void MainWindow::stopCurrentProject() {
-    _control->stopActivity();
+void MainWindow::stopCurrentProject(bool restart) {
+    auto currentProject = _control->cachedActiveProject();
+    const Project &project = _control->cachedProject(currentProject.getID());
+    bool noteRequired = currentProject.isValid() && project.appliedIsNoteRequired();
+
+    QString notes;
+    if (noteRequired) {
+        //fixme pass current notes?
+        bool ok;
+        notes = QInputDialog::getMultiLineText(
+                this,
+                tr("Enter required notes"),
+                tr("Project: <strong>%1</strong><br>Notes are required to stop the current time entry.")
+                        .arg(project.getName()),
+                "", &ok);
+        if (!ok) {
+            // don't continue to stop the current ask when the dialog was cancelled
+            return;
+        }
+    }
+
+    if (_control->stopActivity(notes) && restart) {
+        _control->startProject(project);
+    }
 }
 
 void MainWindow::deleteSelectedTimeEntries() {
@@ -329,7 +356,7 @@ void MainWindow::focusChanged(QWidget *old, QWidget *now) {
         actionProjectEdit->setEnabled(_projectTree->getCurrentProject().isValid());
         actionTimeEntryArchive->setEnabled(false);
 
-        if (!_projectTree->hasSelectedProject()){
+        if (!_projectTree->hasSelectedProject()) {
             _projectTree->selectFirstRow();
         }
     } else if (now == _frameView) {

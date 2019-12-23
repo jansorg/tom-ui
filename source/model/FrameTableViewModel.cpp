@@ -492,7 +492,7 @@ QMimeData *FrameTableViewModel::mimeData(const QModelIndexList &indexes) const {
     // all other items are ids of the dragged frames
 
     auto *mime = new QMimeData();
-    QStringList items = QStringList() << projectIDs.toList().join(',') << frameIDs.toList();
+    QStringList items = QStringList() << projectIDs.values().join(',') << frameIDs.values();
     mime->setData(FRAMES_MIME_TYPE, items.join("||").toUtf8());
     return mime;
 }

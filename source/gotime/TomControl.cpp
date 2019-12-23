@@ -39,7 +39,7 @@ QList<Project> TomControl::loadProjects(int max) {
     QStringList args = QStringList() << "projects"
                                      << "--name-delimiter=||"
                                      << "-f"
-                                     << "fullName,id,parentID,hourlyRate";
+                                     << "fullName,id,parentID,hourlyRate,noteRequired,appliedNoteRequired";
     if (max > 0) {
         args << "--recent" << QString::number(max);
     }
@@ -53,13 +53,29 @@ QList<Project> TomControl::loadProjects(int max) {
     QList<Project> result;
     for (const auto &line : lines) {
         QStringList lineItems = line.split("\t");
-        if (lineItems.size() == 4) {
+        if (lineItems.size() == 6) {
             const auto &names = lineItems.at(0).split("||");
             const auto &id = lineItems.at(1);
             const auto &parent = lineItems.at(2);
             const auto &hourlyRate = lineItems.at(3);
+            const auto &noteRequired = lineItems.at(4);
+            const auto &noteRequiredInherited = lineItems.at(5);
 
-            result.append(Project(names, id, parent, hourlyRate));
+            TriState noteRequiredValue;
+            if (noteRequired == "true") {
+                noteRequiredValue = TRUE;
+            } else if (noteRequired == "false") {
+                noteRequiredValue = FALSE;
+            } else {
+                noteRequiredValue = UNDEFINED;
+                if (noteRequired != "") {
+                    qWarning() << "invalid value found for noteRequired:" << noteRequired;
+                }
+            }
+
+            const bool noteRequiredInheritedValue = noteRequiredInherited == "true";
+
+            result.append(Project(names, id, parent, hourlyRate, noteRequiredValue, noteRequiredInheritedValue));
         }
     }
 
@@ -113,12 +129,17 @@ bool TomControl::cancelActivity() {
     return success;
 }
 
-bool TomControl::stopActivity() {
+bool TomControl::stopActivity(const QString& notes) {
     const TomStatus &current = status();
 
     _activeProject = Project();
     //fixme handle failed update
-    bool success = run(QStringList() << "stop").isSuccessful();
+    QStringList cmd = QStringList() << "stop";
+    if (!notes.isNull()) {
+        cmd << "--notes" << notes;
+    }
+
+    bool success = run(cmd).isSuccessful();
     if (success && current.isValid) {
         status();
         loadRecentProjects();
@@ -154,18 +175,13 @@ TomStatus TomControl::status() {
             const QString &parentID = parts[3];
 
             QDateTime startTime = QDateTime::fromString(parts[4], Qt::ISODate);
-            Project project = Project(projectName, projectID, parentID, "");
+            Project project = Project(projectName, projectID, parentID, "", UNDEFINED, false);
             result = TomStatus(true, project, startTime);
         }
     }
 
-//    bool changed = _cachedStatus != result;
     _cachedStatus = result;
     _activeProject = _cachedStatus.currentProject();
-
-//    if (changed) {
-//        emit statusChanged();
-//    }
 
     return result;
 }
@@ -230,7 +246,7 @@ QList<Frame *> TomControl::loadFrames(const QString &projectID, bool includeSubp
 }
 
 bool TomControl::renameProject(const QString &id, const QString &newName) {
-    return updateProjects(QStringList() << id, true, newName, false, "", false, "");
+    return updateProjects(QStringList() << id, true, newName, false, "", false, "", false, UNDEFINED);
 }
 
 bool TomControl::renameTag(const QString &id, const QString &newName) {
@@ -306,8 +322,11 @@ bool TomControl::updateFrames(const QStringList &ids, const QStringList &project
     return success;
 }
 
-bool TomControl::updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent, const QString &parentID, bool updateHourlyRate,
-                                const QString &hourlyRate, bool signalHierarchyChange) {
+bool TomControl::updateProjects(const QStringList &ids, bool updateName, const QString &name, bool updateParent,
+                                const QString &parentID, bool updateHourlyRate,
+                                const QString &hourlyRate,
+                                bool updateNoteRequired, const TriState noteRequired,
+                                bool signalHierarchyChange) {
     if (ids.isEmpty() || (!updateName && !updateParent)) {
         return true;
     }
@@ -322,6 +341,9 @@ bool TomControl::updateProjects(const QStringList &ids, bool updateName, const Q
     }
     if (updateHourlyRate) {
         args << "--hourly-rate" << hourlyRate;
+    }
+    if (updateNoteRequired) {
+        args << "--note-required" << tristateString(noteRequired);
     }
     args << ids;
 
@@ -351,7 +373,7 @@ bool TomControl::updateProjects(const QStringList &ids, bool updateName, const Q
     return success;
 }
 
-const ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool includeActive, bool includeArchived) {
+ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool includeActive, bool includeArchived) {
     QString idList = "id,trackedDay,totalTrackedDay,trackedYesterday,totalTrackedYesterday,trackedWeek,totalTrackedWeek,trackedMonth,totalTrackedMonth,trackedYear,totalTrackedYear,trackedAll,totalTrackedAll";
     const int expectedColumns = idList.count(',') + 1;
 
@@ -434,7 +456,7 @@ Project TomControl::createProject(const QString &parentID, const QString &name) 
             names << v.toString();
         }
 
-        const Project &newProject = Project(names, id, parent, "");
+        const Project &newProject = Project(names, id, parent, "", UNDEFINED, false);
         _cachedProjects[id] = newProject;
         emit projectCreated(newProject);
 
@@ -521,7 +543,7 @@ QList<Project> TomControl::cachedProjects() const {
     return _cachedProjects.values();
 }
 
-const Project TomControl::cachedProject(const QString &id) const {
+Project TomControl::cachedProject(const QString &id) const {
     return _cachedProjects.value(id);
 }
 
@@ -586,7 +608,7 @@ QString TomControl::htmlReport(const QString &outputFile,
                                bool includeSubprojects,
                                QDate start, QDate end,
                                TimeRoundingMode frameRoundingMode, int frameRoundingMinutes,
-                               const QStringList splits,
+                               const QStringList &splits,
                                const QString &templateID,
                                bool matrixTables,
                                bool showEmpty,
@@ -672,7 +694,7 @@ QString TomControl::htmlReport(const QString &outputFile,
     return status.stdoutContent;
 }
 
-const Project TomControl::cachedActiveProject() const {
+Project TomControl::cachedActiveProject() const {
     return _activeProject;
 }
 

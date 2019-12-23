@@ -1,24 +1,20 @@
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QCompleter>
 #include <QtWidgets/QMessageBox>
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QStyle>
 
 #include "projectlookup.h"
 
 #include "source/commonModels/projectlistmodel.h"
-#include "source/gotime/StartStopProjectAction.h"
 #include "source/icons.h"
-#include "source/model/ProjectTreeModel.h"
 #include "source/model/UserRoles.h"
 #include "source/main_window.h"
 
-void ProjectLookup::show(TomControl *control, QMainWindow *window, QWidget *parent) {
+void ProjectLookup::show(TomControl *control, MainWindow *window, QWidget *parent) {
     auto *dialog = new ProjectLookup(control, window, parent);
     dialog->exec();
 }
 
-ProjectLookup::ProjectLookup(TomControl *control, QMainWindow *window, QWidget *parent) : QDialog(parent),
+ProjectLookup::ProjectLookup(TomControl *control, MainWindow *window, QWidget *parent) : QDialog(parent),
                                                                                           _control(control) {
     setWindowFlags(Qt::Tool);
     setupUi(this);
@@ -34,6 +30,7 @@ ProjectLookup::ProjectLookup(TomControl *control, QMainWindow *window, QWidget *
     if (window) {
         showMainWindowButton->setIcon(Icons::showMainWindow());
         connect(showMainWindowButton, &QPushButton::clicked, [this, window] {
+            // fixme handle virtual desktops on Linux?
             window->show();
             done(0);
         });
@@ -43,8 +40,8 @@ ProjectLookup::ProjectLookup(TomControl *control, QMainWindow *window, QWidget *
 
     // setup status of the active project if there's one
     stopProjectButton->setIcon(Icons::stopTimer());
-    connect(stopProjectButton, &QPushButton::clicked, [this] {
-        _control->stopActivity();
+    connect(stopProjectButton, &QPushButton::clicked, [this, window] {
+        window->stopCurrentProject();
         done(0);
     });
 

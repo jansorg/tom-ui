@@ -3,7 +3,6 @@
 #include <QtGui/QColor>
 #include <QtGui/QFont>
 #include <QtGui/QBrush>
-#include <QtGui/QList>
 #include <QtGui/QPalette>
 
 #include "gotime/TomControl.h"

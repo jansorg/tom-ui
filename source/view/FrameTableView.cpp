@@ -1,8 +1,6 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QHeaderView>
-#include <QtTest/QAbstractItemModelTester>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QStyledItemDelegate>
 #include <QDrag>
 #include <QPixmap>
 #include <QPainter>

@@ -1,14 +1,14 @@
+#include <QDragMoveEvent>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QHeaderView>
-#include <icons.h>
 #include <QtWidgets/QInputDialog>
-#include <dialogs/CommonDialogs.h>
-#include <model/ProjectTreeSortFilterModel.h>
-#include <ActionUtils.h>
-#include <QtTest/QAbstractItemModelTester>
-#include <source/projectEditor/ProjectEditorDialog.h>
-#include <source/model/UserRoles.h>
 
+#include "model/ProjectTreeSortFilterModel.h"
+#include "model/UserRoles.h"
+#include "projectEditor/ProjectEditorDialog.h"
+#include "dialogs/CommonDialogs.h"
+#include "icons.h"
+#include "ActionUtils.h"
 #include "ProjectTreeView.h"
 
 ProjectTreeView::ProjectTreeView(QWidget *parent) : QTreeView(parent) {

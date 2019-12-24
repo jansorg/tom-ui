@@ -9,7 +9,8 @@
 
 class Project {
 public:
-    Project();
+    explicit Project();
+//    Project(const Project& other);
 
     Project(QStringList names, QString id, QString parentID, QString hourlyRate, TriState noteRequired, bool noteRequiredInherited);
 
@@ -34,7 +35,7 @@ public:
     bool isValidOrRootProject() const;
 
     static Project rootProject() {
-        Project root = Project();
+        Project root;
         root._isRootProject = true;
         return root;
     }

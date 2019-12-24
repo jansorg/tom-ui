@@ -1,19 +1,29 @@
 #include <utility>
 
-#include <utility>
-
 #include "Project.h"
 
 Project::Project() : _id(QString()),
                      _parentID(QString()),
                      _names(QStringList()),
-                     _hourlyRate(""),
+                     _hourlyRate(QString()),
                      _noteRequired(UNDEFINED),
                      _noteRequiredApplied(false),
                      _lastUpdated(QDateTime()),
-                     _fullName(""),
+                     _fullName(QString()),
                      _isValid(false),
                      _isRootProject(false) {}
+
+/*Project::Project(const Project& other)  : _id(other._id),
+                                          _parentID(other._parentID),
+                                          _names(other._names),
+                                          _hourlyRate(other._hourlyRate),
+                                          _noteRequired(other._noteRequired),
+                                          _noteRequiredApplied(other._noteRequiredApplied),
+                                          _lastUpdated(other._lastUpdated),
+                                          _fullName(other._fullName),
+                                          _isValid(other._isValid),
+                                          _isRootProject(other._isRootProject) {}
+*/
 
 Project::Project(QStringList names, QString id, QString parentID, QString hourlyRate, TriState noteRequired, bool noteRequiredInherited)
         : _id(std::move(id)), _parentID(std::move(parentID)), _names(std::move(names)),
@@ -67,3 +77,4 @@ TriState Project::isNoteRequired() const {
 bool Project::appliedIsNoteRequired() const {
     return _noteRequiredApplied;
 }
+

@@ -122,7 +122,7 @@
      <x>0</x>
      <y>0</y>
      <width>911</width>
-     <height>34</height>
+     <height>30</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -187,6 +187,8 @@
     <property name="title">
      <string>Settin&amp;gs</string>
     </property>
+    <addaction name="actionApplicationSettings"/>
+    <addaction name="separator"/>
     <addaction name="actionProjectsTodayColumn"/>
     <addaction name="actionProjectsYesterdayColumn"/>
     <addaction name="actionProjectsWeekColumn"/>
@@ -483,6 +485,14 @@
     <string>Show column &quot;This year&quot;</string>
    </property>
   </action>
+  <action name="actionApplicationSettings">
+   <property name="text">
+    <string>&amp;Preferences...</string>
+   </property>
+   <property name="toolTip">
+    <string>Open settings dialog to configure the settings</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -772,6 +782,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionApplicationSettings</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>openApplicationSettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>366</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshData()</slot>
@@ -792,5 +818,6 @@
   <slot>selectCurrentProject()</slot>
   <slot>editCurrentProject()</slot>
   <slot>archiveSelectedTimeEntries()</slot>
+  <slot>openApplicationSettings()</slot>
  </slots>
 </ui>

@@ -8,6 +8,8 @@ TomControl::TomControl(QString gotimePath, bool bashScript, QObject *parent) : Q
                                                                                _gotimePath(std::move(gotimePath)),
                                                                                _bashScript(bashScript) {
 
+    _activeProject = Project();
+
     // updates our project cache
     loadProjects();
 
@@ -694,7 +696,7 @@ QString TomControl::htmlReport(const QString &outputFile,
     return status.stdoutContent;
 }
 
-Project TomControl::cachedActiveProject() const {
+const Project& TomControl::cachedActiveProject() const {
     return _activeProject;
 }
 

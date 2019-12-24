@@ -39,7 +39,7 @@ public:
 
     Project cachedProject(const QString &id) const;
 
-    Project cachedActiveProject() const;
+    const Project& cachedActiveProject() const;
 
     bool hasSubprojects(const Project &project);
 

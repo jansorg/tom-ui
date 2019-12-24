@@ -4,10 +4,11 @@
 #include <QtGui>
 #include <QtWidgets/QSystemTrayIcon>
 #include <QtWidgets/QLabel>
-#include <source/settings/TomSettings.h>
 
 #include "ui_main_window.h"
+#include "GlobalShortcuts.h"
 #include "data/Project.h"
+#include "settings/TomSettings.h"
 #include "gotime/TomControl.h"
 #include "gotime/ProjectStatusManager.h"
 
@@ -15,7 +16,8 @@ class MainWindow : public QMainWindow, private Ui::MainWindow {
 Q_OBJECT
 
 public:
-    explicit MainWindow(TomControl *control, ProjectStatusManager *statusManager, TomSettings *settings, QWidget *parent = nullptr);
+    explicit MainWindow(TomControl *control, ProjectStatusManager *statusManager, TomSettings *settings,
+                        GlobalShortcuts *globalShortcuts, QWidget *parent = nullptr);
 
     ~MainWindow() override;
 
@@ -65,9 +67,11 @@ private slots:
 
     void focusEntriesList();
 
-    void focusChanged(QWidget * old, QWidget * now);
+    void focusChanged(QWidget *old, QWidget *now);
 
     void updateStatusBar();
+
+    void openApplicationSettings();
 
 protected:
     void closeEvent(QCloseEvent *event) override;
@@ -77,10 +81,10 @@ private slots:
     void writeSettings();
 
 private:
-
     TomControl *_control;
     ProjectStatusManager *_statusManager;
     TomSettings *_settings;
+    GlobalShortcuts *_globalShortcuts;
     QLabel *_frameStatusLabel;
 
     void readSettings();

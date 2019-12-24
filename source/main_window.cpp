@@ -5,6 +5,7 @@
 #include <dialogs/CommonDialogs.h>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QInputDialog>
+#include <source/settingsDialog/SettingsDialog.h>
 
 #include "version.h"
 #include "icons.h"
@@ -15,12 +16,17 @@
 #include "source/report/ProjectReportDialog.h"
 #include "source/projectlookup/projectlookup.h"
 
-MainWindow::MainWindow(TomControl *control, ProjectStatusManager *statusManager, TomSettings *settings, QWidget *parent)
+MainWindow::MainWindow(TomControl *control,
+                       ProjectStatusManager *statusManager,
+                       TomSettings *settings,
+                       GlobalShortcuts *globalShortcuts,
+                       QWidget *parent)
         : QMainWindow(parent),
           Ui::MainWindow(),
           _control(control),
           _statusManager(statusManager),
           _settings(settings),
+          _globalShortcuts(globalShortcuts),
           _frameStatusLabel(new QLabel(this)) {
 //#ifndef Q_OS_MAC
     setWindowIcon(Icons::LogoLarge());
@@ -129,9 +135,7 @@ void MainWindow::writeSettings() {
 
     for (const auto child : children()) {
         if (auto *action = qobject_cast<QAction *>(child)) {
-            if (action->isCheckable() && !action->objectName().isEmpty()) {
-                settings.setValue(QString("mainwindow/%1").arg(action->objectName()), action->isChecked());
-            }
+            _settings->saveAction(action);
         }
     }
 }
@@ -153,12 +157,7 @@ void MainWindow::readSettings() {
 
     for (const auto child: children()) {
         if (auto *action = qobject_cast<QAction *>(child)) {
-            if (action->isCheckable() && !action->objectName().isEmpty()) {
-                const QVariant &value = settings.value(QString("mainwindow/%1").arg(action->objectName()));
-                if (value.isValid()) {
-                    action->setChecked(value.toBool());
-                }
-            }
+            _settings->loadAction(action);
         }
     }
 }
@@ -254,7 +253,7 @@ void MainWindow::startCurrentProject() {
 }
 
 void MainWindow::stopCurrentProject(bool restart) {
-    auto currentProject = _control->cachedActiveProject();
+    const auto currentProject = _control->cachedActiveProject();
     const Project &project = _control->cachedProject(currentProject.getID());
     bool noteRequired = currentProject.isValid() && project.appliedIsNoteRequired();
 
@@ -386,4 +385,13 @@ void MainWindow::updateStatusBar() {
     } else {
         _frameStatusLabel->setText("");
     }
+}
+
+void MainWindow::openApplicationSettings() {
+    QList<QAction*> additionalActions;
+    additionalActions << _frameView->getDeleteAction();
+    additionalActions << _projectTree->getDeleteAction();
+
+    auto *dialog = new SettingsDialog(this, _globalShortcuts, _settings, additionalActions);
+    dialog->open();
 }

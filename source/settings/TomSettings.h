@@ -3,6 +3,7 @@
 
 #include <QtCore>
 #include <QtCore/QSettings>
+#include <QtWidgets/QAction>
 
 class TomSettings : public QObject {
 Q_OBJECT
@@ -12,7 +13,13 @@ public:
 
     bool showArchivedEntries();
 
+    bool openMainWindowAtStartup();
+
     void triggerUpdate();
+
+    void loadAction(QAction *action);
+
+    void saveAction(QAction *action);
 
 signals:
 
@@ -21,6 +28,8 @@ signals:
 public slots:
 
     void setShowArchivedEntries(bool show);
+
+    void setOpenMainWindowAtStartup(bool show);
 
 };
 

@@ -27,7 +27,7 @@ set(CPACK_PACKAGE_CONTACT "mail@ja-dev.eu")
 set(CPACK_PACKAGE_NAME "tom-ui")
 set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "tom (>= ${VERSION})")
-set(RESOURCE_FILES resources/resources.qrc)
+set(RESOURCE_FILES resources/resources.qrc source/settingsDialog/SettingsDialog.cpp source/settingsDialog/SettingsDialog.h source/settingsDialog/ApplicationSettingsPage.cpp source/settingsDialog/ApplicationSettingsPage.h source/settingsDialog/ApplicationShortcutsPage.cpp source/settingsDialog/ApplicationShortcutsPage.h source/settingsDialog/GlobalShortcutsPage.cpp source/settingsDialog/GlobalShortcutsPage.h source/GlobalShortcuts.cpp source/GlobalShortcuts.h source/GlobalShortcut.cpp source/GlobalShortcut.h)
 
 add_project_meta(META_FILES_TO_INCLUDE)
 

@@ -1,21 +1,20 @@
-#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QCompleter>
 #include <QtWidgets/QMessageBox>
 
 #include "projectlookup.h"
-
-#include "source/commonModels/projectlistmodel.h"
-#include "source/icons.h"
-#include "source/model/UserRoles.h"
-#include "source/main_window.h"
+#include "commonModels/projectlistmodel.h"
+#include "icons.h"
+#include "model/UserRoles.h"
+#include "main_window.h"
 
 void ProjectLookup::show(TomControl *control, MainWindow *window, QWidget *parent) {
     auto *dialog = new ProjectLookup(control, window, parent);
     dialog->exec();
 }
 
-ProjectLookup::ProjectLookup(TomControl *control, MainWindow *window, QWidget *parent) : QDialog(parent),
-                                                                                          _control(control) {
+ProjectLookup::ProjectLookup(TomControl *control, MainWindow *window, QWidget *parent)
+        : QDialog(parent), _control(control) {
+
     setWindowFlags(Qt::Tool);
     setupUi(this);
     setAttribute(Qt::WA_DeleteOnClose);
@@ -68,5 +67,5 @@ void ProjectLookup::readSettings() {
 
 void ProjectLookup::writeSettings() {
     QSettings settings;
-    settings.setValue("projectLookup/geomtry", saveGeometry());
+    settings.setValue("projectLookup/geometry", saveGeometry());
 }

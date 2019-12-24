@@ -4,9 +4,9 @@
 #include <QDrag>
 #include <QPixmap>
 #include <QPainter>
-#include <source/model/UserRoles.h>
-#include <source/frameEditor/FrameEditorDialog.h>
 
+#include "model/UserRoles.h"
+#include "frameEditor/FrameEditorDialog.h"
 #include "model/FrameTableViewModel.h"
 #include "model/ProjectTreeItem.h"
 #include "model/FrameTableSortFilterModel.h"
@@ -14,7 +14,8 @@
 #include "icons.h"
 #include "IconItemDelegate.h"
 
-FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent), _control(nullptr), _proxyModel(nullptr), _sourceModel(nullptr), _statusManager(nullptr) {
+FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent), _control(nullptr), _proxyModel(nullptr),
+                                                  _sourceModel(nullptr), _statusManager(nullptr) {
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     setAcceptDrops(false);
@@ -55,7 +56,8 @@ void FrameTableView::setup(TomControl *control, ProjectStatusManager *statusMana
     sortByColumn(FrameTableViewModel::COL_START, Qt::DescendingOrder);
 
     connect(this, &FrameTableView::customContextMenuRequested, this, &FrameTableView::onCustomContextMenuRequested);
-    connect(_sourceModel, &FrameTableViewModel::subprojectStatusChange, this, &FrameTableView::onSubprojectStatusChange);
+    connect(_sourceModel, &FrameTableViewModel::subprojectStatusChange, this,
+            &FrameTableView::onSubprojectStatusChange);
 }
 
 void FrameTableView::onCustomContextMenuRequested(const QPoint &pos) {
@@ -76,7 +78,8 @@ void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
     });
     stop->setEnabled(frame->isActive());
     menu.addSeparator();
-    menu.addAction(Icons::frameEdit(), "Edit frame...", [this, frame] { FrameEditorDialog::show(*frame, _control, _statusManager, this); });
+    menu.addAction(Icons::frameEdit(), "Edit frame...",
+                   [this, frame] { FrameEditorDialog::show(*frame, _control, _statusManager, this); });
     menu.addAction(_deleteSelectedAction);
     menu.addSeparator();
     menu.addAction(Icons::timeEntryArchive(), "Archive", this, &FrameTableView::archiveSelectedEntries);

@@ -37,6 +37,9 @@
          <height>300</height>
         </size>
        </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The list of projects. All available projects are displayed in this tree.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
        <property name="accessibleDescription">
         <string>List of projects</string>
        </property>
@@ -62,6 +65,9 @@
          <width>0</width>
          <height>200</height>
         </size>
+       </property>
+       <property name="whatsThis">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The list of time entries. All available entries of the currently selected project are displayed in this table.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="accessibleDescription">
         <string>List of tracked time</string>
@@ -122,7 +128,7 @@
      <x>0</x>
      <y>0</y>
      <width>911</width>
-     <height>30</height>
+     <height>32</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -166,6 +172,7 @@
      <string>Time E&amp;ntries</string>
     </property>
     <addaction name="actionTimeEntryArchive"/>
+    <addaction name="actionTimeEntryEdit"/>
    </widget>
    <widget class="QMenu" name="menuReports">
     <property name="enabled">
@@ -231,6 +238,9 @@
    <property name="text">
     <string>E&amp;xit</string>
    </property>
+   <property name="toolTip">
+    <string>Terminate the application</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
    </property>
@@ -241,6 +251,9 @@
   <action name="actionMinimize">
    <property name="text">
     <string>&amp;Hide Window</string>
+   </property>
+   <property name="toolTip">
+    <string>Hide the main window, the tray icon remains visible</string>
    </property>
    <property name="menuRole">
     <enum>QAction::ApplicationSpecificRole</enum>
@@ -254,13 +267,16 @@
    <property name="text">
     <string>&amp;Refresh</string>
    </property>
+   <property name="toolTip">
+    <string>Retrieve a fresh set of data from the Tom command line interface and refresh all displayed data.</string>
+   </property>
   </action>
   <action name="actionHelpAbout">
    <property name="text">
     <string>&amp;About Tom</string>
    </property>
    <property name="toolTip">
-    <string>&amp;About Tom</string>
+    <string>Display information about Tom</string>
    </property>
    <property name="menuRole">
     <enum>QAction::AboutRole</enum>
@@ -274,7 +290,7 @@
     <string>Create New Project...</string>
    </property>
    <property name="toolTip">
-    <string>Create a new project</string>
+    <string>Create a new toplevel project</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+N</string>
@@ -284,15 +300,24 @@
    <property name="text">
     <string>&amp;Mac Time Tracker CSV</string>
    </property>
+   <property name="toolTip">
+    <string>Import CSV data of Mac Time Tracker</string>
+   </property>
   </action>
   <action name="actionImportFanurio">
    <property name="text">
     <string>&amp;Fanurio CSV</string>
    </property>
+   <property name="toolTip">
+    <string>Import CSV data from the Fanurio time tracker</string>
+   </property>
   </action>
   <action name="actionResetAllData">
    <property name="text">
     <string>Reset all &amp;data...</string>
+   </property>
+   <property name="toolTip">
+    <string>Reset all data managed by Tom. Use with care!</string>
    </property>
    <property name="menuRole">
     <enum>QAction::ApplicationSpecificRole</enum>
@@ -301,6 +326,9 @@
   <action name="actionImportWatson">
    <property name="text">
     <string>&amp;Watson frames</string>
+   </property>
+   <property name="toolTip">
+    <string>Import frames of the Watson command line interface</string>
    </property>
   </action>
   <action name="actionProjectStart">
@@ -338,6 +366,9 @@
    <property name="text">
     <string>&amp;Create project report...</string>
    </property>
+   <property name="toolTip">
+    <string>Display a configurable report about your tracked time</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+R</string>
    </property>
@@ -364,7 +395,7 @@
     <string>&amp;Focus projects</string>
    </property>
    <property name="toolTip">
-    <string>Focus the list of projects</string>
+    <string>Focus the list of projects, helps to navigate Tom by keyboard</string>
    </property>
    <property name="shortcut">
     <string>Alt+1</string>
@@ -375,7 +406,7 @@
     <string>Focus time &amp;entries</string>
    </property>
    <property name="toolTip">
-    <string>Focuses the list of time entries</string>
+    <string>Focuses the list of time entries, helps to navigate Tom by keyboard</string>
    </property>
    <property name="shortcut">
     <string>Alt+2</string>
@@ -399,10 +430,19 @@
    <property name="text">
     <string>Ed&amp;it project...</string>
    </property>
+   <property name="toolTip">
+    <string>Edit the currently selected project</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Return</string>
+   </property>
   </action>
   <action name="actionTimeEntryArchive">
    <property name="text">
     <string>&amp;Archive selected entries</string>
+   </property>
+   <property name="toolTip">
+    <string>Archive selected entries. Archived entries are hidden by default.</string>
    </property>
   </action>
   <action name="actionSettingsShowArchived">
@@ -418,6 +458,9 @@
    <property name="iconText">
     <string>Archived entries</string>
    </property>
+   <property name="toolTip">
+    <string>Display data of archived entries in the main window.</string>
+   </property>
   </action>
   <action name="actionProjectsTotalColumn">
    <property name="checkable">
@@ -428,6 +471,9 @@
    </property>
    <property name="text">
     <string>Show column &quot;Total&quot;</string>
+   </property>
+   <property name="toolTip">
+    <string>Show column &quot;Total&quot; in the list of projects</string>
    </property>
   </action>
   <action name="actionProjectsYesterdayColumn">
@@ -440,6 +486,9 @@
    <property name="text">
     <string>Show column &quot;Yesterday&quot;</string>
    </property>
+   <property name="toolTip">
+    <string>Show column &quot;Yesterday&quot; in the list of projects</string>
+   </property>
   </action>
   <action name="actionProjectsTodayColumn">
    <property name="checkable">
@@ -450,6 +499,9 @@
    </property>
    <property name="text">
     <string>Show column &quot;Today&quot;</string>
+   </property>
+   <property name="toolTip">
+    <string>Show column &quot;Today&quot; in the list of projects</string>
    </property>
   </action>
   <action name="actionProjectsWeekColumn">
@@ -462,6 +514,9 @@
    <property name="text">
     <string>Show column &quot;This week&quot;</string>
    </property>
+   <property name="toolTip">
+    <string>Show column &quot;This week&quot; in the list of projects</string>
+   </property>
   </action>
   <action name="actionProjectsMonthColumn">
    <property name="checkable">
@@ -472,6 +527,9 @@
    </property>
    <property name="text">
     <string>Show column &quot;This month&quot;</string>
+   </property>
+   <property name="toolTip">
+    <string>Show column &quot;This month&quot; in the list of projects</string>
    </property>
   </action>
   <action name="actionProjectsYearColumn">
@@ -484,13 +542,27 @@
    <property name="text">
     <string>Show column &quot;This year&quot;</string>
    </property>
+   <property name="toolTip">
+    <string>Show column &quot;This year&quot; in the list of projects</string>
+   </property>
   </action>
   <action name="actionApplicationSettings">
    <property name="text">
     <string>&amp;Preferences...</string>
    </property>
    <property name="toolTip">
-    <string>Open settings dialog to configure the settings</string>
+    <string>Open a dialog to configure the Tom user interface</string>
+   </property>
+  </action>
+  <action name="actionTimeEntryEdit">
+   <property name="text">
+    <string>Edit time entry...</string>
+   </property>
+   <property name="toolTip">
+    <string>Open a dialog to edit the currently selected time entry</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+Return</string>
    </property>
   </action>
  </widget>
@@ -798,6 +870,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionTimeEntryEdit</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>editCurrentTimeEntry()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>366</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>refreshData()</slot>
@@ -819,5 +907,6 @@
   <slot>editCurrentProject()</slot>
   <slot>archiveSelectedTimeEntries()</slot>
   <slot>openApplicationSettings()</slot>
+  <slot>editCurrentTimeEntry()</slot>
  </slots>
 </ui>

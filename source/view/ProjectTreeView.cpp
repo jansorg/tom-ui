@@ -1,7 +1,6 @@
 #include <QDragMoveEvent>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QHeaderView>
-#include <QtWidgets/QInputDialog>
 
 #include "model/ProjectTreeSortFilterModel.h"
 #include "model/UserRoles.h"
@@ -82,8 +81,8 @@ void ProjectTreeView::showContextMenu(ProjectTreeItem *item, const QPoint &globa
     QAction *start = menu.addAction(Icons::startTimer(), "Start timer", [this, project] { _control->startProject(project); });
     QAction *stop = menu.addAction(Icons::stopTimer(), "Stop timer", [this] { _control->stopActivity(); });
     menu.addSeparator();
-    menu.addAction(Icons::projectNew(), "Create new subproject...", [this, project] { createNewProject(project); });
     menu.addAction(Icons::projectEdit(), "Edit project...", [this, project] { ProjectEditorDialog::show(project, _control, _statusManager, this); });
+    menu.addAction(Icons::projectNew(), "Create new subproject...", [this, project] { createNewProject(project); });
     menu.addAction(_deleteSelectedAction);
     menu.addSeparator();
     menu.addAction(Icons::timeEntryArchive(), "Archive all entries", [this, project] { _control->archiveProjectFrames(project, true); });
@@ -120,7 +119,7 @@ void ProjectTreeView::createNewProject(const Project &parentProject) {
     }
 }
 
-const Project ProjectTreeView::getCurrentProject() {
+Project ProjectTreeView::getCurrentProject() {
     const QModelIndex &current = currentIndex();
     if (!current.isValid()) {
         return Project();

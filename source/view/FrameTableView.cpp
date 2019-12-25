@@ -14,16 +14,17 @@
 #include "icons.h"
 #include "IconItemDelegate.h"
 
-FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent), _control(nullptr), _proxyModel(nullptr),
-                                                  _sourceModel(nullptr), _statusManager(nullptr) {
+FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent),
+                                                  _control(nullptr),
+                                                  _proxyModel(nullptr),
+                                                  _sourceModel(nullptr),
+                                                  _statusManager(nullptr) {
+    setAcceptDrops(false);
     setContextMenuPolicy(Qt::CustomContextMenu);
 
-    setAcceptDrops(false);
-
-    _deleteSelectedAction = new QAction(Icons::timeEntryDelete(), tr("Delete selected"), this);
+    _deleteSelectedAction = new QAction(Icons::timeEntryDelete(), tr("Delete selected entries"), this);
     _deleteSelectedAction->setShortcutContext(Qt::WindowShortcut);
     _deleteSelectedAction->setShortcuts(QKeySequence::Delete);
-    _deleteSelectedAction->setIcon(Icons::timeEntryDelete());
     connect(_deleteSelectedAction, &QAction::triggered, this, &FrameTableView::deleteSelectedEntries);
 
     setItemDelegateForColumn(FrameTableViewModel::COL_ARCHIVED, new IconItemDelegate(Icons::timeEntryArchive(), this));
@@ -72,17 +73,19 @@ void FrameTableView::onCustomContextMenuRequested(const QPoint &pos) {
 }
 
 void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
+    int selectedCount = selectedFrames().size();
+
     QMenu menu;
-    auto *stop = menu.addAction(Icons::stopTimer(), "Stop", [this] {
+    auto *stop = menu.addAction(Icons::stopTimer(), tr("Stop entry"), [this] {
         _control->stopActivity();
     });
     stop->setEnabled(frame->isActive());
     menu.addSeparator();
-    menu.addAction(Icons::frameEdit(), "Edit frame...",
-                   [this, frame] { FrameEditorDialog::show(*frame, _control, _statusManager, this); });
+    auto *editAction = menu.addAction(Icons::frameEdit(), tr("Edit entry..."), [this, frame] { FrameEditorDialog::show(*frame, _control, _statusManager, this); });
+    editAction->setEnabled(selectedCount == 1);
     menu.addAction(_deleteSelectedAction);
     menu.addSeparator();
-    menu.addAction(Icons::timeEntryArchive(), "Archive", this, &FrameTableView::archiveSelectedEntries);
+    menu.addAction(Icons::timeEntryArchive(), tr("Archive selected entries"), this, &FrameTableView::archiveSelectedEntries);
     menu.exec(globalPos);
 }
 

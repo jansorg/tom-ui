@@ -9,23 +9,10 @@ Q_OBJECT
 public:
     explicit ApplicationShortcutsPage(QWidget *parent = nullptr);
 
-    void setup(MainWindow *window, QList<QAction*> additionalActions);
-
-private slots:
-
-    void shortcutSelected(int row);
-
-    void keySequenceChanged(const QKeySequence &keySequence);
-
-    void clearKeySequence();
+    void setup(MainWindow *window, TomSettings* settings, QList<QAction *> additionalActions);
 
 private:
-    void registerAction(QAction *action);
-
     TomSettings *_settings;
-    QList<QAction *> _actions;
-    QList<QTableWidgetItem *> _actionItems;
 };
-
 
 #endif //TOM_UI_APPLICATIONSHORTCUTSPAGE_H

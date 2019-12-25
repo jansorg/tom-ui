@@ -3,39 +3,32 @@
 #include "projectlookup/projectlookup.h"
 #include "GlobalShortcut.h"
 
-GlobalShortcuts::GlobalShortcuts(TomControl *control, QObject *parent) : QObject(parent), _control(control) {
+GlobalShortcuts::GlobalShortcuts(TomControl *control, QObject *parent) : QObject(parent),
+                                                                         _control(control),
+                                                                         _mainWindow(nullptr) {
 }
 
 void GlobalShortcuts::setupShortcuts(MainWindow *window) {
     _mainWindow = window;
 
     // project lookup action with default shortcut
-    auto *lookupProject = new GlobalShortcut(
-            "global.lookupProject",
-            tr("Lookup Project"),
-            Qt::ShiftModifier + Qt::ControlModifier + Qt::Key_P);
+    auto *lookupProject = new GlobalShortcut("global.lookupProject", tr("Lookup Project"),
+                                             Qt::ShiftModifier + Qt::ControlModifier + Qt::Key_P);
     _shortcuts << lookupProject;
     QObject::connect(lookupProject, &GlobalShortcut::activated,
                      lookupProject, [&] { ProjectLookup::show(_control, _mainWindow, nullptr); });
 
     // start timer action
-    auto *startTimer = new GlobalShortcut(
-            "global.startTimer",
-            tr("Start timer"),
-            Qt::ShiftModifier + Qt::ControlModifier + Qt::Key_T);
+    auto *startTimer = new GlobalShortcut("global.startTimer", tr("Start timer"), QKeySequence());
     _shortcuts << startTimer;
     QObject::connect(startTimer, &GlobalShortcut::activated,
                      startTimer, [&] { _mainWindow->stopCurrentProject(true); });
 
     // stop timer action
-    auto *stopTimer = new GlobalShortcut(
-            "global.stopTimer",
-            tr("Stop timer"),
-            Qt::ShiftModifier + Qt::ControlModifier + Qt::Key_Space);
+    auto *stopTimer = new GlobalShortcut("global.stopTimer", tr("Stop timer"), QKeySequence());
     _shortcuts << stopTimer;
-    QObject::connect(
-            stopTimer, &QxtGlobalShortcut::activated,
-            stopTimer, [&] { _mainWindow->stopCurrentProject(false); });
+    QObject::connect(stopTimer, &QxtGlobalShortcut::activated,
+                     stopTimer, [&] { _mainWindow->stopCurrentProject(false); });
 
     // load current values
     QSettings settings;

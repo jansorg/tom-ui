@@ -5,16 +5,16 @@
 #include <dialogs/CommonDialogs.h>
 #include <QtWidgets/QFileDialog>
 #include <QtWidgets/QInputDialog>
-#include <source/settingsDialog/SettingsDialog.h>
+#include <source/frameEditor/FrameEditorDialog.h>
 
+#include "settingsDialog/SettingsDialog.h"
 #include "version.h"
 #include "icons.h"
 #include "main_window.h"
 #include "ActionUtils.h"
-
-#include "source/projectEditor/ProjectEditorDialog.h"
-#include "source/report/ProjectReportDialog.h"
-#include "source/projectlookup/projectlookup.h"
+#include "projectEditor/ProjectEditorDialog.h"
+#include "report/ProjectReportDialog.h"
+#include "projectlookup/projectlookup.h"
 
 MainWindow::MainWindow(TomControl *control,
                        ProjectStatusManager *statusManager,
@@ -63,6 +63,8 @@ MainWindow::MainWindow(TomControl *control,
     actionProjectEdit->setIcon(Icons::projectEdit());
     actionProjectSelectActive->setIcon(Icons::projectSelectActive());
 
+    actionTimeEntryEdit->setIcon(Icons::frameEdit());
+
     actionReportCreate->setIcon(Icons::report());
 
     actionWindowFocusProjects->setIcon(Icons::windowProjectsFocus());
@@ -80,8 +82,8 @@ MainWindow::MainWindow(TomControl *control,
     connect(_projectTree, &ProjectTreeView::projectSelected, _frameView, &FrameTableView::onProjectSelected);
     connect(_projectTree, &ProjectTreeView::projectSelected, this, &MainWindow::onProjectSelectionChange);
 
-    connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged, this,
-            &MainWindow::onEntrySelectionChange);
+    connect(_frameView->selectionModel(), &QItemSelectionModel::selectionChanged,
+            this, &MainWindow::onEntrySelectionChange);
 
     connect(actionSettingsShowArchived, &QAction::toggled, _projectTree, &ProjectTreeView::setShowArchived);
 
@@ -314,9 +316,18 @@ void MainWindow::editCurrentProject() {
     }
 }
 
+void MainWindow::editCurrentTimeEntry() {
+    QList<Frame *> frames = _frameView->selectedFrames();
+    if (frames.size() == 1) {
+        Frame *frame = frames[0];
+        FrameEditorDialog::show(*frame, _control, _statusManager, this);
+    }
+}
+
 void MainWindow::onEntrySelectionChange(const QItemSelection &selection) {
-    bool selectedEntries = !selection.isEmpty();
-    actionTimeEntryArchive->setEnabled(selectedEntries);
+    int count = selection.size();
+    actionTimeEntryArchive->setEnabled(count >= 1);
+    actionTimeEntryEdit->setEnabled(count == 1);
 }
 
 void MainWindow::createReport() {
@@ -335,45 +346,41 @@ void MainWindow::lookupProject() {
 }
 
 void MainWindow::focusProjectTree() {
-    qDebug() << "focusProjectTree";
-
     _projectTree->setFocus();
 }
 
 void MainWindow::focusEntriesList() {
-    qDebug() << "focusEntriesList";
-
     _frameView->setFocus();
 }
 
-void MainWindow::focusChanged(QWidget *old, QWidget *now) {
-    qDebug() << "focusChanged" << old << now;
+void MainWindow::focusChanged(QWidget *, QWidget *now) {
     if (now == _projectTree) {
-        _projectTree->getDeleteAction()->setEnabled(true);
-        _frameView->getDeleteAction()->setEnabled(false);
-
-        actionProjectEdit->setEnabled(_projectTree->getCurrentProject().isValid());
-        actionTimeEntryArchive->setEnabled(false);
-
         if (!_projectTree->hasSelectedProject()) {
             _projectTree->selectFirstRow();
         }
+
+        _projectTree->getDeleteAction()->setEnabled(true);
+        _frameView->getDeleteAction()->setEnabled(false);
+        actionTimeEntryEdit->setEnabled(false);
+
+        actionProjectEdit->setEnabled(_projectTree->getCurrentProject().isValid());
+        actionTimeEntryArchive->setEnabled(false);
     } else if (now == _frameView) {
-        _projectTree->getDeleteAction()->setEnabled(false);
-        _frameView->getDeleteAction()->setEnabled(true);
-
-        actionProjectEdit->setEnabled(false);
-        actionTimeEntryArchive->setEnabled(_frameView->selectionModel()->hasSelection());
-
         if (!_frameView->hasSelectedFrames()) {
             _frameView->selectFirstFrame();
         }
+
+        _projectTree->getDeleteAction()->setEnabled(false);
+        _frameView->getDeleteAction()->setEnabled(true);
+
+        actionTimeEntryEdit->setEnabled(_frameView->selectedFrames().size() == 1);
+        actionTimeEntryArchive->setEnabled(_frameView->hasSelectedFrames());
+
+        actionProjectEdit->setEnabled(false);
     }
 }
 
 void MainWindow::updateStatusBar() {
-    qDebug() << "updateStatusBar";
-
     auto selected = _frameView->selectedFrames();
     if (selected.size() > 1) {
         qlonglong millis = 0;
@@ -381,14 +388,14 @@ void MainWindow::updateStatusBar() {
             millis += f->durationMillis(true);
         }
         Timespan span(millis);
-        _frameStatusLabel->setText(tr("Total: %1 / %2").arg(span.format()).arg(span.formatDecimal()));
+        _frameStatusLabel->setText(tr("Total: %1 / %2", "statusbar").arg(span.format()).arg(span.formatDecimal()));
     } else {
         _frameStatusLabel->setText("");
     }
 }
 
 void MainWindow::openApplicationSettings() {
-    QList<QAction*> additionalActions;
+    QList<QAction *> additionalActions;
     additionalActions << _frameView->getDeleteAction();
     additionalActions << _projectTree->getDeleteAction();
 

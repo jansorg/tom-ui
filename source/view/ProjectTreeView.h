@@ -20,7 +20,7 @@ public:
 
     void setup(TomControl *control, ProjectStatusManager *statusManager);
 
-    const Project getCurrentProject();
+    Project getCurrentProject();
 
     void writeSettings();
 

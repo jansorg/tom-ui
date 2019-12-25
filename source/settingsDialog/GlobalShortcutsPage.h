@@ -11,18 +11,6 @@ public:
     explicit GlobalShortcutsPage(QWidget *parent = nullptr);
 
     void setup(GlobalShortcuts *shortcuts);
-
-private slots:
-    void shortcutSelected(int row);
-    void keySequenceChanged(const QKeySequence& keySequence);
-    void clearKeySequence();
-
-private:
-    void registerGlobalShortcuts();
-
-    GlobalShortcuts *_shortcuts;
-    QList<GlobalShortcut *> _shortcutsList;
-    QList<QTableWidgetItem *> _shortcutItems;
 };
 
 

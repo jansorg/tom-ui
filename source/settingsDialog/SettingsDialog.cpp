@@ -13,7 +13,7 @@ SettingsDialog::SettingsDialog(MainWindow *window,
     setupUi(this);
 
     applicationSettings->setup(settings);
-    keyboardSettings->setup(window, additionalActions);
+    keyboardSettings->setup(window, settings, additionalActions);
     globalKeyboardSettings->setup(globalShortcuts);
 
     pagesList->setCurrentRow(0, QItemSelectionModel::SelectionFlag::ClearAndSelect);

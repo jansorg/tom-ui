@@ -134,6 +134,10 @@ namespace Icons {
         return icon("go-last");
     }
 
+    inline const QIcon keySequenceReset() {
+        return icon("edit-delete");
+    }
+
     inline const QIcon LogoSmall() {
         return icon("logo32.png");
     }

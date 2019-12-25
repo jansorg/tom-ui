@@ -222,6 +222,8 @@ QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientatio
                 return tr("Subproject");
             case COL_ARCHIVED:
                 return "";
+            case COL_LAST_UPDATED:
+                return "Last Updated";
             case COL_NOTES:
                 return tr("Notes");
             default:
@@ -295,6 +297,8 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
 
                 return name.remove(0, 1 + parentName.length());
             }
+            case COL_LAST_UPDATED:
+                return frame->lastUpdated;
             case COL_NOTES:
                 return QString(frame->notes).replace(QRegularExpression("\r\n|\r|\n"), " ");
             default:

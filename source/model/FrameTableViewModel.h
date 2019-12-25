@@ -42,11 +42,12 @@ public:
     static const int COL_DURATION = 4;
     static const int COL_TAGS = 5;
     static const int COL_SUBPROJECT = 6;
-    static const int COL_NOTES = 7;
+    static const int COL_LAST_UPDATED = 7;
+    static const int COL_NOTES = 8;
 
     static const int FIRST_COL = 0;
-    static const int COLUMN_COUNT = COL_NOTES + 1;
     static const int LAST_COL = COL_NOTES;
+    static const int COLUMN_COUNT = LAST_COL + 1;
 
 public slots:
 

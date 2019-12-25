@@ -96,8 +96,8 @@ MainWindow::MainWindow(TomControl *control,
 
     connect(actionSettingsShowArchived, &QAction::toggled, _frameView, &FrameTableView::setShowArchived);
     connect(actionSettingsShowArchived, &QAction::toggled, _statusManager, &ProjectStatusManager::setIncludeArchived);
-    // triggered() is for user interaction only
-    connect(actionSettingsShowArchived, &QAction::triggered, _settings, &TomSettings::setShowArchivedEntries);
+
+    connect(actionTimeEntryLastUpdatedColumn, &QAction::toggled, _frameView, &FrameTableView::setShowLastUpdatedColumn);
 
     connect(_control, &TomControl::projectStatusChanged, this, &MainWindow::onProjectStatusChange);
 
@@ -106,8 +106,8 @@ MainWindow::MainWindow(TomControl *control,
     connect(QGuiApplication::instance(), &QCoreApplication::aboutToQuit, this, &MainWindow::writeSettings);
 
     // listen to focus events
-    connect(dynamic_cast<QApplication *>(QCoreApplication::instance()), &QApplication::focusChanged, this,
-            &MainWindow::focusChanged);
+    connect(dynamic_cast<QApplication *>(QCoreApplication::instance()), &QApplication::focusChanged,
+            this, &MainWindow::focusChanged);
 
     //fix up menus
     menuSettings->insertSection(actionProjectsTodayColumn, tr("Projects"));

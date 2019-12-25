@@ -39,6 +39,8 @@ public slots:
 
     void setShowArchived(bool showArchived);
 
+    void setShowLastUpdatedColumn(bool showUpdated);
+
 protected:
     int sizeHintForColumn(int column) const override;
 

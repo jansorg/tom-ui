@@ -51,14 +51,19 @@ void FrameTableView::setup(TomControl *control, ProjectStatusManager *statusMana
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_START, QHeaderView::ResizeToContents);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_END, QHeaderView::ResizeToContents);
     horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_DURATION, QHeaderView::ResizeToContents);
+    horizontalHeader()->setSectionResizeMode(FrameTableViewModel::COL_LAST_UPDATED, QHeaderView::ResizeToContents);
     setColumnWidth(FrameTableViewModel::COL_SUBPROJECT, 17 * fontMetrics().averageCharWidth());
 
+    // the hidden columns have to match the default settings
     hideColumn(FrameTableViewModel::COL_TAGS);
+    hideColumn(FrameTableViewModel::COL_LAST_UPDATED);
+
     sortByColumn(FrameTableViewModel::COL_START, Qt::DescendingOrder);
 
-    connect(this, &FrameTableView::customContextMenuRequested, this, &FrameTableView::onCustomContextMenuRequested);
-    connect(_sourceModel, &FrameTableViewModel::subprojectStatusChange, this,
-            &FrameTableView::onSubprojectStatusChange);
+    connect(this, &FrameTableView::customContextMenuRequested,
+            this, &FrameTableView::onCustomContextMenuRequested);
+    connect(_sourceModel, &FrameTableViewModel::subprojectStatusChange,
+            this, &FrameTableView::onSubprojectStatusChange);
 }
 
 void FrameTableView::onCustomContextMenuRequested(const QPoint &pos) {
@@ -142,6 +147,9 @@ int FrameTableView::sizeHintForColumn(int column) const {
         result = metrics.width(sample);
     } else if (column == FrameTableViewModel::COL_SUBPROJECT) {
         result = metrics.averageCharWidth() * 20;
+    } else if (column == FrameTableViewModel::COL_LAST_UPDATED) {
+        QString sample = QDateTime::currentDateTime().toString(Qt::SystemLocaleShortDate);
+        result = metrics.width(sample);
     } else {
         result = QTableView::sizeHintForColumn(column);
     }
@@ -157,6 +165,14 @@ void FrameTableView::setShowArchived(bool showArchived) {
         hideColumn(FrameTableViewModel::COL_ARCHIVED);
     }
     _sourceModel->setShowArchived(showArchived);
+}
+
+void FrameTableView::setShowLastUpdatedColumn(bool showLastUpdated) {
+    if (showLastUpdated) {
+        showColumn(FrameTableViewModel::COL_LAST_UPDATED);
+    } else {
+        hideColumn(FrameTableViewModel::COL_LAST_UPDATED);
+    }
 }
 
 bool FrameTableView::hasSelectedFrames() const {

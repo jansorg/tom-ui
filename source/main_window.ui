@@ -203,6 +203,7 @@
     <addaction name="actionProjectsYearColumn"/>
     <addaction name="actionProjectsTotalColumn"/>
     <addaction name="actionSettingsShowArchived"/>
+    <addaction name="actionTimeEntryLastUpdatedColumn"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuProject"/>
@@ -265,7 +266,7 @@
      <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
-    <string>&amp;Refresh</string>
+    <string>&amp;Refresh data</string>
    </property>
    <property name="toolTip">
     <string>Retrieve a fresh set of data from the Tom command line interface and refresh all displayed data.</string>
@@ -333,7 +334,7 @@
   </action>
   <action name="actionProjectStart">
    <property name="text">
-    <string>&amp;Start timer</string>
+    <string>&amp;Start new time entry</string>
    </property>
    <property name="iconText">
     <string>Start Timer</string>
@@ -350,7 +351,7 @@
   </action>
   <action name="actionProjectStop">
    <property name="text">
-    <string>S&amp;top timer</string>
+    <string>S&amp;top active time entry</string>
    </property>
    <property name="iconText">
     <string>Stop Timer</string>
@@ -414,7 +415,7 @@
   </action>
   <action name="actionProjectSelectActive">
    <property name="text">
-    <string>Scroll to active &amp;timer</string>
+    <string>Scroll to active &amp;time entry</string>
    </property>
    <property name="iconText">
     <string>Scroll to active timer</string>
@@ -428,7 +429,7 @@
   </action>
   <action name="actionProjectEdit">
    <property name="text">
-    <string>Ed&amp;it project...</string>
+    <string>Ed&amp;it selected project...</string>
    </property>
    <property name="toolTip">
     <string>Edit the currently selected project</string>
@@ -563,6 +564,14 @@
    </property>
    <property name="shortcut">
     <string>Alt+Return</string>
+   </property>
+  </action>
+  <action name="actionTimeEntryLastUpdatedColumn">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show column &quot;Last Updated&quot;</string>
    </property>
   </action>
  </widget>

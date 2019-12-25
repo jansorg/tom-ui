@@ -11,26 +11,15 @@ Q_OBJECT
 public:
     explicit TomSettings(QObject *parent) : QObject(parent) {};
 
-    bool showArchivedEntries();
-
     bool openMainWindowAtStartup();
-
-    void triggerUpdate();
 
     void loadAction(QAction *action);
 
     void saveAction(QAction *action);
 
-signals:
-
-    void onShowArchivedEntriesChanged(bool show);
-
 public slots:
 
-    void setShowArchivedEntries(bool show);
-
     void setOpenMainWindowAtStartup(bool show);
-
 };
 
 

@@ -95,8 +95,5 @@ int main(int argc, char *argv[]) {
 
     new GotimeTrayIcon(control, &mainWindow);
 
-    // update the UI with the current settings
-    config->triggerUpdate();
-
     return QApplication::exec();
 }

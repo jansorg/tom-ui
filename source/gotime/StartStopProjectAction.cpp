@@ -6,7 +6,6 @@ StartProjectAction::StartProjectAction(const Project &project, TomControl *contr
                                                                                                                        _project(project) {
 
     setCheckable(checkable);
-
     setIconVisibleInMenu(true);
     setText(project.getName());
 

@@ -105,17 +105,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/view/FrameTableView.cpp" line="84"/>
-        <source>Stop entry</source>
+        <location filename="../source/view/FrameTableView.cpp" line="82"/>
+        <source>Stop time entry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/view/FrameTableView.cpp" line="85"/>
+        <source>Edit time entry...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../source/view/FrameTableView.cpp" line="89"/>
-        <source>Edit entry...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../source/view/FrameTableView.cpp" line="93"/>
         <source>Archive selected entries</source>
         <translation type="unfinished"></translation>
     </message>
@@ -744,53 +744,53 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="194"/>
+        <location filename="../source/main_window.cpp" line="195"/>
         <source>Select Mac Time Tracker CSV export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="196"/>
-        <location filename="../source/main_window.cpp" line="207"/>
+        <location filename="../source/main_window.cpp" line="197"/>
+        <location filename="../source/main_window.cpp" line="208"/>
         <source>CSV Files (*.csv)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="205"/>
+        <location filename="../source/main_window.cpp" line="206"/>
         <source>Select Fanurio CSV export</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="216"/>
+        <location filename="../source/main_window.cpp" line="217"/>
         <source>Select Watson frames file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="218"/>
+        <location filename="../source/main_window.cpp" line="219"/>
         <source>Watson frames files (frames)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="227"/>
+        <location filename="../source/main_window.cpp" line="228"/>
         <source>Reset data</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="228"/>
+        <location filename="../source/main_window.cpp" line="229"/>
         <source>Do you want to remove all projects, tags and frames?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="268"/>
+        <location filename="../source/main_window.cpp" line="269"/>
         <source>Enter required notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="269"/>
+        <location filename="../source/main_window.cpp" line="270"/>
         <source>Project: &lt;strong&gt;%1&lt;/strong&gt;&lt;br&gt;Notes are required to stop the current time entry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/main_window.cpp" line="391"/>
+        <location filename="../source/main_window.cpp" line="392"/>
         <source>Total: %1 / %2</source>
         <comment>statusbar</comment>
         <translation type="unfinished"></translation>

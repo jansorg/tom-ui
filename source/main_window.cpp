@@ -165,6 +165,8 @@ void MainWindow::readSettings() {
 }
 
 void MainWindow::refreshData() {
+    _control->resetCache();
+
     _projectTree->refresh();
     onProjectStatusChange();
     onProjectSelectionChange(Project());
@@ -172,7 +174,6 @@ void MainWindow::refreshData() {
 }
 
 MainWindow::~MainWindow() = default;
-
 
 void MainWindow::helpAbout() {
     QString about = QString(

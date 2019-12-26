@@ -8,7 +8,9 @@ class TomStatus {
 public:
     explicit TomStatus();
 
-    explicit TomStatus(bool valid, Project &activeProject, QDateTime &startTime);
+    explicit TomStatus(bool valid, QString timeEntryId, Project &activeProject, QDateTime &startTime);
+
+    const QString &timeEntryId() const;
 
     const Project &currentProject() const;
 
@@ -17,6 +19,7 @@ public:
     bool isValid;
 
 private:
+    QString _timeEntryId;
     Project _project;
     QDateTime _startTime;
 };

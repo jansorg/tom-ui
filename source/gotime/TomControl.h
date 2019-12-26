@@ -35,7 +35,7 @@ public:
 
     QList<Project> cachedRecentProjects() const;
 
-    QList<Project> cachedProjects() const;
+//    QList<Project> cachedProjects() const;
 
     Project cachedProject(const QString &id) const;
 
@@ -43,7 +43,7 @@ public:
 
     bool hasSubprojects(const Project &project);
 
-    TomStatus status();
+    TomStatus status(bool emitProjectStatusChanged = false);
 
     TomStatus cachedStatus();
 
@@ -57,7 +57,7 @@ public:
 
     bool removeProject(const Project &project);
 
-    bool renameTag(const QString &id, const QString &newName);
+//    bool renameTag(const QString &id, const QString &newName);
 
     bool updateFrame(const QList<Frame *> &frames,
                      bool updateStart, const QDateTime &start,
@@ -90,6 +90,8 @@ public:
     bool importWatsonFrames(const QString &filename);
 
     void resetAll();
+
+    void resetCache();
 
     bool isChildProject(const QString &id, const QString &parentID) const;
 
@@ -145,12 +147,12 @@ public slots:
 
     bool stopActivity(const QString& notes = QString());
 
-    bool cancelActivity();
+//    bool cancelActivity();
 
 private:
     CommandStatus run(const QStringList &args, long timeoutMillis = 1000);
 
-    Project _activeProject;
+//    Project _activeProject;
     QHash<QString, Project> _cachedProjects;
     QList<Project> _cachedRecentProjects;
     TomStatus _cachedStatus;
@@ -159,6 +161,7 @@ private:
     bool _bashScript;
     QMutex _mutex;
 
+    void refreshProjectStatus(bool emitProjectStatusChanged = false);
     void cacheProjects(const QList<Project> &projects);
 };
 

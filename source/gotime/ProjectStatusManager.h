@@ -10,6 +10,7 @@ public:
     ProjectStatusManager(TomControl *control, QObject *parent);
 
     ProjectStatus getStatus(const QString &projectID) const;
+
     ProjectStatus getOverallStatus() const;
 
 public slots:
@@ -27,7 +28,6 @@ private slots:
 private:
     /**
      * Loads a new status map from the tom cli application.
-     * @return
      */
     ProjectsStatus loadStatus();
 

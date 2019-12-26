@@ -135,7 +135,7 @@ namespace Icons {
     }
 
     inline const QIcon keySequenceReset() {
-        return icon("edit-delete");
+        return icon("edit-clear");
     }
 
     inline const QIcon LogoSmall() {

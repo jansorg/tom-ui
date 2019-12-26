@@ -3,11 +3,10 @@
 
 #include "FrameEditorDialog.h"
 
-
-FrameEditorDialog::FrameEditorDialog(const Frame &frame, TomControl *control, ProjectStatusManager* statusManager, QWidget *parent) : QDialog(parent), Ui::FrameDialog(),
-                                                                                                 _frame(frame),
-                                                                                                 _control(control),
-                                                                                                 _statusManager(statusManager){
+FrameEditorDialog::FrameEditorDialog(const Frame &frame, TomControl *control, ProjectStatusManager *statusManager, QWidget *parent) : QDialog(parent), Ui::FrameDialog(),
+                                                                                                                                      _frame(frame),
+                                                                                                                                      _control(control),
+                                                                                                                                      _statusManager(statusManager) {
 
     setupUi(this);
     loadFrame(frame);
@@ -16,7 +15,7 @@ FrameEditorDialog::FrameEditorDialog(const Frame &frame, TomControl *control, Pr
     connect(_buttonBox->button(QDialogButtonBox::Reset), &QPushButton::clicked, [this] { loadFrame(_frame); });
 }
 
-void FrameEditorDialog::show(const Frame &frame, TomControl *control, ProjectStatusManager* statusManager, QWidget *parent) {
+void FrameEditorDialog::show(const Frame &frame, TomControl *control, ProjectStatusManager *statusManager, QWidget *parent) {
     auto *dialog = new FrameEditorDialog(frame, control, statusManager, parent);
     dialog->showNormal();
 }
@@ -34,11 +33,15 @@ void FrameEditorDialog::loadFrame(const Frame &frame) {
         dateTimeFormat += ".zzz";
     }
 
-    _beginEdit->setDateTime(frame.startTime);
     _beginEdit->setDisplayFormat(dateTimeFormat);
+    _beginEdit->setDateTime(frame.startTime);
 
-    _endEdit->setDateTime(frame.stopTime);
     _endEdit->setDisplayFormat(dateTimeFormat);
+    if (frame.stopTime.isValid()) {
+        _endEdit->setDateTime(frame.stopTime);
+    } else {
+        _endEdit->setDateTime(QDateTime::currentDateTime());
+    }
 
     _archivedCheckBox->setChecked(frame.archived);
 

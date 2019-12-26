@@ -58,8 +58,6 @@ void FrameTableView::setup(TomControl *control, ProjectStatusManager *statusMana
     hideColumn(FrameTableViewModel::COL_TAGS);
     hideColumn(FrameTableViewModel::COL_LAST_UPDATED);
 
-    sortByColumn(FrameTableViewModel::COL_START, Qt::DescendingOrder);
-
     connect(this, &FrameTableView::customContextMenuRequested,
             this, &FrameTableView::onCustomContextMenuRequested);
     connect(_sourceModel, &FrameTableViewModel::subprojectStatusChange,
@@ -221,9 +219,18 @@ QAction *FrameTableView::getDeleteAction() {
 }
 
 void FrameTableView::readSettings() {
+    QSettings settings;
+    QVariant sortColumn = settings.value("timeEntryTable/sortColumn", FrameTableViewModel::COL_START);
+    QVariant sortOrder = settings.value("timeEntryTable/sortOrder", Qt::DescendingOrder);
+    if (sortColumn.isValid() && sortOrder.canConvert<Qt::SortOrder>()) {
+        sortByColumn(sortColumn.toInt(), sortOrder.value<Qt::SortOrder>());
+    }
 }
 
 void FrameTableView::writeSettings() {
+    QSettings settings;
+    settings.setValue("timeEntryTable/sortColumn", _proxyModel->sortColumn());
+    settings.setValue("timeEntryTable/sortOrder", _proxyModel->sortOrder());
 }
 
 void FrameTableView::selectFirstFrame() {

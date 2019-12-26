@@ -2,13 +2,20 @@
 #include <QtWidgets/QPushButton>
 
 #include "ProjectEditorDialog.h"
-#include "source/gotime/ProjectStatusManager.h"
+#include "gotime/ProjectStatusManager.h"
+
+void ProjectEditorDialog::show(const Project &project, TomControl *control,
+                               ProjectStatusManager *statusManager, QWidget *parent) {
+    auto *dialog = new ProjectEditorDialog(project, control, statusManager, parent);
+    dialog->showNormal();
+}
 
 ProjectEditorDialog::ProjectEditorDialog(const Project &project, TomControl *control,
                                          ProjectStatusManager *statusManager, QWidget *parent)
         : QDialog(parent), Ui::ProjectDialog(), _control(control), _statusManager(statusManager), _project(project) {
 
     setupUi(this);
+    setWindowTitle(tr("Edit Project %1").arg(project.getShortName()));
 
     _noteRequired->initItems(tr("Inherit from parent"), tr("Required"), tr("Not required"));
 
@@ -22,12 +29,6 @@ ProjectEditorDialog::ProjectEditorDialog(const Project &project, TomControl *con
 
     connect(_buttonBox, &QDialogButtonBox::accepted, this, &ProjectEditorDialog::saveProject);
     connect(_buttonBox->button(QDialogButtonBox::Reset), &QPushButton::clicked, [this] { loadProject(_project); });
-}
-
-void ProjectEditorDialog::show(const Project &project, TomControl *control,
-                               ProjectStatusManager *statusManager, QWidget *parent) {
-    auto *dialog = new ProjectEditorDialog(project, control, statusManager, parent);
-    dialog->showNormal();
 }
 
 void ProjectEditorDialog::loadProject(const Project &project) {

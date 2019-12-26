@@ -27,7 +27,10 @@
        <item row="0" column="0">
         <widget class="QLabel" name="projectLabel">
          <property name="text">
-          <string>Project:</string>
+          <string>&amp;Project:</string>
+         </property>
+         <property name="buddy">
+          <cstring>_projectBox</cstring>
          </property>
         </widget>
        </item>
@@ -44,7 +47,10 @@
        <item row="1" column="0">
         <widget class="QLabel" name="beginLabel">
          <property name="text">
-          <string>Begin:</string>
+          <string>&amp;Begin:</string>
+         </property>
+         <property name="buddy">
+          <cstring>_beginEdit</cstring>
          </property>
         </widget>
        </item>
@@ -67,7 +73,10 @@
        <item row="2" column="0">
         <widget class="QLabel" name="endLabel">
          <property name="text">
-          <string>End:</string>
+          <string>&amp;End:</string>
+         </property>
+         <property name="buddy">
+          <cstring>_endEdit</cstring>
          </property>
         </widget>
        </item>
@@ -90,7 +99,10 @@
        <item row="4" column="0">
         <widget class="QLabel" name="notesLabel">
          <property name="text">
-          <string>Notes:</string>
+          <string>&amp;Notes:</string>
+         </property>
+         <property name="buddy">
+          <cstring>_notesEdit</cstring>
          </property>
         </widget>
        </item>
@@ -110,7 +122,10 @@
        <item row="3" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Archived:</string>
+          <string>&amp;Archived:</string>
+         </property>
+         <property name="buddy">
+          <cstring>_archivedCheckBox</cstring>
          </property>
         </widget>
        </item>

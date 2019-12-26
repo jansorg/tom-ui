@@ -30,7 +30,10 @@
        <item row="0" column="0">
         <widget class="QLabel" name="nameLabel">
          <property name="text">
-          <string>Name:</string>
+          <string>&amp;Name:</string>
+         </property>
+         <property name="buddy">
+          <cstring>_nameEdit</cstring>
          </property>
         </widget>
        </item>
@@ -44,7 +47,10 @@
        <item row="1" column="0">
         <widget class="QLabel" name="parentLabel">
          <property name="text">
-          <string>Parent project:</string>
+          <string>&amp;Parent project:</string>
+         </property>
+         <property name="buddy">
+          <cstring>_parentBox</cstring>
          </property>
         </widget>
        </item>
@@ -64,7 +70,10 @@
        <item row="2" column="0">
         <widget class="QLabel" name="hourlyRateLabel">
          <property name="text">
-          <string>Hourly rate:</string>
+          <string>&amp;Hourly rate:</string>
+         </property>
+         <property name="buddy">
+          <cstring>_hourlyRateEdit</cstring>
          </property>
         </widget>
        </item>
@@ -78,7 +87,10 @@
        <item row="3" column="0">
         <widget class="QLabel" name="noteRequiredLabel">
          <property name="text">
-          <string>Notes on entries:</string>
+          <string>Notes on &amp;entries:</string>
+         </property>
+         <property name="buddy">
+          <cstring>_noteRequired</cstring>
          </property>
         </widget>
        </item>
@@ -86,6 +98,15 @@
         <widget class="TriStateFlagComboBox" name="_noteRequired" native="true">
          <property name="enabled">
           <bool>true</bool>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
          </property>
         </widget>
        </item>

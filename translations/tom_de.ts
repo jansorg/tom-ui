@@ -50,50 +50,58 @@
     <name>FrameDialog</name>
     <message>
         <location filename="../source/frameEditor/frame_dialog.ui" line="14"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="152"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="159"/>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../source/frameEditor/frame_dialog.ui" line="24"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="160"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="167"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../source/frameEditor/frame_dialog.ui" line="30"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="153"/>
-        <source>Project:</source>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="160"/>
+        <source>&amp;Project:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/frameEditor/frame_dialog.ui" line="47"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="154"/>
-        <source>Begin:</source>
+        <location filename="../source/frameEditor/frame_dialog.ui" line="50"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="161"/>
+        <source>&amp;Begin:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/frameEditor/frame_dialog.ui" line="70"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="155"/>
-        <source>End:</source>
+        <location filename="../source/frameEditor/frame_dialog.ui" line="76"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="162"/>
+        <source>&amp;End:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/frameEditor/frame_dialog.ui" line="93"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="156"/>
-        <source>Notes:</source>
+        <location filename="../source/frameEditor/frame_dialog.ui" line="102"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="163"/>
+        <source>&amp;Notes:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/frameEditor/frame_dialog.ui" line="106"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="157"/>
+        <location filename="../source/frameEditor/frame_dialog.ui" line="125"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="165"/>
+        <source>&amp;Archived:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/frameEditor/frame_dialog.ui" line="118"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="164"/>
         <source>Notes about this time entry</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>FrameEditorDialog</name>
     <message>
-        <location filename="../source/frameEditor/frame_dialog.ui" line="113"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="158"/>
-        <source>Archived:</source>
+        <location filename="../source/frameEditor/FrameEditorDialog.cpp" line="12"/>
+        <source>Edit Time Entry</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -824,69 +832,74 @@
     <name>ProjectDialog</name>
     <message>
         <location filename="../source/projectEditor/project_dialog.ui" line="14"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="129"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="141"/>
         <source>Dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../source/projectEditor/project_dialog.ui" line="27"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="137"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="149"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../source/projectEditor/project_dialog.ui" line="33"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="130"/>
-        <source>Name:</source>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="142"/>
+        <source>&amp;Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/projectEditor/project_dialog.ui" line="40"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="131"/>
+        <location filename="../source/projectEditor/project_dialog.ui" line="50"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="144"/>
+        <source>&amp;Parent project:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/projectEditor/project_dialog.ui" line="73"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="146"/>
+        <source>&amp;Hourly rate:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/projectEditor/project_dialog.ui" line="90"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="148"/>
+        <source>Notes on &amp;entries:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/projectEditor/project_dialog.ui" line="43"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="143"/>
         <source>Projet name (required)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/projectEditor/project_dialog.ui" line="47"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="132"/>
-        <source>Parent project:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../source/projectEditor/project_dialog.ui" line="67"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="134"/>
-        <source>Hourly rate:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../source/projectEditor/project_dialog.ui" line="74"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="135"/>
+        <location filename="../source/projectEditor/project_dialog.ui" line="83"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="147"/>
         <source>e.g. 42.50 USD</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../source/projectEditor/project_dialog.ui" line="81"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="136"/>
-        <source>Notes on entries:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ProjectEditorDialog</name>
     <message>
-        <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="13"/>
+        <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="18"/>
+        <source>Edit Project %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="20"/>
         <source>Inherit from parent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="13"/>
-        <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="18"/>
+        <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="20"/>
+        <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="25"/>
         <source>Required</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="13"/>
-        <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="18"/>
+        <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="20"/>
+        <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="25"/>
         <source>Not required</source>
         <translation type="unfinished"></translation>
     </message>

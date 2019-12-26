@@ -3,18 +3,24 @@
 #include "TriStateFlagComboBox.h"
 
 TriStateFlagComboBox::TriStateFlagComboBox(QWidget *parent) : QWidget(parent) {
-    _box = new QComboBox(this);
+    _box = new QComboBox();
     _box->setSizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Preferred);
     connect(_box, QOverload<int>::of(&QComboBox::activated), this, &TriStateFlagComboBox::refresh);
 
-    _inheritedValueLabel = new QLabel(this);
+    _inheritedValueLabel = new QLabel();
     _inheritedValueLabel->setVisible(false);
     _inheritedValueLabel->setEnabled(false);
 
-    auto *layout = new QVBoxLayout(this);
+    auto *layout = new QVBoxLayout();
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(5);
     layout->addWidget(_box);
     layout->addWidget(_inheritedValueLabel);
+
     setLayout(layout);
+
+    setFocusPolicy(Qt::StrongFocus);
+    setFocusProxy(_box);
 }
 
 void TriStateFlagComboBox::initItems(const QString &undefinedLabel,

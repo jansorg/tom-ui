@@ -9,6 +9,7 @@ FrameEditorDialog::FrameEditorDialog(const Frame &frame, TomControl *control, Pr
                                                                                                                                       _statusManager(statusManager) {
 
     setupUi(this);
+    setWindowTitle(tr("Edit Time Entry"));
     loadFrame(frame);
 
     connect(_buttonBox, &QDialogButtonBox::accepted, this, &FrameEditorDialog::saveFrame);

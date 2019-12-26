@@ -43,7 +43,7 @@ void ProjectTreeView::setup(TomControl *control, ProjectStatusManager *statusMan
 
     _sourceModel->loadProjects();
 
-//    new QAbstractItemModelTester(_proxyModel, QAbstractItemModelTester::FailureReportingMode::Fatal, this);
+    // new QAbstractItemModelTester(_proxyModel, QAbstractItemModelTester::FailureReportingMode::Fatal, this);
 
     header()->setStretchLastSection(false);
     header()->setSectionResizeMode(0, QHeaderView::Stretch);
@@ -161,6 +161,13 @@ void ProjectTreeView::readSettings() {
             scrollTo(proxyRow, PositionAtCenter);
         }
     }
+
+
+    QVariant sortColumn = settings.value("projectTree/sortColumn");
+    QVariant sortOrdder = settings.value("projectTree/sortOrder");
+    if (sortColumn.isValid() && sortOrdder.canConvert<Qt::SortOrder>()) {
+        sortByColumn(sortColumn.toInt(), sortOrdder.value<Qt::SortOrder>());
+    }
 }
 
 void ProjectTreeView::writeSettings() {
@@ -173,6 +180,8 @@ void ProjectTreeView::writeSettings() {
 
     QSettings settings;
     settings.setValue("projectTree/selected", ids);
+    settings.setValue("projectTree/sortColumn", _proxyModel->sortColumn());
+    settings.setValue("projectTree/sortOrder", _proxyModel->sortOrder());
 }
 
 void ProjectTreeView::setShowYesterdayColumn(bool show) {

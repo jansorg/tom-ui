@@ -81,12 +81,10 @@ void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
     int selectedCount = selectedFrames().size();
 
     QMenu menu;
-    auto *stop = menu.addAction(Icons::stopTimer(), tr("Stop entry"), [this] {
-        _control->stopActivity();
-    });
+    auto *stop = menu.addAction(Icons::stopTimer(), tr("Stop time entry"), [this] { _control->stopActivity(); });
     stop->setEnabled(frame->isActive());
     menu.addSeparator();
-    auto *editAction = menu.addAction(Icons::frameEdit(), tr("Edit entry..."), [this, frame] { FrameEditorDialog::show(*frame, _control, _statusManager, this); });
+    auto *editAction = menu.addAction(Icons::frameEdit(), tr("Edit time entry..."), [this, frame] { FrameEditorDialog::show(*frame, _control, _statusManager, this); });
     editAction->setEnabled(selectedCount == 1);
     menu.addAction(_deleteSelectedAction);
     menu.addSeparator();

@@ -44,6 +44,8 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, MainWindow *mainWindow) : QO
     _trayIcon->setIcon(_stoppedIcon);
     _trayIcon->show();
 
+    _trayIcon->installEventFilter(this);
+
     connect(control, &TomControl::projectStatusChanged, this, &GotimeTrayIcon::updateAll);
     connect(control, &TomControl::projectUpdated, this, &GotimeTrayIcon::updateAll);
 
@@ -120,4 +122,11 @@ void GotimeTrayIcon::loadIcons() {
     _startedIcon = QIcon(QPixmap(":/icons/trayicon-started.svg"));
     _stoppedIcon = QIcon(QPixmap(":/icons/trayicon-stopped.svg"));
 #endif
+}
+
+bool GotimeTrayIcon::eventFilter(QObject *watched, QEvent *event) {
+    if (watched == _trayIcon && event->type() == QEvent::ToolTip) {
+        updateIconAndTooltip();
+    }
+    return QObject::eventFilter(watched, event);
 }

@@ -221,12 +221,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/tray.cpp" line="99"/>
+        <location filename="../source/tray.cpp" line="101"/>
         <source>%1: &lt;b&gt;%2&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../source/tray.cpp" line="101"/>
+        <location filename="../source/tray.cpp" line="103"/>
         <source>%1: %2</source>
         <translation type="unfinished"></translation>
     </message>

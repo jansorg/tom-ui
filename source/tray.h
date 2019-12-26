@@ -16,6 +16,8 @@ Q_OBJECT
 public:
     GotimeTrayIcon(TomControl *control, MainWindow *mainWindow);
 
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 private slots:
 
     void updateAll();

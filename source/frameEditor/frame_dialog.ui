@@ -24,6 +24,9 @@
        <string>Properties</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::ExpandingFieldsGrow</enum>
+       </property>
        <item row="0" column="0">
         <widget class="QLabel" name="projectLabel">
          <property name="text">
@@ -114,6 +117,9 @@
            <verstretch>1</verstretch>
           </sizepolicy>
          </property>
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
          <property name="placeholderText">
           <string>Notes about this time entry</string>
          </property>
@@ -131,6 +137,9 @@
        </item>
        <item row="3" column="1">
         <widget class="QCheckBox" name="_archivedCheckBox">
+         <property name="focusPolicy">
+          <enum>Qt::StrongFocus</enum>
+         </property>
          <property name="text">
           <string/>
          </property>
@@ -159,6 +168,14 @@
    <header>commonWidgets/ProjectTreeComboBox.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>_projectBox</tabstop>
+  <tabstop>_beginEdit</tabstop>
+  <tabstop>_endEdit</tabstop>
+  <tabstop>_archivedCheckBox</tabstop>
+  <tabstop>_notesEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

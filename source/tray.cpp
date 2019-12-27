@@ -49,7 +49,7 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, MainWindow *mainWindow) : QO
     connect(control, &TomControl::projectStatusChanged, this, &GotimeTrayIcon::updateAll);
     connect(control, &TomControl::projectUpdated, this, &GotimeTrayIcon::updateAll);
 
-    connect(_trayIcon, &QSystemTrayIcon::activated, [this, mainWindow](QSystemTrayIcon::ActivationReason reason) {
+    connect(_trayIcon, &QSystemTrayIcon::activated, [this](QSystemTrayIcon::ActivationReason reason) {
         if (reason == QSystemTrayIcon::DoubleClick || reason == QSystemTrayIcon::MiddleClick) {
             _control->stopActivity();
         } else if (reason == QSystemTrayIcon::Trigger) {

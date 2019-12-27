@@ -2,7 +2,7 @@
 
 EntryNoteEditor::EntryNoteEditor(const Project &project, const QString &notes, QWidget *parent) : QDialog(parent) {
     setModal(true);
-    setWindowTitle(tr("Edit Time Entry of Project %1".arg(project.getShortName())));
+    setWindowTitle(tr("Edit Time Entry of Project %1").arg(project.getShortName()));
 }
 
 QString EntryNoteEditor::show(const Project &project, const QString &notes, bool *ok, QWidget *parent) {

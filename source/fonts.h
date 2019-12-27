@@ -5,7 +5,7 @@
 
 namespace Fonts {
     inline QFont monospaceFont() {
-        QFont font;
+        QFont font("Monospace");
         // it would be better to use tabular figures, when available
         // but Qt isn't supporting to configure opentype features, afaik
         font.setStyleHint(QFont::Monospace);

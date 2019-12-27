@@ -236,6 +236,7 @@ void MainWindow::resetAllData() {
 void MainWindow::onProjectSelectionChange(const Project &current) {
     bool valid = current.isValid();
 
+    _projectTree->getDeleteAction()->setEnabled(valid);
     actionProjectStart->setEnabled(valid);
     actionProjectEdit->setEnabled(valid);
 }
@@ -360,11 +361,14 @@ void MainWindow::focusChanged(QWidget *, QWidget *now) {
             _projectTree->selectFirstRow();
         }
 
-        _projectTree->getDeleteAction()->setEnabled(true);
+        // to handle the root project, for example
+        bool currentProjectIsValid = _projectTree->getCurrentProject().isValid();
+
+        _projectTree->getDeleteAction()->setEnabled(currentProjectIsValid);
         _frameView->getDeleteAction()->setEnabled(false);
         actionTimeEntryEdit->setEnabled(false);
 
-        actionProjectEdit->setEnabled(_projectTree->getCurrentProject().isValid());
+        actionProjectEdit->setEnabled(currentProjectIsValid);
         actionTimeEntryArchive->setEnabled(false);
     } else if (now == _frameView) {
         if (!_frameView->hasSelectedFrames()) {

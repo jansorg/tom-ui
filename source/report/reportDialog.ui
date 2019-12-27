@@ -553,8 +553,11 @@
        <property name="popupMode">
         <enum>QToolButton::MenuButtonPopup</enum>
        </property>
-       <property name="arrowType">
-        <enum>Qt::NoArrow</enum>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextBesideIcon</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>false</bool>
        </property>
       </widget>
      </item>

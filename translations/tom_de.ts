@@ -1369,13 +1369,13 @@
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/ProjectReportDialog.cpp" line="152"/>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="158"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="160"/>
         <source>Save Report as HTML</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/ProjectReportDialog.cpp" line="152"/>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="158"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="160"/>
         <source>HTML files (*.html *.htm);;All files (*)</source>
         <translation type="unfinished"></translation>
     </message>

@@ -86,10 +86,12 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     auto *updateAction = new QAction("&Update report", this);
     connect(updateAction, &QAction::triggered, this, &ProjectReportDialog::updateReport);
     updateAction->setShortcuts(QKeySequence::Refresh);
+    updateAction->setShortcutVisibleInContextMenu(true);
 
     auto saveHTMLAction = new QAction("&Save report as HTML", this);
     connect(saveHTMLAction, &QAction::triggered, this, &ProjectReportDialog::saveReportHTML);
     saveHTMLAction->setShortcuts(QKeySequence::Save);
+    saveHTMLAction->setShortcutVisibleInContextMenu(true);
 
     auto actionsMenu = new QMenu("Actions", this);
     actionsMenu->addAction(updateAction);

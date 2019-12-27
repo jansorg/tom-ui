@@ -120,6 +120,9 @@
          <property name="focusPolicy">
           <enum>Qt::StrongFocus</enum>
          </property>
+         <property name="tabChangesFocus">
+          <bool>true</bool>
+         </property>
          <property name="placeholderText">
           <string>Notes about this time entry</string>
          </property>

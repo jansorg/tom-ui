@@ -15,6 +15,7 @@ ProjectEditorDialog::ProjectEditorDialog(const Project &project, TomControl *con
         : QDialog(parent), Ui::ProjectDialog(), _control(control), _statusManager(statusManager), _project(project) {
 
     setupUi(this);
+    setModal(true);
     setWindowTitle(tr("Edit Project %1").arg(project.getShortName()));
 
     _noteRequired->initItems(tr("Inherit from parent"), tr("Required"), tr("Not required"));

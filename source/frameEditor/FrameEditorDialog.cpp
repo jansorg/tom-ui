@@ -9,6 +9,7 @@ FrameEditorDialog::FrameEditorDialog(const Frame &frame, TomControl *control, Pr
                                                                                                                                       _statusManager(statusManager) {
 
     setupUi(this);
+    setModal(true);
     setWindowTitle(tr("Edit Time Entry"));
     loadFrame(frame);
 

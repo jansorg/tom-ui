@@ -1,8 +1,3 @@
-//
-// Created by jansorg on 19.01.19.
-//
-
-#include <QtCore>
 #include <QtWidgets/QInputDialog>
 
 #include "CommonDialogs.h"

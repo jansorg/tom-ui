@@ -1,0 +1,10 @@
+#!/usr/bin/env xdg-open
+[Desktop Entry]
+Version=1.0
+Type=Application
+Categories=Utility;
+Name=Tom
+Comment=A time tracking tool.
+GenericName=Time Tracker
+Exec=tom-ui
+Icon=tom

@@ -139,11 +139,11 @@ namespace Icons {
     }
 
     inline const QIcon LogoSmall() {
-        return icon("logo32.png");
+        return icon("tom32.png");
     }
 
     inline const QIcon LogoLarge() {
-        return icon("logo64.png");
+        return icon("tom64.png");
     }
 }
 

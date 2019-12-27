@@ -1,12 +1,5 @@
 cmake_minimum_required(VERSION 3.1.0)
 
-set(CMAKE_MODULE_PATH cmake)
-
-option(ENABLE_REPORTS "Enable Webkit component to preview reports" ON)
-
-# Include Qt basic functions
-include(cmake/QtCommon.cmake)
-
 file(READ version.txt VERSION)
 
 # Basic information about project
@@ -15,9 +8,6 @@ project(tom-ui
         VERSION ${VERSION}
         DESCRIPTION "Tom Time Tracker"
         HOMEPAGE_URL "https://github.com/jansorg/tom-ui")
-
-# Set PROJECT_VERSION_PATCH and PROJECT_VERSION_TWEAK to 0 if not present, needed by add_project_meta
-fix_project_version()
 
 # Set additional project information
 set(COMPANY "Joachim Ansorg")
@@ -29,9 +19,28 @@ set(CPACK_DEBIAN_PACKAGE_SHLIBDEPS ON)
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "tom (>= ${VERSION})")
 set(RESOURCE_FILES resources/resources.qrc source/settingsDialog/SettingsDialog.cpp source/settingsDialog/SettingsDialog.h source/settingsDialog/ApplicationSettingsPage.cpp source/settingsDialog/ApplicationSettingsPage.h source/settingsDialog/ApplicationShortcutsPage.cpp source/settingsDialog/ApplicationShortcutsPage.h source/settingsDialog/GlobalShortcutsPage.cpp source/settingsDialog/GlobalShortcutsPage.h source/GlobalShortcuts.cpp source/GlobalShortcuts.h source/GlobalShortcut.cpp source/GlobalShortcut.h)
 
+include(GNUInstallDirs)
+
+set(CMAKE_MODULE_PATH cmake)
+
+option(ENABLE_REPORTS "Enable Webkit component to preview reports" ON)
+
+# Include Qt basic functions
+include(cmake/QtCommon.cmake)
+
+# Set PROJECT_VERSION_PATCH and PROJECT_VERSION_TWEAK to 0 if not present, needed by add_project_meta
+fix_project_version()
+
 add_project_meta(META_FILES_TO_INCLUDE)
 
-find_package(Qt5 COMPONENTS Core Widgets Svg LinguistTools Test REQUIRED)
+find_package(Qt5 5.9.0
+        COMPONENTS
+            Core
+            Widgets
+            Svg
+            LinguistTools
+            Test
+        REQUIRED)
 find_package(X11)
 
 configure_file(
@@ -119,6 +128,8 @@ endif ()
 
 if (UNIX)
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+    install(FILES resources/tom-ui.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
+    install(FILES resources/icons/tom.svg DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps)
 elseif (APPLE)
     install(TARGETS ${PROJECT_NAME} DESTINATION .)
     set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})

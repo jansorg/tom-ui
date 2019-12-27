@@ -348,7 +348,7 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
         }
     }
 
-    if (role == Qt::FontRole ) {
+    if (role == Qt::FontRole && Fonts::useMonospaceFont()) {
         int column = index.column();
         if (column == COL_START_DATE || column == COL_START || column == COL_END || column == COL_DURATION || column == COL_LAST_UPDATED) {
             return Fonts::monospaceFont();

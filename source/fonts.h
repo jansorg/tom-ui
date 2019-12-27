@@ -4,6 +4,14 @@
 #include <QtGui/QFont>
 
 namespace Fonts {
+    inline bool useMonospaceFont() {
+#ifdef Q_OS_MAC
+        return true;
+#else
+        return false;
+#endif
+    }
+
     inline QFont monospaceFont() {
         QFont font("Monospace");
         // it would be better to use tabular figures, when available

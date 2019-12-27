@@ -14,14 +14,15 @@
 
 ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, bool showOverallProject,
                                    QObject *parent, bool enableUpdates, bool enableCheckboxes) : QAbstractItemModel(parent),
-                                                                          _control(control),
-                                                                          _statusManager(statusManager),
-                                                                          _rootItem(nullptr),
-                                                                          _visibleRootItem(nullptr),
-                                                                          _headers(QStringList() << tr("Name") << tr("Today") << tr("Yesterday") << tr("This week")
-                                                                                                 << tr("This month")
-                                                                                                 << tr("This year") << tr("Total")),
-                                                                          _enableCheckboxes(enableCheckboxes) {
+                                                                                                 _control(control),
+                                                                                                 _statusManager(statusManager),
+                                                                                                 _rootItem(nullptr),
+                                                                                                 _visibleRootItem(nullptr),
+                                                                                                 _headers(QStringList() << tr("Name") << tr("Today") << tr("Yesterday")
+                                                                                                                        << tr("This week")
+                                                                                                                        << tr("This month")
+                                                                                                                        << tr("This year") << tr("Total")),
+                                                                                                 _enableCheckboxes(enableCheckboxes) {
 
     _rootItem = new ProjectTreeRootItem(_statusManager);
     if (showOverallProject) {
@@ -107,9 +108,9 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
         return _checkedProjectIDs.contains(id) ? Qt::Checked : Qt::Unchecked;
     }
 
-    if (role == Qt::FontRole){
+    if (role == Qt::FontRole && Fonts::useMonospaceFont()) {
         int col = index.column();
-        if (col != ProjectTreeItem::COL_NAME){
+        if (col != ProjectTreeItem::COL_NAME) {
             return Fonts::monospaceFont();
         }
     }

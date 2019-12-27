@@ -6,8 +6,14 @@ FLAGS="$1"
 git pull
 [[ -n "$TOM_VERSION" ]] && git checkout "v${TOM_VERSION}"
 
-go get github.com/jansorg/tom
-(cd $HOME/go/src/github.com/jansorg/tom/ && git pull)
+(
+    rm -rf "$HOME/tom/"
+    git clone "https://github.com/jansorg/tom.git" "$HOME/tom"
+    cd "$HOME/tom/"
+    git pull
+    [[ -n "$TOM_VERSION" ]] && git checkout "v${TOM_VERSION}"
+    go build .
+)
 
 QTDIR="$HOME/Qt/5.12.6/clang_64"
 

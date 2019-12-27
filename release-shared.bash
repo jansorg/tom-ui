@@ -36,6 +36,6 @@ function buildMacOS() {
     local VERSION="$3"
 
     echo "Building DMG for macOS Mojave..."
-    ssh mojave "source /etc/profile; cd dev; rm -rf tom-ui; git clone https://github.com/jansorg/tom-ui; cd tom-ui; export TOM_VERSION=$VERSION; bash ./deployment/build-mac-dmg.sh" && scp mojave:dev/tom-ui/build/Tom.dmg "$TARGET"
-    ssh mojave "source /etc/profile; cd dev; rm -rf tom-ui; git clone https://github.com/jansorg/tom-ui; cd tom-ui; export TOM_VERSION=$VERSION; bash ./deployment/build-mac-dmg.sh -DENABLE_REPORTS=OFF" && scp mojave:dev/tom-ui/build/Tom.dmg "$TARGET/Tom_no-reporting.dmg"
+    ssh mojave "source /etc/profile; cd dev; rm -rf tom-ui; git clone https://github.com/jansorg/tom-ui; cd tom-ui; export TOM_VERSION=$VERSION; bash ./deployment/build-mac-dmg.sh" && scp mac:dev/tom-ui/build/Tom.dmg "$TARGET"
+    ssh mojave "source /etc/profile; cd dev; rm -rf tom-ui; git clone https://github.com/jansorg/tom-ui; cd tom-ui; export TOM_VERSION=$VERSION; bash ./deployment/build-mac-dmg.sh -DENABLE_REPORTS=OFF" && scp mac:dev/tom-ui/build/Tom.dmg "$TARGET/Tom_no-reporting.dmg"
 }

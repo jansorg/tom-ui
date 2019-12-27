@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
+ <author>Joachim Ansorg</author>
  <class>ProjectLookupDialog</class>
  <widget class="QDialog" name="ProjectLookupDialog">
   <property name="windowModality">
@@ -90,7 +91,7 @@
          </size>
         </property>
         <property name="focusPolicy">
-         <enum>Qt::TabFocus</enum>
+         <enum>Qt::StrongFocus</enum>
         </property>
         <property name="toolTip">
          <string>Stop the currently active project</string>
@@ -156,7 +157,7 @@
       </sizepolicy>
      </property>
      <property name="focusPolicy">
-      <enum>Qt::TabFocus</enum>
+      <enum>Qt::StrongFocus</enum>
      </property>
      <property name="toolTip">
       <string>Display the main window</string>
@@ -174,6 +175,7 @@
    </item>
   </layout>
  </widget>
+ <layoutdefault spacing="6" margin="0"/>
  <customwidgets>
   <customwidget>
    <class>ProjectStatusLabel</class>

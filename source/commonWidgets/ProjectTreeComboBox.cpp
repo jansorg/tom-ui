@@ -4,13 +4,19 @@
 #include <QMouseEvent>
 #include <QHeaderView>
 #include <QAbstractItemView>
-#include <QtWidgets/QTreeView>
-#include <source/view/ProjectTreeView.h>
 
-ProjectTreeComboBox::ProjectTreeComboBox(QWidget *parent) : QComboBox(parent), _skipNextHide(false) {
+#include "view/ProjectTreeView.h"
+
+ProjectTreeComboBox::ProjectTreeComboBox(QWidget *parent) : QComboBox(parent),
+                                                            _skipNextHide(false),
+                                                            _control(nullptr),
+                                                            _sourceModel(nullptr),
+                                                            _sortModel(nullptr) {
 }
 
 void ProjectTreeComboBox::setup(TomControl *control, ProjectStatusManager *statusManager, const QList<Project> &hiddenProjects) {
+    setFocusPolicy(Qt::StrongFocus);
+
     _control = control;
     _sourceModel = new ProjectTreeModel(control, statusManager, true, this, false, false);
     _sourceModel->loadProjects();

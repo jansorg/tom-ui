@@ -14,6 +14,8 @@ ProjectCompletionLineEdit::ProjectCompletionLineEdit(QWidget *parent) : QLineEdi
 }
 
 void ProjectCompletionLineEdit::setup(TomControl *control) {
+    setFocusPolicy(Qt::StrongFocus);
+
     _control = control;
 
     auto *model = new ProjectListModel(control, this);

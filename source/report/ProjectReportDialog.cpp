@@ -67,6 +67,12 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     dateStart->setDate(QDateTime::currentDateTime().date());
     dateEnd->setDate(QDateTime::currentDateTime().date());
 
+    templateBox->setModel(new TranslatedStringlistModel(
+            QStringList() << "default" << "timelog",
+            QStringList() << tr("Default") << tr("Time Entries"),
+            this
+    ));
+
     frameRoundingMode->setModel(new TranslatedStringlistModel(
             QStringList() << "up" << "up or down",
             QStringList() << tr("up") << tr("up or down"),
@@ -146,7 +152,7 @@ void ProjectReportDialog::saveReportHTML() {
         _projects << project.getID();
     }
 
-    QDateTime current (QDateTime::currentDateTime());
+    QDateTime current(QDateTime::currentDateTime());
     QString defaultFile = QString("tom-report.%1.html").arg(current.toString(Qt::ISODate));
 
     const QString &fileName = QFileDialog::getSaveFileName(this, tr("Save Report as HTML"), defaultFile, tr("HTML files (*.html *.htm);;All files (*)"));
@@ -301,10 +307,13 @@ QString ProjectReportDialog::reportHTML(const QString &filename) const {
         end = dateEnd->date();
     }
 
+    const QString &templateId = templateBox->currentData(Qt::EditRole).toString();
+
     return _control->htmlReport(filename, _projects,
                                 subprojectsCheckbox->isChecked(),
                                 start, end, frameMode, frameRoundingMin,
-                                splits, templateBox->currentText(),
+                                splits,
+                                templateId,
                                 matrixTablesCheckbox->isChecked(),
                                 showEmptyCheckbox->isChecked(),
                                 showSummaryCheckbox->isChecked(),

@@ -18,7 +18,7 @@
 <context>
     <name>ActionShortcutTable</name>
     <message>
-        <location filename="../deployment/src/tom-ui/source/settingsDialog/ActionShortcutTable.cpp" line="17"/>
+        <location filename="../deployment/src/tom-ui/source/settingsDialog/ActionShortcutTable.cpp" line="19"/>
         <location filename="../source/settingsDialog/ActionShortcutTable.cpp" line="19"/>
         <source>Clear shortcut</source>
         <translation>Tastenkürzel löschen</translation>
@@ -58,78 +58,89 @@
     </message>
 </context>
 <context>
+    <name>EntryNoteEditor</name>
+    <message>
+        <location filename="../deployment/src/tom-ui/source/dialogs/EntryNoteEditor.cpp" line="5"/>
+        <location filename="../source/dialogs/EntryNoteEditor.cpp" line="5"/>
+        <source>Edit Time Entry of Project %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FrameDialog</name>
     <message>
-        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="14"/>
+        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="15"/>
         <location filename="../source/frameEditor/frame_dialog.ui" line="15"/>
         <location filename="../build/tom-ui_autogen/include/ui_frame_dialog.h" line="159"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="168"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="159"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="168"/>
         <source>Dialog</source>
         <translation>Dialog</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="24"/>
+        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="25"/>
         <location filename="../source/frameEditor/frame_dialog.ui" line="25"/>
         <location filename="../build/tom-ui_autogen/include/ui_frame_dialog.h" line="167"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="177"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="167"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="177"/>
         <source>Properties</source>
         <translation>Eigenschafen</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="30"/>
+        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="34"/>
         <location filename="../source/frameEditor/frame_dialog.ui" line="34"/>
         <location filename="../build/tom-ui_autogen/include/ui_frame_dialog.h" line="160"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="169"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="160"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="169"/>
         <source>&amp;Project:</source>
         <translation>&amp;Projekt:</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="50"/>
+        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="54"/>
         <location filename="../source/frameEditor/frame_dialog.ui" line="54"/>
         <location filename="../build/tom-ui_autogen/include/ui_frame_dialog.h" line="161"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="170"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="161"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="170"/>
         <source>&amp;Begin:</source>
         <translation>&amp;Beginn:</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="76"/>
+        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="80"/>
         <location filename="../source/frameEditor/frame_dialog.ui" line="80"/>
         <location filename="../build/tom-ui_autogen/include/ui_frame_dialog.h" line="162"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="171"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="162"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="171"/>
         <source>&amp;End:</source>
         <translation>&amp;Ende:</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="102"/>
+        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="126"/>
         <location filename="../source/frameEditor/frame_dialog.ui" line="126"/>
         <location filename="../build/tom-ui_autogen/include/ui_frame_dialog.h" line="163"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="174"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="163"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="174"/>
         <source>&amp;Notes:</source>
         <translation>A&amp;nmerkungen:</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="125"/>
+        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="106"/>
         <location filename="../source/frameEditor/frame_dialog.ui" line="106"/>
         <location filename="../build/tom-ui_autogen/include/ui_frame_dialog.h" line="165"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="172"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="165"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="172"/>
         <source>&amp;Archived:</source>
         <translation>&amp;Archiviert:</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="118"/>
+        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="148"/>
+        <location filename="../deployment/src/tom-ui/source/frameEditor/frame_dialog.ui" line="151"/>
         <location filename="../source/frameEditor/frame_dialog.ui" line="148"/>
         <location filename="../source/frameEditor/frame_dialog.ui" line="151"/>
         <location filename="../build/tom-ui_autogen/include/ui_frame_dialog.h" line="164"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="175"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_frame_dialog.h" line="176"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="164"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="175"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_frame_dialog.h" line="176"/>
         <source>Notes about this time entry</source>
         <translation>Anmerkungen über diesen Eintrag:</translation>
     </message>
@@ -137,7 +148,7 @@
 <context>
     <name>FrameEditorDialog</name>
     <message>
-        <location filename="../deployment/src/tom-ui/source/frameEditor/FrameEditorDialog.cpp" line="12"/>
+        <location filename="../deployment/src/tom-ui/source/frameEditor/FrameEditorDialog.cpp" line="13"/>
         <location filename="../source/frameEditor/FrameEditorDialog.cpp" line="13"/>
         <source>Edit Time Entry</source>
         <translation>Zeiteintrag bearbeiten</translation>
@@ -146,25 +157,25 @@
 <context>
     <name>FrameTableView</name>
     <message>
-        <location filename="../deployment/src/tom-ui/source/view/FrameTableView.cpp" line="25"/>
+        <location filename="../deployment/src/tom-ui/source/view/FrameTableView.cpp" line="26"/>
         <location filename="../source/view/FrameTableView.cpp" line="26"/>
         <source>Delete selected entries</source>
         <translation>Lösche ausgewählte Einträge</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/view/FrameTableView.cpp" line="82"/>
+        <location filename="../deployment/src/tom-ui/source/view/FrameTableView.cpp" line="83"/>
         <location filename="../source/view/FrameTableView.cpp" line="83"/>
         <source>Stop time entry</source>
         <translation>Stoppe Zeiteintrag</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/view/FrameTableView.cpp" line="85"/>
+        <location filename="../deployment/src/tom-ui/source/view/FrameTableView.cpp" line="86"/>
         <location filename="../source/view/FrameTableView.cpp" line="86"/>
         <source>Edit time entry...</source>
         <translation>Bearbeite Zeiteintrag...</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/view/FrameTableView.cpp" line="89"/>
+        <location filename="../deployment/src/tom-ui/source/view/FrameTableView.cpp" line="90"/>
         <location filename="../source/view/FrameTableView.cpp" line="90"/>
         <source>Archive selected entries</source>
         <translation>Archiviere gewähllte Einträge</translation>
@@ -173,43 +184,43 @@
 <context>
     <name>FrameTableViewModel</name>
     <message>
-        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="212"/>
+        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="215"/>
         <location filename="../source/model/FrameTableViewModel.cpp" line="215"/>
         <source>Day</source>
         <translation>Tag</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="214"/>
+        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="217"/>
         <location filename="../source/model/FrameTableViewModel.cpp" line="217"/>
         <source>Start</source>
         <translation>Beginn</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="216"/>
+        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="219"/>
         <location filename="../source/model/FrameTableViewModel.cpp" line="219"/>
         <source>End</source>
         <translation>Ende</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="218"/>
+        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="221"/>
         <location filename="../source/model/FrameTableViewModel.cpp" line="221"/>
         <source>Duration</source>
         <translation>Dauer</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="220"/>
+        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="223"/>
         <location filename="../source/model/FrameTableViewModel.cpp" line="223"/>
         <source>Tags</source>
         <translation>Tags</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="222"/>
+        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="225"/>
         <location filename="../source/model/FrameTableViewModel.cpp" line="225"/>
         <source>Subproject</source>
         <translation>Unterproject</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="228"/>
+        <location filename="../deployment/src/tom-ui/source/model/FrameTableViewModel.cpp" line="231"/>
         <location filename="../source/model/FrameTableViewModel.cpp" line="231"/>
         <source>Notes</source>
         <translation>Anmerkungen</translation>
@@ -332,14 +343,12 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Die Liste der Einträge. Alle verfügbaren Einträge des aktuell gewählten Projektes werden in dieser Tabelle angezeigt.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="73"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="470"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_main_window.h" line="470"/>
         <source>List of tracked time</source>
         <translation>Liste der aufgezeichneten Zeiten</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="136"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="133"/>
         <location filename="../source/main_window.ui" line="133"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="472"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="472"/>
@@ -348,7 +357,7 @@
         <translation>&amp;Datei</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="145"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="142"/>
         <location filename="../source/main_window.ui" line="142"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="473"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="473"/>
@@ -357,7 +366,7 @@
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="151"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="148"/>
         <location filename="../source/main_window.ui" line="148"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="474"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="474"/>
@@ -366,7 +375,7 @@
         <translation>&amp;Import</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="159"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="156"/>
         <location filename="../source/main_window.ui" line="156"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="475"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="475"/>
@@ -375,7 +384,7 @@
         <translation>&amp;Projekt</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="172"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="169"/>
         <location filename="../source/main_window.ui" line="169"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="476"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="476"/>
@@ -384,7 +393,7 @@
         <translation>Zeit&amp;einträge</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="182"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="179"/>
         <location filename="../source/main_window.ui" line="179"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="477"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="477"/>
@@ -393,7 +402,7 @@
         <translation>&amp;Berichte</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="188"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="185"/>
         <location filename="../source/main_window.ui" line="185"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="478"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="478"/>
@@ -402,7 +411,7 @@
         <translation>&amp;Fenster</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="195"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="192"/>
         <location filename="../source/main_window.ui" line="192"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="479"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="479"/>
@@ -411,7 +420,7 @@
         <translation>&amp;Einstellungen</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="240"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="237"/>
         <location filename="../source/main_window.ui" line="237"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="309"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="309"/>
@@ -420,7 +429,7 @@
         <translation>&amp;Beenden</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="243"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="240"/>
         <location filename="../source/main_window.ui" line="240"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="311"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="311"/>
@@ -429,7 +438,7 @@
         <translation>Beende die Anwendung</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="246"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="243"/>
         <location filename="../source/main_window.ui" line="243"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="314"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="314"/>
@@ -438,7 +447,7 @@
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="254"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="251"/>
         <location filename="../source/main_window.ui" line="251"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="316"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="316"/>
@@ -447,7 +456,7 @@
         <translation>&amp;Fenster verstecken</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="257"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="254"/>
         <location filename="../source/main_window.ui" line="254"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="318"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="318"/>
@@ -456,7 +465,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="269"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="266"/>
         <location filename="../source/main_window.ui" line="266"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="320"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="320"/>
@@ -465,7 +474,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="272"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="269"/>
         <location filename="../source/main_window.ui" line="269"/>
         <location filename="../build/tom-ui_autogen/include/ui_main_window.h" line="322"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="322"/>
@@ -1116,27 +1125,29 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.cpp" line="269"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.cpp" line="270"/>
         <location filename="../source/main_window.cpp" line="270"/>
         <source>Enter required notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.cpp" line="270"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.cpp" line="271"/>
         <location filename="../source/main_window.cpp" line="271"/>
         <source>Project: &lt;strong&gt;%1&lt;/strong&gt;&lt;br&gt;Notes are required to stop the current time entry.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/main_window.cpp" line="392"/>
+        <location filename="../deployment/src/tom-ui/source/main_window.cpp" line="396"/>
         <location filename="../source/main_window.cpp" line="396"/>
         <source>Total: %1 / %2</source>
         <comment>statusbar</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../deployment/src/tom-ui/source/main_window.ui" line="73"/>
         <location filename="../source/main_window.ui" line="73"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_main_window.h" line="470"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_main_window.h" line="470"/>
         <source>Table of available time entries</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1156,15 +1167,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/commonWidgets/projectcompletionlineedit.cpp" line="39"/>
-        <location filename="../deployment/src/tom-ui/source/commonWidgets/projectcompletionlineedit.cpp" line="44"/>
+        <location filename="../deployment/src/tom-ui/source/commonWidgets/projectcompletionlineedit.cpp" line="41"/>
+        <location filename="../deployment/src/tom-ui/source/commonWidgets/projectcompletionlineedit.cpp" line="46"/>
         <location filename="../source/commonWidgets/projectcompletionlineedit.cpp" line="41"/>
         <location filename="../source/commonWidgets/projectcompletionlineedit.cpp" line="46"/>
         <source>Recent projects</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/commonWidgets/projectcompletionlineedit.cpp" line="42"/>
+        <location filename="../deployment/src/tom-ui/source/commonWidgets/projectcompletionlineedit.cpp" line="44"/>
         <location filename="../source/commonWidgets/projectcompletionlineedit.cpp" line="44"/>
         <source>No recent projects available</source>
         <translation type="unfinished"></translation>
@@ -1177,7 +1188,7 @@
         <location filename="../source/projectEditor/project_dialog.ui" line="14"/>
         <location filename="../build/tom-ui_autogen/include/ui_project_dialog.h" line="141"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="142"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="141"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="142"/>
         <source>Dialog</source>
         <translation type="unfinished">Dialog</translation>
     </message>
@@ -1186,61 +1197,61 @@
         <location filename="../source/projectEditor/project_dialog.ui" line="27"/>
         <location filename="../build/tom-ui_autogen/include/ui_project_dialog.h" line="149"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="150"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="149"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="150"/>
         <source>Properties</source>
         <translation type="unfinished">Eigenschafen</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectEditor/project_dialog.ui" line="33"/>
+        <location filename="../deployment/src/tom-ui/source/projectEditor/project_dialog.ui" line="36"/>
         <location filename="../source/projectEditor/project_dialog.ui" line="36"/>
         <location filename="../build/tom-ui_autogen/include/ui_project_dialog.h" line="142"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="143"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="142"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="143"/>
         <source>&amp;Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectEditor/project_dialog.ui" line="50"/>
+        <location filename="../deployment/src/tom-ui/source/projectEditor/project_dialog.ui" line="53"/>
         <location filename="../source/projectEditor/project_dialog.ui" line="53"/>
         <location filename="../build/tom-ui_autogen/include/ui_project_dialog.h" line="144"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="145"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="144"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="145"/>
         <source>&amp;Parent project:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectEditor/project_dialog.ui" line="73"/>
+        <location filename="../deployment/src/tom-ui/source/projectEditor/project_dialog.ui" line="76"/>
         <location filename="../source/projectEditor/project_dialog.ui" line="76"/>
         <location filename="../build/tom-ui_autogen/include/ui_project_dialog.h" line="146"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="147"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="146"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="147"/>
         <source>&amp;Hourly rate:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectEditor/project_dialog.ui" line="90"/>
+        <location filename="../deployment/src/tom-ui/source/projectEditor/project_dialog.ui" line="93"/>
         <location filename="../source/projectEditor/project_dialog.ui" line="93"/>
         <location filename="../build/tom-ui_autogen/include/ui_project_dialog.h" line="148"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="149"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="148"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="149"/>
         <source>Notes on &amp;entries:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectEditor/project_dialog.ui" line="43"/>
+        <location filename="../deployment/src/tom-ui/source/projectEditor/project_dialog.ui" line="46"/>
         <location filename="../source/projectEditor/project_dialog.ui" line="46"/>
         <location filename="../build/tom-ui_autogen/include/ui_project_dialog.h" line="143"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="144"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="143"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="144"/>
         <source>Projet name (required)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectEditor/project_dialog.ui" line="83"/>
+        <location filename="../deployment/src/tom-ui/source/projectEditor/project_dialog.ui" line="86"/>
         <location filename="../source/projectEditor/project_dialog.ui" line="86"/>
         <location filename="../build/tom-ui_autogen/include/ui_project_dialog.h" line="147"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_project_dialog.h" line="148"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="147"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_project_dialog.h" line="148"/>
         <source>e.g. 42.50 USD</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1248,28 +1259,28 @@
 <context>
     <name>ProjectEditorDialog</name>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectEditor/ProjectEditorDialog.cpp" line="18"/>
+        <location filename="../deployment/src/tom-ui/source/projectEditor/ProjectEditorDialog.cpp" line="19"/>
         <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="19"/>
         <source>Edit Project %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectEditor/ProjectEditorDialog.cpp" line="20"/>
+        <location filename="../deployment/src/tom-ui/source/projectEditor/ProjectEditorDialog.cpp" line="21"/>
         <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="21"/>
         <source>Inherit from parent</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectEditor/ProjectEditorDialog.cpp" line="20"/>
-        <location filename="../deployment/src/tom-ui/source/projectEditor/ProjectEditorDialog.cpp" line="25"/>
+        <location filename="../deployment/src/tom-ui/source/projectEditor/ProjectEditorDialog.cpp" line="21"/>
+        <location filename="../deployment/src/tom-ui/source/projectEditor/ProjectEditorDialog.cpp" line="26"/>
         <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="21"/>
         <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="26"/>
         <source>Required</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectEditor/ProjectEditorDialog.cpp" line="20"/>
-        <location filename="../deployment/src/tom-ui/source/projectEditor/ProjectEditorDialog.cpp" line="25"/>
+        <location filename="../deployment/src/tom-ui/source/projectEditor/ProjectEditorDialog.cpp" line="21"/>
+        <location filename="../deployment/src/tom-ui/source/projectEditor/ProjectEditorDialog.cpp" line="26"/>
         <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="21"/>
         <location filename="../source/projectEditor/ProjectEditorDialog.cpp" line="26"/>
         <source>Not required</source>
@@ -1279,65 +1290,65 @@
 <context>
     <name>ProjectLookupDialog</name>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="29"/>
+        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="30"/>
         <location filename="../source/projectlookup/projectLookup.ui" line="30"/>
         <location filename="../build/tom-ui_autogen/include/ui_projectLookup.h" line="121"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_projectLookup.h" line="125"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="121"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="125"/>
         <source>Tom: Project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="53"/>
+        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="54"/>
         <location filename="../source/projectlookup/projectLookup.ui" line="54"/>
         <location filename="../build/tom-ui_autogen/include/ui_projectLookup.h" line="122"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_projectLookup.h" line="126"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="122"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="126"/>
         <source>Start project:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="96"/>
+        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="97"/>
         <location filename="../source/projectlookup/projectLookup.ui" line="97"/>
         <location filename="../build/tom-ui_autogen/include/ui_projectLookup.h" line="124"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_projectLookup.h" line="128"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="124"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="128"/>
         <source>Stop the currently active project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="102"/>
+        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="103"/>
         <location filename="../source/projectlookup/projectLookup.ui" line="103"/>
         <location filename="../build/tom-ui_autogen/include/ui_projectLookup.h" line="128"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_projectLookup.h" line="132"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="128"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="132"/>
         <source>Ctrl+B</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="112"/>
+        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="113"/>
         <location filename="../source/projectlookup/projectLookup.ui" line="113"/>
         <location filename="../build/tom-ui_autogen/include/ui_projectLookup.h" line="130"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_projectLookup.h" line="134"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="130"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="134"/>
         <source>active project</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="162"/>
+        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="163"/>
         <location filename="../source/projectlookup/projectLookup.ui" line="163"/>
         <location filename="../build/tom-ui_autogen/include/ui_projectLookup.h" line="133"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_projectLookup.h" line="137"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="133"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="137"/>
         <source>Display the main window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="168"/>
+        <location filename="../deployment/src/tom-ui/source/projectlookup/projectLookup.ui" line="169"/>
         <location filename="../source/projectlookup/projectLookup.ui" line="169"/>
         <location filename="../build/tom-ui_autogen/include/ui_projectLookup.h" line="137"/>
         <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_projectLookup.h" line="141"/>
-        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="137"/>
+        <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_projectLookup.h" line="141"/>
         <source>Ctrl+M</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1346,27 +1357,37 @@
     <name>ProjectReportDialog</name>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/ProjectReportDialog.cpp" line="72"/>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="72"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="78"/>
         <source>up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/ProjectReportDialog.cpp" line="72"/>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="72"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="78"/>
         <source>up or down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/ProjectReportDialog.cpp" line="152"/>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="152"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="158"/>
         <source>Save Report as HTML</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/ProjectReportDialog.cpp" line="152"/>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="152"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="158"/>
         <source>HTML files (*.html *.htm);;All files (*)</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="72"/>
+        <source>Default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="72"/>
+        <source>Time Entries</source>
+        <translation type="unfinished">Zeiteinträge</translation>
     </message>
 </context>
 <context>
@@ -1405,25 +1426,25 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/model/ProjectTreeModel.cpp" line="21"/>
+        <location filename="../deployment/src/tom-ui/source/model/ProjectTreeModel.cpp" line="22"/>
         <location filename="../source/model/ProjectTreeModel.cpp" line="22"/>
         <source>This week</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/model/ProjectTreeModel.cpp" line="21"/>
+        <location filename="../deployment/src/tom-ui/source/model/ProjectTreeModel.cpp" line="23"/>
         <location filename="../source/model/ProjectTreeModel.cpp" line="23"/>
         <source>This month</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/model/ProjectTreeModel.cpp" line="22"/>
+        <location filename="../deployment/src/tom-ui/source/model/ProjectTreeModel.cpp" line="24"/>
         <location filename="../source/model/ProjectTreeModel.cpp" line="24"/>
         <source>This year</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/model/ProjectTreeModel.cpp" line="22"/>
+        <location filename="../deployment/src/tom-ui/source/model/ProjectTreeModel.cpp" line="24"/>
         <location filename="../source/model/ProjectTreeModel.cpp" line="24"/>
         <source>Total</source>
         <translation type="unfinished"></translation>
@@ -1450,13 +1471,13 @@
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../deployment/src/tom-ui/source/dialogs/CommonDialogs.cpp" line="12"/>
+        <location filename="../deployment/src/tom-ui/source/dialogs/CommonDialogs.cpp" line="7"/>
         <location filename="../source/dialogs/CommonDialogs.cpp" line="7"/>
         <source>Create Project</source>
         <translation>Projekt anlegen</translation>
     </message>
     <message>
-        <location filename="../deployment/src/tom-ui/source/dialogs/CommonDialogs.cpp" line="12"/>
+        <location filename="../deployment/src/tom-ui/source/dialogs/CommonDialogs.cpp" line="7"/>
         <location filename="../source/dialogs/CommonDialogs.cpp" line="7"/>
         <source>Project name:</source>
         <translation>Projektname:</translation>
@@ -1477,7 +1498,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="21"/>
         <location filename="../source/report/reportDialog.ui" line="21"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="459"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="459"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="457"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="459"/>
         <source>Project Report</source>
         <translation>Projektbericht</translation>
@@ -1486,7 +1507,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="87"/>
         <location filename="../source/report/reportDialog.ui" line="87"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="460"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="460"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="458"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="460"/>
         <source>Title of the report</source>
         <translation>Titel des Berichts</translation>
@@ -1495,7 +1516,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="103"/>
         <location filename="../source/report/reportDialog.ui" line="103"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="461"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="461"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="459"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="461"/>
         <source>Your description to display at the top of the report. HTML content is allowed.</source>
         <translation></translation>
@@ -1504,7 +1525,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="110"/>
         <location filename="../source/report/reportDialog.ui" line="110"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="462"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="462"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="460"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="462"/>
         <source>Project</source>
         <translation>Projekt</translation>
@@ -1513,7 +1534,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="122"/>
         <location filename="../source/report/reportDialog.ui" line="122"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="463"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="463"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="461"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="463"/>
         <source>Include subprojects</source>
         <translation>Unterprojekte einschließen</translation>
@@ -1522,7 +1543,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="132"/>
         <location filename="../source/report/reportDialog.ui" line="132"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="464"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="464"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="462"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="464"/>
         <source>Time Entries</source>
         <translation>Zeiteinträge</translation>
@@ -1531,7 +1552,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="138"/>
         <location filename="../source/report/reportDialog.ui" line="138"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="465"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="465"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="463"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="465"/>
         <source>Round entries</source>
         <translation>Einträge runden</translation>
@@ -1540,7 +1561,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="180"/>
         <location filename="../source/report/reportDialog.ui" line="180"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="466"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="466"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="464"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="466"/>
         <source>to</source>
         <translation>bis</translation>
@@ -1549,7 +1570,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="200"/>
         <location filename="../source/report/reportDialog.ui" line="200"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="468"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="468"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="466"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="468"/>
         <source>minute(s)</source>
         <translation>Minute(n)</translation>
@@ -1558,7 +1579,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="225"/>
         <location filename="../source/report/reportDialog.ui" line="225"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="469"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="469"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="467"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="469"/>
         <source>Filter by date</source>
         <translation>Nach Datum filtern</translation>
@@ -1567,7 +1588,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="238"/>
         <location filename="../source/report/reportDialog.ui" line="238"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="470"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="470"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="468"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="470"/>
         <source>Start:</source>
         <translation>Beginn:</translation>
@@ -1576,7 +1597,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="252"/>
         <location filename="../source/report/reportDialog.ui" line="252"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="471"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="471"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="469"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="471"/>
         <source>End:</source>
         <translation>Ende:</translation>
@@ -1585,7 +1606,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="282"/>
         <location filename="../source/report/reportDialog.ui" line="282"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="472"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="472"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="470"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="472"/>
         <source>Include archived entries</source>
         <translation>Archivierte Einträge einschließen</translation>
@@ -1594,7 +1615,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="295"/>
         <location filename="../source/report/reportDialog.ui" line="295"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="473"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="473"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="471"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="473"/>
         <source>Splitting</source>
         <translation>Auftrennung</translation>
@@ -1603,7 +1624,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="352"/>
         <location filename="../source/report/reportDialog.ui" line="352"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="476"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="476"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="474"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="476"/>
         <source>Alt+Up</source>
         <translation>Alt+Up</translation>
@@ -1612,7 +1633,7 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="369"/>
         <location filename="../source/report/reportDialog.ui" line="369"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="480"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="480"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="478"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="480"/>
         <source>Alt+Down</source>
         <translation>Alt+Down</translation>
@@ -1621,115 +1642,111 @@
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="399"/>
         <location filename="../source/report/reportDialog.ui" line="399"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="482"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="482"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="480"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="482"/>
         <source>&amp;Template</source>
         <translation>&amp;Vorlage</translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="406"/>
-        <location filename="../source/report/reportDialog.ui" line="406"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="483"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="483"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="483"/>
         <source>default</source>
         <translation>Standard</translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="411"/>
-        <location filename="../source/report/reportDialog.ui" line="411"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="484"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="484"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="484"/>
         <source>timelog</source>
         <translation>Einzelne Einträge</translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="419"/>
-        <location filename="../source/report/reportDialog.ui" line="419"/>
+        <location filename="../source/report/reportDialog.ui" line="408"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="486"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="486"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="481"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="486"/>
         <source>Show empty items in groups</source>
         <translation>Leere Einträge in Gruppen zeigen</translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="426"/>
-        <location filename="../source/report/reportDialog.ui" line="426"/>
+        <location filename="../source/report/reportDialog.ui" line="415"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="487"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="487"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="482"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="487"/>
         <source>Show summary</source>
         <translation>Zusammenfassung zeigen</translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="436"/>
-        <location filename="../source/report/reportDialog.ui" line="436"/>
+        <location filename="../source/report/reportDialog.ui" line="425"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="488"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="488"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="483"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="488"/>
         <source>Matrix tables</source>
         <translation>Matrixtabellen</translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="446"/>
-        <location filename="../source/report/reportDialog.ui" line="446"/>
+        <location filename="../source/report/reportDialog.ui" line="435"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="489"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="489"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="484"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="489"/>
         <source>Show sales</source>
         <translation>Umsätze zeigen</translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="453"/>
-        <location filename="../source/report/reportDialog.ui" line="453"/>
+        <location filename="../source/report/reportDialog.ui" line="442"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="490"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="490"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="485"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="490"/>
         <source>Show tracked averages</source>
         <translation>Erfasste Durchschnittszeiten zeigen</translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="460"/>
-        <location filename="../source/report/reportDialog.ui" line="460"/>
+        <location filename="../source/report/reportDialog.ui" line="449"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="491"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="491"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="486"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="491"/>
         <source>Show untracked averages</source>
         <translation>Unerfasste Durchschnittszeiten zeigen</translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="469"/>
-        <location filename="../source/report/reportDialog.ui" line="469"/>
+        <location filename="../source/report/reportDialog.ui" line="458"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="493"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="493"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="488"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="493"/>
         <source>Optional path to a file with CSS. The file will be inlined into the generated report.</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="472"/>
-        <location filename="../source/report/reportDialog.ui" line="472"/>
+        <location filename="../source/report/reportDialog.ui" line="461"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="495"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="495"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="490"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="495"/>
         <source>CSS file:</source>
         <translation>CSS Datei:</translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="479"/>
-        <location filename="../source/report/reportDialog.ui" line="479"/>
+        <location filename="../source/report/reportDialog.ui" line="468"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="496"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="496"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="491"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="496"/>
         <source>Optional path to a CSS file</source>
         <translation>Optionaler Pfad zu einer CSS Datei</translation>
     </message>
     <message>
         <location filename="../deployment/src/tom-ui/source/report/reportDialog.ui" line="562"/>
-        <location filename="../source/report/reportDialog.ui" line="562"/>
+        <location filename="../source/report/reportDialog.ui" line="551"/>
         <location filename="../build/tom-ui_autogen/include/ui_reportDialog.h" line="497"/>
-        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="497"/>
+        <location filename="../cmake-build-debug/tom-ui_autogen/include/ui_reportDialog.h" line="492"/>
         <location filename="../deployment/src/tom-ui/tom-ui_autogen/include/ui_reportDialog.h" line="497"/>
         <source>&amp;Update Report</source>
         <translation>Bericht &amp;aktualisieren</translation>

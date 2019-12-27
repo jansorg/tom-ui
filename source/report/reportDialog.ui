@@ -400,18 +400,7 @@
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_9">
              <item>
-              <widget class="QComboBox" name="templateBox">
-               <item>
-                <property name="text">
-                 <string>default</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>timelog</string>
-                </property>
-               </item>
-              </widget>
+              <widget class="QComboBox" name="templateBox"/>
              </item>
              <item>
               <widget class="QCheckBox" name="showEmptyCheckbox">

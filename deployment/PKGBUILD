@@ -21,7 +21,7 @@ pkgver() {
 }
 build() {
   cd "$srcdir/$pkgname"
-  cmake -DCMAKE_INSTALL_PREFIX=/usr .
+  cmake -DCMAKE_BUILD_TYPE="Release" -DCMAKE_INSTALL_PREFIX=/usr .
   make || return 1
 }
 package() {

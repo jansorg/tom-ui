@@ -268,6 +268,9 @@
    <property name="toolTip">
     <string>Retrieve a fresh set of data from the Tom command line interface and refresh all displayed data.</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::ApplicationSpecificRole</enum>
+   </property>
   </action>
   <action name="actionHelpAbout">
    <property name="text">

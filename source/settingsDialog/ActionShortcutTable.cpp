@@ -8,10 +8,12 @@
 ActionShortcutTable::ActionShortcutTable(QWidget *parent) : QWidget(parent) {
     _actionsTable = new QTableView(this);
     _actionsTable->setCornerButtonEnabled(false);
+    _actionsTable->horizontalHeader()->setStretchLastSection(true);
     _actionsTable->verticalHeader()->hide();
     _actionsTable->setSelectionMode(QAbstractItemView::SingleSelection);
     _actionsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
-    _actionsTable->horizontalHeader()->setStretchLastSection(true);
+    _actionsTable->setShowGrid(false);
+    _actionsTable->setAlternatingRowColors(true);
 
     _keySequenceEdit = new QKeySequenceEdit(this);
     _resetButton = new QPushButton(Icons::keySequenceReset(), tr("Clear shortcut"), this);

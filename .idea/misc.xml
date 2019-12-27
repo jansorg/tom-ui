@@ -7,6 +7,9 @@
     </sourceRoots>
     <excludeRoots>
       <file path="$PROJECT_DIR$/build" />
+      <file path="$PROJECT_DIR$/deployment/pkg" />
+      <file path="$PROJECT_DIR$/deployment/src" />
+      <file path="$PROJECT_DIR$/deployment/tom-ui" />
     </excludeRoots>
   </component>
   <component name="JavaScriptSettings">

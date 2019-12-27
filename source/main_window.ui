@@ -70,10 +70,7 @@
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The list of time entries. All available entries of the currently selected project are displayed in this table.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
        <property name="accessibleDescription">
-        <string>List of tracked time</string>
-       </property>
-       <property name="autoFillBackground">
-        <bool>true</bool>
+        <string>Table of available time entries</string>
        </property>
        <property name="editTriggers">
         <set>QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>

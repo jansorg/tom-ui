@@ -15,8 +15,8 @@ void ProjectLookup::show(TomControl *control, MainWindow *window, QWidget *paren
 ProjectLookup::ProjectLookup(TomControl *control, MainWindow *window, QWidget *parent)
         : QDialog(parent), _control(control) {
 
-    setWindowFlags(Qt::Tool);
     setupUi(this);
+    setWindowFlags(Qt::Tool);
     setAttribute(Qt::WA_DeleteOnClose);
 
     projectNameEdit->setup(_control);

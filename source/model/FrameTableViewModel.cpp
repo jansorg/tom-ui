@@ -1,5 +1,7 @@
 #include <QColor>
 #include <source/icons.h>
+#include <QtGui/QFont>
+#include <source/fonts.h>
 
 #include "FrameTableViewModel.h"
 #include "UserRoles.h"
@@ -150,7 +152,8 @@ void FrameTableViewModel::onFramesMoved(const QStringList &frameIDs, const QStri
 
     // don't remove from list if old and new project are in the hierarchy of the currently shown project
     // we have to update the project column, though
-    if (_currentProject.isRootProject() || (_control->isAnyChildProject(oldProjectIDs, _currentProject.getID()) && _control->isChildProject(newProjectID, _currentProject.getID()))) {
+    if (_currentProject.isRootProject() ||
+        (_control->isAnyChildProject(oldProjectIDs, _currentProject.getID()) && _control->isChildProject(newProjectID, _currentProject.getID()))) {
         for (const auto &id : frameIDs) {
             int row = findRow(id);
             if (row >= 0) {
@@ -345,6 +348,13 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
         }
     }
 
+    if (role == Qt::FontRole ) {
+        int column = index.column();
+        if (column == COL_START_DATE || column == COL_START || column == COL_END || column == COL_DURATION || column == COL_LAST_UPDATED) {
+            return Fonts::monospaceFont();
+        }
+    }
+
     if (role == SortValueRole) {
         Frame *frame = _frames.at(index.row());
         if (index.column() == COL_START_DATE || index.column() == COL_START) {
@@ -483,7 +493,7 @@ QMimeData *FrameTableViewModel::mimeData(const QModelIndexList &indexes) const {
 
     for (auto index : indexes) {
         if (index.isValid()) {
-            if (Frame *frame = frameAt(index)){
+            if (Frame *frame = frameAt(index)) {
                 projectIDs << frame->projectID;
                 frameIDs << frame->id;
             }
@@ -548,7 +558,7 @@ void FrameTableViewModel::updateFrames(const QStringList &ids) {
         if (row >= 0) {
             // locate frame data and update the underlying data
             // fixme this is slow, esp. for a larger list of ids
-            Frame* current = _frames[row];
+            Frame *current = _frames[row];
             for (auto frame : allFrames) {
                 if (id == frame->id) {
                     *current = *frame;

@@ -12,6 +12,7 @@
 #include "model/FrameTableSortFilterModel.h"
 #include "FrameTableView.h"
 #include "icons.h"
+#include "fonts.h"
 #include "IconItemDelegate.h"
 
 FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent),
@@ -126,31 +127,33 @@ int FrameTableView::sizeHintForColumn(int column) const {
         return 16 + 10;
     }
 
-    const QFontMetrics &metrics = fontMetrics();
+    const QFontMetrics monospaceMetrics = QFontMetrics(Fonts::monospaceFont());
+
     int result = 0;
 
-    if (column == FrameTableViewModel::COL_START_DATE) {
-        QString sample = QDateTime::currentDateTime().date().toString(Qt::SystemLocaleShortDate);
-        result = metrics.width(sample);
+    if (column == FrameTableViewModel::COL_SUBPROJECT) {
+        const QFontMetrics &metrics = fontMetrics();
+        result = metrics.averageCharWidth() * 25;
+    } else if (column == FrameTableViewModel::COL_START_DATE) {
+        QString sample = QDate(1999, 12,31).toString(Qt::SystemLocaleShortDate);
+        result = monospaceMetrics.width(sample);
     } else if (column == FrameTableViewModel::COL_START) {
-        QString sample = QDateTime::currentDateTime().time().toString(Qt::SystemLocaleShortDate);
-        result = metrics.width(sample);
+        QString sample = QTime(23, 59, 59).toString(Qt::SystemLocaleShortDate);
+        result = monospaceMetrics.width(sample);
     } else if (column == FrameTableViewModel::COL_END) {
-        QString sample = QDateTime::currentDateTime().toString(Qt::SystemLocaleShortDate);
-        result = metrics.width(sample);
+        QString sample = QDateTime(QDate(9999, 12, 29), QTime(23, 59, 59, 0)).toString(Qt::SystemLocaleShortDate);
+        result = monospaceMetrics.width(sample);
     } else if (column == FrameTableViewModel::COL_DURATION) {
-        const QString &sample = Timespan(1000 * 60 * 60 * 10).format();
-        result = metrics.width(sample);
-    } else if (column == FrameTableViewModel::COL_SUBPROJECT) {
-        result = metrics.averageCharWidth() * 20;
+        const QString &sample = Timespan(1999 * 60 * 60 * 10).format();
+        result = monospaceMetrics.width(sample);
     } else if (column == FrameTableViewModel::COL_LAST_UPDATED) {
-        QString sample = QDateTime::currentDateTime().toString(Qt::SystemLocaleShortDate);
-        result = metrics.width(sample);
+        QString sample = QDateTime(QDate(1999, 12, 29), QTime(23, 59, 59, 0)).toString(Qt::SystemLocaleShortDate);
+        result = monospaceMetrics.width(sample);
     } else {
         result = QTableView::sizeHintForColumn(column);
     }
 
-    int padding = 16;
+    int padding = 25;
     return result + padding;
 }
 

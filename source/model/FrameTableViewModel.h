@@ -2,10 +2,10 @@
 #define GOTIME_UI_FRAMETABLEVIEWMODEL_H
 
 #include <QtCore/QAbstractTableModel>
+#include <QFont>
 #include <QIcon>
 
-#include <gotime/TomControl.h>
-
+#include "gotime/TomControl.h"
 #include "data/Frame.h"
 
 static const QString &FRAMES_MIME_TYPE = "application/x-tom-frames";

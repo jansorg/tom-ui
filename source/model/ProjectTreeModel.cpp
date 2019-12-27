@@ -5,6 +5,7 @@
 #include <QtGui/QBrush>
 #include <QtGui/QPalette>
 
+#include "fonts.h"
 #include "gotime/TomControl.h"
 #include "ProjectTreeModel.h"
 #include "UserRoles.h"
@@ -12,15 +13,15 @@
 #include "icons.h"
 
 ProjectTreeModel::ProjectTreeModel(TomControl *control, ProjectStatusManager *statusManager, bool showOverallProject,
-                                   QObject *parent, bool enableUpdates, bool enableCheckboxes)
-        : QAbstractItemModel(parent),
-          _control(control),
-          _statusManager(statusManager),
-          _rootItem(nullptr),
-          _visibleRootItem(nullptr),
-          _headers(QStringList() << tr("Name") << tr("Today") << tr("Yesterday") << tr("This week") << tr("This month")
-                                 << tr("This year") << tr("Total")),
-          _enableCheckboxes(enableCheckboxes) {
+                                   QObject *parent, bool enableUpdates, bool enableCheckboxes) : QAbstractItemModel(parent),
+                                                                          _control(control),
+                                                                          _statusManager(statusManager),
+                                                                          _rootItem(nullptr),
+                                                                          _visibleRootItem(nullptr),
+                                                                          _headers(QStringList() << tr("Name") << tr("Today") << tr("Yesterday") << tr("This week")
+                                                                                                 << tr("This month")
+                                                                                                 << tr("This year") << tr("Total")),
+                                                                          _enableCheckboxes(enableCheckboxes) {
 
     _rootItem = new ProjectTreeRootItem(_statusManager);
     if (showOverallProject) {
@@ -104,6 +105,13 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     if (_enableCheckboxes && role == Qt::CheckStateRole && index.column() == ProjectTreeItem::COL_NAME) {
         const QString &id = projectItem(index)->getProject().getID();
         return _checkedProjectIDs.contains(id) ? Qt::Checked : Qt::Unchecked;
+    }
+
+    if (role == Qt::FontRole){
+        int col = index.column();
+        if (col != ProjectTreeItem::COL_NAME){
+            return Fonts::monospaceFont();
+        }
     }
 
     if (role == IDRole) {
@@ -486,41 +494,6 @@ bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction 
     }
     return true;
 }
-
-/*
-bool ProjectTreeModel::moveRows(const QModelIndex &sourceParent, int sourceRow, int count, const QModelIndex &destinationParent, int destinationChild) {
-    qDebug() << "moveRows: from parent" << getItem(sourceParent)->getProject().getName() << ", row" << sourceRow << "(count" << count << ") to parent"
-             << getItem(destinationParent)->getProject().getName() << "at row" << destinationChild << "";
-
-    // fixme make sure that source is not moved onto a child element
-    // fixme fix collapsing tree if proxy model is used (use removeRow insertRow instead?)
-
-    bool ok = beginMoveRows(sourceParent, sourceRow, sourceRow + count - 1, destinationParent, 0);
-    if (!ok) {
-        qDebug() << "beginMoveRows returned false";
-        return false;
-    }
-
-    ProjectTreeItem *oldParent = getItem(sourceParent);
-    ProjectTreeItem *newParent = getItem(destinationParent);
-    for (int i = 0; i < count; i++) {
-        const QModelIndex &sourceRowIndex = sourceParent.child(sourceRow + i, 0);
-        ProjectTreeItem *rowItem = getItem(sourceRowIndex);
-        if (!rowItem) {
-            qDebug() << "source row invalid row found" << i;
-            continue;
-        }
-
-        qDebug() << "moving item" << rowItem->getProject().getName() << "into parent" << newParent->getProject().getName();
-        oldParent->removeChildAt(sourceRow + i);
-        newParent->insertChild(rowItem, 0);
-    }
-
-    endMoveRows();
-
-    return true;
-}
-*/
 
 bool ProjectTreeModel::insertRows(int row, int count, const QModelIndex &parent) {
     ProjectTreeItem *parentItem = projectItem(parent);

@@ -1,0 +1,30 @@
+# Maintainer: Joachim Ansorg <mail@ja-dev.eu>
+pkgname=tom-ui
+pkgver=20191226
+pkgrel=1
+pkgdesc="Graphical user interface for the Tom time tracker application."
+url="https://www.tomtime.dev"
+arch=('i686' 'x86_64')
+license=('GPL3')
+depends=(tom qt5-base qt5-declarative qt5-svg qt5-webengine)
+makedepends=(git cmake make qt5-webengine)
+conflicts=()
+replaces=()
+backup=()
+install=
+source=("git://github.com/jansorg/tom-ui.git")
+md5sums=('SKIP')
+
+pkgver() {
+	cd "$srcdir/$pkgname"
+	git log -1 --format="%cd" --date=short | sed s/-//g
+}
+build() {
+  cd "$srcdir/$pkgname"
+  cmake -DCMAKE_INSTALL_PREFIX=/usr .
+  make || return 1
+}
+package() {
+  cd "$srcdir/$pkgname"
+  make DESTDIR="$pkgdir" install
+}

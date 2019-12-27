@@ -8,3 +8,7 @@
 /update-build.bash
 /.idea/workspace.xml
 /cmake-build-debug
+/deployment/src
+/deployment/pkg
+/deployment/tom-ui
+/deployment/tom-ui-*.tar.xz

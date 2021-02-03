@@ -28,6 +28,9 @@ MainWindow::MainWindow(TomControl *control,
           _settings(settings),
           _globalShortcuts(globalShortcuts),
           _frameStatusLabel(new QLabel(this)) {
+
+    _globalShortcuts->setParent(this);
+
 //#ifndef Q_OS_MAC
     setWindowIcon(Icons::LogoLarge());
 //#endif

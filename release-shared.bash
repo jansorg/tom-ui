@@ -36,6 +36,8 @@ function buildMacOS() {
     local VERSION="$3"
 
     echo "Building DMG for macOS Mojave..."
-    ssh macIntel "mkdir -p dev; cd dev; rm -rf tom-ui; git clone https://github.com/jansorg/tom-ui; cd tom-ui; export TOM_VERSION=$VERSION; bash --login ./deployment/build-mac-dmg.sh" && scp macIntel:dev/tom-ui/build/Tom.dmg "$TARGET"
-    ssh macIntel "mkdir -p dev; cd dev; rm -rf tom-ui; git clone https://github.com/jansorg/tom-ui; cd tom-ui; export TOM_VERSION=$VERSION; bash --login ./deployment/build-mac-dmg.sh -DENABLE_REPORTS=OFF" && scp macIntel:dev/tom-ui/build/Tom.dmg "$TARGET/Tom_no-reporting.dmg"
+    ssh macIntel "mkdir -p dev; cd dev; rm -rf tom-ui; git clone https://github.com/jansorg/tom-ui; cd tom-ui; export TOM_VERSION=$VERSION; bash --login ./deployment/build-mac-dmg.sh" && \
+      scp macIntel:dev/tom-ui/build/Tom.dmg "$TARGET" && echo "Built Tom.dmg"
+    ssh macIntel "mkdir -p dev; cd dev; rm -rf tom-ui; git clone https://github.com/jansorg/tom-ui; cd tom-ui; export TOM_VERSION=$VERSION; bash --login ./deployment/build-mac-dmg.sh -DENABLE_REPORTS=OFF" && \
+      scp macIntel:dev/tom-ui/build/Tom.dmg "$TARGET/Tom_no-reporting.dmg" && echo "Built Tom_no-reporting.dmg"
 }

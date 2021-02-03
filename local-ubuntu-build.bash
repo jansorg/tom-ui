@@ -3,5 +3,6 @@
 . ./release-shared.bash
 
 rm -rf "$PWD/release-dummy"
-buildUbuntu "$PWD" "$PWD/release-dummy" "1.0.0"
+mkdir "$PWD/release-dummy"
+buildUbuntu "$PWD" "$PWD/release-dummy" ""
 

@@ -1,6 +1,7 @@
-FROM ubuntu:18.10
+FROM ubuntu:20.04
 
-RUN apt-get update \
+RUN export DEBIAN_FRONTEND=noninteractive && \
+    apt-get update \
     && apt-get install -y -qq --no-install-recommends \
         cmake \
         dpkg-dev \
@@ -20,7 +21,8 @@ RUN apt-get update \
 	golang \
 	vim \
 	software-properties-common \
-	libqt5svg5-dev
+	libqt5svg5-dev && \
+	dpkg-reconfigure --frontend noninteractive tzdata
 
 COPY build-ubuntu-deb.sh /root
 

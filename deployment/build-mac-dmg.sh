@@ -41,6 +41,7 @@ echo "--> Start Notarization process"
 response=$(xcrun altool -t osx -f Tom.dmg --primary-bundle-id dev.tomtime.tom --notarize-app -u "${APPLE_DEV_ID}" -p "${APPLE_DEV_PASS}")
 requestUUID=$(echo "${response}" | tr ' ' '\n' | tail -1)
 
+set +e
 while true; do
   echo "--> Checking notarization status"
 
@@ -52,11 +53,11 @@ while true; do
       echo "Notarization done!"
       xcrun stapler staple -v Tom.dmg
       echo "Stapler done!"
-      break
+      exit 0
   fi
   if [[ "${isFailure}" != "" ]]; then
       echo "Notarization failed"
-      return 1
+      exit 1
   fi
   echo "Notarization not finished yet, sleep 1m then check again..."
   sleep 60

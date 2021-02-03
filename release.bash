@@ -14,8 +14,8 @@ VERSION="$1"
 
 echo "Building release $VERSION"
 echo -n "$VERSION" > ./version.txt
-git commit -m "Prepearing release of $VERSION" version.txt
-git push
+git commit -m "Prepearing release of $VERSION" version.txt || true
+git push || true
 git tag "v$VERSION"
 git push --tags
 export TOM_VERSION="$VERSION"
@@ -32,7 +32,7 @@ trap finish EXIT
 function uploadAssets() {
     for f in "release-$VERSION"; do
         echo -e "Uploading files in $f..."
-        ARGS=""
+        local ARGS=""
         for n in "$TARGET"/*.deb "$TARGET"/*.dmg; do
             ARGS="$ARGS -a $n"
         done

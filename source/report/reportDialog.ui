@@ -52,7 +52,7 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>-506</y>
+         <y>0</y>
          <width>329</width>
          <height>1107</height>
         </rect>
@@ -342,6 +342,12 @@
                   <iconset theme="go-up">
                    <normaloff>../../../../../../../home/jansorg/.designer/backup</normaloff>../../../../../../../home/jansorg/.designer/backup</iconset>
                  </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
                  <property name="shortcut">
                   <string>Alt+Up</string>
                  </property>
@@ -358,6 +364,12 @@
                  <property name="icon">
                   <iconset theme="go-down">
                    <normaloff>../../../../../../../home/jansorg/.designer/backup</normaloff>../../../../../../../home/jansorg/.designer/backup</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
                  </property>
                  <property name="shortcut">
                   <string>Alt+Down</string>
@@ -550,6 +562,12 @@
        <property name="text">
         <string>&amp;Update Report</string>
        </property>
+       <property name="iconSize">
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
        <property name="popupMode">
         <enum>QToolButton::MenuButtonPopup</enum>
        </property>
@@ -632,6 +650,38 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>dateFilterCheckbox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>dateFilterGroup</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>380</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>175</x>
+     <y>423</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>roundEntriesCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>frameRoundingValueGroup</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>175</x>
+     <y>304</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>141</x>
+     <y>342</y>
     </hint>
    </hints>
   </connection>

@@ -125,6 +125,7 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     connect(showSalesCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(showTrackedCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(showUntrackedCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(useDecimalTimeFormat, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
     QTimer::singleShot(500, this, &ProjectReportDialog::updateReport);
 }
@@ -324,6 +325,7 @@ QString ProjectReportDialog::reportHTML(const QString &filename) const {
                                 showSalesCheckbox->isChecked(),
                                 showTrackedCheckbox->isChecked(),
                                 showUntrackedCheckbox->isChecked(),
-                                cssFileEdit->text());
+                                cssFileEdit->text(),
+                                useDecimalTimeFormat->isChecked());
 }
 

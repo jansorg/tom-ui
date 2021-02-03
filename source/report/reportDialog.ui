@@ -52,9 +52,9 @@
        <property name="geometry">
         <rect>
          <x>0</x>
-         <y>0</y>
+         <y>-506</y>
          <width>329</width>
-         <height>1074</height>
+         <height>1107</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -441,6 +441,13 @@
             <widget class="QCheckBox" name="showUntrackedCheckbox">
              <property name="text">
               <string>Show untracked averages</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="useDecimalTimeFormat">
+             <property name="text">
+              <string>Use decimal time format</string>
              </property>
             </widget>
            </item>

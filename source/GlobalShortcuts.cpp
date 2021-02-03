@@ -13,21 +13,21 @@ void GlobalShortcuts::setupShortcuts(MainWindow *window) {
 
     // project lookup action with default shortcut
     auto *lookupProject = new GlobalShortcut("global.lookupProject", tr("Lookup Project"),
-                                             Qt::ShiftModifier + Qt::ControlModifier + Qt::Key_P);
+                                             Qt::ShiftModifier + Qt::ControlModifier + Qt::Key_P, window);
     _shortcuts << lookupProject;
     QObject::connect(lookupProject, &GlobalShortcut::activated,
                      lookupProject, [&] { ProjectLookup::show(_control, _mainWindow, nullptr); });
 
     // start timer action
-    auto *startTimer = new GlobalShortcut("global.startTimer", tr("Start timer"), QKeySequence());
+    auto *startTimer = new GlobalShortcut("global.startTimer", tr("Start timer"), QKeySequence(), window);
     _shortcuts << startTimer;
     QObject::connect(startTimer, &GlobalShortcut::activated,
                      startTimer, [&] { _mainWindow->stopCurrentProject(true); });
 
     // stop timer action
-    auto *stopTimer = new GlobalShortcut("global.stopTimer", tr("Stop timer"), QKeySequence());
+    auto *stopTimer = new GlobalShortcut("global.stopTimer", tr("Stop timer"), QKeySequence(), window);
     _shortcuts << stopTimer;
-    QObject::connect(stopTimer, &QxtGlobalShortcut::activated,
+    QObject::connect(stopTimer, &GlobalShortcut::activated,
                      stopTimer, [&] { _mainWindow->stopCurrentProject(false); });
 
     // load current values

@@ -3,10 +3,13 @@
 #include <utility>
 
 GlobalShortcut::GlobalShortcut(QString id, QString label, const QKeySequence &shortcut, QObject *parent)
-        : QxtGlobalShortcut(shortcut, parent),
+        : QObject(parent),
           _id(std::move(id)),
-          _label(std::move(label)) {
+          _label(std::move(label)),
+          _globalShortcut(nullptr) {
 
+    // register initial shortcut
+    setShortcut(shortcut);
 }
 
 const QString &GlobalShortcut::id() const {
@@ -30,6 +33,31 @@ void GlobalShortcut::save(QSettings &settings) {
 
 QString GlobalShortcut::key() const {
     return QString("globalShortcuts/%1").arg(_id);
+}
+
+QKeySequence GlobalShortcut::shortcut() const {
+    if (_globalShortcut == nullptr) {
+        return QKeySequence();
+    }
+    return _globalShortcut->shortcut();
+}
+
+bool GlobalShortcut::setShortcut(const QKeySequence &shortcut) {
+    if (shortcut.isEmpty()) {
+        if (_globalShortcut != nullptr) {
+            delete _globalShortcut;
+            _globalShortcut = nullptr;
+        }
+        return true;
+    }
+
+    if (_globalShortcut == nullptr) {
+        _globalShortcut = new QxtGlobalShortcut(shortcut, this);
+        connect(_globalShortcut, &QxtGlobalShortcut::activated, this, &GlobalShortcut::activated);
+    } else {
+        _globalShortcut->setShortcut(shortcut);
+    }
+    return true;
 }
 
 GlobalShortcut::~GlobalShortcut() = default;

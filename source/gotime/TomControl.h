@@ -113,7 +113,9 @@ public:
                        const QString &title, const QString &description,
                        bool showSales,
                        bool showTracked, bool showUntracked,
-                       const QString &cssFile);
+                       const QString &cssFile,
+                       bool decimalTimeFormat
+                       );
 
     QStringList projectIDs(const QString &projectID, bool includeSubprojects) const;
 

@@ -2,10 +2,11 @@
 set -e
 DIR="$(CDPATH='' cd -- "$(dirname -- "$0")" && pwd -P)"
 
+[ -z "$APPLE_DEV_PASS" ] && echo "Missing Apple Account Password" && exit 1
+
 FLAGS="$1"
 QTDIR="$HOME/Qt/5.15.2/clang_64"
 APPLE_DEV_ID="mail@ja-dev.eu"
-APPLE_DEV_PASS="$(cat ./apple-account-password.txt)"
 # 2nd Apple Certificate, made for Tom Time Tracker
 APPLE_CERT_ID="F5E7309AFF297C4E9563DD1FFBE3C865D6164EAA"
 

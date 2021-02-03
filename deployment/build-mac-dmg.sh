@@ -15,7 +15,7 @@ git pull
     go build -o tom -ldflags "-s -w" .
 )
 
-QTDIR="$HOME/Qt/5.12.6/clang_64"
+QTDIR="$HOME/Qt/5.15.2/clang_64"
 
 rm -rf build
 mkdir build
@@ -26,4 +26,4 @@ make -j4
 mv tom-ui.app Tom.app
 cp "$HOME/tom/tom" Tom.app/Contents/MacOS/tom
 install_name_tool -add_rpath "@executable_path/../Frameworks" Tom.app/Contents/MacOS/tom-ui
-"$QTDIR/bin/macdeployqt" Tom.app -dmg
+"$QTDIR/bin/macdeployqt" Tom.app -dmg -timestamp -sign-for-notarization=

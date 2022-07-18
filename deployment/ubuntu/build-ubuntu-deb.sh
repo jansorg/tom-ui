@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-cd $HOME
+cd "$HOME"
 
 git clone https://github.com/jansorg/tom-ui
 cd tom-ui

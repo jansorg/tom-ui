@@ -11,7 +11,7 @@ project(tom-ui
 
 # Set additional project information
 set(COMPANY "Joachim Ansorg")
-set(COPYRIGHT "Copyright (c) 2019-2021 Joachim Ansorg. All rights reserved.")
+set(COPYRIGHT "Copyright (c) 2019-2022 Joachim Ansorg. All rights reserved.")
 set(IDENTIFIER "dev.tomtime.tomui")
 set(CPACK_PACKAGE_CONTACT "mail@ja-dev.eu")
 set(CPACK_PACKAGE_NAME "tom-ui")

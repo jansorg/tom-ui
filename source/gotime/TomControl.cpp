@@ -613,7 +613,7 @@ QString TomControl::htmlReport(const QString &outputFile,
                                const QStringList &projectIDs,
                                bool includeSubprojects,
                                QDate start, QDate end,
-                               TimeRoundingMode frameRoundingMode, int frameRoundingMinutes,
+                               TimeRoundingMode frameRoundingMode, int frameRoundingValue, const QString &frameRoundingUnit,
                                const QStringList &splits,
                                const QString &templateID,
                                bool matrixTables,
@@ -624,7 +624,8 @@ QString TomControl::htmlReport(const QString &outputFile,
                                bool showSales,
                                bool showTracked, bool showUntracked,
                                const QString &cssFile,
-                               bool decimalTimeFormat) {
+                               bool decimalTimeFormat,
+                               bool showStopTime) {
     QStringList args;
     args << "report";
     if (!outputFile.isEmpty()) {
@@ -664,6 +665,7 @@ QString TomControl::htmlReport(const QString &outputFile,
     args << QString("--show-tracked=%1").arg(showTracked ? "true" : "false");
     args << QString("--show-untracked=%1").arg(showUntracked ? "true" : "false");
     args << QString("--decimal=%1").arg(decimalTimeFormat ? "true" : "false");
+    args << QString("--show-stop-time=%1").arg(showStopTime ? "true" : "false");
 
     if (!title.isEmpty()) {
         args << "--title=" + title;
@@ -682,14 +684,12 @@ QString TomControl::htmlReport(const QString &outputFile,
         case UP:
             args << "--round-frames" << "up";
             break;
-        case DOWN:
-            break;
     }
 
     if (frameRoundingMode == NONE) {
         args << "--round-frames-to" << "0m";
     } else {
-        args << "--round-frames-to" << QString("%1m").arg(frameRoundingMinutes);
+        args << "--round-frames-to" << QString("%1%2").arg(frameRoundingValue).arg(frameRoundingUnit);
     }
 
     if (!cssFile.isEmpty()) {

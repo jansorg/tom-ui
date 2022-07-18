@@ -13,16 +13,18 @@
 #include "source/model/UserRoles.h"
 #include "source/commonModels/FileSystemModel.h"
 
-ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomControl *control,
-                                         ProjectStatusManager *statusManager, QWidget *parent) : QDialog(parent),
-                                                                                                 _projects(),
-                                                                                                 _control(control),
-                                                                                                 _splitModel(new ReportSplitModel(this)),
-                                                                                                 _tempDir("tom-report") {
+ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects,
+                                         TomControl *control,
+                                         ProjectStatusManager *statusManager,
+                                         QWidget *parent) : QDialog(parent),
+                                                            _projects(),
+                                                            _control(control),
+                                                            _splitModel(new ReportSplitModel(this)),
+                                                            _tempDir("tom-report") {
 
     setAttribute(Qt::WA_DeleteOnClose);
 
-    for (const auto &p : projects) {
+    for (const auto &p: projects) {
         if (p.isValid()) {
             _projects << p.getID();
         }
@@ -32,8 +34,6 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
 #ifdef TOM_REPORTS
     _webView = new QWebEngineView(this);
     _webView->setContextMenuPolicy(Qt::NoContextMenu);
-//    _webView->settings()->setAttribute(QWebEngineSettings::JavascriptEnabled, false);
-//    _webView->settings()->setAttribute(QWebEngineSettings::XSSAuditingEnabled, false);
     previewFrame->layout()->addWidget(_webView);
     _webView->show();
 #else
@@ -53,6 +53,13 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     }
 
     projectsBox->setup(control, statusManager);
+
+    // time rounding units
+    frameRoundingUnit->setModel(new TranslatedStringlistModel(
+            QStringList() << "m" << "s",
+            QStringList() << tr("Minute(s)") << tr("Second(s)"),
+            this
+    ));
 
     // split list
     splitMoveUp->setIcon(style()->standardIcon(QStyle::SP_ArrowUp));
@@ -112,6 +119,7 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     connect(roundEntriesCheckBox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(frameRoundingMode, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
     connect(frameRoundingValue, QOverload<int>::of(&QSpinBox::valueChanged), this, &ProjectReportDialog::updateReport);
+    connect(frameRoundingUnit, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
 
     connect(templateBox, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
 
@@ -126,6 +134,7 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects, TomCont
     connect(showTrackedCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(showUntrackedCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(useDecimalTimeFormat, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showStopTimeCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
     QTimer::singleShot(500, this, &ProjectReportDialog::updateReport);
 }
@@ -158,7 +167,8 @@ void ProjectReportDialog::saveReportHTML() {
     QDateTime current(QDateTime::currentDateTime());
     QString defaultFile = QString("tom-report.%1.html").arg(current.toString(Qt::ISODate));
 
-    const QString &fileName = QFileDialog::getSaveFileName(this, tr("Save Report as HTML"), defaultFile, tr("HTML files (*.html *.htm);;All files (*)"));
+    const QString &fileName = QFileDialog::getSaveFileName(this, tr("Save Report as HTML"), defaultFile,
+                                                           tr("HTML files (*.html *.htm);;All files (*)"));
     if (fileName != "") {
         reportHTML(fileName);
     }
@@ -238,7 +248,7 @@ void ProjectReportDialog::readSettings(QSettings &settings, QObject *child) {
     }
 
     if (!stop) {
-        for (auto *c : child->children()) {
+        for (auto *c: child->children()) {
             readSettings(settings, c);
         }
     }
@@ -280,7 +290,7 @@ void ProjectReportDialog::writeSettings(QSettings &settings, QObject *child) {
     }
 
     if (!stop) {
-        for (auto *c : child->children()) {
+        for (auto *c: child->children()) {
             writeSettings(settings, c);
         }
     }
@@ -289,19 +299,18 @@ void ProjectReportDialog::writeSettings(QSettings &settings, QObject *child) {
 QString ProjectReportDialog::reportHTML(const QString &filename) const {
     QStringList splits = _splitModel->checkedItems();
 
-    int frameRoundingMin = frameRoundingValue->value();
-
     const QString &frameModeText = frameRoundingMode->currentData(Qt::EditRole).toString();
-    TimeRoundingMode frameMode = NONE;
+    TimeRoundingMode roundingMode = NONE;
     if (roundEntriesCheckBox->isChecked()) {
         if (frameModeText == "up") {
-            frameMode = UP;
-        } else if (frameModeText == "down") {
-            frameMode = DOWN;
+            roundingMode = UP;
         } else if (frameModeText == "up or down") {
-            frameMode = NEAREST;
+            roundingMode = NEAREST;
         }
     }
+
+    const QString &roundingUnit = frameRoundingUnit->currentData(Qt::EditRole).toString();
+    int roundingValue  = this->frameRoundingValue->value();
 
     QDate start;
     QDate end;
@@ -314,7 +323,7 @@ QString ProjectReportDialog::reportHTML(const QString &filename) const {
 
     return _control->htmlReport(filename, _projects,
                                 subprojectsCheckbox->isChecked(),
-                                start, end, frameMode, frameRoundingMin,
+                                start, end, roundingMode, roundingValue, roundingUnit,
                                 splits,
                                 templateId,
                                 matrixTablesCheckbox->isChecked(),
@@ -326,6 +335,7 @@ QString ProjectReportDialog::reportHTML(const QString &filename) const {
                                 showTrackedCheckbox->isChecked(),
                                 showUntrackedCheckbox->isChecked(),
                                 cssFileEdit->text(),
-                                useDecimalTimeFormat->isChecked());
+                                useDecimalTimeFormat->isChecked(),
+                                showStopTimeCheckbox->isChecked());
 }
 

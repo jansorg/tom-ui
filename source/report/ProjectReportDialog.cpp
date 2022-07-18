@@ -136,6 +136,8 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects,
     connect(useDecimalTimeFormat, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(showStopTimeCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
+    connect(showIsoDatesCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+
     QTimer::singleShot(500, this, &ProjectReportDialog::updateReport);
 }
 
@@ -336,6 +338,7 @@ QString ProjectReportDialog::reportHTML(const QString &filename) const {
                                 showUntrackedCheckbox->isChecked(),
                                 cssFileEdit->text(),
                                 useDecimalTimeFormat->isChecked(),
-                                showStopTimeCheckbox->isChecked());
+                                showStopTimeCheckbox->isChecked(),
+                                showIsoDatesCheckbox->isChecked());
 }
 

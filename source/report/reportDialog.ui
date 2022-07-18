@@ -54,7 +54,7 @@
          <x>0</x>
          <y>-390</y>
          <width>329</width>
-         <height>958</height>
+         <height>984</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_6">
@@ -403,6 +403,13 @@
           <layout class="QVBoxLayout" name="verticalLayout_9">
            <item>
             <widget class="QComboBox" name="templateBox"/>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="showIsoDatesCheckbox">
+             <property name="text">
+              <string>Show ISO dates</string>
+             </property>
+            </widget>
            </item>
            <item>
             <widget class="QCheckBox" name="showEmptyCheckbox">

@@ -625,12 +625,18 @@ QString TomControl::htmlReport(const QString &outputFile,
                                bool showTracked, bool showUntracked,
                                const QString &cssFile,
                                bool decimalTimeFormat,
-                               bool showStopTime) {
+                               bool showStopTime,
+                               bool showIsoDates) {
     QStringList args;
     args << "report";
     if (!outputFile.isEmpty()) {
         args << QString("--output-file=%1").arg(outputFile);
     }
+
+    if (showIsoDates) {
+        args << "--iso-dates";
+    }
+
     args << "--split=" + splits.join(",");
 
     if (!projectIDs.isEmpty()) {

@@ -35,8 +35,6 @@ public:
 
     QList<Project> cachedRecentProjects() const;
 
-//    QList<Project> cachedProjects() const;
-
     Project cachedProject(const QString &id) const;
 
     const Project& cachedActiveProject() const;
@@ -56,8 +54,6 @@ public:
     bool renameProject(const QString &id, const QString &newName);
 
     bool removeProject(const Project &project);
-
-//    bool renameTag(const QString &id, const QString &newName);
 
     bool updateFrame(const QList<Frame *> &frames,
                      bool updateStart, const QDateTime &start,
@@ -115,7 +111,8 @@ public:
                        bool showTracked, bool showUntracked,
                        const QString &cssFile,
                        bool decimalTimeFormat,
-                       bool showStopTime
+                       bool showStopTime,
+                       bool showIsoDates
                        );
 
     QStringList projectIDs(const QString &projectID, bool includeSubprojects) const;

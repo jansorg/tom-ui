@@ -37,12 +37,13 @@ function uploadAssets() {
             ARGS="$ARGS -a $n"
         done
 
-        hub release create "v$VERSION" -m "Version $VERSION" $ARGS
+        gh release create "v$VERSION" --title "Version $VERSION" --generate-notes $ARGS
     done
 }
 
 function cleanup() {
-    rm -rf "$TARGET"
+  local TARGET="$1"
+  [[ -d "$TARGET" ]] && rm -rf "$TARGET"
 }
 
 buildUbuntu "$SOURCE" "$TARGET" "$VERSION"
@@ -51,4 +52,4 @@ buildMacOS "$SOURCE" "$TARGET" "$VERSION"
 
 uploadAssets
 
-cleanup
+cleanup "$TARGET"

@@ -1,4 +1,4 @@
-VERSION=0.10.0
+VERSION="$(cat "$PWD/version.txt")"
 TARGET="$PWD/release-$VERSION"
 
 for f in "release-$VERSION"; do

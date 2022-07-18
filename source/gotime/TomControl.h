@@ -11,7 +11,7 @@
 #include "ProjectStatus.h"
 
 enum TimeRoundingMode {
-    NONE, UP, NEAREST, DOWN
+    NONE, UP, NEAREST
 };
 
 class TomControl : public QObject {
@@ -103,7 +103,7 @@ public:
                        const QStringList &projectIDs,
                        bool includeSubprojects,
                        QDate start, QDate end,
-                       TimeRoundingMode frameRoundingMode, int frameRoundingMinutes,
+                       TimeRoundingMode frameRoundingMode, int frameRoundingValue, const QString &frameRoundingUnit,
                        const QStringList &splits,
                        const QString &templateID,
                        bool matrixTables,
@@ -114,7 +114,8 @@ public:
                        bool showSales,
                        bool showTracked, bool showUntracked,
                        const QString &cssFile,
-                       bool decimalTimeFormat
+                       bool decimalTimeFormat,
+                       bool showStopTime
                        );
 
     QStringList projectIDs(const QString &projectID, bool includeSubprojects) const;

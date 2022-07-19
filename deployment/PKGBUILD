@@ -1,6 +1,6 @@
 # Maintainer: Joachim Ansorg <mail@ja-dev.eu>
 pkgname=tom-ui
-pkgver=20210203
+pkgver=20220719
 pkgrel=1
 pkgdesc="Graphical user interface for the Tom time tracker application."
 url="https://www.tomtime.dev"
@@ -12,7 +12,7 @@ conflicts=()
 replaces=()
 backup=()
 install=
-source=("git://github.com/jansorg/tom-ui.git")
+source=("git+https://github.com/jansorg/tom-ui.git")
 md5sums=('SKIP')
 
 pkgver() {
@@ -21,7 +21,7 @@ pkgver() {
 }
 build() {
   cd "$srcdir/$pkgname"
-  cmake -DCMAKE_BUILD_TYPE="Release" -DCMAKE_INSTALL_PREFIX=/usr .
+  cmake -DCMAKE_BUILD_TYPE="release" -DCMAKE_INSTALL_PREFIX=/usr .
   make || return 1
 }
 package() {

@@ -42,7 +42,7 @@ MainWindow::MainWindow(TomControl *control,
     _projectTree->setup(control, statusManager);
     _frameView->setup(control, statusManager);
 
-    // setup the statusbar
+    // set up the statusbar
     mainStatusBar->addPermanentWidget(_frameStatusLabel, 1);
     _frameStatusLabel->setAlignment(Qt::AlignRight);
 

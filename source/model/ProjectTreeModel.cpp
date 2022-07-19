@@ -177,16 +177,16 @@ Qt::ItemFlags ProjectTreeModel::flags(const QModelIndex &index) const {
     }
 
     if (item && item->getProject().isValid()) {
-        // drag is only allowed to start with the name column
+        // drag and edit is only allowed to start with the name column
         if (index.column() == ProjectTreeItem::COL_NAME) {
             base |= Qt::ItemIsDragEnabled;
+            base |= Qt::ItemIsEditable;
         }
 
         return base
                | Qt::ItemIsDropEnabled
                | Qt::ItemIsSelectable
                | Qt::ItemIsEnabled
-               | Qt::ItemIsEditable
                | QAbstractItemModel::flags(index);
     }
 

@@ -105,6 +105,8 @@ private:
     void removeFrameRows(const QStringList &ids);
 
     void updateFrames(const QStringList &ids);
+
+    QDateTime lastValidDate;
 };
 
 

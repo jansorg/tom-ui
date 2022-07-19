@@ -8,7 +8,11 @@
 
 FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) : QAbstractTableModel(parent),
                                                                                  _control(control),
-                                                                                 _archiveIcon(Icons::timeEntryArchive().pixmap(16, 16, QIcon::Disabled)) {
+                                                                                 _archiveIcon(
+                                                                                         Icons::timeEntryArchive().pixmap(
+                                                                                                 16, 16,
+                                                                                                 QIcon::Disabled)),
+                                                                                 lastValidDate(QDateTime::currentDateTimeUtc().addYears(1000)){
 
     connect(_control, &TomControl::framesUpdated, this, &FrameTableViewModel::onFramesUpdates);
     connect(_control, &TomControl::framesRemoved, this, &FrameTableViewModel::onFramesRemoved);
@@ -49,7 +53,7 @@ void FrameTableViewModel::loadFrames(const Project &project) {
 
     if (project.isValidOrRootProject()) {
         // start the timer only if we're showing active frames
-        for (auto *f : _frames) {
+        for (auto *f: _frames) {
             if (f->isActive()) {
                 startTimer();
                 break;
@@ -71,7 +75,8 @@ void FrameTableViewModel::onFramesUpdates(const QStringList &frameIDs, const QSt
     }
 
     const QString &projectID = _currentProject.getID();
-    if (!_currentProject.isRootProject() && !projectIDs.contains(projectID) && !_control->isAnyChildProject(projectIDs, projectID)) {
+    if (!_currentProject.isRootProject() && !projectIDs.contains(projectID) &&
+        !_control->isAnyChildProject(projectIDs, projectID)) {
         return;
     }
 
@@ -97,7 +102,8 @@ void FrameTableViewModel::onFramesArchived(const QStringList &frameIDs, const QS
 
     // return if we're not displaying any of the modified projects
     const QString &currentID = _currentProject.getID();
-    if (!_currentProject.isRootProject() && !projectIDs.contains(currentID) && !_control->isAnyChildProject(projectIDs, currentID)) {
+    if (!_currentProject.isRootProject() && !projectIDs.contains(currentID) &&
+        !_control->isAnyChildProject(projectIDs, currentID)) {
         return;
     }
 
@@ -126,7 +132,8 @@ void FrameTableViewModel::onProjectFramesArchived(const QStringList &projectIDs)
 
     // return if we're not displaying any of the modified projects
     const QString &currentID = _currentProject.getID();
-    if (!_currentProject.isRootProject() && !projectIDs.contains(currentID) && !_control->isAnyChildProject(projectIDs, currentID)) {
+    if (!_currentProject.isRootProject() && !projectIDs.contains(currentID) &&
+        !_control->isAnyChildProject(projectIDs, currentID)) {
         return;
     }
 
@@ -136,7 +143,7 @@ void FrameTableViewModel::onProjectFramesArchived(const QStringList &projectIDs)
         // remove all frames which belong to any of the archived projects
         // we make a copy of all affected frames because removeRow will change the list of frames
         QStringList frameIDs;
-        for (auto frame : _frames) {
+        for (auto frame: _frames) {
             if (projectIDs.contains(frame->projectID)) {
                 frameIDs << frame->id;
             }
@@ -147,14 +154,16 @@ void FrameTableViewModel::onProjectFramesArchived(const QStringList &projectIDs)
     }
 }
 
-void FrameTableViewModel::onFramesMoved(const QStringList &frameIDs, const QStringList &oldProjectIDs, const QString &newProjectID) {
+void FrameTableViewModel::onFramesMoved(const QStringList &frameIDs, const QStringList &oldProjectIDs,
+                                        const QString &newProjectID) {
     // qDebug() << "frames moved from" << oldProjectIDs << "to" << newProjectID;
 
     // don't remove from list if old and new project are in the hierarchy of the currently shown project
     // we have to update the project column, though
     if (_currentProject.isRootProject() ||
-        (_control->isAnyChildProject(oldProjectIDs, _currentProject.getID()) && _control->isChildProject(newProjectID, _currentProject.getID()))) {
-        for (const auto &id : frameIDs) {
+        (_control->isAnyChildProject(oldProjectIDs, _currentProject.getID()) &&
+         _control->isChildProject(newProjectID, _currentProject.getID()))) {
+        for (const auto &id: frameIDs) {
             int row = findRow(id);
             if (row >= 0) {
                 _frames.at(row)->projectID = newProjectID;
@@ -163,7 +172,7 @@ void FrameTableViewModel::onFramesMoved(const QStringList &frameIDs, const QStri
         }
     } else {
         // otherwise we'll remove the items from the view
-        for (const auto &id : frameIDs) {
+        for (const auto &id: frameIDs) {
             int row = findRow(id);
             if (row >= 0) {
                 removeRow(row);
@@ -187,9 +196,11 @@ bool FrameTableViewModel::removeRows(int row, int count, const QModelIndex &pare
 }
 
 void FrameTableViewModel::onProjectStatusChanged(const Project &started, const Project &stopped) {
-    if (started.isValid() && (_currentProject.isRootProject() || _control->isChildProject(started.getID(), _currentProject.getID()))) {
+    if (started.isValid() &&
+        (_currentProject.isRootProject() || _control->isChildProject(started.getID(), _currentProject.getID()))) {
         loadFrames(_currentProject);
-    } else if (stopped.isValid() && (_currentProject.isRootProject() || _control->isChildProject(stopped.getID(), _currentProject.getID()))) {
+    } else if (stopped.isValid() && (_currentProject.isRootProject() ||
+                                     _control->isChildProject(stopped.getID(), _currentProject.getID()))) {
         loadFrames(_currentProject);
     }
 }
@@ -350,7 +361,8 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
 
     if (role == Qt::FontRole && Fonts::useMonospaceFont()) {
         int column = index.column();
-        if (column == COL_START_DATE || column == COL_START || column == COL_END || column == COL_DURATION || column == COL_LAST_UPDATED) {
+        if (column == COL_START_DATE || column == COL_START || column == COL_END || column == COL_DURATION ||
+            column == COL_LAST_UPDATED) {
             return Fonts::monospaceFont();
         }
     }
@@ -361,7 +373,9 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
             return frame->startTime;
         }
         if (index.column() == COL_END) {
-            return frame->stopTime;
+            return frame->isActive()
+                   ? lastValidDate
+                   : frame->stopTime;
         }
         if (index.column() == COL_DURATION) {
             return frame->durationMillis(true);
@@ -469,7 +483,7 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
 
 int FrameTableViewModel::findRow(const QString &frameID) {
     int index = 0;
-    for (const auto *frame : _frames) {
+    for (const auto *frame: _frames) {
         if (frame->id == frameID) {
             return index;
         }
@@ -491,7 +505,7 @@ QMimeData *FrameTableViewModel::mimeData(const QModelIndexList &indexes) const {
     QSet<QString> frameIDs;
     QSet<QString> projectIDs;
 
-    for (auto index : indexes) {
+    for (auto index: indexes) {
         if (index.isValid()) {
             if (Frame *frame = frameAt(index)) {
                 projectIDs << frame->projectID;
@@ -541,7 +555,7 @@ void FrameTableViewModel::stopTimer() {
 
 void FrameTableViewModel::removeFrameRows(const QStringList &ids) {
 // fixme this loop is possible to optimize to do less view updates
-    for (const auto &id : ids) {
+    for (const auto &id: ids) {
         int row = findRow(id);
         if (row >= 0) {
             removeRow(row);
@@ -559,7 +573,7 @@ void FrameTableViewModel::updateFrames(const QStringList &ids) {
             // locate frame data and update the underlying data
             // fixme this is slow, esp. for a larger list of ids
             Frame *current = _frames[row];
-            for (auto frame : allFrames) {
+            for (auto frame: allFrames) {
                 if (id == frame->id) {
                     *current = *frame;
                     emit dataChanged(createIndex(row, FIRST_COL), createIndex(row, LAST_COL));

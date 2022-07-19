@@ -3,6 +3,7 @@
 
 #include <QtCore/QArgument>
 #include <QtWidgets/QTableView>
+#include <QStyledItemDelegate>
 
 #include "data/Project.h"
 #include "gotime/TomControl.h"
@@ -61,6 +62,8 @@ private:
     void showContextMenu(Frame *frame, QPoint globalPos);
 
     QAction *_deleteSelectedAction;
+
+    static QStyledItemDelegate* ellideLeftItemDelegate;
 };
 
 #endif //TOM_UI_FRAMETABLEVIEW_H

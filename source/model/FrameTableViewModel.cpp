@@ -254,7 +254,7 @@ QVariant FrameTableViewModel::headerData(int section, Qt::Orientation orientatio
         }
     }
 
-    return QVariant();
+    return {};
 }
 
 QModelIndex FrameTableViewModel::buddy(const QModelIndex &index) const {
@@ -297,7 +297,7 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
             case COL_TAGS:
                 return frame->tags;
             case COL_SUBPROJECT: {
-                //remove prefix of current project?
+                // remove prefix of current project?
                 const QString &parentName = _currentProject.getName();
                 QString name = _control->cachedProject(frame->projectID).getName();
 
@@ -351,11 +351,11 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::TextAlignmentRole) {
         // right align the end column
         if (index.column() == COL_END) {
-            return QVariant(Qt::AlignRight + Qt::AlignVCenter);
+            return {Qt::AlignRight + Qt::AlignVCenter};
         }
         // right align the duration
         if (index.column() == COL_DURATION) {
-            return QVariant(Qt::AlignRight + Qt::AlignVCenter);
+            return {Qt::AlignRight + Qt::AlignVCenter};
         }
     }
 
@@ -364,6 +364,17 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
         if (column == COL_START_DATE || column == COL_START || column == COL_END || column == COL_DURATION ||
             column == COL_LAST_UPDATED) {
             return Fonts::monospaceFont();
+        }
+    }
+
+    if (role == Qt::ToolTipRole) {
+        int column = index.column();
+        Frame* frame = _frames.at(index.row());
+        if (column == COL_SUBPROJECT) {
+            return _control->cachedProject(frame->projectID).getName();
+        }
+        if (column == COL_NOTES) {
+            return frame->notes;
         }
     }
 
@@ -390,7 +401,7 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
         return frame->id;
     }
 
-    return QVariant();
+    return {};
 }
 
 Qt::ItemFlags FrameTableViewModel::flags(const QModelIndex &index) const {

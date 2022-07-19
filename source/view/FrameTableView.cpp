@@ -14,6 +14,9 @@
 #include "icons.h"
 #include "fonts.h"
 #include "IconItemDelegate.h"
+#include "ElideLeftItemDelegate.h"
+
+QStyledItemDelegate* FrameTableView::ellideLeftItemDelegate = new ElideLeftItemDelegate();
 
 FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent),
                                                   _control(nullptr),
@@ -29,6 +32,7 @@ FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent),
     connect(_deleteSelectedAction, &QAction::triggered, this, &FrameTableView::deleteSelectedEntries);
 
     setItemDelegateForColumn(FrameTableViewModel::COL_ARCHIVED, new IconItemDelegate(Icons::timeEntryArchive(), this));
+    setItemDelegateForColumn(FrameTableViewModel::COL_SUBPROJECT, FrameTableView::ellideLeftItemDelegate);
 }
 
 void FrameTableView::setup(TomControl *control, ProjectStatusManager *statusManager) {
@@ -181,7 +185,7 @@ bool FrameTableView::hasSelectedFrames() const {
 QList<Frame *> FrameTableView::selectedFrames() const {
     const QModelIndexList &rows = selectionModel()->selectedRows(FrameTableViewModel::FIRST_COL);
     if (rows.isEmpty()) {
-        return QList<Frame *>();
+        return {};
     }
 
     QList<Frame *> frames;

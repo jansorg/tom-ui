@@ -58,7 +58,7 @@ This may also work for other versions of Ubuntu, and for other Linux distributio
 
 3. Install the packages of both `tom`, `tom-ui` and all their dependencies with a command like this:
   
-       sudo apt install ./tom_0.11.0_Linux-amd64.deb ./tom-ui_0.9.0-ubuntu-20.04_amd64.deb
+       sudo apt install ./tom_0.12.2_Linux-amd64.deb ./tom-ui_0.12.2-ubuntu-20.04_amd64.deb
        
     It is important to reference the `.deb` files with their paths (and if only `./`) as otherwise `apt` will interpret the arguments as package names and try to find them in online repositories.
 

@@ -30,18 +30,6 @@ function finish {
 
 trap finish EXIT
 
-function uploadAssets() {
-  for f in "release-$VERSION"; do
-    echo -e "Uploading files in $f..."
-    local ARGS=""
-    for n in "$TARGET"/*.deb "$TARGET"/*.dmg; do
-      ARGS="$ARGS -a $n"
-    done
-
-    gh release create "v$VERSION" --title "Version $VERSION" --generate-notes $ARGS
-  done
-}
-
 function cleanup() {
   local TARGET="$1"
   [[ -d "$TARGET" ]] && rm -rf "$TARGET"
@@ -51,6 +39,6 @@ buildUbuntu "$SOURCE" "$TARGET" "$VERSION"
 
 buildMacOS "$SOURCE" "$TARGET" "$VERSION"
 
-uploadAssets
+uploadAssets "$VERSION"
 
 cleanup "$TARGET"

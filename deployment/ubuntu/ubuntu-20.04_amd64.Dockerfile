@@ -21,7 +21,8 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 	golang \
 	vim \
 	software-properties-common \
-	libqt5svg5-dev && \
+	libqt5svg5-dev \
+	tzdata && \
 	dpkg-reconfigure --frontend noninteractive tzdata
 
 COPY build-ubuntu-deb.sh /root

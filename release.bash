@@ -13,32 +13,33 @@ VERSION="$1"
 [[ -z "$VERSION" ]] && echo "No version given" && exit 1
 
 echo "Building release $VERSION"
-echo -n "$VERSION" > ./version.txt
-git commit -m "Prepearing release of $VERSION" version.txt || true
+echo -n "$VERSION" >./version.txt
+git commit -m "Preparing release $VERSION" version.txt || true
 git push || true
-git tag "v$VERSION"
-git push --tags
+git tag -f "v$VERSION"
+git push -f --tags
 export TOM_VERSION="$VERSION"
 
 TARGET="$PWD/release-$VERSION"
 mkdir -p "$TARGET"
 
 function finish {
-    docker stop tom-ubuntu || true
+  # docker stop tom-ubuntu || true
+  :
 }
 
 trap finish EXIT
 
 function uploadAssets() {
-    for f in "release-$VERSION"; do
-        echo -e "Uploading files in $f..."
-        local ARGS=""
-        for n in "$TARGET"/*.deb "$TARGET"/*.dmg; do
-            ARGS="$ARGS -a $n"
-        done
-
-        gh release create "v$VERSION" --title "Version $VERSION" --generate-notes $ARGS
+  for f in "release-$VERSION"; do
+    echo -e "Uploading files in $f..."
+    local ARGS=""
+    for n in "$TARGET"/*.deb "$TARGET"/*.dmg; do
+      ARGS="$ARGS -a $n"
     done
+
+    gh release create "v$VERSION" --title "Version $VERSION" --generate-notes $ARGS
+  done
 }
 
 function cleanup() {

@@ -32,7 +32,7 @@ option(ENABLE_REPORTS "Enable Webkit component to preview reports" ON)
 
 add_project_meta(META_FILES_TO_INCLUDE)
 
-find_package(Qt6 6.8.0
+find_package(Qt6 6.2.0
         COMPONENTS
         Core
         Widgets

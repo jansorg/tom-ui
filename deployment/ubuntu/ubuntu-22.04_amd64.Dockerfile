@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 RUN export DEBIAN_FRONTEND=noninteractive && \
     apt-get update \
@@ -8,11 +8,11 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         file \
         g++ \
         make \
-        qtbase5-dev \
-        qtbase5-private-dev \
-        libqt5webview5-dev \
-        qtwebengine5-dev \
-        qttools5-dev \
+        qt6-base-dev \
+        qt6-base-private-dev \
+        qt6-webview-dev \
+        qt6-webengine-dev \
+        qt6-tools-dev \
         rpm \
         xvfb \
 	build-essential \
@@ -20,7 +20,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
 	golang \
 	vim \
 	software-properties-common \
-	libqt5svg5-dev \
+	libqt6svg6-dev \
 	tzdata && \
 	dpkg-reconfigure --frontend noninteractive tzdata
 

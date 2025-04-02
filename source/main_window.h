@@ -2,8 +2,8 @@
 #define MAIN_WINDOW_H
 
 #include <QtGui>
-#include <QtWidgets/QSystemTrayIcon>
-#include <QtWidgets/QLabel>
+#include <QSystemTrayIcon>
+#include <QLabel>
 
 #include "ui_main_window.h"
 #include "GlobalShortcuts.h"

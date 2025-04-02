@@ -1,7 +1,7 @@
 #ifndef TOM_UI_ICONITEMDELEGATE_H
 #define TOM_UI_ICONITEMDELEGATE_H
 
-#include <QtWidgets/QStyledItemDelegate>
+#include <QStyledItemDelegate>
 #include "FrameTableView.h"
 
 class IconItemDelegate : public QStyledItemDelegate {

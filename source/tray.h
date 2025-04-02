@@ -3,8 +3,8 @@
 
 
 #include <QtCore/QObject>
-#include <QtWidgets/QMainWindow>
-#include <QtWidgets/QSystemTrayIcon>
+#include <QMainWindow>
+#include <QSystemTrayIcon>
 
 #include "gotime/TomControl.h"
 #include "gotime/StartStopProjectAction.h"

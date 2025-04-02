@@ -1,4 +1,4 @@
-#include <QtWidgets/QMessageBox>
+#include <QMessageBox>
 
 #include "ActionUtils.h"
 

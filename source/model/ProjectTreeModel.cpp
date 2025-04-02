@@ -1,7 +1,6 @@
-#include <QtWidgets/QApplication>
+#include <QApplication>
 
 #include <QtGui/QColor>
-#include <QtGui/QFont>
 #include <QtGui/QBrush>
 #include <QtGui/QPalette>
 
@@ -68,11 +67,11 @@ void ProjectTreeModel::setupItem(ProjectTreeItem *parent, QList<Project> &projec
 
 QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid()) {
-        return QVariant();
+        return {};
     }
 
     if (role == Qt::TextAlignmentRole && index.column() >= ProjectTreeItem::FIRST_STATUS_COL_INDEX) {
-        return Qt::AlignTrailing + Qt::AlignVCenter;
+        return {Qt::AlignTrailing | Qt::AlignVCenter};
     }
 
     if (role == Qt::ForegroundRole) {
@@ -415,7 +414,7 @@ bool ProjectTreeModel::handleDropProjectIDs(const QMimeData *data, Qt::DropActio
         return false;
     }
 
-    const QStringList ids = QString::fromUtf8(bytes).split("||", QString::SkipEmptyParts);
+    const QStringList ids = QString::fromUtf8(bytes).split("||", Qt::SkipEmptyParts);
     if (ids.isEmpty()) {
         return false;
     }
@@ -471,7 +470,7 @@ bool ProjectTreeModel::handleDropFrameIDs(const QMimeData *data, Qt::DropAction 
         return false;
     }
 
-    QStringList ids = QString::fromUtf8(bytes).split("||", QString::SkipEmptyParts);
+    QStringList ids = QString::fromUtf8(bytes).split("||", Qt::SkipEmptyParts);
     if (ids.isEmpty()) {
         return false;
     }

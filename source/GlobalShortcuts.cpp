@@ -13,7 +13,7 @@ void GlobalShortcuts::setupShortcuts(MainWindow *window) {
 
     // project lookup action with default shortcut
     auto *lookupProject = new GlobalShortcut("global.lookupProject", tr("Lookup Project"),
-                                             Qt::ShiftModifier + Qt::ControlModifier + Qt::Key_P, window);
+                                             Qt::ShiftModifier | Qt::ControlModifier | Qt::Key_P, window);
     _shortcuts << lookupProject;
     QObject::connect(lookupProject, &GlobalShortcut::activated,
                      lookupProject, [&] { ProjectLookup::show(_control, _mainWindow, nullptr); });

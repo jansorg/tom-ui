@@ -1,7 +1,7 @@
 #ifndef TOM_UI_FILESYSTEMMODEL_H
 #define TOM_UI_FILESYSTEMMODEL_H
 
-#include <QtWidgets/QFileSystemModel>
+#include <QFileSystemModel>
 
 class FileSystemModel : public QFileSystemModel {
 Q_OBJECT

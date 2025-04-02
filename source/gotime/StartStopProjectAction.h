@@ -1,7 +1,7 @@
 #ifndef GOTIME_UI_STARTPROJECTACTION_H
 #define GOTIME_UI_STARTPROJECTACTION_H
 
-#include <QtWidgets/QAction>
+#include <QAction>
 
 #include "data/Project.h"
 #include "TomControl.h"

@@ -1,5 +1,5 @@
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QCheckBox>
+#include <QVBoxLayout>
+#include <QCheckBox>
 #include "TriStateFlagComboBox.h"
 
 TriStateFlagComboBox::TriStateFlagComboBox(QWidget *parent) : QWidget(parent) {

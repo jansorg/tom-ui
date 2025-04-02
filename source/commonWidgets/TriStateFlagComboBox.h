@@ -1,8 +1,8 @@
 #ifndef TOM_UI_TRISTATECOMBOBOX_H
 #define TOM_UI_TRISTATECOMBOBOX_H
 
-#include <QtWidgets/QComboBox>
-#include <QtWidgets/QLabel>
+#include <QComboBox>
+#include <QLabel>
 
 #include "data/TriState.h"
 

@@ -1,6 +1,6 @@
 #include <QDragMoveEvent>
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QHeaderView>
+#include <QMenu>
+#include <QHeaderView>
 
 #include "model/ProjectTreeSortFilterModel.h"
 #include "model/UserRoles.h"

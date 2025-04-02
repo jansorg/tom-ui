@@ -2,7 +2,7 @@
 #define TOM_UI_FRAMETABLEVIEW_H
 
 #include <QtCore/QArgument>
-#include <QtWidgets/QTableView>
+#include <QTableView>
 #include <QStyledItemDelegate>
 
 #include "data/Project.h"

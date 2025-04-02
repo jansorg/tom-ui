@@ -1,7 +1,7 @@
 #ifndef TOM_UI_ELIDELEFTELEGATE_H
 #define TOM_UI_ELIDELEFTELEGATE_H
 
-#include <QtWidgets/QStyledItemDelegate>
+#include <QStyledItemDelegate>
 
 class ElideLeftItemDelegate : public QStyledItemDelegate {
 

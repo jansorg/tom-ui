@@ -1,10 +1,10 @@
-#include <QtWidgets/QTreeView>
-#include <QtWidgets/QAction>
-#include <QtWidgets/QMessageBox>
-#include <QtWidgets/QMainWindow>
+#include <QTreeView>
+#include <QAction>
+#include <QMessageBox>
+#include <QMainWindow>
 #include <dialogs/CommonDialogs.h>
-#include <QtWidgets/QFileDialog>
-#include <QtWidgets/QInputDialog>
+#include <QFileDialog>
+#include <QInputDialog>
 #include <source/frameEditor/FrameEditorDialog.h>
 
 #include "settingsDialog/SettingsDialog.h"
@@ -341,7 +341,7 @@ void MainWindow::createReport() {
     }
 
     auto *dialog = new ProjectReportDialog(selected, _control, _statusManager, this);
-    dialog->exec();
+    dialog->open();
 }
 
 void MainWindow::lookupProject() {

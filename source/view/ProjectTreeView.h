@@ -1,8 +1,8 @@
 #ifndef TOM_UI_PROJECTTREEVIEW_H
 #define TOM_UI_PROJECTTREEVIEW_H
 
-#include <QtWidgets/QAction>
-#include <QtWidgets/QTreeView>
+#include <QAction>
+#include <QTreeView>
 
 #include "model/ProjectTreeItem.h"
 #include "model/ProjectTreeModel.h"

@@ -1,7 +1,7 @@
 #ifndef TOM_UI_CHECKBOXCOMBOBOX_H
 #define TOM_UI_CHECKBOXCOMBOBOX_H
 
-#include <QtWidgets/QComboBox>
+#include <QComboBox>
 #include <source/view/ProjectTreeView.h>
 
 class ProjectTreeComboBox : public QComboBox {

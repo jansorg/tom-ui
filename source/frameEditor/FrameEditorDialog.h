@@ -1,7 +1,7 @@
 #ifndef TOM_UI_FRAMEEDITORDIALOG_H
 #define TOM_UI_FRAMEEDITORDIALOG_H
 
-#include <QtWidgets/QDialog>
+#include <QDialog>
 
 #include "ui_frame_dialog.h"
 #include "source/gotime/TomControl.h"

@@ -1,7 +1,7 @@
 #ifndef TOM_UI_SETTINGSDIALOG_H
 #define TOM_UI_SETTINGSDIALOG_H
 
-#include <QtWidgets/QDialog>
+#include <QDialog>
 
 #include "ui_settingsDialog.h"
 #include "settings/TomSettings.h"

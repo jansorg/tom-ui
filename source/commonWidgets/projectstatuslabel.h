@@ -1,7 +1,7 @@
 #ifndef TOM_UI_PROJECTSTATUSLABEL_H
 #define TOM_UI_PROJECTSTATUSLABEL_H
 
-#include <QtWidgets/QLabel>
+#include <QLabel>
 
 #include "source/gotime/TomControl.h"
 

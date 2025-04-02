@@ -1,5 +1,5 @@
-#include <QtWidgets/QVBoxLayout>
-#include <QtWidgets/QHeaderView>
+#include <QVBoxLayout>
+#include <QHeaderView>
 
 #include "ActionShortcutTable.h"
 #include "icons.h"

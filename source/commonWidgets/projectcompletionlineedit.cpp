@@ -1,8 +1,8 @@
 #include <QKeyEvent>
-#include <QtWidgets/QCompleter>
-#include <QtWidgets/QMenu>
+#include <QCompleter>
+#include <QMenu>
 #include <source/model/UserRoles.h>
-#include <QtWidgets/QMessageBox>
+#include <QMessageBox>
 
 #include "source/gotime/StartStopProjectAction.h"
 #include "source/commonModels/projectlistmodel.h"

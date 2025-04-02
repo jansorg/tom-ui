@@ -3,7 +3,7 @@
 
 #include <QtCore>
 #include <QtCore/QSettings>
-#include <QtWidgets/QAction>
+#include <QAction>
 
 class TomSettings : public QObject {
 Q_OBJECT

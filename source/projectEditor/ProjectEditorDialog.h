@@ -1,7 +1,7 @@
 #ifndef TOM_UI_PROJECTEDITORDIALOG_H
 #define TOM_UI_PROJECTEDITORDIALOG_H
 
-#include <QtWidgets/QDialog>
+#include <QDialog>
 
 #include "gotime/ProjectStatusManager.h"
 #include "gotime/TomControl.h"

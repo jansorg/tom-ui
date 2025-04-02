@@ -1,6 +1,6 @@
 #include <QtGui>
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QMainWindow>
+#include <QMenu>
+#include <QMainWindow>
 
 #include "gotime/TomControl.h"
 #include "gotime/StartStopProjectAction.h"

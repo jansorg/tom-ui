@@ -1,6 +1,5 @@
 #include <QColor>
 #include <source/icons.h>
-#include <QtGui/QFont>
 #include <source/fonts.h>
 
 #include "FrameTableViewModel.h"
@@ -12,7 +11,9 @@ FrameTableViewModel::FrameTableViewModel(TomControl *control, QObject *parent) :
                                                                                          Icons::timeEntryArchive().pixmap(
                                                                                                  16, 16,
                                                                                                  QIcon::Disabled)),
-                                                                                 lastValidDate(QDateTime::currentDateTimeUtc().addYears(1000)){
+                                                                                 lastValidDate(
+                                                                                         QDateTime::currentDateTimeUtc().addYears(
+                                                                                                 1000)) {
 
     connect(_control, &TomControl::framesUpdated, this, &FrameTableViewModel::onFramesUpdates);
     connect(_control, &TomControl::framesRemoved, this, &FrameTableViewModel::onFramesRemoved);
@@ -95,7 +96,8 @@ void FrameTableViewModel::onFramesRemoved(const QStringList &frameIDs, const QSt
     removeFrameRows(frameIDs);
 }
 
-void FrameTableViewModel::onFramesArchived(const QStringList &frameIDs, const QStringList &projectIDs, bool nowArchived) {
+void
+FrameTableViewModel::onFramesArchived(const QStringList &frameIDs, const QStringList &projectIDs, bool nowArchived) {
     if (!_currentProject.isValidOrRootProject()) {
         return;
     }
@@ -277,18 +279,24 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::DisplayRole) {
         Frame *frame = _frames.at(index.row());
 
+        auto locale = QLocale();
+
         switch (index.column()) {
             case COL_ARCHIVED:
                 return frame->archived ? _archiveIcon : QVariant();
             case COL_START_DATE:
-                return frame->startTime.date().toString(Qt::SystemLocaleShortDate);
+                return locale.toString(frame->startTime.date(), QLocale::FormatType::ShortFormat);
+                //return frame->startTime.date().toString(Qt::SystemLocaleShortDate);
             case COL_START:
-                return frame->startTime.time().toString(Qt::SystemLocaleShortDate);
+                return locale.toString(frame->startTime.time(), QLocale::FormatType::ShortFormat);
+                //return frame->startTime.time().toString(Qt::SystemLocaleShortDate);
             case COL_END:
                 if (frame->isSpanningMultipleDays()) {
-                    return frame->stopTime.toString(Qt::SystemLocaleShortDate);
+                    return locale.toString(frame->stopTime, QLocale::FormatType::ShortFormat);
+                    //return frame->stopTime.toString(Qt::SystemLocaleShortDate);
                 }
-                return frame->stopTime.time().toString(Qt::SystemLocaleShortDate);
+                return locale.toString(frame->stopTime.time(), QLocale::FormatType::ShortFormat);
+                //return frame->stopTime.time().toString(Qt::SystemLocaleShortDate);
             case COL_DURATION:
                 if (!frame->stopTime.isValid()) {
                     return Timespan::of(frame->startTime, QDateTime::currentDateTime()).format();
@@ -339,7 +347,7 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
         }
     }
 
-    if (role == Qt::TextColorRole) {
+    if (role == Qt::ForegroundRole) {
         if (index.column() == COL_DURATION) {
             Frame *frame = _frames.at(index.row());
             if (!frame->stopTime.isValid()) {
@@ -351,11 +359,11 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::TextAlignmentRole) {
         // right align the end column
         if (index.column() == COL_END) {
-            return {Qt::AlignRight + Qt::AlignVCenter};
+            return {Qt::AlignRight | Qt::AlignVCenter};
         }
         // right align the duration
         if (index.column() == COL_DURATION) {
-            return {Qt::AlignRight + Qt::AlignVCenter};
+            return {Qt::AlignRight | Qt::AlignVCenter};
         }
     }
 
@@ -369,7 +377,7 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
 
     if (role == Qt::ToolTipRole) {
         int column = index.column();
-        Frame* frame = _frames.at(index.row());
+        Frame *frame = _frames.at(index.row());
         if (column == COL_SUBPROJECT) {
             return _control->cachedProject(frame->projectID).getName();
         }
@@ -438,7 +446,7 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
     bool ok = false;
     switch (col) {
         case COL_ARCHIVED: {
-            if (value.canConvert(QVariant::Bool)) {
+            if (QMetaType::canConvert(value.metaType(), QMetaType(QMetaType::Bool))) {
                 bool isArchived = value.toBool();
                 if (frame->archived != isArchived) {
                     ok = _control->updateFrame(QList<Frame *>() << frame,
@@ -538,9 +546,9 @@ QMimeData *FrameTableViewModel::mimeData(const QModelIndexList &indexes) const {
 
 void FrameTableViewModel::onUpdateActiveFrames() {
     const auto &frames = _frames;
-    int size = frames.count();
+    qsizetype size = frames.count();
 
-    for (int i = 0; i < size; i++) {
+    for (qsizetype i = 0; i < size; i++) {
         if (frames.at(i)->isActive()) {
             emit dataChanged(createIndex(i, COL_DURATION), createIndex(i, COL_DURATION));
         }

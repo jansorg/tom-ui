@@ -1,8 +1,8 @@
 #ifndef TOM_UI_PROJECTLOOKUP_H
 #define TOM_UI_PROJECTLOOKUP_H
 
-#include <QtWidgets/QDialog>
-#include <QtWidgets/QMainWindow>
+#include <QDialog>
+#include <QMainWindow>
 #include <source/main_window.h>
 
 #include "source/gotime/TomControl.h"

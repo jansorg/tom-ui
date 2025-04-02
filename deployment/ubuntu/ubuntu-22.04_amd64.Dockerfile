@@ -8,11 +8,21 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
         file \
         g++ \
         make \
+        libgl1-mesa-dev \
         qt6-base-dev \
         qt6-base-private-dev \
-        qt6-webview-dev \
+        qt6-base-dev-tools \
         qt6-webengine-dev \
+        qt6-webengine-private-dev \
+        qt6-webengine-dev-tools \
+        libqt6webenginewidgets6 \
+        qt6-webview-dev \
+        libqt6opengl6-dev \
+        libqt6svgwidgets6 \
+        libqt6svg6-dev \
         qt6-tools-dev \
+        qt6-tools-dev-tools \
+        qt6-l10n-tools \
         rpm \
         xvfb \
 	build-essential \

@@ -17,7 +17,6 @@ int main(int argc, char *argv[]) {
 #endif
 
     QSettings::setDefaultFormat(QSettings::IniFormat);
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
     QCoreApplication::setOrganizationName("Tom");
     QCoreApplication::setOrganizationDomain("Tom");
     QCoreApplication::setApplicationVersion(PROJECT_VERSION);
@@ -63,7 +62,7 @@ int main(int argc, char *argv[]) {
     }
 
     QTranslator qtTranslator;
-    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::path(QLibraryInfo::TranslationsPath));
     QApplication::installTranslator(&qtTranslator);
 
     QTranslator myappTranslator;

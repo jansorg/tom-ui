@@ -12,6 +12,8 @@
 #include "source/model/UserRoles.h"
 #include "source/commonModels/FileSystemModel.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects,
                                          TomControl *control,
                                          ProjectStatusManager *statusManager,
@@ -108,14 +110,14 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects,
 
     // connections
     connect(projectsBox, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
-    connect(subprojectsCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
+    connect(subprojectsCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
-    connect(includeArchivedCheckBox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
-    connect(dateFilterCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
+    connect(includeArchivedCheckBox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(dateFilterCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(dateStart, &QDateEdit::dateChanged, this, &ProjectReportDialog::updateReport);
     connect(dateEnd, &QDateEdit::dateChanged, this, &ProjectReportDialog::updateReport);
 
-    connect(roundEntriesCheckBox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
+    connect(roundEntriesCheckBox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
     connect(frameRoundingMode, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
     connect(frameRoundingValue, QOverload<int>::of(&QSpinBox::valueChanged), this, &ProjectReportDialog::updateReport);
     connect(frameRoundingUnit, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
@@ -126,19 +128,20 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects,
     connect(_splitModel, &ReportSplitModel::dataChanged, this, &ProjectReportDialog::updateReport);
     connect(_splitModel, &ReportSplitModel::modelReset, this, &ProjectReportDialog::updateReport);
 
-    connect(matrixTablesCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
-    connect(showEmptyCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
-    connect(showSummaryCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
-    connect(showSalesCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
-    connect(showTrackedCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
-    connect(showUntrackedCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
-    connect(useDecimalTimeFormat, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
-    connect(showStopTimeCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
+    connect(matrixTablesCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showEmptyCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showSummaryCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showSalesCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showTrackedCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showUntrackedCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(useDecimalTimeFormat, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showStopTimeCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
-    connect(showIsoDatesCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showIsoDatesCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
 
     QTimer::singleShot(500, this, &ProjectReportDialog::updateReport);
 }
+#pragma clang diagnostic pop
 
 void ProjectReportDialog::updateReport() {
     _projects.clear();

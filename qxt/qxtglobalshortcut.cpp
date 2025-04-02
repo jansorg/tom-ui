@@ -195,7 +195,7 @@ QxtGlobalShortcut::~QxtGlobalShortcut()
  */
 QKeySequence QxtGlobalShortcut::shortcut() const
 {
-    return QKeySequence( static_cast<int>(d_ptr->key | d_ptr->mods) );
+    return QKeySequence( static_cast<QKeyCombination>(d_ptr->key | d_ptr->mods) );
 }
 
 /*!

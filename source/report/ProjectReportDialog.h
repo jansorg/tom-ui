@@ -1,7 +1,7 @@
 #ifndef TOM_UI_REPORTDIALOG_H
 #define TOM_UI_REPORTDIALOG_H
 
-#include <QtWidgets/QDialog>
+#include <QDialog>
 #include <QStringListModel>
 
 #ifdef TOM_REPORTS

@@ -3,7 +3,7 @@
 
 #include <QtCore/QObject>
 #include <QtCore/QAbstractTableModel>
-#include <QtWidgets/QAction>
+#include <QAction>
 
 #include "settings/TomSettings.h"
 #include "AbstractShortcutTableModel.h"

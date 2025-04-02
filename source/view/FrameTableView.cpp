@@ -1,6 +1,6 @@
-#include <QtWidgets/QMenu>
-#include <QtWidgets/QHeaderView>
-#include <QtWidgets/QLabel>
+#include <QMenu>
+#include <QHeaderView>
+#include <QLabel>
 #include <QDrag>
 #include <QPixmap>
 #include <QPainter>
@@ -139,20 +139,20 @@ int FrameTableView::sizeHintForColumn(int column) const {
         const QFontMetrics &metrics = fontMetrics();
         result = metrics.averageCharWidth() * 25;
     } else if (column == FrameTableViewModel::COL_START_DATE) {
-        QString sample = QDate(1999, 12,31).toString(Qt::SystemLocaleShortDate);
-        result = monospaceMetrics.width(sample);
+        QString sample = QDate(1999, 12,31).toString(Qt::DateFormat::TextDate);
+        result = monospaceMetrics.horizontalAdvance(sample);
     } else if (column == FrameTableViewModel::COL_START) {
-        QString sample = QTime(23, 59, 59).toString(Qt::SystemLocaleShortDate);
-        result = monospaceMetrics.width(sample);
+        QString sample = QTime(23, 59, 59).toString(Qt::DateFormat::TextDate);
+        result = monospaceMetrics.horizontalAdvance(sample);
     } else if (column == FrameTableViewModel::COL_END) {
-        QString sample = QDateTime(QDate(9999, 12, 29), QTime(23, 59, 59, 0)).toString(Qt::SystemLocaleShortDate);
-        result = monospaceMetrics.width(sample);
+        QString sample = QDateTime(QDate(9999, 12, 29), QTime(23, 59, 59, 0)).toString(Qt::DateFormat::TextDate);
+        result = monospaceMetrics.horizontalAdvance(sample);
     } else if (column == FrameTableViewModel::COL_DURATION) {
         const QString &sample = Timespan(1999 * 60 * 60 * 10).format();
-        result = monospaceMetrics.width(sample);
+        result = monospaceMetrics.horizontalAdvance(sample);
     } else if (column == FrameTableViewModel::COL_LAST_UPDATED) {
-        QString sample = QDateTime(QDate(1999, 12, 29), QTime(23, 59, 59, 0)).toString(Qt::SystemLocaleShortDate);
-        result = monospaceMetrics.width(sample);
+        QString sample = QDateTime(QDate(1999, 12, 29), QTime(23, 59, 59, 0)).toString(Qt::DateFormat::TextDate);
+        result = monospaceMetrics.horizontalAdvance(sample);
     } else {
         result = QTableView::sizeHintForColumn(column);
     }

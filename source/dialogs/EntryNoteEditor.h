@@ -1,7 +1,7 @@
 #ifndef TOM_UI_ENTRYNOTEEDITOR_H
 #define TOM_UI_ENTRYNOTEEDITOR_H
 
-#include <QtWidgets/QDialog>
+#include <QDialog>
 
 #include "data/Project.h"
 

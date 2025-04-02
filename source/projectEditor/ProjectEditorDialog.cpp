@@ -1,5 +1,5 @@
-#include <QtWidgets/QDialogButtonBox>
-#include <QtWidgets/QPushButton>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 #include "ProjectEditorDialog.h"
 #include "gotime/ProjectStatusManager.h"

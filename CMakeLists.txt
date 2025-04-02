@@ -1,4 +1,8 @@
-cmake_minimum_required(VERSION 3.1.0)
+cmake_minimum_required(VERSION 3.16.0)
+
+# Include Qt basic functions
+set(CMAKE_MODULE_PATH cmake)
+include(cmake/QtCommon.cmake)
 
 file(READ version.txt VERSION)
 
@@ -9,9 +13,12 @@ project(tom-ui
         DESCRIPTION "Tom Time Tracker"
         HOMEPAGE_URL "https://github.com/jansorg/tom-ui")
 
+# Set PROJECT_VERSION_PATCH and PROJECT_VERSION_TWEAK to 0 if not present, needed by add_project_meta
+fix_project_version()
+
 # Set additional project information
 set(COMPANY "Joachim Ansorg")
-set(COPYRIGHT "Copyright (c) 2019-2022 Joachim Ansorg. All rights reserved.")
+set(COPYRIGHT "Copyright (c) 2019-2025 Joachim Ansorg. All rights reserved.")
 set(IDENTIFIER "dev.tomtime.tomui")
 set(CPACK_PACKAGE_CONTACT "mail@ja-dev.eu")
 set(CPACK_PACKAGE_NAME "tom-ui")
@@ -21,25 +28,17 @@ set(RESOURCE_FILES resources/resources.qrc source/settingsDialog/SettingsDialog.
 
 include(GNUInstallDirs)
 
-set(CMAKE_MODULE_PATH cmake)
-
 option(ENABLE_REPORTS "Enable Webkit component to preview reports" ON)
-
-# Include Qt basic functions
-include(cmake/QtCommon.cmake)
-
-# Set PROJECT_VERSION_PATCH and PROJECT_VERSION_TWEAK to 0 if not present, needed by add_project_meta
-fix_project_version()
 
 add_project_meta(META_FILES_TO_INCLUDE)
 
-find_package(Qt5 5.9.0
+find_package(Qt6 6.8.0
         COMPONENTS
-            Core
-            Widgets
-            Svg
-            LinguistTools
-            Test
+        Core
+        Widgets
+        Svg
+        LinguistTools
+        Test
         REQUIRED)
 find_package(X11)
 
@@ -61,7 +60,7 @@ foreach (_ts_file ${TS_FILES})
     add_custom_command(
             OUTPUT "${_ts_file}"
             DEPENDS ${TS_SOURCES}
-            COMMAND ${Qt5_LUPDATE_EXECUTABLE} -recursive ${CMAKE_CURRENT_SOURCE_DIR} -ts ${_ts_file}
+            COMMAND ${Qt6_LUPDATE_EXECUTABLE} -recursive ${CMAKE_CURRENT_SOURCE_DIR} -ts ${_ts_file}
     )
     # create a target that depends on the generated files
     add_custom_target(translate_${_ts_name} DEPENDS ${_ts_file})
@@ -70,7 +69,7 @@ foreach (_ts_file ${TS_FILES})
 endforeach ()
 
 # generate qm files
-qt5_add_translation(QM_FILES ${TS_FILES})
+qt6_add_translation(QM_FILES ${TS_FILES})
 configure_file(translations/translations.qrc ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 if (Q_OS_MAC OR APPLE)
@@ -89,22 +88,27 @@ else ()
     set(USE_QXT FALSE)
 endif ()
 
-include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+include_directories(${Qt6Gui_PRIVATE_INCLUDE_DIRS})
 
 if (WIN32)
     add_compile_options()
-else()
-    add_compile_options(-std=c++14 -Wall -Wextra -pedantic)
-endif()
+else ()
+    add_compile_options(-Wall -Wextra -pedantic)
+endif ()
 
 if (CMAKE_BUILD_TYPE EQUAL "release")
     add_compile_options(-O3)
-else()
+else ()
     add_compile_options(-g3 -O0)
 endif ()
 
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS
         ${CODE_FILES} ${META_FILES_TO_INCLUDE} ${RESOURCE_FILES} ${QM_FILES} ${CMAKE_CURRENT_BINARY_DIR}/translations.qrc)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES
+        CXX_STANDARD 20
+        CXX_STANDARD_REQUIRED ON
+)
 
 if (APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES
@@ -117,18 +121,18 @@ endif ()
 
 target_include_directories(${PROJECT_NAME} PRIVATE source)
 target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_BINARY_DIR})
-# add Qt5::Test to use model tester
-target_link_libraries(${PROJECT_NAME} Qt5::Widgets Qt5::Svg ${TOM_LIBS})
+# add Qt6::Test to use model tester
+target_link_libraries(${PROJECT_NAME} Qt6::Widgets Qt6::Svg ${TOM_LIBS})
 
 if (ENABLE_REPORTS)
-    find_package(Qt5 OPTIONAL_COMPONENTS WebEngineWidgets)
-    target_link_libraries(${PROJECT_NAME} Qt5::WebEngineWidgets)
+    find_package(Qt6 OPTIONAL_COMPONENTS WebEngineWidgets)
+    target_link_libraries(${PROJECT_NAME} Qt6::WebEngineWidgets)
     add_compile_definitions(TOM_REPORTS=true)
 endif ()
 
 if (UNIX)
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)
-    install(FILES resources/tom-ui.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications )
+    install(FILES resources/tom-ui.desktop DESTINATION ${CMAKE_INSTALL_DATADIR}/applications)
     install(FILES resources/icons/tom.svg DESTINATION ${CMAKE_INSTALL_DATADIR}/icons/hicolor/scalable/apps)
 elseif (APPLE)
     install(TARGETS ${PROJECT_NAME} DESTINATION .)
@@ -141,19 +145,19 @@ elseif (WIN32)
     install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 endif ()
 
-if(WIN32)
+if (WIN32)
     # Prepare the InnoSetup configuration script
     configure_file(deployment/setup.iss.in "${CMAKE_CURRENT_BINARY_DIR}/setup.iss")
 
     # The MSVC 2015 runtime requires CMake 3.6+
-    if((MSVC_VERSION VERSION_EQUAL 1900 OR MSVC_VERSION VERSION_GREATER 1900)
+    if ((MSVC_VERSION VERSION_EQUAL 1900 OR MSVC_VERSION VERSION_GREATER 1900)
             AND CMAKE_VERSION VERSION_LESS "3.6")
         message(WARNING "MSVC 2015+ runtime requires CMake 3.6+")
-    endif()
+    endif ()
 
     # Ensure the C/C++ runtime is installed
     set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
     include(InstallRequiredSystemLibraries)
-endif()
+endif ()
 
 INCLUDE(CPack)

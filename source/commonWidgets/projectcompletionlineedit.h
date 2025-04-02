@@ -1,7 +1,7 @@
 #ifndef TOM_UI_PROJECTCOMPLETIONLINEEDIT_H
 #define TOM_UI_PROJECTCOMPLETIONLINEEDIT_H
 
-#include <QtWidgets/QLineEdit>
+#include <QLineEdit>
 
 #include "source/gotime/TomControl.h"
 

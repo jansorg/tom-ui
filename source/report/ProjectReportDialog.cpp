@@ -1,9 +1,8 @@
-#include <utility>
 #include <QtGlobal>
 #include <source/main_window.h>
 #include <source/commonModels/TranslatedStringlistModel.h>
-#include <QtWidgets/QFileDialog>
-#include <QtWidgets/QFileSystemModel>
+#include <QFileDialog>
+#include <QFileSystemModel>
 #include <QCompleter>
 
 #include "ProjectReportDialog.h"
@@ -20,9 +19,9 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects,
                                                             _projects(),
                                                             _control(control),
                                                             _splitModel(new ReportSplitModel(this)),
-                                                            _tempDir("tom-report") {
-
+                                                            _tempDir() {
     setAttribute(Qt::WA_DeleteOnClose);
+    setWindowModality(Qt::WindowModality::WindowModal);
 
     for (const auto &p: projects) {
         if (p.isValid()) {
@@ -109,14 +108,14 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects,
 
     // connections
     connect(projectsBox, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
-    connect(subprojectsCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(subprojectsCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
 
-    connect(includeArchivedCheckBox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
-    connect(dateFilterCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(includeArchivedCheckBox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
+    connect(dateFilterCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
     connect(dateStart, &QDateEdit::dateChanged, this, &ProjectReportDialog::updateReport);
     connect(dateEnd, &QDateEdit::dateChanged, this, &ProjectReportDialog::updateReport);
 
-    connect(roundEntriesCheckBox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(roundEntriesCheckBox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
     connect(frameRoundingMode, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
     connect(frameRoundingValue, QOverload<int>::of(&QSpinBox::valueChanged), this, &ProjectReportDialog::updateReport);
     connect(frameRoundingUnit, QOverload<int>::of(&QComboBox::activated), this, &ProjectReportDialog::updateReport);
@@ -127,16 +126,16 @@ ProjectReportDialog::ProjectReportDialog(const QList<Project> &projects,
     connect(_splitModel, &ReportSplitModel::dataChanged, this, &ProjectReportDialog::updateReport);
     connect(_splitModel, &ReportSplitModel::modelReset, this, &ProjectReportDialog::updateReport);
 
-    connect(matrixTablesCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
-    connect(showEmptyCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
-    connect(showSummaryCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
-    connect(showSalesCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
-    connect(showTrackedCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
-    connect(showUntrackedCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
-    connect(useDecimalTimeFormat, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
-    connect(showStopTimeCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(matrixTablesCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showEmptyCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showSummaryCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showSalesCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showTrackedCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showUntrackedCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
+    connect(useDecimalTimeFormat, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showStopTimeCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
 
-    connect(showIsoDatesCheckbox, &QCheckBox::stateChanged, this, &ProjectReportDialog::updateReport);
+    connect(showIsoDatesCheckbox, &QCheckBox::checkStateChanged, this, &ProjectReportDialog::updateReport);
 
     QTimer::singleShot(500, this, &ProjectReportDialog::updateReport);
 }
@@ -312,7 +311,7 @@ QString ProjectReportDialog::reportHTML(const QString &filename) const {
     }
 
     const QString &roundingUnit = frameRoundingUnit->currentData(Qt::EditRole).toString();
-    int roundingValue  = this->frameRoundingValue->value();
+    int roundingValue = this->frameRoundingValue->value();
 
     QDate start;
     QDate end;

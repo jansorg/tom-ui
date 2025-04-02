@@ -1,5 +1,5 @@
 #include <QApplication>
-#include <QtWidgets/QMessageBox>
+#include <QMessageBox>
 
 #include "qxt/qxtglobalshortcut.h"
 

@@ -1,5 +1,5 @@
-#include <QtWidgets/QCompleter>
-#include <QtWidgets/QMessageBox>
+#include <QCompleter>
+#include <QMessageBox>
 
 #include "projectlookup.h"
 #include "commonModels/projectlistmodel.h"

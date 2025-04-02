@@ -1,4 +1,4 @@
-#include <QtWidgets/QInputDialog>
+#include <QInputDialog>
 
 #include "CommonDialogs.h"
 

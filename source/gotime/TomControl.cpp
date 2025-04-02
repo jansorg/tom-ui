@@ -44,7 +44,7 @@ QList<Project> TomControl::loadProjects(int max) {
         return QList<Project>();
     }
 
-    QStringList lines = status.stdoutContent.split("\n", QString::SkipEmptyParts);
+    QStringList lines = status.stdoutContent.split("\n", Qt::SkipEmptyParts);
     QList<Project> result;
     for (const auto &line : lines) {
         QStringList lineItems = line.split("\t");
@@ -153,7 +153,7 @@ TomStatus TomControl::status(bool emitProjectStatusChanged) {
     CommandStatus status = run(args);
     if (status.isSuccessful()) {
         // fixme atm we omly support a single active project
-        QStringList lines = status.stdoutContent.split("\n", QString::SkipEmptyParts);
+        QStringList lines = status.stdoutContent.split("\n", Qt::SkipEmptyParts);
         if (!lines.isEmpty()) {
             QStringList parts = lines.first().split("\t");
             if (parts.size() != 5) {
@@ -396,7 +396,7 @@ ProjectsStatus TomControl::projectsStatus(const QString &overallID, bool include
 
     auto mapping = QHash<QString, ProjectStatus>();
 
-    QStringList lines = cmdStatus.stdoutContent.split("\n", QString::SkipEmptyParts);
+    QStringList lines = cmdStatus.stdoutContent.split("\n", Qt::SkipEmptyParts);
     for (const auto &line : lines) {
         QStringList parts = line.split("\t");
         if (parts.size() != expectedColumns) {
@@ -652,13 +652,13 @@ QString TomControl::htmlReport(const QString &outputFile,
     }
 
     if (start.isValid() && !start.isNull()) {
-        QDateTime startDate = QDateTime(start);
+        QDateTime startDate = start.startOfDay();
         startDate.setTime(QTime(0, 0, 0, 0));
         args << "--from=" + startDate.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
     }
 
     if (end.isValid() && !end.isNull()) {
-        QDateTime endDate = QDateTime(end);
+        QDateTime endDate = end.endOfDay();
         endDate.setTime(QTime(23, 59, 50, 999));
         args << "--to=" + endDate.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
     }

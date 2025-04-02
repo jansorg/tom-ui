@@ -1,10 +1,10 @@
 #ifndef TOM_UI_ACTIONSHORTCUTTABLE_H
 #define TOM_UI_ACTIONSHORTCUTTABLE_H
 
-#include <QtWidgets/QWidget>
-#include <QtWidgets/QTableView>
-#include <QtWidgets/QKeySequenceEdit>
-#include <QtWidgets/QPushButton>
+#include <QWidget>
+#include <QTableView>
+#include <QKeySequenceEdit>
+#include <QPushButton>
 
 #include "AbstractShortcutTableModel.h"
 

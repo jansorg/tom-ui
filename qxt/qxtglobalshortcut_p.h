@@ -70,7 +70,7 @@ public:
     static bool eventFilter(void* message);
 #   endif // Q_OS_MAC
 #   else
-    bool nativeEventFilter(const QByteArray &eventType, void *message, long *result) override;
+    bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override;
 #   endif // QT_VERSION < QT_VERSION_CHECK(5,0,0)
 
     static void activateShortcut(quint32 nativeKey, quint32 nativeMods);

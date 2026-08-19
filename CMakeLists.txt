@@ -60,7 +60,7 @@ foreach (_ts_file ${TS_FILES})
     add_custom_command(
             OUTPUT "${_ts_file}"
             DEPENDS ${TS_SOURCES}
-            COMMAND ${Qt6_LUPDATE_EXECUTABLE} -recursive ${CMAKE_CURRENT_SOURCE_DIR} -ts ${_ts_file}
+            COMMAND Qt6::lupdate -recursive ${CMAKE_CURRENT_SOURCE_DIR} -ts ${_ts_file}
     )
     # create a target that depends on the generated files
     add_custom_target(translate_${_ts_name} DEPENDS ${_ts_file})

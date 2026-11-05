@@ -1,186 +1,137 @@
-DESCRIPTION
-==========
+# Development
 
-This is a template that I created to simplify the development of cross-platform
-tools written in Qt/C++. It uses CMake, and forms a nice, solid base on which to
-get started with a project, so that you don't need to worry about setting up the
-build system, installers, etc...
+`tom-ui` is a Qt 6 application built with CMake. At runtime it needs the [`tom`](https://github.com/jansorg/tom) command line application.
 
-Suggestions for improvement are very welcome. The licence for the template
-itself is ISC. Essentially, do what you like with it. I hope you find it useful.
+## Requirements
 
-* A basic example application is included.
+- CMake 3.16 or later
+- A C++20 compiler: GCC or Clang on Linux, Xcode on macOS, MSVC (Visual Studio) on Windows
+- Qt 6.4 or later with the modules Widgets, Svg, LinguistTools and WebEngineWidgets (WebEngine is only needed for reports, see `ENABLE_REPORTS` below)
+- Linux only: Qt DBus (part of qt6-base) and the X11 development headers
 
-* Just tweak your project name and version number in the top-level CMakeLists
-  file and you're good to go.
+### Ubuntu 24.04
 
-* A `defines.h` file is generated, containing your application name and version.
-  You can easily add to this.
-
-* By default, no need to add each of your source files to a CMakeLists file,
-  even if you organise them into subdirectories. The price you pay for this is
-  needing to invoke `cmake` whenever you add a new source file. This may become
-  a pain in teams, but it's trivial to change.
-
-* A Qt resources file is ready and waiting for you to add images or other
-  resources to your project.  It's already compiled-in by default.
-
-* The `test` directory is set up for you to make it easy for you to start
-  writing unit tests right from the start.
-
-* An application icon file is added to your project in Windows, and you can
-  easily overwrite the default one.
-
-* For Windows, supports both WinGW and Visual Studio compilers.
-
-* For Windows, there is a choice between NSIS and WiX-based installers.  Both
-  are automatically configured with your choice of project name from the
-  top-level CMakeLists file.  When you have chosen which you will use, it is
-  straight-forward to remove everything relating to the other one: just edit
-  `win/CMakeLists.txt`.
-
-BUILDING IN LINUX
-=================
-
-As with any CMake project, create a `build` folder, enter the directory, and
-invoke cmake and make:
-
-    mkdir build
-    cd build
-    cmake ..
-    make -j <num-jobs>
-
-Where `<num-jobs>` is the number of jobs to run in parallel (usually the number
-of cores plus one).
-
-BUILDING IN WINDOWS
-===================
-
-Dependencies
-------------
-
-### The Qt Libraries
-http://qt-project.org/downloads
-
-You can use either the MinGW version, or one of the Visual Studio versions.
-
-### CMake
-http://www.cmake.org/cmake/resources/software.html
-
-### NSIS or WiX
-http://nsis.sourceforge.net
-http://wixtoolset.org
-
-Targets
--------
-
-In Windows, there are two additional "targets" defined in CMake configuration:
-* *install*: This target installs the application and the DLLs it depends
-  on into the `dist` directory. This is to simplify testing and packaging the
-  application. The list of files to install is in `win/CMakeLists.txt`.
-* *installer*: This target compiles the WiX installer, but will only be
-  available if WiX was found in the PATH, or the `WIX_PATH` CMake variable is
-  defined.
-
-Building
---------
-
-### Using QtCreator (Visual Studio or MinGW)
-
-* Open QtCreator.
-* File -> Open File or Project
-* Open the top-level CMakeLists.txt file in the project folder.
-* Choose a build location.
-* Click "Run CMake".
-* Click "Finish".
-* If you want to enable the WiX installer:
-    * On the left bar, click "Projects".
-    * Next to "Edit build configuration", click "Add" -> "Clone Selected".
-    * Name the configuration "installer".
-    * Under "Build Steps", expand Details, and check "install" and "installer".
-* Click the Build button in the bottom-left-hand corner, shaped like a hammer.
-
-### Using the command-line
-
-#### Visual Studio 2010
-
-* Create a `build` directory in the source directory.
-* Open a VS 2010 Command Prompt, and change into the build directory.
-* Ensure that the following are on the PATH:
-    * CMake's cmake.exe
-    * Qt's qmake.exe
-    * WiX's candle.exe (if you want the WiX installer)
-* Enter the following commands:
-
-```
-cmake -G "NMake Makefiles" ..
-nmake install
+```bash
+sudo apt install cmake g++ make libgl1-mesa-dev libx11-dev \
+  qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools \
+  qt6-webengine-dev qt6-webengine-dev-tools libqt6svg6-dev
 ```
 
-* To build the WiX installer, also run:
+### Arch Linux
 
-```
-nmake installer
-```
-
-#### MinGW
-
-* Create a `build` directory in the source directory.
-* Open a Qt MinGW Command Prompt, and change into the build directory.
-* Ensure that the following are on the PATH:
-    * CMake's cmake.exe
-    * Qt's qmake.exe
-    * WiX's candle.exe (if you want the WiX installer)
-* Enter the following commands:
-
-```
-cmake -G "MinGW Makefiles" ..
-mingw32-make install
+```bash
+sudo pacman -S cmake gcc qt6-base qt6-svg qt6-tools qt6-webengine libx11
 ```
 
-* To build the WiX installer, also run:
+### macOS and Windows
 
+Install Qt with the [Qt online installer](https://www.qt.io/download-qt-installer) or [aqtinstall](https://github.com/miurahr/aqtinstall), including the Qt WebEngine, Qt WebChannel and Qt Positioning modules. Pass the Qt directory to CMake with `-DCMAKE_PREFIX_PATH=<Qt dir>`, e.g. `~/Qt/6.11.3/macos`.
+
+## Building
+
+```bash
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build --parallel
 ```
-mingw32-make installer
+
+CMake options:
+
+- `-DENABLE_REPORTS=OFF` builds without Qt WebEngine and without the report preview.
+
+## Running
+
+```bash
+./build/tom-ui --tom /path/to/tom
 ```
 
-### WiX Installer
+- `--tom <path>`: path to the `tom` executable. On Linux the default is `tom` from `PATH`. On macOS and Windows, the default is the `tom` binary next to the `tom-ui` executable.
+- `--configName <name>`: uses separate settings, useful to test without touching your own configuration.
+- `--bash`: treat the `tom` executable as a Bash script.
 
-The WiX Installer is more advanced, and better integrated into Windows. It is
-also more complex, and gaining a thorough understanding of how it works requires
-time and patience. It may be worth your while reading up on WiX and the Windows
-Installer framework in order to reach a deeper understanding. However, I've done
-the hard work for you, and unless you have very complex requirements, you should
-be able to simply modify this script without any ill effects.
+## Global shortcuts
 
-Before the installer will compile successfully, you must generate a fresh UUID
-(e.g. using `uuidgen` in Linux), and place this in the `win/installer.cmake.wxs`
-file in place of the `YOUR-GENERATED-UUID-HERE` placeholder.
+- X11, macOS and Windows: the native APIs of the platform are used (`qxt/`).
+- Wayland: shortcuts are registered with the [XDG desktop portal](https://flatpak.github.io/xdg-desktop-portal/docs/doc-org.freedesktop.portal.GlobalShortcuts.html) (`portal/`). The desktop environment manages the actual key bindings; the shortcuts defined in tom-ui are only suggestions. This needs a portal with global shortcut support, e.g. KDE Plasma, GNOME 48+ or Hyprland. The app identifies itself as `tom-ui`, matching `resources/tom-ui.desktop`.
 
-Note that the WiX source file by default expects that your project was built
-with Visual Studio 2010, and will attempt to package the Visual Studio 2010
-runtime DLLs.  You'll need to modify it by hand if you use a different version
-of Visual Studio, or MinGW.  This is very straight-forward.
+## Translations
 
-IMPORTANT: The `installer.cmake.wxs` file is processed by CMake before it is
-passed to WiX, and the processed file is placed in the build directory. If
-you wish to make any modifications to the installer, make sure that you edit
-`installer.cmake.wxs` in the source directory, and not `installer.wxs` in the
-build directory, which will be overwritten!
+Translations are stored in `translations/*.ts` and compiled into the application with every build. To update the `.ts` files after changing user-visible strings, run:
 
-### NSIS Installer
+```bash
+cmake --build build --target translations
+```
 
-The NSIS installer is quite simple, and it's relatively easy to understand
-exactly what it's doing. However, you need to take greater care in ensuring
-that whatever is installed is also correctly uninstalled. Also, MSI installers
-(such as WiX) are increasingly becoming the norm, especially in corporate
-environments, because of their thorough integration with Windows.
+Then translate the new strings with Qt Linguist (`linguist6 translations/tom_de.ts`) and commit the `.ts` file.
 
-In the build directory, you will find an `installer.nsi` file. This is an NSIS
-script. Right-click, and click "Compile NSIS Script".  By default, the script
-expects that your project was compiled with MinGW, and will attempt to package
-the MinGW runtime DLLs.  It is straight-forward to change this.
+## Icons
 
-IMPORTANT: Never modify the `installer.nsi` file found in the build directory,
-because it will be overwritten whenever CMake is run.  Always modify the
-`installer.nsi.cmake` file in the `win` directory instead.
+`update-assets.sh` exports the SVG icons in `images/` to `resources/` and regenerates the application icons and `resources/resources.qrc`. It needs Inkscape and `png2icns`.
+
+## Continuous integration
+
+`.github/workflows/build.yml` builds packages for every push to `master` and every pull request:
+
+| Platform | Runner | Qt | Artifact |
+|---|---|---|---|
+| Linux | Ubuntu 24.04 | 6.4.2 (Ubuntu packages) | `.deb`, depends on the `tom` package |
+| macOS | macOS 26, Apple Silicon only | 6.11.3 | unsigned `.dmg`, bundles `tom` and `tom-pdf` |
+| Windows | Windows Server 2025, MSVC | 6.10.3 | unsigned installer, bundles `tom.exe` and `tom-pdf.exe` |
+
+- The bundled `tom` binaries are taken from the latest [tom release](https://github.com/jansorg/tom/releases). A manual run of the workflow can choose another release with the `tom-release` input.
+- The build fails unless the bundled `tom` binaries are signed: a Developer ID signature on macOS (and arm64 binaries), an Authenticode signature on Windows.
+- The macOS and Windows Qt versions are the latest that [install-qt-action](https://github.com/jurplel/install-qt-action) (aqtinstall 3.3) can install. Qt 6.12 changed the layout of its online repository, see [aqtinstall#1047](https://github.com/miurahr/aqtinstall/issues/1047). Update the versions in `build.yml` once that's fixed.
+
+## Making a release
+
+1. Set the new version in `version.txt`, without a trailing newline, then commit and push:
+
+   ```bash
+   printf '%s' 0.14.0 > version.txt
+   git commit -m "Version 0.14.0" version.txt && git push
+   ```
+
+2. Tag and push the tag:
+
+   ```bash
+   git tag v0.14.0 && git push origin v0.14.0
+   ```
+
+   CI builds all packages and creates a **draft** release with the Linux and macOS packages.
+
+3. Sign the Windows release with the code signing certificate on the YubiKey:
+
+   ```bash
+   deployment/windows/sign-windows-release.sh 0.14.0
+   ```
+
+   The script waits for the tag's build and signs `tom-ui.exe` locally. It then has the `windows-installer.yml` workflow build the installer with the signed executable, signs the installer and adds it to the draft release. It asks for the YubiKey PIV PIN; touch the key if it blinks.
+
+4. Review the draft release on GitHub and publish it:
+
+   ```bash
+   gh release edit v0.14.0 --draft=false
+   ```
+
+### Windows signing setup
+
+The private key never leaves the YubiKey, which is why the Windows files are signed locally and not in CI. The signing script needs:
+
+- [`gh`](https://cli.github.com/), logged in with access to the repository
+- [jsign](https://ebourg.github.io/jsign/) 5.0 or later
+- `osslsigncode`, to verify the signatures
+- the YubiKey PKCS#11 module `libykcs11` (package `yubico-piv-tool`)
+
+Optional environment variables:
+
+| Variable | Default | |
+|---|---|---|
+| `TOM_SIGN_ALIAS` | `X.509 Certificate for Digital Signature` (PIV slot 9c) | certificate on the YubiKey, see `ykman piv info` |
+| `TOM_SIGN_TSA` | `http://timestamp.digicert.com` | RFC 3161 timestamp server |
+| `TOM_SIGN_CA` | `/etc/ssl/certs/ca-certificates.crt` | CA bundle to verify the signatures |
+| `TOM_SIGN_PIN` | prompted | YubiKey PIV PIN |
+
+The uninstaller written by Inno Setup at install time is not signed.
+
+### macOS signing
+
+The macOS DMG is not signed with a Developer ID yet, only ad-hoc, which Apple Silicon requires. Users have to allow the app in System Settings → Privacy & Security on the first launch.

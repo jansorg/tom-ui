@@ -74,7 +74,7 @@ Then translate the new strings with Qt Linguist (`linguist6 translations/tom_de.
 | Platform | Runner | Qt | Artifact |
 |---|---|---|---|
 | Linux | Ubuntu 24.04 | 6.4.2 (Ubuntu packages) | `.deb`, depends on the `tom` package |
-| macOS | macOS 26, Apple Silicon only | 6.11.3 | unsigned `.dmg`, bundles `tom` and `tom-pdf` |
+| macOS | macOS 26, Apple Silicon only | 6.11.3 | signed and notarized `.dmg`, bundles `tom` and `tom-pdf` |
 | Windows | Windows Server 2025, MSVC | 6.10.3 | unsigned installer, bundles `tom.exe` and `tom-pdf.exe` |
 
 - The bundled `tom` binaries are taken from the latest [tom release](https://github.com/jansorg/tom/releases). A manual run of the workflow can choose another release with the `tom-release` input.
@@ -134,4 +134,16 @@ The uninstaller written by Inno Setup at install time is not signed.
 
 ### macOS signing
 
-The macOS DMG is not signed with a Developer ID yet, only ad-hoc, which Apple Silicon requires. Users have to allow the app in System Settings → Privacy & Security on the first launch.
+CI signs the app with the Developer ID certificate and the hardened runtime. Builds of pushes to `master`, of tags and of manual runs are also notarized and stapled. Pull requests are signed but not notarized. Builds without access to the secrets, such as pull requests from forks, are only signed ad-hoc.
+
+Repository secrets:
+
+| Secret | |
+|---|---|
+| `MACOS_SIGN_P12` | Developer ID Application certificate with its private key, as base64 encoded `.p12` (`base64 -i cert.p12`) |
+| `MACOS_SIGN_PASSWORD` | password of the `.p12` file |
+| `MACOS_NOTARY_KEY` | App Store Connect API key (`AuthKey_<id>.p8`), its content or base64 encoded |
+| `MACOS_NOTARY_KEY_ID` | ID of the API key |
+| `MACOS_NOTARY_ISSUER_ID` | issuer ID of the API key |
+
+The Qt WebEngine helper process is signed with the entitlements shipped with Qt (`QtWebEngineProcess.entitlements`). The bundled `tom` binaries keep their own signatures.

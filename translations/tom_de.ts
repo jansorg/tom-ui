@@ -46,9 +46,8 @@
 <context>
     <name>EntryNoteEditor</name>
     <message>
-        <location filename="../source/dialogs/EntryNoteEditor.cpp" line="5"/>
         <source>Edit Time Entry of Project %1</source>
-        <translation>Eintrag von Projekt %1 bearbeiten</translation>
+        <translation type="vanished">Eintrag von Projekt %1 bearbeiten</translation>
     </message>
 </context>
 <context>
@@ -129,37 +128,37 @@
 <context>
     <name>FrameTableViewModel</name>
     <message>
-        <location filename="../source/model/FrameTableViewModel.cpp" line="226"/>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="228"/>
         <source>Day</source>
         <translation>Tag</translation>
     </message>
     <message>
-        <location filename="../source/model/FrameTableViewModel.cpp" line="228"/>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="230"/>
         <source>Start</source>
         <translation>Beginn</translation>
     </message>
     <message>
-        <location filename="../source/model/FrameTableViewModel.cpp" line="230"/>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="232"/>
         <source>End</source>
         <translation>Ende</translation>
     </message>
     <message>
-        <location filename="../source/model/FrameTableViewModel.cpp" line="232"/>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="234"/>
         <source>Duration</source>
         <translation>Dauer</translation>
     </message>
     <message>
-        <location filename="../source/model/FrameTableViewModel.cpp" line="234"/>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="236"/>
         <source>Tags</source>
         <translation>Tags</translation>
     </message>
     <message>
-        <location filename="../source/model/FrameTableViewModel.cpp" line="236"/>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="238"/>
         <source>Subproject</source>
         <translation>Unterproject</translation>
     </message>
     <message>
-        <location filename="../source/model/FrameTableViewModel.cpp" line="242"/>
+        <location filename="../source/model/FrameTableViewModel.cpp" line="244"/>
         <source>Notes</source>
         <translation>Anmerkungen</translation>
     </message>
@@ -167,17 +166,17 @@
 <context>
     <name>GlobalShortcuts</name>
     <message>
-        <location filename="../source/GlobalShortcuts.cpp" line="15"/>
+        <location filename="../source/GlobalShortcuts.cpp" line="37"/>
         <source>Lookup Project</source>
         <translation>Projekt nachschlagen</translation>
     </message>
     <message>
-        <location filename="../source/GlobalShortcuts.cpp" line="22"/>
+        <location filename="../source/GlobalShortcuts.cpp" line="43"/>
         <source>Start timer</source>
         <translation>Starte Timer</translation>
     </message>
     <message>
-        <location filename="../source/GlobalShortcuts.cpp" line="28"/>
+        <location filename="../source/GlobalShortcuts.cpp" line="48"/>
         <source>Stop timer</source>
         <translation>Stoppe Timer</translation>
     </message>
@@ -188,6 +187,24 @@
         <location filename="../source/settingsDialog/GlobalShortcutsPage.ui" line="14"/>
         <source>Form</source>
         <translation>Formular</translation>
+    </message>
+    <message>
+        <location filename="../source/settingsDialog/GlobalShortcutsPage.cpp" line="16"/>
+        <source>Global shortcuts are managed by your desktop environment. The shortcut defined here is only suggested to the desktop and may be changed in the system settings.</source>
+        <translation>Globale Tastenkürzel werden von Ihrer Desktop-Umgebung verwaltet. Das hier festgelegte Tastenkürzel ist nur ein Vorschlag und kann in den Systemeinstellungen geändert werden.</translation>
+    </message>
+    <message>
+        <location filename="../source/settingsDialog/GlobalShortcutsPage.cpp" line="23"/>
+        <source>Configure in System Settings…</source>
+        <translation>In den Systemeinstellungen konfigurieren…</translation>
+    </message>
+</context>
+<context>
+    <name>GlobalShortcutsTableModel</name>
+    <message>
+        <location filename="../source/settingsDialog/GlobalShortcutsTableModel.cpp" line="39"/>
+        <source>Not assigned</source>
+        <translation>Nicht zugewiesen</translation>
     </message>
 </context>
 <context>
@@ -852,42 +869,42 @@
 <context>
     <name>ProjectReportDialog</name>
     <message>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="85"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="86"/>
         <source>up</source>
         <translation>auf</translation>
     </message>
     <message>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="85"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="86"/>
         <source>up or down</source>
         <translation>auf oder ab</translation>
     </message>
     <message>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="172"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="174"/>
         <source>Save Report as HTML</source>
         <translation>Bericht als HTML speichern</translation>
     </message>
     <message>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="173"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="175"/>
         <source>HTML files (*.html *.htm);;All files (*)</source>
         <translation>HTML Dateien (*.html *.htm);;Alle Dateien (*)</translation>
     </message>
     <message>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="79"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="80"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="60"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="61"/>
         <source>Minute(s)</source>
         <translation>Minute(n)</translation>
     </message>
     <message>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="60"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="61"/>
         <source>Second(s)</source>
         <translation>Sekunde(n)</translation>
     </message>
     <message>
-        <location filename="../source/report/ProjectReportDialog.cpp" line="79"/>
+        <location filename="../source/report/ProjectReportDialog.cpp" line="80"/>
         <source>Time Entries</source>
         <translation>Zeiteinträge</translation>
     </message>
@@ -908,37 +925,37 @@
 <context>
     <name>ProjectTreeModel</name>
     <message>
-        <location filename="../source/model/ProjectTreeModel.cpp" line="21"/>
+        <location filename="../source/model/ProjectTreeModel.cpp" line="20"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="../source/model/ProjectTreeModel.cpp" line="21"/>
+        <location filename="../source/model/ProjectTreeModel.cpp" line="20"/>
         <source>Today</source>
         <translation>Heute</translation>
     </message>
     <message>
-        <location filename="../source/model/ProjectTreeModel.cpp" line="21"/>
+        <location filename="../source/model/ProjectTreeModel.cpp" line="20"/>
         <source>Yesterday</source>
         <translation>Gestern</translation>
     </message>
     <message>
-        <location filename="../source/model/ProjectTreeModel.cpp" line="22"/>
+        <location filename="../source/model/ProjectTreeModel.cpp" line="21"/>
         <source>This week</source>
         <translation>Woche</translation>
     </message>
     <message>
-        <location filename="../source/model/ProjectTreeModel.cpp" line="23"/>
+        <location filename="../source/model/ProjectTreeModel.cpp" line="22"/>
         <source>This month</source>
         <translation>Monat</translation>
     </message>
     <message>
-        <location filename="../source/model/ProjectTreeModel.cpp" line="24"/>
+        <location filename="../source/model/ProjectTreeModel.cpp" line="23"/>
         <source>This year</source>
         <translation>Jahr</translation>
     </message>
     <message>
-        <location filename="../source/model/ProjectTreeModel.cpp" line="24"/>
+        <location filename="../source/model/ProjectTreeModel.cpp" line="23"/>
         <source>Total</source>
         <translation>Gesamt</translation>
     </message>
@@ -1215,27 +1232,27 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../source/main.cpp" line="47"/>
+        <location filename="../source/main.cpp" line="46"/>
         <source>Path to the tom executable</source>
         <translation>Pfad zum Tom Programm</translation>
     </message>
     <message>
-        <location filename="../source/main.cpp" line="49"/>
+        <location filename="../source/main.cpp" line="48"/>
         <source>Defines if the tom executable is to be treated as a Bash file</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main.cpp" line="51"/>
+        <location filename="../source/main.cpp" line="50"/>
         <source>Defines the configuration name, useful to test Tom</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../source/main.cpp" line="76"/>
+        <location filename="../source/main.cpp" line="75"/>
         <source>The tom command line application was not found or is not working as expected.&lt;br&gt;Path: &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;Terminating.</source>
         <translation>Das Tom Kommandozeilenprogramm konnte nicht gefunden werden oder es funktioniert nicht wie erwartet.&lt;br&gt;Pfad: &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;Programmende.</translation>
     </message>
     <message>
-        <location filename="../source/main.cpp" line="79"/>
+        <location filename="../source/main.cpp" line="78"/>
         <source>Configuration error</source>
         <translation>Konfigurationsfehler</translation>
     </message>

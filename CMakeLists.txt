@@ -51,22 +51,14 @@ file(GLOB_RECURSE CODE_FILES source/*.cpp source/*.h qxt/qxtglobalshortcut.cpp)
 add_definitions(-DQXT_STATIC)
 
 set(TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/translations/tom_de.ts)
-file(GLOB_RECURSE TS_SOURCES "source/*.cpp" "source/*.h" "source/*.ui")
-add_custom_target(translations)
-foreach (_ts_file ${TS_FILES})
-    # generate a sensible name for this translation file
-    get_filename_component(_ts_name ${_ts_file} NAME_WE)
-    # call lupdate ourselves
-    add_custom_command(
-            OUTPUT "${_ts_file}"
-            DEPENDS ${TS_SOURCES}
-            COMMAND ${Qt6_LUPDATE_EXECUTABLE} -recursive ${CMAKE_CURRENT_SOURCE_DIR} -ts ${_ts_file}
-    )
-    # create a target that depends on the generated files
-    add_custom_target(translate_${_ts_name} DEPENDS ${_ts_file})
-    # attach the custom target for this ts file to the parent target
-    add_dependencies(translations translate_${_ts_name})
-endforeach ()
+# Update the translation sources with "cmake --build <build dir> --target translations".
+# This isn't part of the regular build: it modifies files in the source tree, and running lupdate
+# as a dependency of the build ran it concurrently on the same file, which lost the translations.
+add_custom_target(translations
+        COMMAND Qt6::lupdate -recursive ${CMAKE_CURRENT_SOURCE_DIR}/source -ts ${TS_FILES}
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Updating translation sources"
+        VERBATIM)
 
 # generate qm files
 qt6_add_translation(QM_FILES ${TS_FILES})

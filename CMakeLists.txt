@@ -96,16 +96,13 @@ if (UNIX AND NOT APPLE)
     add_compile_definitions(TOM_XDG_PORTAL)
 endif ()
 
-if (WIN32)
-    add_compile_options()
+if (MSVC)
+    add_compile_options(/W3 /utf-8)
 else ()
     add_compile_options(-Wall -Wextra -pedantic)
-endif ()
-
-if (CMAKE_BUILD_TYPE EQUAL "release")
-    add_compile_options(-O3)
-else ()
-    add_compile_options(-g3 -O0)
+    if (NOT CMAKE_BUILD_TYPE OR CMAKE_BUILD_TYPE STREQUAL "Debug")
+        add_compile_options(-g3 -O0)
+    endif ()
 endif ()
 
 add_executable(${PROJECT_NAME} ${OS_BUNDLE} # Expands to WIN32 or MACOS_BUNDLE depending on OS

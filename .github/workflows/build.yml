@@ -57,7 +57,7 @@ jobs:
           if-no-files-found: error
 
   macos:
-    name: macOS (.dmg)
+    name: macOS (Apple Silicon .dmg)
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v7
@@ -72,19 +72,24 @@ jobs:
           modules: ${{ env.QT_MODULES }}
           cache: true
 
+      - name: Build
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64
+          cmake --build build --parallel
+
       - name: Download tom
         uses: ./.github/actions/download-tom
         with:
           platform: macOS
+          arch: arm64
           release: ${{ inputs.tom-release }}
 
-      - name: Build
+      - name: Verify tom is signed and built for Apple Silicon
         run: |
-          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"
-          cmake --build build --parallel
-
-      - name: Verify tom is signed
-        run: .github/scripts/verify-macos-signature.sh tom-cli/tom tom-cli/tom-pdf
+          for binary in tom-cli/tom tom-cli/tom-pdf; do
+            lipo "$binary" -verify_arch arm64 || { echo "::error::$binary is not built for arm64"; exit 1; }
+          done
+          .github/scripts/verify-macos-signature.sh tom-cli/tom tom-cli/tom-pdf
 
       - name: Package
         working-directory: build
@@ -96,7 +101,7 @@ jobs:
           # make sure deployment didn't replace the signatures of the bundled tom binaries
           ../.github/scripts/verify-macos-signature.sh Tom.app/Contents/MacOS/tom Tom.app/Contents/MacOS/tom-pdf
           mkdir -p ../dist
-          mv Tom.dmg "../dist/Tom-$(cat ../version.txt)-macOS.dmg"
+          mv Tom.dmg "../dist/Tom-$(cat ../version.txt)-macOS-arm64.dmg"
 
       - uses: actions/upload-artifact@v7
         with:
@@ -127,6 +132,7 @@ jobs:
         uses: ./.github/actions/download-tom
         with:
           platform: Windows
+          arch: amd64
           release: ${{ inputs.tom-release }}
 
       - name: Build

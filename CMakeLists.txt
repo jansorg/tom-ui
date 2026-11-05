@@ -88,6 +88,14 @@ else ()
     set(USE_QXT FALSE)
 endif ()
 
+# Global shortcuts on Wayland via the XDG desktop portal
+if (UNIX AND NOT APPLE)
+    find_package(Qt6 COMPONENTS DBus REQUIRED)
+    list(APPEND CODE_FILES portal/XdgPortalGlobalShortcuts.cpp portal/XdgPortalGlobalShortcuts.h)
+    list(APPEND TOM_LIBS Qt6::DBus)
+    add_compile_definitions(TOM_XDG_PORTAL)
+endif ()
+
 if (WIN32)
     add_compile_options()
 else ()

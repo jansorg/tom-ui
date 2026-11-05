@@ -1,8 +1,6 @@
 #include <QApplication>
 #include <QMessageBox>
 
-#include "qxt/qxtglobalshortcut.h"
-
 #include "projectlookup/projectlookup.h"
 #include "settings/TomSettings.h"
 #include "gotime/ProjectStatusManager.h"
@@ -23,6 +21,8 @@ int main(int argc, char *argv[]) {
     QApplication::setQuitOnLastWindowClosed(false);
 
     QApplication app(argc, argv);
+    // must match the name of the installed .desktop file, used by Wayland compositors and the XDG portals
+    QGuiApplication::setDesktopFileName("tom-ui");
 
 
 #ifdef Q_OS_MAC

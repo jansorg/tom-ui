@@ -1,0 +1,67 @@
+name: Windows installer
+
+# Builds the Windows installer from a signed tom-ui.exe.
+# Started by deployment/windows/sign-windows-release.sh, don't run it manually:
+#   1. build.yml builds the unsigned application for a release tag ("windows-app" artifact)
+#   2. the script signs tom-ui.exe locally and uploads it to the draft release
+#   3. this workflow replaces tom-ui.exe with the signed one and builds the installer
+#   4. the script signs the installer locally and uploads it to the draft release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag, e.g. v0.13.0'
+        required: true
+      build-run-id:
+        description: 'ID of the build.yml run of the tag, which provides the "windows-app" artifact'
+        required: true
+
+permissions:
+  actions: read
+  # draft releases are only visible with write access
+  contents: write
+
+jobs:
+  installer:
+    name: Build installer
+    runs-on: windows-2025
+    defaults:
+      run:
+        shell: bash
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ inputs.tag }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.tag }}
+
+      - name: Download application
+        uses: actions/download-artifact@v8
+        with:
+          name: windows-app
+          path: app
+          run-id: ${{ inputs.build-run-id }}
+          github-token: ${{ github.token }}
+
+      - name: Download signed tom-ui.exe
+        run: |
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern tom-ui.exe --dir signed
+          mv signed/tom-ui.exe app/bin/tom-ui.exe
+
+      - name: Verify signatures
+        shell: pwsh
+        run: .github/scripts/verify-windows-signature.ps1 app/bin/tom-ui.exe app/bin/tom.exe app/bin/tom-pdf.exe
+
+      - name: Build installer
+        run: |
+          iss="$PWD/app/setup.iss"
+          mv "$iss" setup.iss
+          .github/scripts/build-windows-installer.sh app setup.iss dist
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: windows-installer-unsigned
+          path: dist/*
+          if-no-files-found: error

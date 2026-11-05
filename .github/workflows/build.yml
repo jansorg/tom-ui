@@ -101,8 +101,10 @@ jobs:
         working-directory: build
         run: |
           mv tom-ui.app Tom.app
-          cp ../tom-cli/tom ../tom-cli/tom-pdf Tom.app/Contents/MacOS/
           macdeployqt Tom.app -always-overwrite
+          # Copied after macdeployqt, which would replace their signatures with ad-hoc signatures.
+          # Signing the app below keeps them unchanged.
+          cp ../tom-cli/tom ../tom-cli/tom-pdf Tom.app/Contents/MacOS/
 
       # Secrets aren't available for pull requests from forks, these builds are only signed ad-hoc
       - name: Import signing certificate

@@ -2,8 +2,6 @@
 *.swp
 *.swo
 /build
-/deployment/ubuntu18.10
-/local-release.bash
 /git-build-debug
 /update-build.bash
 /.idea/workspace.xml

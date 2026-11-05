@@ -74,7 +74,7 @@ quint32 QxtGlobalShortcutPrivate::nativeModifiers(Qt::KeyboardModifiers modifier
 #if QT_VERSION >= QT_VERSION_CHECK(5,0,0)
 // This is only here to get it to compile on OSX
 bool QxtGlobalShortcutPrivate::nativeEventFilter(const QByteArray & eventType,
-    void * message, long * result)
+    void * message, qintptr * result)
 {
     Q_UNUSED(result);
     Q_UNUSED(message);

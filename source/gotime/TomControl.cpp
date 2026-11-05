@@ -765,16 +765,27 @@ CommandStatus TomControl::run(const QStringList &args, long timeoutMillis) {
     }
     process.waitForFinished(timeoutMillis);
 
+    // the process failed to start, crashed or timed out
+    QString errorMessage;
+    if (process.error() != QProcess::UnknownError) {
+        errorMessage = process.errorString();
+    }
+    if (process.state() != QProcess::NotRunning) {
+        process.kill();
+        process.waitForFinished(1000);
+    }
+
     QString output(process.readAllStandardOutput());
     QString errOutput(process.readAllStandardError());
 
-    if (process.exitCode() != 0) {
-        qDebug() << "exit code:" << process.exitCode() << "stdout:" << output << "stderr" << errOutput;
+    if (process.exitCode() != 0 || !errorMessage.isEmpty()) {
+        qDebug() << "exit code:" << process.exitCode() << "error:" << errorMessage
+                 << "stdout:" << output << "stderr" << errOutput;
     }
     if (args.first() != "status") {
         qDebug() << "tom command:" << (QDateTime::currentDateTime().toMSecsSinceEpoch() - start) << "ms";
     }
-    return CommandStatus(output, errOutput, process.exitCode());
+    return CommandStatus(output, errOutput, process.exitCode(), errorMessage);
 }
 
 QList<Project> TomControl::loadRecentProjects() {

@@ -74,7 +74,8 @@ int main(int argc, char *argv[]) {
     if (status.isFailed()) {
         const QString &message = QCoreApplication::translate("main",
                                                              "The tom command line application was not found or is not working as expected."
-                                                             "<br>Path: <i>%1</i><br>Terminating.").arg(command);
+                                                             "<br>Path: <i>%1</i><br>Error: <i>%2</i><br>Terminating.")
+                .arg(command.toHtmlEscaped(), status.failureReason().toHtmlEscaped());
         QMessageBox::critical(nullptr, QCoreApplication::translate("main", "Configuration error"), message);
         QApplication::exit(-1);
         return -1;

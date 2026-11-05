@@ -9,15 +9,22 @@
 
 class CommandStatus {
 public:
-    explicit CommandStatus(QString _stdout, QString _stderr, int exitCode);
+    explicit CommandStatus(QString _stdout, QString _stderr, int exitCode, QString errorMessage = QString());
 
     const QString stdoutContent;
     const QString stderrContent;
     const int exitCode;
+    // set if the process failed to start, crashed or timed out
+    const QString errorMessage;
 
     bool isSuccessful() const;
 
     bool isFailed() const;
+
+    /**
+     * @return a human-readable reason of the failure, empty if the command succeeded
+     */
+    QString failureReason() const;
 };
 
 

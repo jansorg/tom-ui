@@ -33,7 +33,11 @@ runs:
         cd tom-download
         gh release download "$TOM_RELEASE" --repo jansorg/tom \
           --pattern "tom_*_${TOM_PLATFORM}_${TOM_ARCH}.tar.gz" --pattern checksums.txt
-        archive="$(ls tom_*_"${TOM_PLATFORM}"_"${TOM_ARCH}".tar.gz)"
+        archive="$(ls tom_*_"${TOM_PLATFORM}"_"${TOM_ARCH}".tar.gz 2>/dev/null || true)"
+        if [[ -z "$archive" ]]; then
+          echo "::error::tom release $TOM_RELEASE has no archive tom_<version>_${TOM_PLATFORM}_${TOM_ARCH}.tar.gz"
+          exit 1
+        fi
         grep " ${archive}\$" checksums.txt | sha256sum -c -
         tar -xzf "$archive" -C ../tom-cli
         ls -l ../tom-cli

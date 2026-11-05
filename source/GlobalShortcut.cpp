@@ -1,11 +1,14 @@
 #include "GlobalShortcut.h"
 
 #include <utility>
+#include <QDebug>
 
-GlobalShortcut::GlobalShortcut(QString id, QString label, const QKeySequence &shortcut, QObject *parent)
+GlobalShortcut::GlobalShortcut(QString id, QString label, const QKeySequence &shortcut, bool useNativeBackend,
+                               QObject *parent)
         : QObject(parent),
           _id(std::move(id)),
           _label(std::move(label)),
+          _useNativeBackend(useNativeBackend),
           _globalShortcut(nullptr) {
 
     // register initial shortcut
@@ -36,28 +39,40 @@ QString GlobalShortcut::key() const {
 }
 
 QKeySequence GlobalShortcut::shortcut() const {
-    if (_globalShortcut == nullptr) {
-        return QKeySequence();
+    if (_globalShortcut != nullptr) {
+        return _globalShortcut->shortcut();
     }
-    return _globalShortcut->shortcut();
+    return _shortcut;
 }
 
 bool GlobalShortcut::setShortcut(const QKeySequence &shortcut) {
-    if (shortcut.isEmpty()) {
-        if (_globalShortcut != nullptr) {
-            delete _globalShortcut;
-            _globalShortcut = nullptr;
-        }
-        return true;
+    // only the first key combination is supported by global shortcuts
+    const QKeySequence newShortcut = shortcut.isEmpty() ? QKeySequence() : QKeySequence(shortcut[0]);
+    const bool changed = newShortcut != _shortcut;
+    _shortcut = newShortcut;
+
+    bool ok = true;
+    if (!_useNativeBackend) {
+        // registered by the owner, e.g. via the XDG desktop portal
+    } else if (newShortcut.isEmpty()) {
+        delete _globalShortcut;
+        _globalShortcut = nullptr;
+    } else if (_globalShortcut == nullptr) {
+        _globalShortcut = new QxtGlobalShortcut(newShortcut, this);
+        connect(_globalShortcut, &QxtGlobalShortcut::activated, this, &GlobalShortcut::activated);
+        ok = _globalShortcut->isValid();
+    } else {
+        ok = _globalShortcut->setShortcut(newShortcut);
     }
 
-    if (_globalShortcut == nullptr) {
-        _globalShortcut = new QxtGlobalShortcut(shortcut, this);
-        connect(_globalShortcut, &QxtGlobalShortcut::activated, this, &GlobalShortcut::activated);
-    } else {
-        _globalShortcut->setShortcut(shortcut);
+    if (!ok) {
+        qWarning() << "Unable to register global shortcut" << newShortcut.toString() << "for" << _id;
     }
-    return true;
+
+    if (changed) {
+        emit shortcutChanged();
+    }
+    return ok;
 }
 
 GlobalShortcut::~GlobalShortcut() = default;

@@ -2,6 +2,11 @@
 
 GlobalShortcutsTableModel::GlobalShortcutsTableModel(GlobalShortcuts *shortcuts, QObject *parent) : AbstractShortcutTableModel(parent),
                                                                                                     _shortcuts(shortcuts) {
+    connect(shortcuts, &GlobalShortcuts::assignedTriggersChanged, this, [this] {
+        if (rowCount(QModelIndex()) > 0) {
+            emit dataChanged(index(0, 1), index(rowCount(QModelIndex()) - 1, 1));
+        }
+    });
 
 }
 
@@ -28,6 +33,11 @@ QVariant GlobalShortcutsTableModel::data(const QModelIndex &index, int role) con
             return shortcut->label();
         }
         if (index.column() == 1) {
+            if (_shortcuts->isManagedByDesktop()) {
+                // the desktop environment decides about the actual key binding
+                const QString &assigned = _shortcuts->assignedTrigger(shortcut);
+                return assigned.isEmpty() ? tr("Not assigned") : assigned;
+            }
             return shortcut->shortcut();
         }
     }

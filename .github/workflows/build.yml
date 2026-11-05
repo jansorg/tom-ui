@@ -45,7 +45,8 @@ jobs:
       - name: Build
         run: |
           cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-          cmake --build build --parallel
+          # without a job count, make starts unlimited parallel jobs and runs out of memory
+          cmake --build build --parallel "$(nproc)"
 
       - name: Package
         run: |
@@ -79,7 +80,8 @@ jobs:
       - name: Build
         run: |
           cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES=arm64
-          cmake --build build --parallel
+          # without a job count, make starts unlimited parallel jobs and runs out of memory
+          cmake --build build --parallel "$(sysctl -n hw.ncpu)"
 
       - name: Download tom
         uses: ./.github/actions/download-tom

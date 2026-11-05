@@ -1,6 +1,6 @@
 # Maintainer: Joachim Ansorg <mail@ja-dev.eu>
 pkgname=tom-ui
-pkgver=20250402
+pkgver=20261105
 pkgrel=1
 pkgdesc="Graphical user interface for the Tom time tracker application."
 url="https://github.com/jansorg/tom-ui"

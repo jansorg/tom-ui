@@ -1,0 +1,35 @@
+name: Download tom
+description: >
+  Downloads the tom command line application from a release of github.com/jansorg/tom into ./tom-cli
+  and verifies the archive against the release checksums. It's bundled with the macOS and Windows packages.
+inputs:
+  platform:
+    description: Platform name used in the release archive, e.g. "macOS" or "Windows"
+    required: true
+  release:
+    description: Release tag to download, defaults to the latest release
+    required: false
+    default: ''
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        GH_TOKEN: ${{ github.token }}
+        TOM_RELEASE: ${{ inputs.release }}
+        TOM_PLATFORM: ${{ inputs.platform }}
+      run: |
+        set -euo pipefail
+        if [[ -z "$TOM_RELEASE" ]]; then
+          TOM_RELEASE="$(gh release view --repo jansorg/tom --json tagName -q .tagName)"
+        fi
+        echo "Using tom release $TOM_RELEASE"
+
+        mkdir -p tom-download tom-cli
+        cd tom-download
+        gh release download "$TOM_RELEASE" --repo jansorg/tom \
+          --pattern "tom_*_${TOM_PLATFORM}_amd64.tar.gz" --pattern checksums.txt
+        archive="$(ls tom_*_"${TOM_PLATFORM}"_amd64.tar.gz)"
+        grep " ${archive}\$" checksums.txt | sha256sum -c -
+        tar -xzf "$archive" -C ../tom-cli
+        ls -l ../tom-cli

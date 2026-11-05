@@ -10,8 +10,8 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
-      tom-ref:
-        description: 'Git ref of github.com/jansorg/tom to bundle (default: latest tag)'
+      tom-release:
+        description: 'Release tag of github.com/jansorg/tom to bundle (default: latest release)'
         required: false
 
 permissions:
@@ -72,36 +72,29 @@ jobs:
           modules: ${{ env.QT_MODULES }}
           cache: true
 
-      - name: Checkout tom
-        uses: ./.github/actions/checkout-tom
+      - name: Download tom
+        uses: ./.github/actions/download-tom
         with:
-          ref: ${{ inputs.tom-ref }}
-
-      - uses: actions/setup-go@v7
-        with:
-          go-version-file: tom-cli/go.mod
-          cache-dependency-path: tom-cli/go.sum
-
-      - name: Build tom (universal)
-        working-directory: tom-cli
-        run: |
-          GOOS=darwin GOARCH=arm64 go build -o tom-arm64 -ldflags "-s -w" .
-          GOOS=darwin GOARCH=amd64 go build -o tom-amd64 -ldflags "-s -w" .
-          lipo -create -output tom tom-arm64 tom-amd64
-          codesign --force --sign - tom
+          platform: macOS
+          release: ${{ inputs.tom-release }}
 
       - name: Build
         run: |
           cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"
           cmake --build build --parallel
 
+      - name: Verify tom is signed
+        run: .github/scripts/verify-macos-signature.sh tom-cli/tom tom-cli/tom-pdf
+
       - name: Package
         working-directory: build
         run: |
           mv tom-ui.app Tom.app
-          cp ../tom-cli/tom Tom.app/Contents/MacOS/tom
+          cp ../tom-cli/tom ../tom-cli/tom-pdf Tom.app/Contents/MacOS/
           # unsigned build: "-" signs ad-hoc, which is required to run on Apple Silicon
           macdeployqt Tom.app -dmg -always-overwrite -codesign=-
+          # make sure deployment didn't replace the signatures of the bundled tom binaries
+          ../.github/scripts/verify-macos-signature.sh Tom.app/Contents/MacOS/tom Tom.app/Contents/MacOS/tom-pdf
           mkdir -p ../dist
           mv Tom.dmg "../dist/Tom-$(cat ../version.txt)-macOS.dmg"
 
@@ -130,19 +123,11 @@ jobs:
           modules: ${{ env.QT_MODULES }}
           cache: true
 
-      - name: Checkout tom
-        uses: ./.github/actions/checkout-tom
+      - name: Download tom
+        uses: ./.github/actions/download-tom
         with:
-          ref: ${{ inputs.tom-ref }}
-
-      - uses: actions/setup-go@v7
-        with:
-          go-version-file: tom-cli/go.mod
-          cache-dependency-path: tom-cli/go.sum
-
-      - name: Build tom
-        working-directory: tom-cli
-        run: go build -o tom.exe -ldflags "-s -w" .
+          platform: Windows
+          release: ${{ inputs.tom-release }}
 
       - name: Build
         run: |
@@ -150,10 +135,14 @@ jobs:
           cmake --build build --config Release --parallel
           cmake --install build --config Release --prefix out
 
+      - name: Verify tom is signed
+        shell: pwsh
+        run: .github/scripts/verify-windows-signature.ps1 tom-cli/tom.exe tom-cli/tom-pdf.exe
+
       - name: Package
         run: |
           windeployqt --release --no-compiler-runtime --no-opengl-sw out/bin/tom-ui.exe
-          cp tom-cli/tom.exe out/bin/tom.exe
+          cp tom-cli/tom.exe tom-cli/tom-pdf.exe out/bin/
           "/c/Program Files (x86)/Inno Setup 6/ISCC.exe" //Q "//DPREFIX=$(cygpath -w "$PWD/out")" "$(cygpath -w build/setup.iss)"
           mkdir -p dist
           mv build/tom-ui-*-windows-*.exe dist/

@@ -44,6 +44,14 @@
     </message>
 </context>
 <context>
+    <name>CommandStatus</name>
+    <message>
+        <location filename="../source/gotime/CommandStatus.cpp" line="32"/>
+        <source>Exit code %1</source>
+        <translation>Exitcode %1</translation>
+    </message>
+</context>
+<context>
     <name>EntryNoteEditor</name>
     <message>
         <source>Edit Time Entry of Project %1</source>
@@ -1248,11 +1256,15 @@
     </message>
     <message>
         <location filename="../source/main.cpp" line="75"/>
-        <source>The tom command line application was not found or is not working as expected.&lt;br&gt;Path: &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;Terminating.</source>
-        <translation>Das Tom Kommandozeilenprogramm konnte nicht gefunden werden oder es funktioniert nicht wie erwartet.&lt;br&gt;Pfad: &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;Programmende.</translation>
+        <source>The tom command line application was not found or is not working as expected.&lt;br&gt;Path: &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;Error: &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;Terminating.</source>
+        <translation>Das Tom Kommandozeilenprogramm konnte nicht gefunden werden oder es funktioniert nicht wie erwartet.&lt;br&gt;Pfad: &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;Fehler: &lt;i&gt;%2&lt;/i&gt;&lt;br&gt;Programmende.</translation>
     </message>
     <message>
-        <location filename="../source/main.cpp" line="78"/>
+        <source>The tom command line application was not found or is not working as expected.&lt;br&gt;Path: &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;Terminating.</source>
+        <translation type="vanished">Das Tom Kommandozeilenprogramm konnte nicht gefunden werden oder es funktioniert nicht wie erwartet.&lt;br&gt;Pfad: &lt;i&gt;%1&lt;/i&gt;&lt;br&gt;Programmende.</translation>
+    </message>
+    <message>
+        <location filename="../source/main.cpp" line="79"/>
         <source>Configuration error</source>
         <translation>Konfigurationsfehler</translation>
     </message>

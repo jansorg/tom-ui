@@ -12,7 +12,7 @@
 **[2. Installation](#2-installation)**
 
 * [2.1. Mac OS X](#21-mac-os-x)
-* [2.2. Ubuntu Linux 20.04](#22-ubuntu-linux-2004)
+* [2.2. Ubuntu Linux 24.04](#22-ubuntu-linux-2404)
 * [2.3. Any platform](#23-any-platform)
 
 **[3. Features](#3-features)**
@@ -34,7 +34,7 @@
 
 ## 1. Overview
 
-`tom-ui` is a time-tracking application with a graphical user interface (GUI), available for Mac OS X, Linux and Windows. It is a simple Qt5-based frontend for the [`tom`](https://github.com/jansorg/tom) command line time tracker.
+`tom-ui` is a time-tracking application with a graphical user interface (GUI), available for Mac OS X, Linux and Windows. It is a simple Qt6-based frontend for the [`tom`](https://github.com/jansorg/tom) command line time tracker.
 
 `tom-ui` is being developed to not interrupt your work and to be as little hassle as possible. It will eventually support many features of the command-line software `gotime` but it's not going to be a full-featured time-tracking application.
 
@@ -48,9 +48,9 @@ Download and install the latest `.dmg` file of `tom-ui`, provided under:
 
 The Tom package already contains the `tom` command line interface.
 
-### 2.2. Ubuntu Linux 20.04
+### 2.2. Ubuntu Linux 24.04
 
-This may also work for other versions of Ubuntu, and for other Linux distributions based on Debian.
+This may also work for newer versions of Ubuntu, and for other Linux distributions based on Debian.
 
 1. Download the latest `.deb` package of `tom` provided under [`tom` Releases](https://github.com/jansorg/tom/releases).
 
@@ -58,7 +58,7 @@ This may also work for other versions of Ubuntu, and for other Linux distributio
 
 3. Install the packages of both `tom`, `tom-ui` and all their dependencies with a command like this:
   
-       sudo apt install ./tom_0.12.2_Linux-amd64.deb ./tom-ui_0.12.2-ubuntu-20.04_amd64.deb
+       sudo apt install ./tom_0.12.2_Linux-amd64.deb ./tom-ui_0.12.2-ubuntu-24.04_amd64.deb
        
     It is important to reference the `.deb` files with their paths (and if only `./`) as otherwise `apt` will interpret the arguments as package names and try to find them in online repositories.
 

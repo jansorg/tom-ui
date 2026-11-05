@@ -33,7 +33,7 @@
 #   include <QX11Info>
 #else
 #   include <QApplication>
-#   include <qpa/qplatformnativeinterface.h>
+#   include <QGuiApplication>
 #   include <xcb/xcb.h>
 #endif
 #include <QVector>
@@ -129,10 +129,10 @@ public:
 #if QT_VERSION < QT_VERSION_CHECK(5,0,0)
         m_display = QX11Info::display();
 #else
-        QPlatformNativeInterface *native = qApp->platformNativeInterface();
-        void *display = native->nativeResourceForScreen(QByteArray("display"),
-                                                        QGuiApplication::primaryScreen());
-        m_display = reinterpret_cast<Display *>(display);
+        // public API since Qt 6.2, returns nullptr if not running on the xcb platform
+        if (auto *x11App = qApp->nativeInterface<QNativeInterface::QX11Application>()) {
+            m_display = x11App->display();
+        }
 #endif
     }
 

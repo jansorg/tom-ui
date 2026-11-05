@@ -88,8 +88,6 @@ else ()
     set(USE_QXT FALSE)
 endif ()
 
-include_directories(${Qt6Gui_PRIVATE_INCLUDE_DIRS})
-
 if (WIN32)
     add_compile_options()
 else ()

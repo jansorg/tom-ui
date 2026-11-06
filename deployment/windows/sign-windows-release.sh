@@ -22,18 +22,20 @@
 #
 # Requirements: gh (logged in), jsign (needs java), zip, unzip, osslsigncode, the YubiKey PKCS#11 module (libykcs11, yubico-piv-tool).
 #
-# Configuration via environment variables:
-#   TOM_SIGN_ALIAS  certificate alias on the YubiKey (default: slot 9c, "X.509 Certificate for Digital Signature")
-#   TOM_SIGN_TSA    RFC 3161 timestamp server (default: http://timestamp.digicert.com)
-#   TOM_SIGN_CA     CA bundle to verify the signatures (default: /etc/ssl/certs/ca-certificates.crt)
-#   TOM_SIGN_PIN    YubiKey PIV PIN, prompted if not set
+# Configuration via environment variables, the same as for sign-windows.bash of jansorg/tom:
+#   JSIGN_ALIAS   alias of the code signing certificate on the YubiKey, see "ykman piv info"
+#                 (default: PIV slot 9a, "X.509 Certificate for PIV Authentication").
+#                 Slot 9c ("X.509 Certificate for Digital Signature") holds the Apple Developer ID certificate.
+#   JSIGN_TSAURL  RFC 3161 timestamp server (default: http://timestamp.sectigo.com)
+#   JSIGN_CAFILE  CA bundle to verify the signatures (default: /etc/ssl/certs/ca-certificates.crt)
+#   JSIGN_PIN     YubiKey PIV PIN, prompted if not set
 
 set -euo pipefail
 
 REPO="jansorg/tom-ui"
-ALIAS="${TOM_SIGN_ALIAS:-X.509 Certificate for Digital Signature}"
-TSA="${TOM_SIGN_TSA:-http://timestamp.digicert.com}"
-CA_BUNDLE="${TOM_SIGN_CA:-/etc/ssl/certs/ca-certificates.crt}"
+ALIAS="${JSIGN_ALIAS:-X.509 Certificate for PIV Authentication}"
+TSA="${JSIGN_TSAURL:-http://timestamp.sectigo.com}"
+CA_BUNDLE="${JSIGN_CAFILE:-/etc/ssl/certs/ca-certificates.crt}"
 
 TAG="${1:-}"
 [[ -z "$TAG" ]] && echo "Usage: $0 <tag>, e.g. v0.14.0" >&2 && exit 1
@@ -58,21 +60,24 @@ fi
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
 
-if [[ -z "${TOM_SIGN_PIN:-}" ]]; then
-  read -rsp "YubiKey PIV PIN: " TOM_SIGN_PIN
+if [[ -z "${JSIGN_PIN:-}" ]]; then
+  read -rsp "YubiKey PIV PIN: " JSIGN_PIN
   echo
 fi
-export TOM_SIGN_PIN
+export JSIGN_PIN
 
 sign() {
   local file="$1"
   echo "--> Signing $(basename "$file") (touch the YubiKey if it blinks)"
   # --replace: signing a file again, e.g. when the script is run again, replaces the signature
-  jsign --storetype YUBIKEY --storepass env:TOM_SIGN_PIN --alias "$ALIAS" \
+  jsign --storetype YUBIKEY --storepass env:JSIGN_PIN --alias "$ALIAS" \
     --tsaurl "$TSA" --tsmode RFC3161 --replace \
     --name "Tom" --url "https://github.com/$REPO" \
     "$file"
-  osslsigncode verify -in "$file" -CAfile "$CA_BUNDLE" >/dev/null
+  if ! osslsigncode verify -in "$file" -CAfile "$CA_BUNDLE" >/dev/null; then
+    echo "The signature of $(basename "$file") is invalid. Is \"$ALIAS\" the code signing certificate? See \"ykman piv info\", set JSIGN_ALIAS." >&2
+    exit 1
+  fi
   echo "    signature verified"
 }
 

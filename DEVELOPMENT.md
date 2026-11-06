@@ -123,10 +123,10 @@ Optional environment variables:
 
 | Variable | Default | |
 |---|---|---|
-| `TOM_SIGN_ALIAS` | `X.509 Certificate for Digital Signature` (PIV slot 9c) | certificate on the YubiKey, see `ykman piv info` |
-| `TOM_SIGN_TSA` | `http://timestamp.digicert.com` | RFC 3161 timestamp server |
-| `TOM_SIGN_CA` | `/etc/ssl/certs/ca-certificates.crt` | CA bundle to verify the signatures |
-| `TOM_SIGN_PIN` | prompted | YubiKey PIV PIN |
+| `JSIGN_ALIAS` | `X.509 Certificate for PIV Authentication` (PIV slot 9a) | code signing certificate on the YubiKey, see `ykman piv info`. Slot 9c holds the Apple Developer ID certificate |
+| `JSIGN_TSAURL` | `http://timestamp.sectigo.com` | RFC 3161 timestamp server |
+| `JSIGN_CAFILE` | `/etc/ssl/certs/ca-certificates.crt` | CA bundle to verify the signatures |
+| `JSIGN_PIN` | prompted | YubiKey PIV PIN |
 
 The uninstaller written by Inno Setup at install time is not signed.
 

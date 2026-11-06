@@ -3,6 +3,8 @@
 
 #include <QIcon>
 
+#include "view/PaletteIconEngine.h"
+
 namespace Icons {
     inline const QIcon icon(const QString &name) {
         if (name.endsWith(".svg") || name.endsWith(".png")) {
@@ -12,6 +14,18 @@ namespace Icons {
             return QIcon::fromTheme(name);
         }
         return QIcon(QString(":/icons/") + name + ".svg");
+    }
+
+    /**
+     * A monochrome outline icon. The icon theme is preferred, i.e. the system icons on Linux and,
+     * with Qt 6.7 and later, SF Symbols on macOS and Segoe Fluent Icons on Windows.
+     * The bundled fallback is drawn in the text color of the palette.
+     */
+    inline const QIcon monochrome(const QString &name) {
+        if (QIcon::hasThemeIcon(name)) {
+            return QIcon::fromTheme(name);
+        }
+        return QIcon(new PaletteIconEngine(QString(":/icons/") + name + ".svg"));
     }
 
 #ifdef Q_OS_MAC
@@ -55,16 +69,12 @@ namespace Icons {
     }
 
     inline const QIcon stopTimer() {
-#ifdef Q_OS_MAC
         return icon("timer-stop");
-#else
-        return icon("timer-stop");
-#endif
     }
 
     inline const QIcon timeEntryArchive() {
 #ifdef Q_OS_MAC
-        return icon("document-save");
+        return monochrome("document-save");
 #else
         return themeIcon("document-save");
 #endif
@@ -87,7 +97,7 @@ namespace Icons {
     }
 
     inline const QIcon projectNew() {
-        return icon("document-new");
+        return monochrome("document-new");
     }
 
     inline QIcon projectEdit() {
@@ -99,7 +109,7 @@ namespace Icons {
     }
 
     inline QIcon projectRemove() {
-        return icon("edit-delete");
+        return monochrome("edit-delete");
     }
 
     inline QIcon projectSelectActive() {
@@ -111,7 +121,7 @@ namespace Icons {
     }
 
     inline const QIcon timeEntryDelete() {
-        return icon("edit-delete");
+        return monochrome("edit-delete");
     }
 
     inline const QIcon activeProject() {
@@ -123,7 +133,7 @@ namespace Icons {
     }
 
     inline const QIcon showMainWindow() {
-        return icon("window");
+        return monochrome("window");
     }
 
     inline const QIcon windowProjectsFocus() {
@@ -138,12 +148,20 @@ namespace Icons {
         return icon("edit-clear");
     }
 
-    inline const QIcon LogoSmall() {
-        return icon("tom32.png");
-    }
-
-    inline const QIcon LogoLarge() {
-        return icon("tom64.png");
+    /**
+     * The application icon. The bundled icon contains a simplified variant for 16 to 32 px.
+     * On Linux the icon installed into the icon theme is preferred, it's the same as the icon of the .desktop file.
+     */
+    inline const QIcon appIcon() {
+        QIcon bundled;
+        for (int size : {16, 24, 32, 48, 64, 128, 256}) {
+            bundled.addFile(QString(":/icons/tom%1.png").arg(size), QSize(size, size));
+        }
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+        return QIcon::fromTheme("tom-ui", bundled);
+#else
+        return bundled;
+#endif
     }
 }
 

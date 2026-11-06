@@ -114,13 +114,16 @@ void GotimeTrayIcon::updateIconAndTooltip() {
 }
 
 void GotimeTrayIcon::loadIcons() {
+    // loaded as SVG to render sharply at the size and scale factor of the tray
 #ifdef Q_OS_MAC
-    _startedIcon = QIcon(QPixmap(":/icons/osx/trayicon-started.svg"));
-    _stoppedIcon = QIcon(QPixmap(":/icons/osx/trayicon-stopped.svg"));
+    // the red block of a running timer keeps its color,
+    // the stopped icon is a template image which macOS colors to match the menu bar
+    _startedIcon = QIcon(":/icons/osx/trayicon-started.svg");
+    _stoppedIcon = QIcon(":/icons/osx/trayicon-stopped.svg");
     _stoppedIcon.setIsMask(true);
 #else
-    _startedIcon = QIcon(QPixmap(":/icons/trayicon-started.svg"));
-    _stoppedIcon = QIcon(QPixmap(":/icons/trayicon-stopped.svg"));
+    _startedIcon = QIcon(":/icons/trayicon-started.svg");
+    _stoppedIcon = QIcon(":/icons/trayicon-stopped.svg");
 #endif
 }
 

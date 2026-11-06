@@ -72,7 +72,7 @@ For any supported platform, you can always build `tom-ui` from source using `cma
 
 ### 3.1. Tray icon
 
-Under Linux, the tray icon will display the status: "red square" means a timer is active.
+The tray icon displays the status: a red block means that a timer is active, otherwise it shows the stopwatch of Tom.
 
 On right click, the tray icon displays the recently used projects for a quick start of a new activity.
 

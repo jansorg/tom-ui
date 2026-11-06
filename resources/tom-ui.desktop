@@ -7,4 +7,4 @@ Name=Tom
 Comment=A time tracking tool.
 GenericName=Time Tracker
 Exec=tom-ui
-Icon=tom
+Icon=tom-ui

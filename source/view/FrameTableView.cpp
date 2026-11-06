@@ -205,7 +205,7 @@ void FrameTableView::startDrag(Qt::DropActions supportedActions) {
         if (!data)
             return;
 
-        QPixmap pixmap = Icons::LogoSmall().pixmap(48, 48, QIcon::Normal);
+        QPixmap pixmap = Icons::appIcon().pixmap(48, 48, QIcon::Normal);
 
         QPixmap target = QPixmap(pixmap.width(), pixmap.height());
         QPainter p;

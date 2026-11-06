@@ -1,47 +1,62 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   width="20mm"
-   height="20mm"
-   viewBox="0 0 20 20"
+   width="32"
+   height="32"
+   viewBox="0 0 32 32"
    version="1.1"
-   id="svg8">
+   id="svg3"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs2" />
-  <metadata
-     id="metadata5">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <g
-     id="layer1"
-     transform="translate(0,-277)">
-    <g
-       id="g816"
-       transform="translate(-0.14149969,-0.06224982)"
-       style="fill:#0040f4;fill-opacity:0.81132078">
-      <g
-         id="g817">
-        <rect
-           ry="0.77113539"
-           y="280.94138"
-           x="4.0390511"
-           height="12.241773"
-           width="12.204897"
-           id="rect848"
-           style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:stroke fill markers" />
-      </g>
-    </g>
-  </g>
+     id="defs2">
+    <linearGradient
+       id="p"
+       gradientUnits="userSpaceOnUse"
+       x1="0"
+       y1="1"
+       x2="0"
+       y2="31">
+      <stop
+         offset="0"
+         stop-color="#ff7a5c"
+         id="stop1" />
+      <stop
+         offset="1"
+         stop-color="#f2434f"
+         id="stop2" />
+    </linearGradient>
+  </defs>
+  <rect
+     x="1"
+     y="1"
+     width="30"
+     height="30"
+     rx="7"
+     fill="url(#p)"
+     id="rect2" />
+  <circle
+     cx="16"
+     cy="17.5"
+     r="9"
+     fill="none"
+     stroke="#ffffff"
+     stroke-opacity="0.28"
+     stroke-width="3.2"
+     id="circle2" />
+  <path
+     d="M7.911,13.555 A9,9 0 0 1 24.089,13.555"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="3.2"
+     stroke-linecap="round"
+     stroke-opacity="1"
+     id="path2" />
+  <path
+     d="M16,10.1 L16,21.5"
+     fill="none"
+     stroke="#ffffff"
+     stroke-width="3.2"
+     stroke-linecap="round"
+     stroke-opacity="1"
+     id="path3" />
 </svg>

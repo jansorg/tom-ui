@@ -1,35 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   width="20mm"
-   height="20mm"
-   viewBox="0 0 20 20"
+   width="18"
+   height="18"
+   viewBox="0 0 18 18"
    version="1.1"
-   id="svg8">
+   id="svg1"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs2" />
-  <metadata
-     id="metadata5">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
+     id="defs1" />
+  <path
+     fill-rule="evenodd"
+     fill="#000000"
+     d="M1.75,10.25 A7.25,7.25 0 1 0 16.25,10.25 A7.25,7.25 0 1 0 1.75,10.25 Z M4.236,7.927 A5.300,5.300 0 0 1 13.764,7.927 A0.900,0.900 0 0 1 12.146,8.716 A3.500,3.500 0 0 0 9.900,6.868 L9.900,11.600 A0.900,0.900 0 0 1 8.100,11.600 L8.100,6.868 A3.500,3.500 0 0 0 5.854,8.716 A0.900,0.900 0 0 1 4.236,7.927 Z"
+     id="path1" />
   <rect
-     ry="3.4245691"
-     y="4.4871116"
-     x="4.4871116"
-     height="11.025776"
-     width="11.025776"
-     id="rect815"
-     style="opacity:1;fill:#d40000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.2341979;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.68548387;paint-order:stroke fill markers" />
+     x="7.25"
+     y="0.75"
+     width="3.5"
+     height="1.5"
+     rx="0.75"
+     fill="#000000"
+     id="rect1" />
 </svg>

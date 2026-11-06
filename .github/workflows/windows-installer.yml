@@ -1,26 +1,31 @@
 name: Windows installer
 
-# Builds the Windows installer from a signed tom-ui.exe.
+# Builds the Windows installer of a draft release from its application archive with a signed tom-ui.exe.
 # Started by deployment/windows/sign-windows-release.sh, don't run it manually:
-#   1. build.yml builds the unsigned application for a release tag ("windows-app" artifact)
-#   2. the script signs tom-ui.exe locally and uploads it to the draft release
-#   3. this workflow replaces tom-ui.exe with the signed one and builds the installer
-#   4. the script signs the installer locally and uploads it to the draft release
+#   1. release.yml attaches the unsigned application archive tom-ui-<version>-windows-app.zip to the draft release
+#   2. the script signs tom-ui.exe in the archive and replaces the archive of the draft release
+#   3. this workflow builds the installer from the archive and attaches it to the draft release
+#   4. the script signs the installer, replaces it in the draft release and removes the archive
+
+run-name: Windows installer ${{ inputs.tag }} (${{ inputs.request-id }})
 
 on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Release tag, e.g. v0.13.0'
+        description: 'Tag of the draft release, e.g. v0.14.0'
         required: true
-      build-run-id:
-        description: 'ID of the build.yml run of the tag, which provides the "windows-app" artifact'
+      request-id:
+        description: 'Unique ID, used by the signing script to find this run'
         required: true
 
 permissions:
-  actions: read
   # draft releases are only visible with write access
   contents: write
+
+concurrency:
+  group: windows-installer-${{ inputs.tag }}
+  cancel-in-progress: false
 
 jobs:
   installer:
@@ -38,17 +43,13 @@ jobs:
           ref: ${{ inputs.tag }}
 
       - name: Download application
-        uses: actions/download-artifact@v8
-        with:
-          name: windows-app
-          path: app
-          run-id: ${{ inputs.build-run-id }}
-          github-token: ${{ github.token }}
-
-      - name: Download signed tom-ui.exe
         run: |
-          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern tom-ui.exe --dir signed
-          mv signed/tom-ui.exe app/bin/tom-ui.exe
+          if [[ "$(gh release view "$TAG" --repo "$GITHUB_REPOSITORY" --json isDraft -q .isDraft)" != "true" ]]; then
+            echo "::error::Release $TAG is not a draft"
+            exit 1
+          fi
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern 'tom-ui-*-windows-app.zip' --dir download
+          7z x -oapp download/tom-ui-*-windows-app.zip
 
       - name: Verify signatures
         shell: pwsh
@@ -56,12 +57,10 @@ jobs:
 
       - name: Build installer
         run: |
-          iss="$PWD/app/setup.iss"
-          mv "$iss" setup.iss
+          # not part of the installed files
+          mv app/setup.iss setup.iss
           .github/scripts/build-windows-installer.sh app setup.iss dist
 
-      - uses: actions/upload-artifact@v7
-        with:
-          name: windows-installer-unsigned
-          path: dist/*
-          if-no-files-found: error
+      # Replaced by the signed installer by the signing script
+      - name: Attach installer to the draft release
+        run: gh release upload "$TAG" --repo "$GITHUB_REPOSITORY" --clobber dist/tom-ui-*-windows-*.exe

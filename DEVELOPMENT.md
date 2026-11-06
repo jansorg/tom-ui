@@ -69,44 +69,41 @@ Then translate the new strings with Qt Linguist (`linguist6 translations/tom_de.
 
 ## Continuous integration
 
-`.github/workflows/build.yml` builds packages for every push to `master` and every pull request:
+`.github/workflows/build.yml` compiles tom-ui and runs the tests with `ctest` (there are none yet) for every push to `master` and every pull request, on Linux (Ubuntu 24.04, Qt 6.4.2 from the Ubuntu packages), macOS (macOS 26, Apple Silicon, Qt 6.11.3) and Windows (Windows Server 2025, MSVC, Qt 6.10.3). It doesn't build packages.
 
-| Platform | Runner | Qt | Artifact |
-|---|---|---|---|
-| Linux | Ubuntu 24.04 | 6.4.2 (Ubuntu packages) | `.deb`, depends on the `tom` package |
-| macOS | macOS 26, Apple Silicon only | 6.11.3 | signed and notarized `.dmg`, bundles `tom` and `tom-pdf` |
-| Windows | Windows Server 2025, MSVC | 6.10.3 | unsigned installer, bundles `tom.exe` and `tom-pdf.exe` |
+`.github/workflows/release.yml` builds the release packages and creates a **draft** release:
 
-- The bundled `tom` binaries are taken from the latest [tom release](https://github.com/jansorg/tom/releases). A manual run of the workflow can choose another release with the `tom-release` input.
-- The build fails unless the bundled `tom` binaries are signed: a Developer ID signature on macOS (and arm64 binaries), an Authenticode signature on Windows.
-- The macOS and Windows Qt versions are the latest that [install-qt-action](https://github.com/jurplel/install-qt-action) (aqtinstall 3.3) can install. Qt 6.12 changed the layout of its online repository, see [aqtinstall#1047](https://github.com/miurahr/aqtinstall/issues/1047). Update the versions in `build.yml` once that's fixed.
+| Platform | Release asset |
+|---|---|
+| Linux | `.deb`, depends on the `tom` package |
+| macOS | signed and notarized `.dmg`, bundles `tom` and `tom-pdf` |
+| Windows | unsigned application archive `tom-ui-<version>-windows-app.zip`, replaced by the signed installer by `sign-windows-release.sh` |
+
+- The bundled `tom` binaries are taken from the latest [tom release](https://github.com/jansorg/tom/releases). A manual release can choose another release with the `tom-release` input.
+- The release fails unless the bundled `tom` binaries are signed: a Developer ID signature on macOS (and arm64 binaries), an Authenticode signature on Windows.
+- The macOS and Windows Qt versions are the latest that [install-qt-action](https://github.com/jurplel/install-qt-action) (aqtinstall 3.3) can install. Qt 6.12 changed the layout of its online repository, see [aqtinstall#1047](https://github.com/miurahr/aqtinstall/issues/1047). Update the versions in `build.yml` and `release.yml` once that's fixed.
 
 ## Making a release
 
-1. Set the new version in `version.txt`, without a trailing newline, then commit and push:
+1. Start the release workflow on `master`, either from the Actions tab ("Run workflow") or with:
 
    ```bash
-   printf '%s' 0.14.0 > version.txt
-   git commit -m "Version 0.14.0" version.txt && git push
+   gh workflow run release.yml --ref master -f version=0.14.0
    ```
 
-2. Tag and push the tag:
+   If `version.txt` contains another version, the workflow commits the new version to `master`. It builds all packages, then creates the tag `v0.14.0` and a **draft** release with the Linux and macOS packages and the unsigned Windows application.
+
+   Alternatively, set the version in `version.txt` yourself, commit it and push a tag `v0.14.0`. The workflow then releases the tagged commit; it fails if `version.txt` doesn't match the tag.
+
+2. Sign the Windows release with the code signing certificate on the YubiKey:
 
    ```bash
-   git tag v0.14.0 && git push origin v0.14.0
+   deployment/windows/sign-windows-release.sh v0.14.0
    ```
 
-   CI builds all packages and creates a **draft** release with the Linux and macOS packages.
+   The script signs `tom-ui.exe` of the draft release's application archive and replaces the archive. It then starts the `windows-installer.yml` workflow, which builds the installer from the signed application and attaches it to the draft release. Finally, the script signs the installer, replaces it in the draft release and removes the application archive. It asks for the YubiKey PIV PIN; touch the key if it blinks.
 
-3. Sign the Windows release with the code signing certificate on the YubiKey:
-
-   ```bash
-   deployment/windows/sign-windows-release.sh 0.14.0
-   ```
-
-   The script waits for the tag's build and signs `tom-ui.exe` locally. It then has the `windows-installer.yml` workflow build the installer with the signed executable, signs the installer and adds it to the draft release. It asks for the YubiKey PIV PIN; touch the key if it blinks.
-
-4. Review the draft release on GitHub and publish it:
+3. Review the draft release on GitHub and publish it:
 
    ```bash
    gh release edit v0.14.0 --draft=false
@@ -117,8 +114,9 @@ Then translate the new strings with Qt Linguist (`linguist6 translations/tom_de.
 The private key never leaves the YubiKey, which is why the Windows files are signed locally and not in CI. The signing script needs:
 
 - [`gh`](https://cli.github.com/), logged in with access to the repository
-- [jsign](https://ebourg.github.io/jsign/) 5.0 or later
+- [jsign](https://ebourg.github.io/jsign/) 5.0 or later and Java
 - `osslsigncode`, to verify the signatures
+- `zip` and `unzip`
 - the YubiKey PKCS#11 module `libykcs11` (package `yubico-piv-tool`)
 
 Optional environment variables:
@@ -134,7 +132,7 @@ The uninstaller written by Inno Setup at install time is not signed.
 
 ### macOS signing
 
-CI signs the app with the Developer ID certificate and the hardened runtime. Builds of pushes to `master`, of tags and of manual runs are also notarized and stapled. Pull requests are signed but not notarized. Builds without access to the secrets, such as pull requests from forks, are only signed ad-hoc.
+The release workflow signs the app with the Developer ID certificate and the hardened runtime, notarizes and staples the disk image. It fails if the signing secrets are missing.
 
 Repository secrets:
 

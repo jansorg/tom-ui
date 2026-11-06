@@ -1,35 +1,33 @@
 name: Build
 
-# Builds Linux, macOS and Windows packages for every push and pull request.
-#
-# Pushing a tag "v*" additionally creates a draft GitHub release with the Linux and macOS packages.
-# The Windows files are signed locally with a YubiKey by deployment/windows/sign-windows-release.sh,
-# which uses the "windows-app" artifact of this workflow and the windows-installer.yml workflow
-# to add the signed installer to the draft release.
+# Compiles tom-ui on Linux, macOS and Windows and runs the tests for every push and pull request.
+# There are no tests yet: remove --no-tests=ignore from the ctest calls once the first test is added,
+# so that tests which fail to register don't go unnoticed.
+# Packages, signing and releases are handled by release.yml.
 
 on:
   push:
     branches: [ master ]
-    tags: [ 'v*' ]
   pull_request:
   workflow_dispatch:
-    inputs:
-      tom-release:
-        description: 'Release tag of github.com/jansorg/tom to bundle (default: latest release)'
-        required: false
 
 permissions:
   contents: read
 
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 # Qt versions: the latest release that aqtinstall 3.3 (used by install-qt-action) installs correctly.
 # Qt 6.12 changed the layout of the online repository (per-compiler Windows packages, independently
 # versioned WebEngine), see https://github.com/miurahr/aqtinstall/issues/1047. Update once that's fixed.
+# Keep the versions in sync with release.yml.
 env:
   QT_MODULES: 'qtwebengine qtwebchannel qtpositioning'
 
 jobs:
   linux:
-    name: Linux (Ubuntu 24.04 .deb)
+    name: Linux (Ubuntu 24.04)
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
@@ -38,7 +36,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
-            cmake dpkg-dev file g++ make libgl1-mesa-dev libx11-dev \
+            cmake file g++ make libgl1-mesa-dev libx11-dev \
             qt6-base-dev qt6-base-dev-tools qt6-tools-dev qt6-tools-dev-tools qt6-l10n-tools \
             qt6-webengine-dev qt6-webengine-dev-tools libqt6svg6-dev
 
@@ -48,21 +46,13 @@ jobs:
           # without a job count, make starts unlimited parallel jobs and runs out of memory
           cmake --build build --parallel "$(nproc)"
 
-      - name: Package
-        run: |
-          cd build
-          cpack -G DEB
-          mkdir -p ../dist
-          mv ./*.deb "../dist/tom-ui_$(cat ../version.txt)-ubuntu-24.04_amd64.deb"
-
-      - uses: actions/upload-artifact@v7
-        with:
-          name: linux
-          path: dist/*
-          if-no-files-found: error
+      - name: Test
+        env:
+          QT_QPA_PLATFORM: offscreen
+        run: ctest --test-dir build --output-on-failure --no-tests=ignore
 
   macos:
-    name: macOS (Apple Silicon .dmg)
+    name: macOS (Apple Silicon)
     runs-on: macos-26
     steps:
       - uses: actions/checkout@v7
@@ -83,101 +73,13 @@ jobs:
           # without a job count, make starts unlimited parallel jobs and runs out of memory
           cmake --build build --parallel "$(sysctl -n hw.ncpu)"
 
-      - name: Download tom
-        uses: ./.github/actions/download-tom
-        with:
-          platform: macOS
-          arch: arm64
-          release: ${{ inputs.tom-release }}
-
-      - name: Verify tom is signed and built for Apple Silicon
-        run: |
-          for binary in tom-cli/tom tom-cli/tom-pdf; do
-            lipo "$binary" -verify_arch arm64 || { echo "::error::$binary is not built for arm64"; exit 1; }
-          done
-          .github/scripts/verify-macos-signature.sh tom-cli/tom tom-cli/tom-pdf
-
-      - name: Deploy
-        working-directory: build
-        run: |
-          mv tom-ui.app Tom.app
-          macdeployqt Tom.app -always-overwrite
-          # Copied after macdeployqt, which would replace their signatures with ad-hoc signatures.
-          # Signing the app below keeps them unchanged.
-          cp ../tom-cli/tom ../tom-cli/tom-pdf Tom.app/Contents/MacOS/
-
-      # Secrets aren't available for pull requests from forks, these builds are only signed ad-hoc
-      - name: Import signing certificate
-        id: certificate
+      - name: Test
         env:
-          MACOS_SIGN_P12: ${{ secrets.MACOS_SIGN_P12 }}
-          MACOS_SIGN_PASSWORD: ${{ secrets.MACOS_SIGN_PASSWORD }}
-        run: |
-          if [[ -z "$MACOS_SIGN_P12" ]]; then
-            echo "::warning::No signing certificate available, the app is only signed ad-hoc"
-            echo "available=false" >> "$GITHUB_OUTPUT"
-          else
-            .github/scripts/macos-import-certificate.sh
-            echo "available=true" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: Sign
-        working-directory: build
-        run: |
-          # without a certificate, sign ad-hoc, which is required to run on Apple Silicon
-          ../.github/scripts/sign-macos-app.sh Tom.app "${MACOS_SIGN_IDENTITY:--}"
-          # make sure signing didn't replace the signatures of the bundled tom binaries
-          ../.github/scripts/verify-macos-signature.sh Tom.app/Contents/MacOS/tom Tom.app/Contents/MacOS/tom-pdf
-
-      - name: Create disk image
-        run: |
-          mkdir -p dist
-          echo "MACOS_DMG=dist/Tom-$(cat version.txt)-macOS-arm64.dmg" >> "$GITHUB_ENV"
-          .github/scripts/create-macos-dmg.sh build/Tom.app "dist/Tom-$(cat version.txt)-macOS-arm64.dmg" "${MACOS_SIGN_IDENTITY:-}"
-
-      # Notarization takes a few minutes, pull requests are only signed
-      - name: Notarize
-        if: steps.certificate.outputs.available == 'true' && github.event_name != 'pull_request'
-        env:
-          MACOS_NOTARY_KEY: ${{ secrets.MACOS_NOTARY_KEY }}
-          MACOS_NOTARY_KEY_ID: ${{ secrets.MACOS_NOTARY_KEY_ID }}
-          MACOS_NOTARY_ISSUER_ID: ${{ secrets.MACOS_NOTARY_ISSUER_ID }}
-        run: |
-          key="$RUNNER_TEMP/notary-key.p8"
-          # the App Store Connect API key, either the .p8 file content or base64 encoded
-          if [[ "$MACOS_NOTARY_KEY" == *"BEGIN PRIVATE KEY"* ]]; then
-            printf '%s\n' "$MACOS_NOTARY_KEY" > "$key"
-          else
-            printf '%s' "$MACOS_NOTARY_KEY" | base64 --decode > "$key"
-          fi
-
-          xcrun notarytool submit "$MACOS_DMG" --key "$key" --key-id "$MACOS_NOTARY_KEY_ID" \
-            --issuer "$MACOS_NOTARY_ISSUER_ID" --wait --timeout 30m --output-format json | tee notarization.json
-          status="$(plutil -extract status raw notarization.json)"
-          if [[ "$status" != "Accepted" ]]; then
-            id="$(plutil -extract id raw notarization.json)"
-            xcrun notarytool log "$id" --key "$key" --key-id "$MACOS_NOTARY_KEY_ID" --issuer "$MACOS_NOTARY_ISSUER_ID"
-            echo "::error::Notarization failed: $status"
-            exit 1
-          fi
-          rm -f "$key"
-
-          xcrun stapler staple "$MACOS_DMG"
-          xcrun stapler validate "$MACOS_DMG"
-          spctl --assess --type open --context context:primary-signature --verbose=2 "$MACOS_DMG"
-
-      - name: Remove signing keychain
-        if: always() && steps.certificate.outputs.available == 'true'
-        run: security delete-keychain "$MACOS_KEYCHAIN" || true
-
-      - uses: actions/upload-artifact@v7
-        with:
-          name: macos
-          path: dist/*
-          if-no-files-found: error
+          QT_QPA_PLATFORM: offscreen
+        run: ctest --test-dir build --output-on-failure --no-tests=ignore
 
   windows:
-    name: Windows (installer)
+    name: Windows (MSVC)
     runs-on: windows-2025
     defaults:
       run:
@@ -195,71 +97,12 @@ jobs:
           modules: ${{ env.QT_MODULES }}
           cache: true
 
-      - name: Download tom
-        uses: ./.github/actions/download-tom
-        with:
-          platform: Windows
-          arch: amd64
-          release: ${{ inputs.tom-release }}
-
       - name: Build
         run: |
           cmake -S . -B build -A x64
           cmake --build build --config Release --parallel
-          cmake --install build --config Release --prefix out
 
-      - name: Verify tom is signed
-        shell: pwsh
-        run: .github/scripts/verify-windows-signature.ps1 tom-cli/tom.exe tom-cli/tom-pdf.exe
-
-      - name: Deploy
-        run: |
-          windeployqt --release --no-compiler-runtime --no-opengl-sw out/bin/tom-ui.exe
-          cp tom-cli/tom.exe tom-cli/tom-pdf.exe out/bin/
-
-      - name: Build unsigned installer
-        run: .github/scripts/build-windows-installer.sh out build/setup.iss dist
-
-      - uses: actions/upload-artifact@v7
-        with:
-          name: windows-unsigned
-          path: dist/*
-          if-no-files-found: error
-
-      # Unsigned application with the installer configuration.
-      # For releases, it's signed by deployment/windows/sign-windows-release.sh
-      - name: Prepare application artifact
-        run: cp build/setup.iss out/
-
-      - uses: actions/upload-artifact@v7
-        with:
-          name: windows-app
-          path: out/
-          if-no-files-found: error
-
-  release:
-    name: Create draft release
-    if: startsWith(github.ref, 'refs/tags/v')
-    needs: [ linux, macos, windows ]
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/download-artifact@v8
-        with:
-          name: linux
-          path: dist
-
-      - uses: actions/download-artifact@v8
-        with:
-          name: macos
-          path: dist
-
-      # A draft, because the signed Windows installer is added by deployment/windows/sign-windows-release.sh
-      - name: Create draft release
+      - name: Test
         env:
-          GH_TOKEN: ${{ github.token }}
-          TAG: ${{ github.ref_name }}
-        run: |
-          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --draft --verify-tag \
-            --title "Version ${TAG#v}" --generate-notes dist/*
+          QT_QPA_PLATFORM: offscreen
+        run: ctest --test-dir build --build-config Release --output-on-failure --no-tests=ignore

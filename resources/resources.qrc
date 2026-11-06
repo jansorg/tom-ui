@@ -9,8 +9,12 @@
 <file>./icons/project-active.svg</file>
 <file>./icons/timer-start.svg</file>
 <file>./icons/timer-stop.svg</file>
-<file>./icons/tom.svg</file>
+<file>./icons/tom128.png</file>
+<file>./icons/tom16.png</file>
+<file>./icons/tom24.png</file>
+<file>./icons/tom256.png</file>
 <file>./icons/tom32.png</file>
+<file>./icons/tom48.png</file>
 <file>./icons/tom64.png</file>
 <file>./icons/trayicon-started.svg</file>
 <file>./icons/trayicon-stopped.svg</file>

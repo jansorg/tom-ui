@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="plate" gradientUnits="userSpaceOnUse" x1="0" y1="10.00" x2="0" y2="114.00"><stop offset="0" stop-color="#24427f"/><stop offset="1" stop-color="#0e1d44"/></linearGradient><linearGradient id="sheen" gradientUnits="userSpaceOnUse" x1="0" y1="10.00" x2="0" y2="114.00"><stop offset="0" stop-color="#ffffff" stop-opacity="0.14"/><stop offset="0.5" stop-color="#ffffff" stop-opacity="0"/></linearGradient>
+    <linearGradient id="accent" gradientUnits="userSpaceOnUse" x1="0" y1="27.67" x2="0" y2="85.48"><stop offset="0" stop-color="#ff7a5c"/><stop offset="1" stop-color="#f2434f"/></linearGradient>
+  </defs>
+  <rect x="12" y="14.00" width="104" height="104" rx="22" fill="#08122b"/>
+  <rect x="12" y="10" width="104" height="104" rx="22" fill="url(#plate)"/>
+  <rect x="12" y="10" width="104" height="104" rx="22" fill="url(#sheen)"/>
+  <circle cx="64.00" cy="65.53" r="33.07" fill="none" stroke="#ffffff" stroke-opacity="0.16" stroke-width="9.59"/>
+  <path d="M34.28,51.04 A33.07,33.07 0 0 1 93.72,51.04" fill="none" stroke="url(#accent)" stroke-width="9.59" stroke-linecap="round"/>
+  <path d="M64.00,37.26 L64.00,80.68" fill="none" stroke="url(#accent)" stroke-width="9.59" stroke-linecap="round"/>
+  <rect x="56.43" y="18.58" width="15.15" height="5.81" rx="2.90" fill="#ffffff" fill-opacity="0.9"/>
+</svg>

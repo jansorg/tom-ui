@@ -138,12 +138,20 @@ namespace Icons {
         return icon("edit-clear");
     }
 
-    inline const QIcon LogoSmall() {
-        return icon("tom32.png");
-    }
-
-    inline const QIcon LogoLarge() {
-        return icon("tom64.png");
+    /**
+     * The application icon. The bundled icon contains a simplified variant for 16 to 32 px.
+     * On Linux the icon installed into the icon theme is preferred, it's the same as the icon of the .desktop file.
+     */
+    inline const QIcon appIcon() {
+        QIcon bundled;
+        for (int size : {16, 24, 32, 48, 64, 128, 256}) {
+            bundled.addFile(QString(":/icons/tom%1.png").arg(size), QSize(size, size));
+        }
+#if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+        return QIcon::fromTheme("tom-ui", bundled);
+#else
+        return bundled;
+#endif
     }
 }
 

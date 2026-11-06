@@ -30,7 +30,7 @@ MainWindow::MainWindow(TomControl *control,
           _frameStatusLabel(new QLabel(this)) {
 
 //#ifndef Q_OS_MAC
-    setWindowIcon(Icons::LogoLarge());
+    setWindowIcon(Icons::appIcon());
 //#endif
 
     setupUi(this);

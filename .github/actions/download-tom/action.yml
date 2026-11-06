@@ -26,6 +26,9 @@ runs:
         set -euo pipefail
         if [[ -z "$TOM_RELEASE" ]]; then
           TOM_RELEASE="$(gh release view --repo jansorg/tom --json tagName -q .tagName)"
+        elif [[ "$TOM_RELEASE" =~ ^[0-9] ]]; then
+          # tom's release tags are v<version>, accept the plain version, too
+          TOM_RELEASE="v$TOM_RELEASE"
         fi
         echo "Using tom release $TOM_RELEASE"
 

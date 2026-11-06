@@ -24,7 +24,7 @@ on:
         description: 'Version to release, without "v", e.g. 0.14.0'
         required: true
       tom-release:
-        description: 'Release tag of github.com/jansorg/tom to bundle (default: latest release)'
+        description: 'Release of github.com/jansorg/tom to bundle, e.g. v0.14.1 or 0.14.1 (default: latest release)'
         required: false
 
 permissions:

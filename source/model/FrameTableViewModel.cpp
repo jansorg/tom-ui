@@ -190,7 +190,7 @@ bool FrameTableViewModel::removeRows(int row, int count, const QModelIndex &pare
 
     beginRemoveRows(parent, row, row + count - 1);
     for (int i = 0; i < count; i++) {
-        _frames.removeAt(row + i);
+        delete _frames.takeAt(row);
     }
     endRemoveRows();
 
@@ -439,6 +439,7 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
     }
 
     Frame *frame = _frames.at(index.row());
+    const QString frameID = frame->id;
     QDateTime startTime = frame->startTime;
     QDateTime endTime = frame->stopTime;
     QString notes = frame->notes;
@@ -491,7 +492,10 @@ bool FrameTableViewModel::setData(const QModelIndex &index, const QVariant &valu
             ok = false;
     }
 
-    if (ok) {
+    // the update may have removed and deleted the frame, e.g. if it was archived and archived frames are hidden
+    const int row = findRow(frameID);
+    if (ok && row >= 0) {
+        frame = _frames.at(row);
         frame->startTime = startTime;
         frame->stopTime = endTime;
         frame->notes = notes;

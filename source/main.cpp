@@ -86,16 +86,17 @@ int main(int argc, char *argv[]) {
     auto config = new TomSettings(&app);
     auto *statusManager = new ProjectStatusManager(control, &app);
 
-    auto *globalShortcuts = new GlobalShortcuts(control, nullptr);
+    // created on the stack to release the global shortcuts at exit, it must outlive the main window
+    GlobalShortcuts globalShortcuts(control, nullptr);
 
-    MainWindow mainWindow(control, statusManager, config, globalShortcuts);
-    globalShortcuts->setupShortcuts(&mainWindow);
+    MainWindow mainWindow(control, statusManager, config, &globalShortcuts);
+    globalShortcuts.setupShortcuts(&mainWindow);
 
     if (config->openMainWindowAtStartup()) {
         mainWindow.show();
     }
 
-    new GotimeTrayIcon(control, &mainWindow);
+    GotimeTrayIcon trayIcon(control, &mainWindow);
 
     return QApplication::exec();
 }

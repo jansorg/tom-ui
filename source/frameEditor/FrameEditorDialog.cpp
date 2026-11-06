@@ -19,6 +19,7 @@ FrameEditorDialog::FrameEditorDialog(const Frame &frame, TomControl *control, Pr
 
 void FrameEditorDialog::show(const Frame &frame, TomControl *control, ProjectStatusManager *statusManager, QWidget *parent) {
     auto *dialog = new FrameEditorDialog(frame, control, statusManager, parent);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->showNormal();
 }
 

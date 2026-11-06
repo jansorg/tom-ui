@@ -4,6 +4,8 @@
 #include <QStyledItemDelegate>
 
 class ElideLeftItemDelegate : public QStyledItemDelegate {
+public:
+    using QStyledItemDelegate::QStyledItemDelegate;
 
 private:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;

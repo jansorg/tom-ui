@@ -111,7 +111,12 @@ bool ProjectTreeItem::removeChildAt(int index) {
     if (index < 0 || index >= _childItems.size()) {
         return false;
     }
-    _childItems.removeAt(index);
+    ProjectTreeItem *child = _childItems.takeAt(index);
+    // a drag & drop move inserts the same item into the new parent before the view removes the source row,
+    // the item must not be deleted then
+    if (child->_parentItem == this && !_childItems.contains(child)) {
+        delete child;
+    }
     return true;
 }
 

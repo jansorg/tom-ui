@@ -16,7 +16,6 @@
 #include "IconItemDelegate.h"
 #include "ElideLeftItemDelegate.h"
 
-QStyledItemDelegate* FrameTableView::ellideLeftItemDelegate = new ElideLeftItemDelegate();
 
 FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent),
                                                   _control(nullptr),
@@ -32,7 +31,7 @@ FrameTableView::FrameTableView(QWidget *parent) : QTableView(parent),
     connect(_deleteSelectedAction, &QAction::triggered, this, &FrameTableView::deleteSelectedEntries);
 
     setItemDelegateForColumn(FrameTableViewModel::COL_ARCHIVED, new IconItemDelegate(Icons::timeEntryArchive(), this));
-    setItemDelegateForColumn(FrameTableViewModel::COL_SUBPROJECT, FrameTableView::ellideLeftItemDelegate);
+    setItemDelegateForColumn(FrameTableViewModel::COL_SUBPROJECT, new ElideLeftItemDelegate(this));
 }
 
 void FrameTableView::setup(TomControl *control, ProjectStatusManager *statusManager) {
@@ -87,7 +86,7 @@ void FrameTableView::showContextMenu(Frame *frame, QPoint globalPos) {
     auto *stop = menu.addAction(Icons::stopTimer(), tr("Stop time entry"), [this] { _control->stopActivity(); });
     stop->setEnabled(frame->isActive());
     menu.addSeparator();
-    auto *editAction = menu.addAction(Icons::frameEdit(), tr("Edit time entry..."), [this, frame] { FrameEditorDialog::show(*frame, _control, _statusManager, this); });
+    auto *editAction = menu.addAction(Icons::frameEdit(), tr("Edit time entry..."), [this, copy = *frame] { FrameEditorDialog::show(copy, _control, _statusManager, this); });
     editAction->setEnabled(selectedCount == 1);
     menu.addAction(_deleteSelectedAction);
     menu.addSeparator();

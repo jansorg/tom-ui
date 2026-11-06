@@ -21,7 +21,8 @@ ActionShortcutTable::ActionShortcutTable(QWidget *parent) : QWidget(parent) {
     auto *layout = new QVBoxLayout(this);
     layout->addWidget(_actionsTable);
 
-    auto *keyEditLayout = new QHBoxLayout(this);
+    // no parent, addLayout() takes ownership. A widget as parent would try to install it as a second top-level layout
+    auto *keyEditLayout = new QHBoxLayout();
     layout->addLayout(keyEditLayout);
     keyEditLayout->addWidget(_keySequenceEdit);
     keyEditLayout->addWidget(_resetButton);

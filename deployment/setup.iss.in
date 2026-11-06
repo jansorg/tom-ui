@@ -7,6 +7,11 @@
   #define ARCH "x86"
 #endif
 
+; LICENSE_FILE can be set by the compiler (ISCC /DLICENSE_FILE=...), e.g. if the source directory moved
+#ifndef LICENSE_FILE
+#define LICENSE_FILE "${CMAKE_SOURCE_DIR}\LICENSE.txt"
+#endif
+
 [Setup]
 AppId                = {{174A4547-917E-4BAF-9F25-FCE545CCD487}
 AppName              = "${PROJECT_NAME}"
@@ -14,7 +19,7 @@ AppVersion           = "${PROJECT_VERSION}"
 AppPublisher         = "${COMPANY}"
 DefaultDirName       = "{autopf}\${PROJECT_NAME}"
 DefaultGroupName     = "${PROJECT_NAME}"
-LicenseFile          = "${CMAKE_SOURCE_DIR}\LICENSE.txt"
+LicenseFile          = "{#LICENSE_FILE}"
 MinVersion           = 10.0
 OutputDir            = "${CMAKE_BINARY_DIR}"
 OutputBaseFilename   = "tom-ui-${PROJECT_VERSION}-windows-{#ARCH}"

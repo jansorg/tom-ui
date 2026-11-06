@@ -10,6 +10,7 @@
 /deployment/pkg
 /deployment/tom-ui
 /deployment/tom-ui-*.tar.xz
+/deployment/tom-ui-*.pkg.tar.zst
 /deployment/apple-account-password.txt
 /CMakeFiles
 /.cmake

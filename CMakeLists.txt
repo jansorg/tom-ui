@@ -5,6 +5,7 @@ set(CMAKE_MODULE_PATH cmake)
 include(cmake/QtCommon.cmake)
 
 file(READ version.txt VERSION)
+string(STRIP "${VERSION}" VERSION)
 
 # Basic information about project
 project(tom-ui
@@ -111,7 +112,7 @@ if (APPLE)
             MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_DESCRIPTION})
 endif ()
 
-#enable_testing(true)
+enable_testing()
 #include_directories(test)
 
 target_include_directories(${PROJECT_NAME} PRIVATE source)

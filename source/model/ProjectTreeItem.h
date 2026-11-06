@@ -11,7 +11,7 @@ class ProjectTreeItem {
 public:
     explicit ProjectTreeItem(const Project &project, const ProjectStatusManager *statusManager, ProjectTreeItem *parentItem = nullptr);
 
-    ~ProjectTreeItem();
+    virtual ~ProjectTreeItem();
 
     void appendChild(ProjectTreeItem *child);
 

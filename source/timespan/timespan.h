@@ -16,8 +16,6 @@ public:
 
     explicit Timespan(qint64 millis);
 
-    Timespan &operator=(const Timespan &) = default;
-
     double asHours() const;
 
     double asMinutes() const;

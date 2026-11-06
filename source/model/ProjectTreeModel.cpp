@@ -71,7 +71,7 @@ QVariant ProjectTreeModel::data(const QModelIndex &index, int role) const {
     }
 
     if (role == Qt::TextAlignmentRole && index.column() >= ProjectTreeItem::FIRST_STATUS_COL_INDEX) {
-        return {Qt::AlignTrailing | Qt::AlignVCenter};
+        return (Qt::AlignTrailing | Qt::AlignVCenter).toInt();
     }
 
     if (role == Qt::ForegroundRole) {

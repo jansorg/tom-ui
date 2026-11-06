@@ -1,7 +1,5 @@
 # tom-ui
 
-**This project is in its early stages. It's not yet reliable enough for production use.**
-
 ![](docs/screenshot%20mac.png)
 
 

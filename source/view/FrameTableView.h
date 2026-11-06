@@ -63,7 +63,6 @@ private:
 
     QAction *_deleteSelectedAction;
 
-    static QStyledItemDelegate* ellideLeftItemDelegate;
 };
 
 #endif //TOM_UI_FRAMETABLEVIEW_H

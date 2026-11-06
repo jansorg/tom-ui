@@ -406,5 +406,6 @@ void MainWindow::openApplicationSettings() {
     additionalActions << _projectTree->getDeleteAction();
 
     auto *dialog = new SettingsDialog(this, _globalShortcuts, _settings, additionalActions);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->open();
 }

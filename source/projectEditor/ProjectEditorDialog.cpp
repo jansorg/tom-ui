@@ -7,6 +7,7 @@
 void ProjectEditorDialog::show(const Project &project, TomControl *control,
                                ProjectStatusManager *statusManager, QWidget *parent) {
     auto *dialog = new ProjectEditorDialog(project, control, statusManager, parent);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->showNormal();
 }
 

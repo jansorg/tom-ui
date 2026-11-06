@@ -520,7 +520,7 @@ bool ProjectTreeModel::removeRows(int row, int count, const QModelIndex &parent)
 
     beginRemoveRows(parent, row, row + count - 1);
     for (int i = 0; i < count; i++) {
-        if (!parentItem->removeChildAt(row + i)) {
+        if (!parentItem->removeChildAt(row)) {
             qDebug() << "removing item failed" << i;
             result = false;
             break;

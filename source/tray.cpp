@@ -18,7 +18,7 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, MainWindow *mainWindow) : QO
 
     _menu = new QMenu();
 
-    _stopTaskAction = new QAction(tr("Stop timer"));
+    _stopTaskAction = new QAction(tr("Stop timer"), this);
     _stopTaskAction->setToolTip(tr("Stop the current project and record data."));
     _stopTaskAction->setIcon(Icons::stopTimer());
     _stopTaskAction->setIconVisibleInMenu(true);
@@ -70,6 +70,12 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, MainWindow *mainWindow) : QO
     timer->start(30000);
 }
 
+GotimeTrayIcon::~GotimeTrayIcon() {
+    // the menu is a widget without a parent, the tray icon must not use it anymore when it's deleted
+    delete _trayIcon;
+    delete _menu;
+}
+
 void GotimeTrayIcon::updateAll() {
     updateContextMenu();
     updateIconAndTooltip();
@@ -79,6 +85,8 @@ void GotimeTrayIcon::updateContextMenu() {
     // remove existing actions
     for (auto action : _projectActions) {
         _menu->removeAction(action);
+        // deleted later, because this may be called while one of these actions is triggered
+        action->deleteLater();
     }
     _projectActions.clear();
 

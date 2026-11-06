@@ -286,10 +286,10 @@ bool TomControl::updateFrames(const QStringList &ids, const QStringList &project
     QStringList args;
     args << "edit" << "frame";
     if (updateStart) {
-        args << "--start" << start.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODateWithMs);
+        args << "--start" << start.toOffsetFromUtc(0).toString(Qt::ISODateWithMs);
     }
     if (updateEnd) {
-        args << "--end" << end.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODateWithMs);
+        args << "--end" << end.toOffsetFromUtc(0).toString(Qt::ISODateWithMs);
     }
     if (updateNotes) {
         args << "--notes" << notes;
@@ -654,13 +654,13 @@ QString TomControl::htmlReport(const QString &outputFile,
     if (start.isValid() && !start.isNull()) {
         QDateTime startDate = start.startOfDay();
         startDate.setTime(QTime(0, 0, 0, 0));
-        args << "--from=" + startDate.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+        args << "--from=" + startDate.toOffsetFromUtc(0).toString(Qt::ISODate);
     }
 
     if (end.isValid() && !end.isNull()) {
         QDateTime endDate = end.endOfDay();
         endDate.setTime(QTime(23, 59, 50, 999));
-        args << "--to=" + endDate.toTimeSpec(Qt::OffsetFromUTC).toString(Qt::ISODate);
+        args << "--to=" + endDate.toOffsetFromUtc(0).toString(Qt::ISODate);
     }
 
     args << QString("--matrix-tables=%1").arg(matrixTables ? "true" : "false");

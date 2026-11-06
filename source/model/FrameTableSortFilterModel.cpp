@@ -9,12 +9,12 @@ bool FrameTableSortFilterModel::lessThan(const QModelIndex &source_left, const Q
     QVariant sortRight = source_right.data(SortValueRole);
     if (sortLeft.isValid() && sortRight.isValid()) {
         // duration column is using qint64
-        if (sortLeft.type() == QVariant::LongLong && sortRight.type() == QVariant::LongLong) {
+        if (sortLeft.typeId() == QMetaType::LongLong && sortRight.typeId() == QMetaType::LongLong) {
             return sortLeft.toLongLong(nullptr) < sortRight.toLongLong(nullptr);
         }
 
         //start and end are using QDateTime, but show QTime
-        if (sortLeft.type() == QVariant::DateTime && sortRight.type() == QVariant::DateTime) {
+        if (sortLeft.typeId() == QMetaType::QDateTime && sortRight.typeId() == QMetaType::QDateTime) {
             return sortLeft.toDateTime() < sortRight.toDateTime();
         }
     }

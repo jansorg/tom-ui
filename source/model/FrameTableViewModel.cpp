@@ -359,11 +359,11 @@ QVariant FrameTableViewModel::data(const QModelIndex &index, int role) const {
     if (role == Qt::TextAlignmentRole) {
         // right align the end column
         if (index.column() == COL_END) {
-            return {Qt::AlignRight | Qt::AlignVCenter};
+            return (Qt::AlignRight | Qt::AlignVCenter).toInt();
         }
         // right align the duration
         if (index.column() == COL_DURATION) {
-            return {Qt::AlignRight | Qt::AlignVCenter};
+            return (Qt::AlignRight | Qt::AlignVCenter).toInt();
         }
     }
 

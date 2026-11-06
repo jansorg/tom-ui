@@ -62,12 +62,14 @@ int main(int argc, char *argv[]) {
     }
 
     QTranslator qtTranslator;
-    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::path(QLibraryInfo::TranslationsPath));
-    QApplication::installTranslator(&qtTranslator);
+    if (qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::path(QLibraryInfo::TranslationsPath))) {
+        QApplication::installTranslator(&qtTranslator);
+    }
 
     QTranslator myappTranslator;
-    myappTranslator.load(":/translations/tom_" + QLocale::system().name());
-    QApplication::installTranslator(&myappTranslator);
+    if (myappTranslator.load(":/translations/tom_" + QLocale::system().name())) {
+        QApplication::installTranslator(&myappTranslator);
+    }
 
     auto *control = new TomControl(command, bash, &app);
     const CommandStatus &status = control->version();

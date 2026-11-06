@@ -53,10 +53,12 @@ GotimeTrayIcon::GotimeTrayIcon(TomControl *control, MainWindow *mainWindow) : QO
         if (reason == QSystemTrayIcon::DoubleClick || reason == QSystemTrayIcon::MiddleClick) {
             _control->stopActivity();
         } else if (reason == QSystemTrayIcon::Trigger) {
-            #ifndef Q_OS_MAC
+#ifdef Q_OS_MAC
             // on Mac a left click on the tray already displays the context menu
+            Q_UNUSED(mainWindow)
+#else
             mainWindow->selectCurrentProject(true);
-            #endif
+#endif
         }
     });
 

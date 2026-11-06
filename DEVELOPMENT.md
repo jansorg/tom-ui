@@ -83,7 +83,7 @@ The other icons in `images/icons/` use a 16 px grid and the colors of the applic
 
 - Status and timer icons (`timer-*`, `project-active*`) are colored, coral for running and blue for stopped.
 - Monochrome outline icons (`document-new`, `document-save`, `edit-delete`, `window`) are drawn in `#000000` with 1.2 px rounded strokes. `Icons::monochrome()` prefers the icon theme (system icons on Linux, SF Symbols on macOS and Segoe Fluent Icons on Windows with Qt 6.7+); the bundled fallback is recolored with the text color of the palette by `PaletteIconEngine`, so it works in light and dark mode.
-- Tray icons: `trayicon-*.svg` are colored plates for Windows and Linux, which work on light and dark panels. `osx/trayicon-*.svg` are template images (black and alpha only), macOS colors them to match the menu bar.
+- Tray icons: a running timer is shown as a red block on all platforms (`trayicon-started.svg`, `osx/trayicon-started.svg`). When stopped, `trayicon-stopped.svg` is a colored plate for Windows and Linux which works on light and dark panels, and `osx/trayicon-stopped.svg` is a template image (black and alpha only) which macOS colors to match the menu bar.
 
 ## Continuous integration
 
